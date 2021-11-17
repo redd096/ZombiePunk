@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
+using redd096;
 
 [AddComponentMenu("redd096/Singletons/Game Manager")]
 [DefaultExecutionOrder(-100)]
-public class GameManager : redd096.Singleton<GameManager>
+public class GameManager : Singleton<GameManager>
 {
     //public UIManager uiManager { get; private set; }
 
