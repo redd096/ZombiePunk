@@ -10,7 +10,7 @@ public class AimComponent : MonoBehaviour
     [ReadOnly] public Vector2 AimPositionNotNormalized;     //when aim, set it without normalize (used to set crosshair on screen - to know mouse position or analog inclination)
 
     //events
-    public System.Action onChangeAimDirection { get; set; }
+    public System.Action<bool> onChangeAimDirection { get; set; }
 
     void OnDrawGizmos()
     {
@@ -55,7 +55,7 @@ public class AimComponent : MonoBehaviour
             IsLookingRight = CheckIsLookingRight();
 
             //call event
-            onChangeAimDirection?.Invoke();
+            onChangeAimDirection?.Invoke(IsLookingRight);
         }
     }
 

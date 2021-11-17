@@ -149,12 +149,15 @@ GameObject:
   m_Component:
   - component: {fileID: 4872034059350625981}
   - component: {fileID: 4872034059350625982}
+  - component: {fileID: 211429289817981650}
   - component: {fileID: 4872034059350625983}
   - component: {fileID: 4872034059350625968}
   - component: {fileID: 4872034059350625969}
   - component: {fileID: 4872034059350625970}
   - component: {fileID: 4872034059350625980}
   - component: {fileID: 4872034059350625979}
+  - component: {fileID: 236912339201278366}
+  - component: {fileID: 4011496192234893808}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -189,6 +192,35 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88525283dd2cde64e8a199934b9551ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &211429289817981650
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4872034059350625971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4a7dbb6bbdf4ffb46ab7dd87ba8191e7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _serializedExposedParameters: []
+  _boundGraphSerialization: 
+  _boundGraphObjectReferences: []
+  _boundGraphSource:
+    _version: 0
+    _category: 
+    _comments: 
+    _translation: {x: 0, y: 0}
+    _zoomFactor: 1
+  _firstActivation: 0
+  _enableAction: 0
+  _disableAction: 0
+  _lockBoundGraphPrefabOverrides: 1
+  _preInitializeSubGraphs: 0
+  _updateMode: 0
+  _graph: {fileID: 11400000, guid: 03fd873a6eb4855408a4265642d9a237, type: 2}
+  _blackboard: {fileID: 0}
 --- !u!114 &4872034059350625983
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -319,3 +351,32 @@ MonoBehaviour:
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
+--- !u!114 &236912339201278366
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4872034059350625971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23ce734c4e2ca314f8b3fb0cf844a977, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultLookRight: 1
+  spriteToFlip: {fileID: 0}
+--- !u!114 &4011496192234893808
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4872034059350625971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1ae4b66962141124eb96db5a79618d3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spriteToFlip: {fileID: 0}
+  blinkMaterial: {fileID: 2100000, guid: 3c9ef4988228c0347b6978f1904fa364, type: 2}
+  blinkDuration: 0.2
