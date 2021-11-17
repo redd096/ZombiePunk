@@ -40,35 +40,23 @@ public class CollisionDetector : MonoBehaviour
 	//for debug
 	float debugDrawDuration = -1;
 
-    void Update()
-    {
+	void Update()
+	{
 		//do only if update mode is Update
 		if (updateMode == EUpdateModes.Update)
-			CheckCollisions();
+			UpdateCollisions();
 	}
 
 	void FixedUpdate()
 	{
 		//do only if update mode is FixedUpdate
 		if (updateMode == EUpdateModes.FixedUpdate)
-			CheckCollisions();
-	}
-
-	void CheckCollisions()
-	{
-		//start only if there are all necessary components
-		if (CheckComponents() == false)
-			return;
-
-		//check collisions
-		UpdateVars();
-		CheckCollisionsHorizontal();
-		CheckCollisionsVertical();
+			UpdateCollisions();
 	}
 
 	[Button()]
 	void DrawCollisions()
-    {
+	{
 		//be sure drawDebug is true
 		bool previousDraw = drawDebug;
 		drawDebug = true;
@@ -77,7 +65,7 @@ public class CollisionDetector : MonoBehaviour
 		debugDrawDuration = 2;
 
 		//check collisions
-		CheckCollisions();
+		UpdateCollisions();
 
 		//restore debug values
 		drawDebug = previousDraw;
@@ -167,8 +155,8 @@ public class CollisionDetector : MonoBehaviour
 			if (downHit) downHits.Add(downHit);
 
 			//debug raycasts
-			if(drawDebug)
-            {
+			if (drawDebug)
+			{
 				DebugRaycast(raycastOriginPoint, Vector2.up, raycastVerticalLength, upHit ? Color.red : Color.blue);
 				DebugRaycast(raycastOriginPoint, Vector2.down, raycastVerticalLength, downHit ? Color.red : Color.blue);
 			}
@@ -180,7 +168,7 @@ public class CollisionDetector : MonoBehaviour
 		float distanceToNearest = Mathf.Infinity;
 		RaycastHit2D nearest = default;
 
-		foreach(RaycastHit2D hit in Physics2D.RaycastAll(originPoint, direction, distance, ~layersToIgnore))
+		foreach (RaycastHit2D hit in Physics2D.RaycastAll(originPoint, direction, distance, ~layersToIgnore))
 		{
 			//for every hit, be sure to not hit self
 			if (hit && hit.collider != boxCollider)
@@ -192,7 +180,7 @@ public class CollisionDetector : MonoBehaviour
 					nearest = hit;
 				}
 			}
-        }
+		}
 
 		return nearest;
 	}
@@ -201,68 +189,83 @@ public class CollisionDetector : MonoBehaviour
 	{
 		//debug
 		if (debugDrawDuration > 0)
-			Debug.DrawRay(originPoint, direction * distance, color, debugDrawDuration);		//when called by press the button, visualizare for few seconds
+			Debug.DrawRay(originPoint, direction * distance, color, debugDrawDuration);     //when called by press the button, visualizare for few seconds
 		else
-			Debug.DrawRay(originPoint, direction * distance, color);						//else show at every update
+			Debug.DrawRay(originPoint, direction * distance, color);                        //else show at every update
 	}
 
-    #endregion
+	#endregion
 
-    #region public API
+	#region public API
 
 	/// <summary>
-	/// Return last hitting information in direction
+	/// Update collisions
+	/// </summary>
+	public void UpdateCollisions()
+	{
+		//start only if there are all necessary components
+		if (CheckComponents() == false)
+			return;
+
+		//check collisions
+		UpdateVars();
+		CheckCollisionsHorizontal();
+		CheckCollisionsVertical();
+	}
+
+	/// <summary>
+	/// Return last hitting information in direction (call UpdateCollisions to have updated informations)
 	/// </summary>
 	/// <param name="direction"></param>
 	/// <returns></returns>
 	public bool IsHitting(EDirectionEnum direction)
-    {
-        switch (direction)
-        {
-            case EDirectionEnum.up:
+	{
+		switch (direction)
+		{
+			case EDirectionEnum.up:
 				return upHits.Count > 0;
-            case EDirectionEnum.right:
+			case EDirectionEnum.right:
 				return rightHits.Count > 0;
 			case EDirectionEnum.left:
 				return leftHits.Count > 0;
-            case EDirectionEnum.down:
+			case EDirectionEnum.down:
 				return downHits.Count > 0;
-            default:
-                return false;
-        }
-    }
+			default:
+				return false;
+		}
+	}
 
 	/// <summary>
-	/// Return last hits in direction
+	/// Return last hits in direction (call UpdateCollisions to have updated informations)
 	/// </summary>
 	/// <param name="direction"></param>
 	/// <returns></returns>
 	public RaycastHit2D[] GetHits(EDirectionEnum direction)
-    {
-        switch (direction)
-        {
-            case EDirectionEnum.up:
-                return upHits.ToArray();
-            case EDirectionEnum.right:
-                return rightHits.ToArray();
-            case EDirectionEnum.left:
-                return leftHits.ToArray();
-            case EDirectionEnum.down:
-                return downHits.ToArray();
-            default:
-                return null;
-        }
-    }
+	{
+		switch (direction)
+		{
+			case EDirectionEnum.up:
+				return upHits.ToArray();
+			case EDirectionEnum.right:
+				return rightHits.ToArray();
+			case EDirectionEnum.left:
+				return leftHits.ToArray();
+			case EDirectionEnum.down:
+				return downHits.ToArray();
+			default:
+				return null;
+		}
+	}
 
 	/// <summary>
 	/// Return updated center of the bounds
 	/// </summary>
 	/// <returns></returns>
 	public Vector2 GetCenterBound()
-    {
+	{
 		UpdateVars();
 		return centerBounds;
-    }
+	}
 
 	/// <summary>
 	/// Return updated bounds informations
@@ -270,24 +273,24 @@ public class CollisionDetector : MonoBehaviour
 	/// <param name="direction"></param>
 	/// <returns></returns>
 	public float GetBounds(EDirectionEnum direction)
-    {
+	{
 		//update vars
 		UpdateVars();
 
-        switch (direction)
-        {
-            case EDirectionEnum.up:
-                return upBounds;
-            case EDirectionEnum.right:
-                return rightBounds;
-            case EDirectionEnum.left:
-                return leftBounds;
-            case EDirectionEnum.down:
-                return downBounds;
-            default:
-                return 0;
-        }
-    }
+		switch (direction)
+		{
+			case EDirectionEnum.up:
+				return upBounds;
+			case EDirectionEnum.right:
+				return rightBounds;
+			case EDirectionEnum.left:
+				return leftBounds;
+			case EDirectionEnum.down:
+				return downBounds;
+			default:
+				return 0;
+		}
+	}
 
-    #endregion
+	#endregion
 }

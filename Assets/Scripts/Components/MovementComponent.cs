@@ -146,6 +146,7 @@ public class MovementComponent : MonoBehaviour
         //adjust position to not enter in a collision
         if (collisionDetector)
         {
+            collisionDetector.UpdateCollisions();
             AdjustPosition(CollisionDetector.EDirectionEnum.right, Vector2.right, CollisionDetector.EDirectionEnum.left);
             AdjustPosition(CollisionDetector.EDirectionEnum.left, Vector2.left, CollisionDetector.EDirectionEnum.right);
             AdjustPosition(CollisionDetector.EDirectionEnum.up, Vector2.up, CollisionDetector.EDirectionEnum.down);
