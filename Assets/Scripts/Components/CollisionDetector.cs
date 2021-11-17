@@ -13,7 +13,8 @@ public class CollisionDetector : MonoBehaviour
 	[Tooltip("Number of rays cast for every side vertically")] [SerializeField] int numberOfVerticalRays = 4;
 	[Tooltip("A small value to accomodate for edge cases")] [SerializeField] float offsetRays = 0.1f;
 	[Tooltip("Layers that raycasts ignore")] [SerializeField] LayerMask layersToIgnore = default;
-
+	[Tooltip("Ignore trigger colliders")] [SerializeField] bool ignoreTriggers = true;
+	 
 	[Header("Necessary Components (by default get in children)")]
 	[SerializeField] BoxCollider2D boxCollider = default;
 
@@ -173,11 +174,15 @@ public class CollisionDetector : MonoBehaviour
 			//for every hit, be sure to not hit self
 			if (hit && hit.collider != boxCollider)
 			{
-				//calculate nearest hit
-				if (hit.distance < distanceToNearest)
+				//be sure to hit colliders not trigger, or ignore triggers is disabled
+				if (hit.collider.isTrigger == false || ignoreTriggers == false)
 				{
-					distanceToNearest = hit.distance;
-					nearest = hit;
+					//calculate nearest hit
+					if (hit.distance < distanceToNearest)
+					{
+						distanceToNearest = hit.distance;
+						nearest = hit;
+					}
 				}
 			}
 		}
