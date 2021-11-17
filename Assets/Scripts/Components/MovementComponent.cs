@@ -3,16 +3,17 @@ using Sirenix.OdinInspector;
 
 public class MovementComponent : MonoBehaviour
 {
-	enum EUpdateModes { Update, FixedUpdate }
+    enum EUpdateModes { Update, FixedUpdate }
     enum EMovementModes { Transform, Rigidbody }
 
-	[Header("Movement")]
-	[Tooltip("Move on Update or FixedUpdate?")] [SerializeField] EUpdateModes updateMode = EUpdateModes.Update;
+    [Header("Movement")]
+    [Tooltip("Move on Update or FixedUpdate?")] [SerializeField] EUpdateModes updateMode = EUpdateModes.Update;
     [Tooltip("Move using transform or rigidbody?")] [SerializeField] EMovementModes movementMode = EMovementModes.Transform;
     [Tooltip("Max Speed, calculating velocity by input + push (-1 = no limit)")] [SerializeField] float maxSpeed = 50;
 
     [Header("When pushed")]
-	[Tooltip("Drag used when pushed from something")] [SerializeField] float drag = 30;
+    [Tooltip("Drag used when pushed from something")] [SerializeField] float drag = 30;
+    [Tooltip("When player is pushed for example to the right, and hit a wall. Set Push to right at 0?")] [SerializeField] bool removePushForceWhenHit = true;
 
     [Header("Necessary Components (by default get from this gameObject)")]
     [SerializeField] Rigidbody2D rb = default;
@@ -54,7 +55,7 @@ public class MovementComponent : MonoBehaviour
         CurrentSpeed = CurrentVelocity.magnitude;
 
         //set if change movement direction
-        if(IsMovingRight != CheckIsMovingRight())
+        if (IsMovingRight != CheckIsMovingRight())
         {
             IsMovingRight = CheckIsMovingRight();
 
@@ -100,7 +101,7 @@ public class MovementComponent : MonoBehaviour
         //input + push
         Vector2 velocity = DesiredVelocity + DesiredPushForce;
 
-        if(collisionDetector)
+        if (collisionDetector)
         {
             //check if hit horizontal
             if (collisionDetector.IsHitting(CollisionDetector.EDirectionEnum.right) && velocity.x > 0)
@@ -116,7 +117,7 @@ public class MovementComponent : MonoBehaviour
         }
 
         //clamp at max speed
-        if(maxSpeed >= 0)
+        if (maxSpeed >= 0)
             velocity = Vector2.ClampMagnitude(velocity, maxSpeed);
 
         return velocity;
@@ -143,31 +144,31 @@ public class MovementComponent : MonoBehaviour
             transform.position += (Vector3)CurrentVelocity * (updateMode == EUpdateModes.Update ? Time.deltaTime : Time.fixedDeltaTime);
 
         //adjust position to not enter in a collision
-        if(collisionDetector)
+        if (collisionDetector)
         {
-            AdjustPosition(CollisionDetector.EDirectionEnum.right, Vector2.right);
-            AdjustPosition(CollisionDetector.EDirectionEnum.left, Vector2.left);
-            AdjustPosition(CollisionDetector.EDirectionEnum.up, Vector2.up);
-            AdjustPosition(CollisionDetector.EDirectionEnum.down, Vector2.down);
+            AdjustPosition(CollisionDetector.EDirectionEnum.right, Vector2.right, CollisionDetector.EDirectionEnum.left);
+            AdjustPosition(CollisionDetector.EDirectionEnum.left, Vector2.left, CollisionDetector.EDirectionEnum.right);
+            AdjustPosition(CollisionDetector.EDirectionEnum.up, Vector2.up, CollisionDetector.EDirectionEnum.down);
+            AdjustPosition(CollisionDetector.EDirectionEnum.down, Vector2.down, CollisionDetector.EDirectionEnum.up);
         }
     }
 
-    void AdjustPosition(CollisionDetector.EDirectionEnum direction, Vector2 directionMovement)
+    void AdjustPosition(CollisionDetector.EDirectionEnum direction, Vector2 directionMovement, CollisionDetector.EDirectionEnum oppositeDirection)
     {
-        //do only if colliding with something
-        if (collisionDetector == null || collisionDetector.IsHitting(direction) == false)
+        //do only if colliding with something, and not colliding in opposite direction
+        if (collisionDetector == null || collisionDetector.IsHitting(direction) == false || collisionDetector.IsHitting(oppositeDirection))
             return;
 
         float bounds = collisionDetector.GetBounds(direction);
         float greaterDistance = 0;
 
         //find greater distance from hits
-        foreach(RaycastHit2D hit in collisionDetector.GetHits(direction))
+        foreach (RaycastHit2D hit in collisionDetector.GetHits(direction))
         {
             //calculate horizontal
-            if(Mathf.Abs(directionMovement.x) > Mathf.Abs(directionMovement.y))
+            if (Mathf.Abs(directionMovement.x) > Mathf.Abs(directionMovement.y))
             {
-                if(bounds - hit.point.x > greaterDistance)
+                if (bounds - hit.point.x > greaterDistance)
                     greaterDistance = bounds - hit.point.x;
             }
             //calculate vertical
@@ -192,6 +193,22 @@ public class MovementComponent : MonoBehaviour
             newPushForce.x = 0;
         if (DesiredPushForce.y >= 0 && newPushForce.y < 0 || DesiredPushForce.y <= 0 && newPushForce.y > 0)
             newPushForce.y = 0;
+
+        //check if hit walls
+        if (collisionDetector && removePushForceWhenHit)
+        {
+            //check if hit horizontal
+            if (collisionDetector.IsHitting(CollisionDetector.EDirectionEnum.right) && newPushForce.x > 0)
+                newPushForce.x = 0;
+            else if (collisionDetector.IsHitting(CollisionDetector.EDirectionEnum.left) && newPushForce.x < 0)
+                newPushForce.x = 0;
+
+            //check if hit vertical
+            if (collisionDetector.IsHitting(CollisionDetector.EDirectionEnum.up) && newPushForce.y > 0)
+                newPushForce.y = 0;
+            else if (collisionDetector.IsHitting(CollisionDetector.EDirectionEnum.down) && newPushForce.y < 0)
+                newPushForce.y = 0;
+        }
 
         return newPushForce;
     }
