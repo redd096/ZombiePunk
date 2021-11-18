@@ -54,6 +54,8 @@ public class GetHitFeedback : MonoBehaviour
         }
     }
 
+    #region private API
+
     void OnGetDamage()
     {
         //instantiate vfx and sfx
@@ -91,4 +93,6 @@ public class GetHitFeedback : MonoBehaviour
         ParticlesManager.instance.Play(particlesOnDie, transform.position, transform.rotation);
         SoundManager.instance.Play(audioOnDie, transform.position);
     }
+
+    #endregion
 }

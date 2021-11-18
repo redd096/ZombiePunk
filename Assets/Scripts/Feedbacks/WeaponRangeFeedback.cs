@@ -64,6 +64,8 @@ public class WeaponRangeFeedback : MonoBehaviour
         }
     }
 
+    #region private API
+
     void OnInstantiateBullet(Transform barrel)
     {
         //instantiate vfx and sfx
@@ -174,4 +176,6 @@ public class WeaponRangeFeedback : MonoBehaviour
             instantiatedAudioOnPress.gameObject.SetActive(false);
         }
     }
+
+    #endregion
 }

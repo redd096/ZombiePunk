@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: -7593592901190948381}
   - component: {fileID: -6587027870515281549}
   - component: {fileID: -6569459980202213824}
+  - component: {fileID: 1968447635451987506}
   m_Layer: 0
   m_Name: BASERangeWeapon
   m_TagString: Untagged
@@ -69,9 +70,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 39ba49dcc40251e4ab3b9aafe4ec1f1f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  spriteToFlip: {fileID: 2120349117084250537}
-  objectPivot: {fileID: 0}
-  offsetFromPlayer: 0.4
   gameObjectOnPick:
     instantiatedGameObject: {fileID: 0}
     timeAutodestruction: 0
@@ -152,8 +150,23 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   spritesToUse: []
-  changeLayerWhenRotateToLeft: 1
-  layerWhenRotate: -1
+  layerWhenLookingRight: 1
+  layerWhenLookingLeft: -1
+--- !u!114 &1968447635451987506
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1483676439414942032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f644545781519847be47a9355425fdd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  spritesToFlip: []
+  objectPivot: {fileID: 0}
+  offsetFromPlayer: 1
 --- !u!1 &2761168508994370411
 GameObject:
   m_ObjectHideFlags: 0
