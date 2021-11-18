@@ -83,6 +83,8 @@ public class GetHitFeedback : MonoBehaviour
 
         foreach (SpriteRenderer sprite in savedMaterials.Keys)
             sprite.material = savedMaterials[sprite];
+
+        blinkCoroutine = null;
     }
 
     void OnDie()
