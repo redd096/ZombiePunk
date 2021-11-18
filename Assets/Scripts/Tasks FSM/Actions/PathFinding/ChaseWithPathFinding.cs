@@ -23,14 +23,11 @@ public class ChaseWithPathFinding : ActionTask<MovementComponent>
             return;
         }
 
-        //if there is no path, find new one
-        if (savePathAs.value == null || savePathAs.value.Count <= 0)
-        {
-            FindNewPath();
-        }
+        //update path
+        UpdatePath();
 
         //if there is path, move to next node. When reach node, remove from the list
-        if(savePathAs.value != null && savePathAs.value.Count > 0)
+        if (savePathAs.value != null && savePathAs.value.Count > 0)
         {
             agent.MoveInDirection((savePathAs.value[0].worldPosition - agent.transform.position).normalized, speedChase.value);
             CheckReachNode();
@@ -47,7 +44,7 @@ public class ChaseWithPathFinding : ActionTask<MovementComponent>
 
     #region private API
 
-    void FindNewPath()
+    void UpdatePath()
     {
         //get path
         savePathAs.value = GameManager.instance.pathFindingAStar.FindPath(agent.transform.position, target.value.position);
