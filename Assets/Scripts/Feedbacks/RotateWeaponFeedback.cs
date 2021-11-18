@@ -28,7 +28,7 @@ public class RotateWeaponFeedback : MonoBehaviour
 
     void RotateWeapon()
     {
-        //rotate weapon with aim
+        //rotate weapon with aim (using pivot)
         if (weaponBASE.Owner && weaponBASE.Owner.GetSavedComponent<AimComponent>())
         {
             Vector2 aimDirection = weaponBASE.Owner.GetSavedComponent<AimComponent>().AimDirectionInput;
@@ -45,7 +45,7 @@ public class RotateWeaponFeedback : MonoBehaviour
         //move to owner + offset
         if (weaponBASE.Owner && weaponBASE.Owner.GetSavedComponent<AimComponent>())
         {
-            objectPivot.position = (Vector2)weaponBASE.Owner.transform.position + (weaponBASE.Owner.GetSavedComponent<AimComponent>().AimDirectionInput * offsetFromPlayer);
+            transform.position = (Vector2)weaponBASE.Owner.transform.position + (weaponBASE.Owner.GetSavedComponent<AimComponent>().AimDirectionInput * offsetFromPlayer);
         }
     }
 }
