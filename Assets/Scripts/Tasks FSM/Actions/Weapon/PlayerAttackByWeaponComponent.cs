@@ -4,7 +4,7 @@ using UnityEngine;
 
 [Category("redd096/Weapon")]
 [Description("CheckAttack using WeaponComponent")]
-public class AttackByWeaponComponent : ActionTask<WeaponComponent>
+public class PlayerAttackByWeaponComponent : ActionTask<WeaponComponent>
 {
     [BlackboardOnly] public BBParameter<bool> inputAttack;
     public bool repeat;
