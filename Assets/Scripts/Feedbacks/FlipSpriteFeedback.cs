@@ -8,15 +8,12 @@ public class FlipSpriteFeedback : MonoBehaviour
 
     AimComponent component;
 
-    void Awake()
+    void OnEnable()
     {
         //get references
         component = GetComponent<AimComponent>();
         if (spriteToFlip == null) spriteToFlip = GetComponentInChildren<SpriteRenderer>();
-    }
 
-    void OnEnable()
-    {
         //add events
         if (component)
             component.onChangeAimDirection += OnChangeAimDirection;

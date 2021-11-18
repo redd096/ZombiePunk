@@ -10,6 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 2205835214178656738}
   - component: {fileID: 3589602318358120487}
+  - component: {fileID: 3476998434279958412}
+  - component: {fileID: 6685743556575642136}
+  - component: {fileID: 7076399034157257189}
   m_Layer: 0
   m_Name: GameManager
   m_TagString: Untagged
@@ -43,3 +46,99 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0424670dd900c9b47b26d8e685ef6f89, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3476998434279958412
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6325876271422085861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0143200a976f11444b6995ab5557956a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6685743556575642136
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6325876271422085861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5ffdaea44faca940b091ac834b16494, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &7076399034157257189
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6325876271422085861}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 98cabe62d2f8deb489a660b9d4236e87, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  musicPrefab: {fileID: 1461404069507654330, guid: af28c695598bbf84ba47882bedf3b30d,
+    type: 3}
+  fadeInMusic:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    - serializedVersion: 3
+      time: 1
+      value: 1
+      inSlope: 1
+      outSlope: 1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  fadeOutMusic:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: -1
+      outSlope: -1
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  stopBackgroundMusicThisScene: 0
+  musicThisScene:
+    audioClip: {fileID: 0}
+    volume: 1
+  loopMusicThisScene: 1
+  sound2DPrefab: {fileID: 1461404069507654330, guid: af28c695598bbf84ba47882bedf3b30d,
+    type: 3}
+  sound3DPrefab: {fileID: 6268396531015464464, guid: 8260c7ae6d27d8943a3d0318149e3cfa,
+    type: 3}
+  soundsOnClick: []

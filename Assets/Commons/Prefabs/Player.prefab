@@ -149,11 +149,13 @@ GameObject:
   m_Component:
   - component: {fileID: 4872034059350625981}
   - component: {fileID: 4872034059350625982}
+  - component: {fileID: 3485123603026024693}
   - component: {fileID: 211429289817981650}
   - component: {fileID: 4872034059350625983}
   - component: {fileID: 4872034059350625968}
   - component: {fileID: 4872034059350625969}
   - component: {fileID: 4872034059350625970}
+  - component: {fileID: 5080674106340948975}
   - component: {fileID: 4872034059350625980}
   - component: {fileID: 4872034059350625979}
   - component: {fileID: 236912339201278366}
@@ -192,6 +194,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 88525283dd2cde64e8a199934b9551ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &3485123603026024693
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4872034059350625971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dae041e6343961543ad235a496f7db74, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  CharacterType: 0
 --- !u!114 &211429289817981650
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -299,6 +314,21 @@ MonoBehaviour:
   Invincible: 0
   CurrentHealth: 100
   MaxHealth: 100
+--- !u!114 &5080674106340948975
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4872034059350625971}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6803b5a776a45a3418bdfddceb770dbd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponPrefab: {fileID: 8370602571630544363, guid: e166771411fc7cf45a1d8d50b69020fe,
+    type: 3}
+  CurrentWeapon: {fileID: 0}
 --- !u!50 &4872034059350625980
 Rigidbody2D:
   serializedVersion: 4
