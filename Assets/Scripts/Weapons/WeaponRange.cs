@@ -12,12 +12,12 @@ public class WeaponRange : WeaponBASE
 
     [Header("Barrel")]
     [Tooltip("Spawn bullets")] public Transform[] Barrels = default;
-    [Tooltip("When more than one barrel, shoot every bullet simultaneously or from one random?")] bool barrelSimultaneously = true;
+    [Tooltip("When more than one barrel, shoot every bullet simultaneously or from one random?")] public bool BarrelSimultaneously = true;
 
     [Header("Bullet")]
-    public Bullet bulletPrefab = default;
-    public float damage = 10;
-    public float bulletSpeed = 10;
+    public Bullet BulletPrefab = default;
+    public float Damage = 10;
+    public float BulletSpeed = 10;
 
     float timeForNextShot;
     Coroutine automaticShootCoroutine;
@@ -84,7 +84,7 @@ public class WeaponRange : WeaponBASE
     void Shoot()
     {
         //shoot every bullet
-        if (barrelSimultaneously)
+        if (BarrelSimultaneously)
         {
             foreach (Transform barrel in Barrels)
             {
@@ -98,8 +98,9 @@ public class WeaponRange : WeaponBASE
             InstantiateBullet(barrel);
         }
 
-        //pushback character
-        Owner.GetSavedComponent<MovementComponent>().PushInDirection(-Owner.GetSavedComponent<AimComponent>().AimDirectionInput, Recoil);
+        //pushback owner
+        if(Owner && Owner.GetSavedComponent<MovementComponent>())
+            Owner.GetSavedComponent<MovementComponent>().PushInDirection(-Owner.GetSavedComponent<AimComponent>().AimDirectionInput, Recoil);
 
         //call event
         onShoot?.Invoke();
@@ -118,7 +119,7 @@ public class WeaponRange : WeaponBASE
         Debug.DrawLine(barrel.position, (Vector2)barrel.position + direction, Color.red, 1);
 
         //instantiate bullet
-        Bullet bullet = bulletsPooling.Instantiate(bulletPrefab, BulletsParent.transform);
+        Bullet bullet = bulletsPooling.Instantiate(BulletPrefab, BulletsParent.transform);
         bullet.transform.position = barrel.position;
         bullet.transform.rotation = Quaternion.LookRotation(Vector3.forward, Quaternion.AngleAxis(90, Vector3.forward) * direction);    //rotate direction to left, to use right as forward
 

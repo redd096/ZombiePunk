@@ -24,19 +24,19 @@ public abstract class WeaponBASE : MonoBehaviour
     #region public API
 
     /// <summary>
-    /// Set owner to look at - and set parent
+    /// Set owner to look at
     /// </summary>
-    /// <param name="character"></param>
-    public void PickWeapon(Redd096Main character)
+    /// <param name="owner"></param>
+    public void PickWeapon(Redd096Main owner)
     {
-        Owner = character;
+        Owner = owner;
 
         //call event
         onPickWeapon?.Invoke();
     }
 
     /// <summary>
-    /// Remove owner and remove parent
+    /// Remove owner
     /// </summary>
     public void DropWeapon()
     {

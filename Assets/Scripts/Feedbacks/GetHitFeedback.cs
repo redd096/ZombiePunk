@@ -1,11 +1,12 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using redd096;
 
 public class GetHitFeedback : MonoBehaviour
 {
     [Header("Blink - Default get component in children")]
-    [SerializeField] SpriteRenderer spriteToUse = default;
+    [SerializeField] SpriteRenderer[] spritesToUse = default;
     [SerializeField] Material blinkMaterial = default;
     [SerializeField] float blinkDuration = 0.2f;
 
@@ -20,21 +21,22 @@ public class GetHitFeedback : MonoBehaviour
     [SerializeField] AudioClass audioOnDie = default;
 
     HealthComponent component;
-    Material savedMaterial;
+    Dictionary<SpriteRenderer, Material> savedMaterials = new Dictionary<SpriteRenderer, Material>();
     Coroutine blinkCoroutine;
 
     void Awake()
     {
-        //save material
-        if (spriteToUse == null) spriteToUse = GetComponentInChildren<SpriteRenderer>();
-        if (spriteToUse) savedMaterial = spriteToUse.material;
+        //save materials
+        if (spritesToUse == null || spritesToUse.Length <= 0) spritesToUse = GetComponentsInChildren<SpriteRenderer>();
+        foreach (SpriteRenderer sprite in spritesToUse)
+            savedMaterials.Add(sprite, sprite.material);
     }
 
     void OnEnable()
     {
         //get references
         component = GetComponent<HealthComponent>();
-        if (spriteToUse == null) spriteToUse = GetComponentInChildren<SpriteRenderer>();
+        if (spritesToUse == null || spritesToUse.Length <= 0) spritesToUse = GetComponentsInChildren<SpriteRenderer>();
 
         //add events
         if (component)
@@ -74,13 +76,13 @@ public class GetHitFeedback : MonoBehaviour
     IEnumerator BlinkCoroutine()
     {
         //set blink material, wait, then back to saved material
-        if (spriteToUse) 
-            spriteToUse.material = blinkMaterial;
+        foreach (SpriteRenderer sprite in savedMaterials.Keys)
+            sprite.material = blinkMaterial;
 
         yield return new WaitForSeconds(blinkDuration);
 
-        if (spriteToUse) 
-            spriteToUse.material = savedMaterial;
+        foreach (SpriteRenderer sprite in savedMaterials.Keys)
+            sprite.material = savedMaterials[sprite];
     }
 
     void OnDie()

@@ -21,9 +21,9 @@ public class Bullet : MonoBehaviour
     [SerializeField] bool doAreaDamage = false;
     [EnableIf("doAreaDamage")] [SerializeField] bool ignoreShieldAreaDamage = false;
     [Tooltip("Damage others in radius area")] [EnableIf("doAreaDamage")] [SerializeField] [Min(0)] float radiusAreaDamage = 0;
-    [Tooltip("Is possible to damage owner with area damage?")] [EnableIf("doAreaDamage")] [SerializeField] bool areaCanDamageWhoShoot = false;
-    [Tooltip("Is possible to damage again who hit this bullet?")] [EnableIf("doAreaDamage")] [SerializeField] bool areaCanDamageWhoHit = false;
-    [Tooltip("Do knockback also to who hit in area?")] [EnableIf("doAreaDamage")] [SerializeField] bool knockbackAlsoInArea = true;
+    [Tooltip("Is possible to damage owner with area damage?")] [EnableIf("@doAreaDamage && radiusAreaDamage > 0")] [SerializeField] bool areaCanDamageWhoShoot = false;
+    [Tooltip("Is possible to damage again who hit this bullet?")] [EnableIf("@doAreaDamage && radiusAreaDamage > 0")] [SerializeField] bool areaCanDamageWhoHit = false;
+    [Tooltip("Do knockback also to who hit in area?")] [EnableIf("@doAreaDamage && radiusAreaDamage > 0")] [SerializeField] bool knockbackAlsoInArea = true;
 
     [Header("Timer Autodestruction (0 = no autodestruction)")]
     [SerializeField] public float delayAutodestruction = 0;
@@ -45,8 +45,8 @@ public class Bullet : MonoBehaviour
     //events
     public System.Action<GameObject> onHit { get; set; }        //also when penetrate something
     public System.Action<GameObject> onLastHit { get; set; }    //when hit something that destroy this bullet
-    public System.Action onAutodestruction { get; set; }
-    public System.Action onDie { get; set; }
+    public System.Action onAutodestruction { get; set; }        //when destroy by timer
+    public System.Action onDie { get; set; }                    //both hit something or destroyed by timer
 
     private void Awake()
     {
@@ -77,8 +77,8 @@ public class Bullet : MonoBehaviour
         alreadyHit.Clear();
 
         this.direction = direction;
-        this.damage = weapon.damage;
-        this.bulletSpeed = weapon.bulletSpeed;
+        this.damage = weapon.Damage;
+        this.bulletSpeed = weapon.BulletSpeed;
 
         this.owner = owner;
         this.weapon = weapon;
@@ -133,8 +133,8 @@ public class Bullet : MonoBehaviour
         if (alreadyDead)
             return;
 
-        //be sure to hit something, but not other bullets or this weapon or this owner
-        if (hit == null || hit.GetComponentInParent<Bullet>() || hit.GetComponentInParent<WeaponRange>() == weapon || hit.GetComponentInParent<Redd096Main>() == owner)
+        //be sure to hit something, but not other bullets or weapons or this owner
+        if (hit == null || hit.GetComponentInParent<Bullet>() || hit.GetComponentInParent<WeaponRange>() || (owner && hit.GetComponentInParent<Redd096Main>() == owner))
             return;
 
         //don't hit again same damageable (for penetrate shots)
@@ -151,7 +151,7 @@ public class Bullet : MonoBehaviour
 
             //if hit something damageable, do damage and push back
             if (hitMain.GetSavedComponent<HealthComponent>()) hitMain.GetSavedComponent<HealthComponent>().GetDamage(damage);
-            if (hitMain.GetSavedComponent<MovementComponent>()) hitMain.GetSavedComponent<MovementComponent>().PushInDirection(direction, knockBack);
+            if (hitMain && hitMain.GetSavedComponent<MovementComponent>()) hitMain.GetSavedComponent<MovementComponent>().PushInDirection(direction, knockBack);
         }
 
         //if is not a penetrable layer, destroy this object
@@ -192,10 +192,10 @@ public class Bullet : MonoBehaviour
                 hits.Add(hitMain);
                 if(hitMain.GetSavedComponent<HealthComponent>()) hitMain.GetSavedComponent<HealthComponent>().GetDamage(damage);
 
-                //and knockback
-                if (knockbackAlsoInArea)
+                //and knockback if necessary
+                if (knockbackAlsoInArea && hitMain && hitMain.GetSavedComponent<MovementComponent>())
                 {
-                    if (hitMain.GetSavedComponent<MovementComponent>()) hitMain.GetSavedComponent<MovementComponent>().PushInDirection((col.transform.position - transform.position).normalized, knockBack);
+                    hitMain.GetSavedComponent<MovementComponent>().PushInDirection((col.transform.position - transform.position).normalized, knockBack);
                 }
             }
         }

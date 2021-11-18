@@ -3,8 +3,8 @@
 public class FlipSpriteFeedback : MonoBehaviour
 {
     [Header("Default get component in children")]
-    [Tooltip("By default this sprite is looking to the right?")] [SerializeField] bool defaultLookRight = true;
-    [SerializeField] SpriteRenderer spriteToFlip = default;
+    [Tooltip("By default these sprites are looking to the right?")] [SerializeField] bool defaultLookRight = true;
+    [SerializeField] SpriteRenderer[] spritesToFlip = default;
 
     AimComponent component;
 
@@ -12,7 +12,7 @@ public class FlipSpriteFeedback : MonoBehaviour
     {
         //get references
         component = GetComponent<AimComponent>();
-        if (spriteToFlip == null) spriteToFlip = GetComponentInChildren<SpriteRenderer>();
+        if (spritesToFlip == null || spritesToFlip.Length <= 0) spritesToFlip = GetComponentsInChildren<SpriteRenderer>();
 
         //add events
         if (component)
@@ -29,7 +29,7 @@ public class FlipSpriteFeedback : MonoBehaviour
     void OnChangeAimDirection(bool isLookingRight)
     {
         //flip right or left
-        if (spriteToFlip)
-            spriteToFlip.flipX = (defaultLookRight && isLookingRight == false) || (defaultLookRight == false && isLookingRight);
+        foreach(SpriteRenderer sprite in spritesToFlip)
+            sprite.flipX = (defaultLookRight && isLookingRight == false) || (defaultLookRight == false && isLookingRight);
     }
 }
