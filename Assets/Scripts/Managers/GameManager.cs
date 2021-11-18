@@ -5,11 +5,11 @@ using redd096;
 [DefaultExecutionOrder(-100)]
 public class GameManager : Singleton<GameManager>
 {
-    //public UIManager uiManager { get; private set; }
+    public UIManager uiManager { get; private set; }
 
     protected override void SetDefaults()
     {
         //get references
-        //uiManager = FindObjectOfType<UIManager>();
+        uiManager = FindObjectOfType<UIManager>();
     }
 }
