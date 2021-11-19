@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2745167534826042600}
   - component: {fileID: 2745167534826042607}
   - component: {fileID: 2745167534826042606}
+  - component: {fileID: -3231360411936199821}
   m_Layer: 0
   m_Name: BASEBullet
   m_TagString: Untagged
@@ -83,6 +84,57 @@ MonoBehaviour:
   direction: {x: 0, y: 0}
   damage: 0
   bulletSpeed: 0
+--- !u!114 &-3231360411936199821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2745167534826042605}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 99b96524f7515de4e9089cccfdaf59e6, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  gameObjectOnHit:
+    instantiatedGameObject: {fileID: 0}
+    timeAutodestruction: 0
+  particlesOnHit: {fileID: 0}
+  audioOnHit:
+    audioClip: {fileID: 0}
+    volume: 1
+    is3D: 0
+  gameObjectOnLastHit:
+    instantiatedGameObject: {fileID: 0}
+    timeAutodestruction: 0
+  particlesOnLastHit: {fileID: 0}
+  audioOnLastHit:
+    audioClip: {fileID: 0}
+    volume: 1
+    is3D: 0
+  gameObjectOnAutodestruction:
+    instantiatedGameObject: {fileID: 0}
+    timeAutodestruction: 0
+  particlesOnAutodestruction: {fileID: 0}
+  audioOnAutodestruction:
+    audioClip: {fileID: 0}
+    volume: 1
+    is3D: 0
+  gameObjectOnDestroy:
+    instantiatedGameObject: {fileID: 0}
+    timeAutodestruction: 0
+  particlesOnDestroy: {fileID: 0}
+  audioOnDestroy:
+    audioClip: {fileID: 0}
+    volume: 1
+    is3D: 0
+  cameraShakeOnHit: 0
+  cameraShakeOnHitSomethingThatDestroyBullet: 0
+  cameraShakeOnAutoDestruction: 0
+  cameraShakeOnDestroy: 0
+  customShake: 0
+  shakeDuration: 1
+  shakeAmount: 0.7
 --- !u!1 &2745167535435656510
 GameObject:
   m_ObjectHideFlags: 0
