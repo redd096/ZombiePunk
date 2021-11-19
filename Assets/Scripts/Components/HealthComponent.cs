@@ -58,6 +58,10 @@ public class HealthComponent : MonoBehaviour
         //call event
         onDie?.Invoke();
 
+        //show end menu if player die
+        if (GetComponent<Character>() && GetComponent<Character>().CharacterType == Character.ECharacterType.Player)
+            GameManager.instance.uiManager.EndMenu(true);
+
         //destroy object
         Destroy(gameObject);
     }
