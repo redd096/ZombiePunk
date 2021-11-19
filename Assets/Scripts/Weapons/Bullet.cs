@@ -14,6 +14,7 @@ public class Bullet : MonoBehaviour
     [SerializeField] LayerMask layerPenetrable = default;
 
     [Header("Bullet")]
+    [SerializeField] bool friendlyFire = true;
     [SerializeField] bool ignoreShield = false;
     [Tooltip("Knockback who hit")] [SerializeField] float knockBack = 1;
 
@@ -37,6 +38,7 @@ public class Bullet : MonoBehaviour
     Rigidbody2D rb;
     Redd096Main owner;
     WeaponRange weapon;
+    Character.ECharacterType ownerType;
     bool alreadyDead;
     List<Redd096Main> alreadyHit = new List<Redd096Main>();
 
@@ -82,6 +84,7 @@ public class Bullet : MonoBehaviour
 
         this.owner = owner;
         this.weapon = weapon;
+        ownerType = owner is Character ? ((Character)owner).CharacterType : Character.ECharacterType.None;  //set owner character type, else no character type
 
         //ignore every collision with owner
         if (owner)
@@ -140,6 +143,11 @@ public class Bullet : MonoBehaviour
         //don't hit again same damageable (for penetrate shots)
         Redd096Main hitMain = hit.GetComponentInParent<Redd096Main>();
         if (hitMain && alreadyHit.Contains(hitMain))
+            return;
+
+        //if friendly fire is disabled, be sure to not hit same type of character
+        if (ownerType != Character.ECharacterType.None && friendlyFire == false
+            && hitMain is Character && ((Character)hitMain).CharacterType == ownerType)
             return;
 
         //call event
