@@ -16,11 +16,13 @@ public class GetHitFeedback : MonoBehaviour
     [SerializeField] AudioClass audioOnGetDamage = default;
 
     [Header("On Die")]
+    [SerializeField] bool destroyWeaponOnDeath = true;
     [SerializeField] InstantiatedGameObjectStruct[] gameObjectsOnDie = default;
     [SerializeField] ParticleSystem particlesOnDie = default;
     [SerializeField] AudioClass audioOnDie = default;
 
     HealthComponent component;
+    WeaponComponent weaponComponent;
     Dictionary<SpriteRenderer, Material> savedMaterials = new Dictionary<SpriteRenderer, Material>();
     Coroutine blinkCoroutine;
 
@@ -36,6 +38,7 @@ public class GetHitFeedback : MonoBehaviour
     {
         //get references
         component = GetComponent<HealthComponent>();
+        weaponComponent = GetComponent<WeaponComponent>();
         if (spritesToUse == null || spritesToUse.Length <= 0) spritesToUse = GetComponentsInChildren<SpriteRenderer>();
 
         //add events
@@ -89,6 +92,13 @@ public class GetHitFeedback : MonoBehaviour
 
     void OnDie()
     {
+        //destroy equipped weapon
+        if(destroyWeaponOnDeath)
+        {
+            if (weaponComponent && weaponComponent.CurrentWeapon)
+                Destroy(weaponComponent.CurrentWeapon.gameObject);
+        }
+
         //instantiate vfx and sfx
         foreach (InstantiatedGameObjectStruct objectOnDie in gameObjectsOnDie)
         {
