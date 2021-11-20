@@ -33,13 +33,17 @@ public class CollisionDetector : MonoBehaviour
 
 	//bounds
 	Vector2 centerBounds;
+	float horizontalExtents;
+	float verticalExtents;
+
+	//bounds limits
 	float upBounds;
 	float downBounds;
 	float rightBounds;
 	float leftBounds;
 
 	//for debug
-	float debugDrawDuration = -1;
+	float drawDebugDuration = -1;
 
 	void Update()
 	{
@@ -63,14 +67,14 @@ public class CollisionDetector : MonoBehaviour
 		drawDebug = true;
 
 		//set time
-		debugDrawDuration = 2;
+		drawDebugDuration = 2;
 
 		//check collisions
 		UpdateCollisions();
 
 		//restore debug values
 		drawDebug = previousDraw;
-		debugDrawDuration = -1;
+		drawDebugDuration = -1;
 	}
 
 	#region private API
@@ -96,17 +100,21 @@ public class CollisionDetector : MonoBehaviour
 	{
 		//update bounds
 		centerBounds = boxCollider.bounds.center;
-		upBounds = boxCollider.bounds.center.y + boxCollider.bounds.extents.y;
-		downBounds = boxCollider.bounds.center.y - boxCollider.bounds.extents.y;
-		rightBounds = boxCollider.bounds.center.x + boxCollider.bounds.extents.x;
-		leftBounds = boxCollider.bounds.center.x - boxCollider.bounds.extents.x;
+		verticalExtents = boxCollider.bounds.extents.y;
+		horizontalExtents = boxCollider.bounds.extents.x;
+
+		//bounds limits
+		upBounds = centerBounds.y + verticalExtents;
+		downBounds = centerBounds.y - verticalExtents;
+		rightBounds = centerBounds.x + horizontalExtents;
+		leftBounds = centerBounds.x - horizontalExtents;
 	}
 
 	void CheckCollisionsHorizontal()
 	{
 		//horizontal raycast vars
-		Vector2 raycastOriginBottom = new Vector2(centerBounds.x, downBounds + offsetRays);
-		Vector2 raycastOriginTop = new Vector2(centerBounds.x, upBounds - offsetRays);
+		Vector2 horizontalRaycastOriginBottom = new Vector2(centerBounds.x, downBounds + offsetRays);
+		Vector2 horizontalRaycastOriginTop = new Vector2(centerBounds.x, upBounds - offsetRays);
 		float raycastHorizontalLength = (rightBounds - leftBounds) * 0.5f;
 		rightHits.Clear();
 		leftHits.Clear();
@@ -114,7 +122,7 @@ public class CollisionDetector : MonoBehaviour
 		for (int i = 0; i < numberOfHorizontalRays; i++)
 		{
 			//from bottom to top
-			Vector2 raycastOriginPoint = Vector2.Lerp(raycastOriginBottom, raycastOriginTop, (float)i / (numberOfHorizontalRays - 1));
+			Vector2 raycastOriginPoint = Vector2.Lerp(horizontalRaycastOriginBottom, horizontalRaycastOriginTop, (float)i / (numberOfHorizontalRays - 1));
 
 			//raycast right and left
 			RaycastHit2D rightHit = RayCastHitSomething(raycastOriginPoint, Vector2.right, raycastHorizontalLength);
@@ -136,8 +144,8 @@ public class CollisionDetector : MonoBehaviour
 	void CheckCollisionsVertical()
 	{
 		//vertical raycast vars
-		Vector2 raycastOriginLeft = new Vector2(leftBounds + offsetRays, centerBounds.y);
-		Vector2 raycastOriginRight = new Vector2(rightBounds - offsetRays, centerBounds.y);
+		Vector2 verticalRaycastOriginLeft = new Vector2(leftBounds + offsetRays, centerBounds.y);
+		Vector2 verticalRaycastOriginRight = new Vector2(rightBounds - offsetRays, centerBounds.y);
 		float raycastVerticalLength = (upBounds - downBounds) * 0.5f;
 		upHits.Clear();
 		downHits.Clear();
@@ -145,7 +153,7 @@ public class CollisionDetector : MonoBehaviour
 		for (int i = 0; i < numberOfVerticalRays; i++)
 		{
 			//from left to right
-			Vector2 raycastOriginPoint = Vector2.Lerp(raycastOriginLeft, raycastOriginRight, (float)i / (numberOfVerticalRays - 1));
+			Vector2 raycastOriginPoint = Vector2.Lerp(verticalRaycastOriginLeft, verticalRaycastOriginRight, (float)i / (numberOfVerticalRays - 1));
 
 			//raycasts up and down
 			RaycastHit2D upHit = RayCastHitSomething(raycastOriginPoint, Vector2.up, raycastVerticalLength);
@@ -193,8 +201,8 @@ public class CollisionDetector : MonoBehaviour
 	void DebugRaycast(Vector2 originPoint, Vector2 direction, float distance, Color color)
 	{
 		//debug
-		if (debugDrawDuration > 0)
-			Debug.DrawRay(originPoint, direction * distance, color, debugDrawDuration);     //when called by press the button, visualizare for few seconds
+		if (drawDebugDuration > 0)
+			Debug.DrawRay(originPoint, direction * distance, color, drawDebugDuration);     //when called by press the button, visualizare for few seconds
 		else
 			Debug.DrawRay(originPoint, direction * distance, color);                        //else show at every update
 	}
@@ -216,6 +224,54 @@ public class CollisionDetector : MonoBehaviour
 		UpdateVars();
 		CheckCollisionsHorizontal();
 		CheckCollisionsVertical();
+	}
+
+	/// <summary>
+	/// Return reachable position in direction (cause collisions), nearest to desired one
+	/// </summary>
+	/// <param name="direction"></param>
+	/// <param name="desiredPosition"></param>
+	/// <returns></returns>
+	public Vector2 CalculateReachablePosition(EDirectionEnum direction, Vector2 desiredPosition)
+	{
+		//raycast vars
+		float bounds = GetBounds(direction);    //this will update bounds vars too
+		int numberOfRays = direction == EDirectionEnum.right || direction == EDirectionEnum.left ? numberOfHorizontalRays : numberOfVerticalRays;
+		Vector2 raycastOriginFirst = direction == EDirectionEnum.right || direction == EDirectionEnum.left ? new Vector2(centerBounds.x, downBounds + offsetRays) : new Vector2(leftBounds + offsetRays, centerBounds.y);
+		Vector2 raycastOriginSecond = direction == EDirectionEnum.right || direction == EDirectionEnum.left ? new Vector2(centerBounds.x, upBounds - offsetRays) : new Vector2(rightBounds - offsetRays, centerBounds.y);
+		float raycastLength = direction == EDirectionEnum.right || direction == EDirectionEnum.left ? horizontalExtents + Mathf.Abs(desiredPosition.x - transform.position.x) : verticalExtents + Mathf.Abs(desiredPosition.y - transform.position.y);
+		Vector2 raycastDirection;
+		Vector2 raycastOriginPoint;
+		RaycastHit2D hit;
+
+		//direction
+		if (direction == EDirectionEnum.right || direction == EDirectionEnum.left)
+			raycastDirection = direction == EDirectionEnum.right ? Vector2.right : Vector2.left;
+		else
+			raycastDirection = direction == EDirectionEnum.up ? Vector2.up : Vector2.down;
+
+		//use raycasts
+		for (int i = 0; i < numberOfRays; i++)
+		{
+			//from bottom to top, raycast right or left
+			raycastOriginPoint = Vector2.Lerp(raycastOriginFirst, raycastOriginSecond, (float)i / (numberOfRays - 1));
+			hit = RayCastHitSomething(raycastOriginPoint, raycastDirection, raycastLength);
+
+			//adjust position
+			if (hit)
+			{
+				if (direction == EDirectionEnum.right || direction == EDirectionEnum.left)
+				{
+					desiredPosition.x = hit.point.x - (bounds - transform.position.x);
+				}
+				else if (direction == EDirectionEnum.up || direction == EDirectionEnum.down)
+				{
+					desiredPosition.y = hit.point.y - (bounds - transform.position.y);
+				}
+			}
+		}
+
+		return desiredPosition;
 	}
 
 	/// <summary>
@@ -270,6 +326,31 @@ public class CollisionDetector : MonoBehaviour
 	{
 		UpdateVars();
 		return centerBounds;
+	}
+
+	/// <summary>
+	/// Return updated length from center bounds to limit in direction
+	/// </summary>
+	/// <param name="direction"></param>
+	/// <returns></returns>
+	public float GetBoundsLength(EDirectionEnum direction)
+	{
+		//update vars
+		UpdateVars();
+
+		switch (direction)
+		{
+			case EDirectionEnum.up:
+				return verticalExtents;
+			case EDirectionEnum.right:
+				return horizontalExtents;
+			case EDirectionEnum.left:
+				return horizontalExtents;
+			case EDirectionEnum.down:
+				return verticalExtents;
+			default:
+				return 0;
+		}
 	}
 
 	/// <summary>

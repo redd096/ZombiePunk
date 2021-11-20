@@ -8,7 +8,7 @@ public class MovementComponent : MonoBehaviour
 
     [Header("Movement")]
     [Tooltip("Move on Update or FixedUpdate?")] [SerializeField] EUpdateModes updateMode = EUpdateModes.Update;
-    [Tooltip("Move using transform or rigidbody?")] [SerializeField] EMovementModes movementMode = EMovementModes.Transform;
+    [Tooltip("Move using transform or rigidbody? Transform use completely CollisionDetector, rigidbody use unity physics")] [SerializeField] EMovementModes movementMode = EMovementModes.Transform;
     [Tooltip("Max Speed, calculating velocity by input + push (-1 = no limit)")] [SerializeField] float maxSpeed = 50;
 
     [Header("When pushed")]
@@ -137,51 +137,32 @@ public class MovementComponent : MonoBehaviour
 
     void DoMovement()
     {
-        //do movement with rigidbody or transform
+        //do movement with rigidbody (let unity calculate reachable position)
         if (movementMode == EMovementModes.Rigidbody)
+        {
             rb.velocity = CurrentVelocity;
+        }
+        //or move with transform (if there is collision detector, calculate reachable position, else just move to new position)
         else if (movementMode == EMovementModes.Transform)
-            transform.position += (Vector3)CurrentVelocity * (updateMode == EUpdateModes.Update ? Time.deltaTime : Time.fixedDeltaTime);
-
-        //adjust position to not enter in a collision
-        if (collisionDetector)
         {
-            collisionDetector.UpdateCollisions();
-            AdjustPosition(CollisionDetector.EDirectionEnum.right, Vector2.right, CollisionDetector.EDirectionEnum.left);
-            AdjustPosition(CollisionDetector.EDirectionEnum.left, Vector2.left, CollisionDetector.EDirectionEnum.right);
-            AdjustPosition(CollisionDetector.EDirectionEnum.up, Vector2.up, CollisionDetector.EDirectionEnum.down);
-            AdjustPosition(CollisionDetector.EDirectionEnum.down, Vector2.down, CollisionDetector.EDirectionEnum.up);
-        }
-    }
+            Vector2 newPosition = transform.position + (Vector3)CurrentVelocity * (updateMode == EUpdateModes.Update ? Time.deltaTime : Time.fixedDeltaTime);
 
-    void AdjustPosition(CollisionDetector.EDirectionEnum direction, Vector2 directionMovement, CollisionDetector.EDirectionEnum oppositeDirection)
-    {
-        //do only if colliding with something, and not colliding in opposite direction
-        if (collisionDetector == null || collisionDetector.IsHitting(direction) == false || collisionDetector.IsHitting(oppositeDirection))
-            return;
-
-        float bounds = collisionDetector.GetBounds(direction);
-        float greaterDistance = 0;
-
-        //find greater distance from hits
-        foreach (RaycastHit2D hit in collisionDetector.GetHits(direction))
-        {
-            //calculate horizontal
-            if (Mathf.Abs(directionMovement.x) > Mathf.Abs(directionMovement.y))
+            //calculate reachable position
+            if (collisionDetector)
             {
-                if (bounds - hit.point.x > greaterDistance)
-                    greaterDistance = bounds - hit.point.x;
-            }
-            //calculate vertical
-            else
-            {
-                if (bounds - hit.point.y > greaterDistance)
-                    greaterDistance = bounds - hit.point.y;
-            }
-        }
+                if (CurrentVelocity.x > 0)
+                    newPosition = collisionDetector.CalculateReachablePosition(CollisionDetector.EDirectionEnum.right, newPosition);
+                else if (CurrentVelocity.x < 0)
+                    newPosition = collisionDetector.CalculateReachablePosition(CollisionDetector.EDirectionEnum.left, newPosition);
 
-        //adjust position
-        transform.position -= (Vector3)directionMovement * greaterDistance;
+                if (CurrentVelocity.y > 0)
+                    newPosition = collisionDetector.CalculateReachablePosition(CollisionDetector.EDirectionEnum.up, newPosition);
+                else if (CurrentVelocity.y < 0)
+                    newPosition = collisionDetector.CalculateReachablePosition(CollisionDetector.EDirectionEnum.down, newPosition);
+            }
+
+            transform.position = newPosition;
+        }
     }
 
     Vector2 CalculateNewPushForce()
