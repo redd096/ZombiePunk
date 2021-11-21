@@ -96,20 +96,6 @@ public class CollisionDetector : MonoBehaviour
 		return true;
 	}
 
-	void UpdateVars()
-	{
-		//update bounds
-		centerBounds = boxCollider.bounds.center;
-		verticalExtents = boxCollider.bounds.extents.y;
-		horizontalExtents = boxCollider.bounds.extents.x;
-
-		//bounds limits
-		upBounds = centerBounds.y + verticalExtents;
-		downBounds = centerBounds.y - verticalExtents;
-		rightBounds = centerBounds.x + horizontalExtents;
-		leftBounds = centerBounds.x - horizontalExtents;
-	}
-
 	void CheckCollisionsHorizontal()
 	{
 		//horizontal raycast vars
@@ -221,9 +207,26 @@ public class CollisionDetector : MonoBehaviour
 			return;
 
 		//check collisions
-		UpdateVars();
+		UpdateBounds();
 		CheckCollisionsHorizontal();
 		CheckCollisionsVertical();
+	}
+
+	/// <summary>
+	/// Update bounds informations
+	/// </summary>
+	public void UpdateBounds()
+	{
+		//update bounds
+		centerBounds = boxCollider.bounds.center;
+		verticalExtents = boxCollider.bounds.extents.y;
+		horizontalExtents = boxCollider.bounds.extents.x;
+
+		//bounds limits
+		upBounds = centerBounds.y + verticalExtents;
+		downBounds = centerBounds.y - verticalExtents;
+		rightBounds = centerBounds.x + horizontalExtents;
+		leftBounds = centerBounds.x - horizontalExtents;
 	}
 
 	/// <summary>
@@ -235,7 +238,8 @@ public class CollisionDetector : MonoBehaviour
 	public Vector2 CalculateReachablePosition(EDirectionEnum direction, Vector2 desiredPosition)
 	{
 		//raycast vars
-		float bounds = GetBounds(direction);    //this will update bounds vars too
+		UpdateBounds();
+		float bounds = GetBounds(direction);
 		int numberOfRays = direction == EDirectionEnum.right || direction == EDirectionEnum.left ? numberOfHorizontalRays : numberOfVerticalRays;
 		Vector2 raycastOriginFirst = direction == EDirectionEnum.right || direction == EDirectionEnum.left ? new Vector2(centerBounds.x, downBounds + offsetRays) : new Vector2(leftBounds + offsetRays, centerBounds.y);
 		Vector2 raycastOriginSecond = direction == EDirectionEnum.right || direction == EDirectionEnum.left ? new Vector2(centerBounds.x, upBounds - offsetRays) : new Vector2(rightBounds - offsetRays, centerBounds.y);
@@ -319,25 +323,21 @@ public class CollisionDetector : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Return updated center of the bounds
+	/// Return last center of the bounds (call UpdateBounds to have updated informations)
 	/// </summary>
 	/// <returns></returns>
 	public Vector2 GetCenterBound()
 	{
-		UpdateVars();
 		return centerBounds;
 	}
 
 	/// <summary>
-	/// Return updated length from center bounds to limit in direction
+	/// Return last length from center bounds to limit in direction (call UpdateBounds to have updated informations)
 	/// </summary>
 	/// <param name="direction"></param>
 	/// <returns></returns>
 	public float GetBoundsLength(EDirectionEnum direction)
 	{
-		//update vars
-		UpdateVars();
-
 		switch (direction)
 		{
 			case EDirectionEnum.up:
@@ -354,15 +354,12 @@ public class CollisionDetector : MonoBehaviour
 	}
 
 	/// <summary>
-	/// Return updated bounds informations
+	/// Return last bounds informations (call UpdateBounds to have updated informations)
 	/// </summary>
 	/// <param name="direction"></param>
 	/// <returns></returns>
 	public float GetBounds(EDirectionEnum direction)
 	{
-		//update vars
-		UpdateVars();
-
 		switch (direction)
 		{
 			case EDirectionEnum.up:
