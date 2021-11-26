@@ -216,9 +216,13 @@ public class CollisionDetector : MonoBehaviour
 	/// Update bounds informations
 	/// </summary>
 	public void UpdateBounds()
-	{
-		//update bounds
-		centerBounds = boxCollider.bounds.center;
+    {
+        //start only if there are all necessary components
+        if (CheckComponents() == false)
+            return;
+
+        //update bounds
+        centerBounds = boxCollider.bounds.center;
 		verticalExtents = boxCollider.bounds.extents.y;
 		horizontalExtents = boxCollider.bounds.extents.x;
 

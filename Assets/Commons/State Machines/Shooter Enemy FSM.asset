@@ -15,13 +15,13 @@ MonoBehaviour:
   _serializedGraph: '{"type":"NodeCanvas.StateMachines.FSM","nodes":[{"_actionList":{"executionMode":1,"actions":[{"radiusPatrol":{"_name":"Radius
     Patrol","_targetVariableID":"e845aa72-30cc-4101-8d4a-9f305d3472b5"},"speedPatrol":{"_name":"Speed
     Patrol","_targetVariableID":"2b407a55-1e9c-44dd-b185-0a2f1b82a5bb"},"approxReachNode":{"_value":0.05},"timeToWaitWhenReach":{"_name":"Time
-    To Wait When Reach","_targetVariableID":"89afcb76-d943-4c37-a989-6049ce83fa65"},"savePathAs":{"_name":"Path","_targetVariableID":"b955e1fd-f091-43bb-9a44-127c21b95463"},"$type":"PatrolWithPathFinding"},{"path":{"_name":"Path","_targetVariableID":"b955e1fd-f091-43bb-9a44-127c21b95463"},"target":{"_name":""},"$type":"AimAtPathOrTarget"}]},"_repeatStateActions":true,"_position":{"x":404.0,"y":228.0},"$type":"NodeCanvas.StateMachines.ActionState","$id":"0"},{"_actionList":{"executionMode":1,"actions":[{"waitTime":{"_name":"Wait
-    Before Start Attack","_targetVariableID":"45a0b412-81ed-4f85-9d76-8b1bf40beb1d"},"$type":"NodeCanvas.Tasks.Actions.Wait"}]},"_position":{"x":871.9893,"y":365.3289},"$type":"NodeCanvas.StateMachines.ActionState","$id":"1"},{"_actionList":{"executionMode":1,"actions":[{"durationAttack":{"_name":"Duration
+    To Wait When Reach","_targetVariableID":"89afcb76-d943-4c37-a989-6049ce83fa65"},"savePathAs":{"_name":"Path","_targetVariableID":"b955e1fd-f091-43bb-9a44-127c21b95463"},"$type":"PatrolWithPathFinding"},{"path":{"_name":"Path","_targetVariableID":"b955e1fd-f091-43bb-9a44-127c21b95463"},"target":{"_name":""},"$type":"AimAtPathOrTarget"}]},"_repeatStateActions":true,"_position":{"x":404.0,"y":228.0},"$type":"NodeCanvas.StateMachines.ActionState","$id":"0"},{"_actionList":{"executionMode":1,"actions":[{"path":{"_name":""},"target":{"_name":"Target","_targetVariableID":"7bbdfbc6-e98d-4e96-856b-f2fc71fcdab4"},"$type":"AimAtPathOrTarget"}]},"_repeatStateActions":true,"_position":{"x":871.9893,"y":365.3289},"$type":"NodeCanvas.StateMachines.ActionState","$id":"1"},{"_actionList":{"executionMode":1,"actions":[{"durationAttack":{"_name":"Duration
     Attack","_targetVariableID":"fbf1c25e-35bf-4295-ad8b-926c7f9237ea"},"$type":"AttackWithTimer"},{"path":{"_name":""},"target":{"_name":"Target","_targetVariableID":"7bbdfbc6-e98d-4e96-856b-f2fc71fcdab4"},"$type":"AimAtPathOrTarget"}]},"_repeatStateActions":true,"_position":{"x":653.3334,"y":460.3325},"$type":"NodeCanvas.StateMachines.ActionState","$id":"2"}],"connections":[{"_condition":{"targetLayer":{"_value":{"value":512}},"componentToFind":{"_value":"Character"},"maxDistance":{"_name":"Sight
     Distance","_targetVariableID":"0d8cb749-fbe5-4694-b6a5-15066305f6f4"},"awarnessDistance":{"_name":"Sight
     Distance","_targetVariableID":"0d8cb749-fbe5-4694-b6a5-15066305f6f4"},"viewAngle":{"_name":""},"layerWalls":{"_name":"Layer
-    Walls","_targetVariableID":"a24add87-36ef-4b32-8a94-2f0d4c8b6b03"},"saveTargetAs":{"_name":"Target","_targetVariableID":"7bbdfbc6-e98d-4e96-856b-f2fc71fcdab4"},"$type":"CanSeeComponent2D"},"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_condition":{"target":{"_name":"Target","_targetVariableID":"7bbdfbc6-e98d-4e96-856b-f2fc71fcdab4"},"checkType":1,"distance":{"_name":"Sight
-    Distance","_targetVariableID":"0d8cb749-fbe5-4694-b6a5-15066305f6f4"},"$type":"CheckDistance2D"},"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"0"},"$type":"NodeCanvas.StateMachines.FSMConnection"}],"canvasGroups":[],"localBlackboard":{"_variables":{"PATROL":{"_value":{},"_name":"PATROL","_id":"fdfdcf94-786b-48a7-885f-012523a8f1de","$type":"NodeCanvas.Framework.Variable`1[[NodeCanvas.Framework.VariableSeperator,
+    Walls","_targetVariableID":"a24add87-36ef-4b32-8a94-2f0d4c8b6b03"},"saveTargetAs":{"_name":"Target","_targetVariableID":"7bbdfbc6-e98d-4e96-856b-f2fc71fcdab4"},"$type":"CanSeeComponent2D"},"_sourceNode":{"$ref":"0"},"_targetNode":{"$ref":"1"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_condition":{"timeout":{"_name":"Wait
+    Before Start Attack","_targetVariableID":"45a0b412-81ed-4f85-9d76-8b1bf40beb1d"},"$type":"NodeCanvas.Tasks.Conditions.Timeout"},"_sourceNode":{"$ref":"1"},"_targetNode":{"$ref":"2"},"$type":"NodeCanvas.StateMachines.FSMConnection"},{"_condition":{"target":{"_name":"Target","_targetVariableID":"7bbdfbc6-e98d-4e96-856b-f2fc71fcdab4"},"checkType":1,"distance":{"_name":"Distance
+    To End Attack","_targetVariableID":"a3495215-a4e2-4d29-b556-9b4a26613512"},"$type":"CheckDistance2D"},"_sourceNode":{"$ref":"2"},"_targetNode":{"$ref":"0"},"$type":"NodeCanvas.StateMachines.FSMConnection"}],"canvasGroups":[],"localBlackboard":{"_variables":{"PATROL":{"_value":{},"_name":"PATROL","_id":"fdfdcf94-786b-48a7-885f-012523a8f1de","$type":"NodeCanvas.Framework.Variable`1[[NodeCanvas.Framework.VariableSeperator,
     ParadoxNotion, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"Radius
     Patrol":{"_value":2.0,"_name":"Radius Patrol","_id":"e845aa72-30cc-4101-8d4a-9f305d3472b5","_isPublic":true,"$type":"NodeCanvas.Framework.Variable`1[[System.Single,
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Speed
@@ -39,6 +39,8 @@ MonoBehaviour:
     Before Start Attack":{"_value":1.0,"_name":"Wait Before Start Attack","_id":"45a0b412-81ed-4f85-9d76-8b1bf40beb1d","_isPublic":true,"$type":"NodeCanvas.Framework.Variable`1[[System.Single,
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Duration
     Attack":{"_value":1.0,"_name":"Duration Attack","_id":"fbf1c25e-35bf-4295-ad8b-926c7f9237ea","_isPublic":true,"$type":"NodeCanvas.Framework.Variable`1[[System.Single,
+    mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"Distance
+    To End Attack":{"_value":10.0,"_name":"Distance To End Attack","_id":"a3495215-a4e2-4d29-b556-9b4a26613512","_isPublic":true,"$type":"NodeCanvas.Framework.Variable`1[[System.Single,
     mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089]]"},"PRIVATE":{"_value":{},"_name":"PRIVATE","_id":"4bc1dc36-5d24-4771-bcb1-9714518b59f9","$type":"NodeCanvas.Framework.Variable`1[[NodeCanvas.Framework.VariableSeperator,
     ParadoxNotion, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]]"},"Path":{"_name":"Path","_id":"b955e1fd-f091-43bb-9a44-127c21b95463","$type":"NodeCanvas.Framework.Variable`1[[System.Collections.Generic.List`1[[redd096.Node,
     Assembly-CSharp, Version=0.0.0.0, Culture=neutral, PublicKeyToken=null]], mscorlib,
@@ -49,6 +51,6 @@ MonoBehaviour:
     _version: 3.21
     _category: 
     _comments: 
-    _translation: {x: -115, y: -246}
-    _zoomFactor: 1
+    _translation: {x: -312, y: -182}
+    _zoomFactor: 0.8876106
   _haltSerialization: 0
