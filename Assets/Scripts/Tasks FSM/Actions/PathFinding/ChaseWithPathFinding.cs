@@ -1,72 +1,87 @@
 ﻿using System.Collections.Generic;
-using NodeCanvas.Framework;
-using ParadoxNotion.Design;
 using UnityEngine;
+using redd096;
 
-[Category("redd096/PathFinding")]
-[Description("Patrol inside a radius using MovementComponent and PathFinding")]
-public class ChaseWithPathFinding : ActionTask<MovementComponent>
+[AddComponentMenu("redd096/Tasks FSM/Action/PathFinding/Chase With Path Finding")]
+public class ChaseWithPathFinding : ActionTask
 {
-    [BlackboardOnly] public BBParameter<Transform> target;
-    public BBParameter<float> speedChase = 5;
-    public BBParameter<float> approxReachNode = 0.05f;
-    [BlackboardOnly] public BBParameter<List<redd096.Node>> savePathAs;
-    public bool repeat;
+    [Header("Necessary Components - default get in parent or GameManager")]
+    [SerializeField] MovementComponent component;
+    [SerializeField] AimComponent aimComponent;
+    [SerializeField] PathFindingAStar pathFinding;
 
-    redd096.Node lastWalkableNode;
+    [Header("Chase")]
+    [SerializeField] string targetBlackboardName = "Target";
+    [SerializeField] float speedChase = 5;
 
-    protected override string OnInit()
+    [Header("DEBUG")]
+    [Range(0f, 0.1f)] [SerializeField] float approxReachNode = 0.05f;
+
+    Transform target;
+    List<Node> path;
+    Node lastWalkableNode;
+
+    protected override void OnInitTask()
     {
-        //reset var
-        lastWalkableNode = null;
-        return base.OnInit();
+        base.OnInitTask();
+
+        //get references
+        if (component == null) component = GetStateMachineComponent<MovementComponent>();
+        if (aimComponent == null) aimComponent = GetStateMachineComponent<AimComponent>();
+        if (pathFinding == null) pathFinding = GameManager.instance ? GameManager.instance.pathFindingAStar : null;
+
+        //show warnings if not found
+        if (GameManager.instance == null)
+            Debug.LogWarning("Miss GameManager in scene");
+        else if (pathFinding == null)
+            Debug.LogWarning("Miss PathFinding in scene");
     }
 
-    protected override void OnUpdate()
+    public override void OnEnterTask()
     {
-        //do only if there is target
-        if (target.value == null)
-        {
-            //end action if necessary
-            if (!repeat) { EndAction(); }
-            return;
-        }
+        base.OnEnterTask();
 
-        //update path
+        //get target from blackboard
+        target = stateMachine.GetBlackboardElement(targetBlackboardName) as Transform;
+    }
+
+    public override void OnUpdateTask()
+    {
+        base.OnUpdateTask();
+
+        if (target == null)
+            return;
+
+        //update path to target
         UpdatePath();
 
-        //if there is path, move to next node. When reach node, remove from the list
-        if (savePathAs.value != null && savePathAs.value.Count > 0)
+        //if there is path, move to next node
+        if (path != null && path.Count > 0)
         {
-            if (lastWalkableNode != null)
-                lastWalkableNode = null;
+            //if on a walkable node, save it
+            Node currentNode = pathFinding.Grid.NodeFromWorldPosition(transformTask.position);
+            if (currentNode.isWalkable)
+                lastWalkableNode = currentNode;
 
-            agent.MoveInDirection((savePathAs.value[0].worldPosition - agent.transform.position).normalized, speedChase.value);
+            //move and aim to next node
+            MoveAndAim(path[0].worldPosition);
             CheckReachNode();
         }
-        //if there is no path, move straight to target
-        else
+        //if there is no path, move straight to target (only if last walkable node is setted)
+        else if(lastWalkableNode != null)
         {
-            //save last walkable node
-            if (lastWalkableNode == null)
-                lastWalkableNode = GameManager.instance.pathFindingAStar.Grid.NodeFromWorldPosition(agent.transform.position);
-
-            //check if player is in neighbours nodes, move straight to him
-            redd096.Node targetNode = GameManager.instance.pathFindingAStar.Grid.NodeFromWorldPosition(target.value.position);
-            if (GameManager.instance.pathFindingAStar.Grid.GetNeighbours(lastWalkableNode).Contains(targetNode))
+            //if target is in a not walkable node, but neighbour of our last walkable node, move straight to it
+            Node targetNode = pathFinding.Grid.NodeFromWorldPosition(target.position);
+            if (pathFinding.Grid.GetNeighbours(lastWalkableNode).Contains(targetNode))
             {
-                agent.MoveInDirection((target.value.position - agent.transform.position).normalized, speedChase.value);
+                MoveAndAim(target.position);
             }
-            //else back to last walkable node
+            //else move back to last walkable node
             else
             {
-                agent.MoveInDirection((lastWalkableNode.worldPosition - agent.transform.position).normalized, speedChase.value);
+                MoveAndAim(lastWalkableNode.worldPosition);
             }
-
         }
-
-        //end action if necessary
-        if (!repeat) { EndAction(); }
     }
 
     #region private API
@@ -74,15 +89,26 @@ public class ChaseWithPathFinding : ActionTask<MovementComponent>
     void UpdatePath()
     {
         //get path
-        savePathAs.value = GameManager.instance.pathFindingAStar.FindPath(agent.transform.position, target.value.position);
+        path = pathFinding.FindPath(transformTask.position, target.position);
+    }
+
+    void MoveAndAim(Vector3 destination)
+    {
+        //move to destination
+        if(component)
+            component.MoveInDirection((destination - transformTask.position).normalized, speedChase);
+
+        //aim at destination
+        if (aimComponent)
+            aimComponent.AimAt(destination - transformTask.position);
     }
 
     void CheckReachNode()
     {
         //if reach node, remove from list
-        if (Vector2.Distance(agent.transform.position, savePathAs.value[0].worldPosition) <= approxReachNode.value)
+        if (Vector2.Distance(transformTask.position, path[0].worldPosition) <= approxReachNode)
         {
-            savePathAs.value.RemoveAt(0);
+            path.RemoveAt(0);
         }
     }
 

@@ -1,35 +1,47 @@
-﻿using NodeCanvas.Framework;
-using ParadoxNotion.Design;
-using UnityEngine;
+﻿using UnityEngine;
+using redd096;
 
-[Category("redd096")]
-[Description("Return true when DamageCharacterOnHit call event OnHit")]
-public class CheckDamageCharacterOnHit : ConditionTask<DamageCharacterOnHit>
+[AddComponentMenu("redd096/Tasks FSM/Condition/Check Damage Character On Hit")]
+public class CheckDamageCharacterOnHit : ConditionTask
 {
+    [Header("Necessary Components - default get in parent")]
+    [SerializeField] DamageCharacterOnHit component;
+
     bool hitSomething;
 
-    protected override void OnEnable()
+    protected override void OnInitTask()
     {
+        base.OnInitTask();
+
+        //get references
+        if (component == null) component = GetStateMachineComponent<DamageCharacterOnHit>();
+    }
+
+    public override void OnEnterTask()
+    {
+        base.OnEnterTask();
+
+        //reset bool
+        hitSomething = false;
+
         //add events
-        agent.onHit += OnHit;
+        if(component)
+            component.onHit += OnHit;
     }
 
-    protected override void OnDisable()
+    public override void OnExitTask()
     {
+        base.OnExitTask();
+
         //remove events
-        agent.onHit -= OnHit;
+        if(component)
+            component.onHit -= OnHit;
     }
 
-    protected override bool OnCheck()
+    public override bool OnCheckTask()
     {
-        //when hit something, reset it but return true
-        if(hitSomething)
-        {
-            hitSomething = false;
-            return true;
-        }
-
-        return false;
+        //return true when hit something
+        return hitSomething;
     }
 
     void OnHit()

@@ -1,27 +1,31 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class Redd096Main : MonoBehaviour
+namespace redd096
 {
-    Dictionary<System.Type, Component> components = new Dictionary<System.Type, Component>();
-
-    /// <summary>
-    /// Do GetComponent, but save the var to return next time is called
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <returns></returns>
-    public T GetSavedComponent<T>() where T : Component
+    [AddComponentMenu("redd096/Main/redd096Main")]
+    public class Redd096Main : MonoBehaviour
     {
-        //save in dictionary
-        if (components.ContainsKey(typeof(T)) == false)
+        Dictionary<System.Type, Component> components = new Dictionary<System.Type, Component>();
+
+        /// <summary>
+        /// Do GetComponent, but save the var to return next time is called
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <returns></returns>
+        public T GetSavedComponent<T>() where T : Component
         {
-            if (GetComponent<T>() == null)
-                return null;
+            //save in dictionary
+            if (components.ContainsKey(typeof(T)) == false)
+            {
+                if (GetComponent<T>() == null)
+                    return null;
 
-            components.Add(typeof(T), GetComponent<T>());
+                components.Add(typeof(T), GetComponent<T>());
+            }
+
+            //return it
+            return components[typeof(T)] as T;
         }
-
-        //return it
-        return components[typeof(T)] as T;
     }
 }

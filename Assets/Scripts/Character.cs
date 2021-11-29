@@ -1,7 +1,11 @@
 ﻿using UnityEngine;
 
-public class Character : Redd096Main
+namespace redd096
 {
-    public enum ECharacterType { Player, AI, None};
-    public ECharacterType CharacterType = ECharacterType.AI;
+    [AddComponentMenu("redd096/Main/Character")]
+    public class Character : Redd096Main
+    {
+        public enum ECharacterType { Player, AI };
+        public ECharacterType CharacterType = ECharacterType.AI;
+    }
 }

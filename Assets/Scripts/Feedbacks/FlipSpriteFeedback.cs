@@ -1,35 +1,40 @@
 ﻿using UnityEngine;
 
-public class FlipSpriteFeedback : MonoBehaviour
+namespace redd096
 {
-    [Header("Default get component in children")]
-    [Tooltip("By default these sprites are looking to the right?")] [SerializeField] bool defaultLookRight = true;
-    [SerializeField] SpriteRenderer[] spritesToFlip = default;
-
-    AimComponent component;
-
-    void OnEnable()
+    public class FlipSpriteFeedback : MonoBehaviour
     {
-        //get references
-        component = GetComponent<AimComponent>();
-        if (spritesToFlip == null || spritesToFlip.Length <= 0) spritesToFlip = GetComponentsInChildren<SpriteRenderer>();
+        [Header("Necessary Components - default get in parent")]
+        [SerializeField] AimComponent component;
 
-        //add events
-        if (component)
-            component.onChangeAimDirection += OnChangeAimDirection;
-    }
+        [Header("Default get component in children")]
+        [Tooltip("By default these sprites are looking to the right?")] [SerializeField] bool defaultLookRight = true;
+        [SerializeField] SpriteRenderer[] spritesToFlip = default;
 
-    void OnDisable()
-    {
-        //remove events
-        if (component)
-            component.onChangeAimDirection -= OnChangeAimDirection;
-    }
+        void OnEnable()
+        {
+            //get references
+            if(component == null) component = GetComponentInParent<AimComponent>();
+            if (spritesToFlip == null || spritesToFlip.Length <= 0) spritesToFlip = GetComponentsInChildren<SpriteRenderer>();
 
-    void OnChangeAimDirection(bool isLookingRight)
-    {
-        //flip right or left
-        foreach(SpriteRenderer sprite in spritesToFlip)
-            sprite.flipX = (defaultLookRight && isLookingRight == false) || (defaultLookRight == false && isLookingRight);
+            //add events
+            if (component)
+                component.onChangeAimDirection += OnChangeAimDirection;
+        }
+
+        void OnDisable()
+        {
+            //remove events
+            if (component)
+                component.onChangeAimDirection -= OnChangeAimDirection;
+        }
+
+        void OnChangeAimDirection(bool isLookingRight)
+        {
+            //flip right or left
+            foreach (SpriteRenderer sprite in spritesToFlip)
+                if(sprite)
+                    sprite.flipX = (defaultLookRight && isLookingRight == false) || (defaultLookRight == false && isLookingRight);
+        }
     }
 }

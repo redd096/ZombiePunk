@@ -1,8 +1,8 @@
-﻿namespace redd096
-{
-    using UnityEngine;
-    using UnityEngine.UI;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
+namespace redd096
+{
     [AddComponentMenu("redd096/MonoBehaviours/UI Manager")]
     public class UIManager : MonoBehaviour
     {

@@ -1,93 +1,97 @@
 ﻿using UnityEngine;
-using Sirenix.OdinInspector;
-using redd096;
+using NaughtyAttributes;
 
-public class WeaponBASEFeedback : MonoBehaviour
+namespace redd096
 {
-    [Header("On Pick")]
-    [SerializeField] InstantiatedGameObjectStruct gameObjectOnPick = default;
-    [SerializeField] ParticleSystem particlesOnPick = default;
-    [SerializeField] AudioClass audioOnPick = default;
-
-    [Header("On Pick Camera Shake")]
-    [SerializeField] bool cameraShakeOnPick = true;
-    [EnableIf("cameraShakeOnPick")] [SerializeField] bool customShakeOnPick = false;
-    [EnableIf("@cameraShakeOnPick && customShakeOnPick")] [SerializeField] float shakeDurationOnPick = 1;
-    [EnableIf("@cameraShakeOnPick && customShakeOnPick")] [SerializeField] float shakeAmountOnPick = 0.7f;
-
-    [Header("On Drop")]
-    [SerializeField] InstantiatedGameObjectStruct gameObjectOnDrop = default;
-    [SerializeField] ParticleSystem particlesOnDrop = default;
-    [SerializeField] AudioClass audioOnDrop = default;
-
-    [Header("On Drop Camera Shake")]
-    [SerializeField] bool cameraShakeOnDrop = true;
-    [EnableIf("cameraShakeOnDrop")] [SerializeField] bool customShakeOnDrop = false;
-    [EnableIf("@cameraShakeOnDrop && customShakeOnDrop")] [SerializeField] float shakeDurationOnDrop = 1;
-    [EnableIf("@cameraShakeOnDrop && customShakeOnDrop")] [SerializeField] float shakeAmountOnDrop = 0.7f;
-
-    WeaponBASE weaponBASE;
-
-    void OnEnable()
+    public class WeaponBASEFeedback : MonoBehaviour
     {
-        //get references
-        weaponBASE = GetComponent<WeaponBASE>();
+        [Header("Necessary Components - default get from this gameObject")]
+        [SerializeField] WeaponBASE weaponBASE;
 
-        //add events
-        if (weaponBASE)
+        [Header("On Pick")]
+        [SerializeField] InstantiatedGameObjectStruct gameObjectOnPick = default;
+        [SerializeField] ParticleSystem particlesOnPick = default;
+        [SerializeField] AudioClass audioOnPick = default;
+
+        [Header("On Pick Camera Shake")]
+        [SerializeField] bool cameraShakeOnPick = true;
+        [EnableIf("cameraShakeOnPick")] [SerializeField] bool customShakeOnPick = false;
+        [EnableIf(EConditionOperator.And, "cameraShakeOnPick", "customShakeOnPick")] [SerializeField] float shakeDurationOnPick = 1;
+        [EnableIf(EConditionOperator.And, "cameraShakeOnPick", "customShakeOnPick")] [SerializeField] float shakeAmountOnPick = 0.7f;
+
+        [Header("On Drop")]
+        [SerializeField] InstantiatedGameObjectStruct gameObjectOnDrop = default;
+        [SerializeField] ParticleSystem particlesOnDrop = default;
+        [SerializeField] AudioClass audioOnDrop = default;
+
+        [Header("On Drop Camera Shake")]
+        [SerializeField] bool cameraShakeOnDrop = true;
+        [EnableIf("cameraShakeOnDrop")] [SerializeField] bool customShakeOnDrop = false;
+        [EnableIf(EConditionOperator.And, "cameraShakeOnDrop", "customShakeOnDrop")] [SerializeField] float shakeDurationOnDrop = 1;
+        [EnableIf(EConditionOperator.And, "cameraShakeOnDrop", "customShakeOnDrop")] [SerializeField] float shakeAmountOnDrop = 0.7f;
+
+        void OnEnable()
         {
-            weaponBASE.onPickWeapon += OnPickWeapon;
-            weaponBASE.onDropWeapon += OnDropWeapon;
-        }
-    }
+            //get references
+            if(weaponBASE == null)
+                weaponBASE = GetComponent<WeaponBASE>();
 
-    void OnDisable()
-    {
-        //remove events
-        if (weaponBASE)
+            //add events
+            if (weaponBASE)
+            {
+                weaponBASE.onPickWeapon += OnPickWeapon;
+                weaponBASE.onDropWeapon += OnDropWeapon;
+            }
+        }
+
+        void OnDisable()
         {
-            weaponBASE.onPickWeapon -= OnPickWeapon;
-            weaponBASE.onDropWeapon -= OnDropWeapon;
+            //remove events
+            if (weaponBASE)
+            {
+                weaponBASE.onPickWeapon -= OnPickWeapon;
+                weaponBASE.onDropWeapon -= OnDropWeapon;
+            }
         }
-    }
 
-    #region private API
+        #region private API
 
-    void OnPickWeapon()
-    {
-        //instantiate vfx and sfx
-        InstantiateGameObjectManager.instance.Play(gameObjectOnPick, transform.position, transform.rotation);
-        ParticlesManager.instance.Play(particlesOnPick, transform.position, transform.rotation);
-        SoundManager.instance.Play(audioOnPick, transform.position);
-
-        //camera shake
-        if (cameraShakeOnPick && CameraShake.instance)
+        void OnPickWeapon()
         {
-            //custom or default
-            if (customShakeOnPick)
-                CameraShake.instance.StartShake(shakeDurationOnPick, shakeAmountOnPick);
-            else
-                CameraShake.instance.StartShake();
+            //instantiate vfx and sfx
+            InstantiateGameObjectManager.instance.Play(gameObjectOnPick, transform.position, transform.rotation);
+            ParticlesManager.instance.Play(particlesOnPick, transform.position, transform.rotation);
+            SoundManager.instance.Play(audioOnPick, transform.position);
+
+            //camera shake
+            if (cameraShakeOnPick && CameraShake.instance)
+            {
+                //custom or default
+                if (customShakeOnPick)
+                    CameraShake.instance.StartShake(shakeDurationOnPick, shakeAmountOnPick);
+                else
+                    CameraShake.instance.StartShake();
+            }
         }
-    }
 
-    void OnDropWeapon()
-    {
-        //instantiate vfx and sfx
-        InstantiateGameObjectManager.instance.Play(gameObjectOnDrop, transform.position, transform.rotation);
-        ParticlesManager.instance.Play(particlesOnDrop, transform.position, transform.rotation);
-        SoundManager.instance.Play(audioOnDrop, transform.position);
-
-        //camera shake
-        if (cameraShakeOnDrop && CameraShake.instance)
+        void OnDropWeapon()
         {
-            //custom or default
-            if (customShakeOnDrop)
-                CameraShake.instance.StartShake(shakeDurationOnDrop, shakeAmountOnDrop);
-            else
-                CameraShake.instance.StartShake();
-        }
-    }
+            //instantiate vfx and sfx
+            InstantiateGameObjectManager.instance.Play(gameObjectOnDrop, transform.position, transform.rotation);
+            ParticlesManager.instance.Play(particlesOnDrop, transform.position, transform.rotation);
+            SoundManager.instance.Play(audioOnDrop, transform.position);
 
-    #endregion
+            //camera shake
+            if (cameraShakeOnDrop && CameraShake.instance)
+            {
+                //custom or default
+                if (customShakeOnDrop)
+                    CameraShake.instance.StartShake(shakeDurationOnDrop, shakeAmountOnDrop);
+                else
+                    CameraShake.instance.StartShake();
+            }
+        }
+
+        #endregion
+    }
 }

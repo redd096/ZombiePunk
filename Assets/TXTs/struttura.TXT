@@ -1,0 +1,215 @@
+---------------------------------------------------------------------------------------------------
+SINGLETON
+---------------------------------------------------------------------------------------------------
+
+Game Manager
+- contiene le referenze agli oggetti in scena
+- il prefab contiene anche tutti gli altri singleton
+
+Instantiate GameObject Manager
+- usato per istanziare oggetti (in genere vfx) con un pooling
+
+Particles Manager
+- usato per istanziare particles con un pooling
+
+Sound Manager
+- usato per istanziare suoni con un pooling
+- contiene un prefab di AudioSource in 2D e uno in 3D
+- si può settare una musica per la scena in cui si trova questo manager
+- si può fare un array di suoni, da richiamare random tramite una funzione (usato per i bottoni in UI)
+
+Scene Loader
+- gestisce lo spostamento tra le varie scene
+- contiene funzioni da usare anche tramite i bottoni in UI per spostarsi o ricaricare le scene
+
+---------------------------------------------------------------------------------------------------
+Managers In Scene
+---------------------------------------------------------------------------------------------------
+
+Level Manager
+- contiene la lista dei giocatori in game
+- alla morte di un giocatore, chiama lo UIManager per far apparire il menu di sconfitta
+
+Camera Shake
+- per eseguire il camera shake sulla camera in scena
+- è possibile usare le variabili settate in inspector, o eseguire uno shake custom
+
+Path Finding
+- contiene lo script Path Finding A Star, per richiedere i percorsi appunto con il PathFinding
+- Composite Grid A Star, per generare una grid utilizzando tutti i Grid A Star in scena
+- Grid A Star, usato per decidere una zona in cui generare una griglia walkable
+
+UI Manager
+- viene chiamato per aggiornare la UI in scena, ad esempio aprendo e chiudendo i menu
+- contiene il menu di pausa e di ending
+
+---------------------------------------------------------------------------------------------------
+Characters
+---------------------------------------------------------------------------------------------------
+
+Player
+- avrà i vari componenti per funzionare
+- il rigidbody è tutto freezzato per poter chiamare OnCollisionEnter ma non essere spostato o roteato dalle collisioni
+- avrà un child StateMachine con i vari stati
+- avrà un child Graphics con i vari feedback + sprite e collider
+
+Enemy
+- come il Player, ma avrà il CharacterType settato su AI invece di Player
+- non avrà il PlayerInput, perché la sua statemachine non andrà in base agli input del giocatore
+
+---------------------------------------------------------------------------------------------------
+Weapons
+---------------------------------------------------------------------------------------------------
+
+Range Weapon
+- avrà lo script per settare il funzionamento dell'arma
+- avrà un child Graphics con i vari feedback + sprite e collider
+
+Bullet
+- avrà i componenti per funzionare
+- il rigidbody è tutto freezzato per poter chiamare OnCollisionEnter ma non essere spostato o roteato dalle collisioni
+- avrà lo script per settare il funzionamento del proiettile
+- avrà un child Graphics per i vari feedback + sprite e collider
+
+---------------------------------------------------------------------------------------------------
+Characters Components
+---------------------------------------------------------------------------------------------------
+
+Character
+- si setta il CharacterType (Player o AI)
+- ha una funzione per fare il GetComponent e salvare in una variabile, così da recuperare più velocemente in seguito
+
+Collision Component
+- utilizzato dal MovementComponent per calcolare la velocità a cui si sta andando e non trapassare i muri
+- si può settare la modalità di aggiornamento (Update, FixedUpdate) per calcolare la velocità, non si trapasseranno comunque i muri con il MovementComponent
+- si settano il numero di raycast da sparare
+- i layer da ignorare e se ignora anche i trigger
+- si possono richiedere i bounds del collider, dove si collide e con cosa
+
+Movement Component
+- usato per muovere l'oggetto (sia settando la velocità, sia tramite push da forze esterne)
+- si può settare la modalità di aggiornamento (Update, FixedUpdate)
+- movement mode (Transform utilizzando il CollisionComponent, Rigidbody e lasciando calcolare le collisioni a unity)
+- una velocità massima, che non verrà superata neanche sommando la velocità richiesta e i vari push
+- variabili per il drag
+- si possono richiedere la direzione in cui ci si muove (destra/sinistra), la velocità di movimento e i vari input e push correntemente attivi sull'oggetto
+
+Aim Component
+- usato per mirare (sapere dove dirigere i proiettili, dove girare gli sprite, ecc...)
+- si possono richiedere la direzione in cui si mira (destra/sinistra), sia la posizione richiesta che la direzione normalizzata
+
+Health Component
+- usato per subire danni e morire, oppure per ricaricarsi la vita
+- si setta la vita massima o se l'oggetto è invincibile
+- si può richiedere la vita corrente
+
+Weapon Component
+- usato per attaccare con l'arma equipaggiata
+- si può settare il prefab di un'arma per istanziarlo ed equipaggiarlo quando si attiva il character
+- si può decidere se droppare e/o distruggere l'arma quando il character muore (richiede HealthComponent)
+- si può richiedere l'arma equipaggiata
+
+Player Input
+- usato dal player per i vari input
+- si settano gli InputActionAsset per avere i vari comandi
+- si può richiedere lo schema corrente, per sapere se si sta usando Keyboard, Gamepad o altro
+
+Damage Character On Hit
+- usato per danneggiare gli altri character quando li si hitta
+- si possono settare danno, push e anche se è possibile un friendly fire
+
+Rigidbody 2D
+- usato per chiamare funzioni come collision enter
+- settato freeze sia su position che rotation, così da non venire spostato dalle collisioni
+
+---------------------------------------------------------------------------------------------------
+Weapons Components
+---------------------------------------------------------------------------------------------------
+
+Weapon Range
+- usato dalle armi range per sparare
+- si possono settare un nome e un prezzo per un possibile store
+- quando viene droppata, si può decidere se distruggere l'arma in scena
+- si può vedere chi l'ha equipaggiata
+- si possono settare se è automatica, rateo di fuoco, rinculo, barrel e noise, ecc...
+- si possono settare i prefab dei proiettili da sparare con relativi danno e velocità
+
+---------------------------------------------------------------------------------------------------
+Bullets Components
+---------------------------------------------------------------------------------------------------
+
+Bullet
+- il proiettile sparato dalle armi range
+- si possono settare dei layer da penetrare (hittare ma non fermare il proiettile)
+- se è presente il friendly fire, se ignora scudo, knock back, ecc...
+- si possono settare delle variabili per un danno ad area quando hitta e si distrugge
+- un timer per l'autodistruzione, così che il proiettile si fermi dopo tot secondi anche senza hit
+- si può chiamare un danno ad area anche per l'autodistruzione
+
+Movement Component
+- usato per muovere l'oggetto (tramite un push dato quando si istanzia)
+- si può settare la modalità di aggiornamento (Update, FixedUpdate)
+- movement mode (Transform utilizzando il CollisionComponent, Rigidbody e lasciando calcolare le collisioni a unity)
+- una velocità massima, che non verrà superata neanche sommando la velocità richiesta e i vari push
+- variabili per il drag (che si può lasciare a 0 per farlo andare sempre dritto finché non hitta qualcosa)
+- si possono richiedere la direzione in cui ci si muove (destra/sinistra), la velocità di movimento e i vari input e push correntemente attivi sull'oggetto
+
+Rigidbody 2D
+- usato per chiamare funzioni come collision enter
+- settato freeze sia su position che rotation, così da non venire spostato dalle collisioni
+
+---------------------------------------------------------------------------------------------------
+Feedbacks
+---------------------------------------------------------------------------------------------------
+
+Flip Sprite Feedback
+- ruota le sprite a destra o a sinistra in base a dove si sta mirando
+- si possono settare gli sprite da ruotare e se di default stanno guardando a destra o sinistra
+
+Get Hit Feedback
+- chiama dei feedback quando si viene colpiti o uccisi
+- può blinkare quando si subisce danni (con sprite da settare, blink material e durata blink)
+- VFX e SFX quando si subisce danni e quando si muore
+
+---------------------------------------------------------------------------------------------------
+Weapons Feedbacks
+---------------------------------------------------------------------------------------------------
+
+Change Order Weapon On Rotate Feedback
+- cambia il layer all'arma in base a come l'owner è ruotato
+- si possono settare gli sprite a cui cambiare layer
+- e i layer quando si guarda a destra e quando si guarda a sinistra
+
+Move Weapon Feedback
+- fa sì che l'arma segua la posizione dell'owner
+- si può settare il transform da muovere
+- e un offset di distanza da tenere dall'owner
+
+Rotate Weapon Feedback
+- fa sì che l'arma ruoti in base a dove mira l'owner
+- si possono settare gli sprite (perché andrà flippata la Y quando vengono ruotati sotto sopra)
+- e un transform come pivot da ruotare
+
+Weapon BASE Feedback
+- chiama dei feedback quando si raccoglie o droppa l'arma
+- VFX e SFX quando si raccoglie e/o droppa l'arma
+- Camera Shake quando si raccoglie e/o droppa l'arma
+
+Weapon Range Feedback
+- chiama dei feedback quando si spara
+- VFX e SFX ogni volta che si istanzia un proiettile (sul barrel utilizzato per quel bullet)
+- VFX e SFX ogni volta che si spara (su un main barrel, non importa quanti proiettili e dove vengano sparati)
+- Camera Shake quando si spara (non importa quanti proiettili vengono sparati)
+- VFX e SFX quando si preme per attaccare (non importa quante volte si spara, viene chiamato solo una volta finché non si smette di attaccare e si riattacca di nuovo)
+
+---------------------------------------------------------------------------------------------------
+Bullet Feedbacks
+---------------------------------------------------------------------------------------------------
+
+Bullet Feedback
+- chiama dei feedback quando si hitta o si distrugge il proiettile
+- VFX e SFX ogni volta che si hitta qualcosa (anche se il proiettile prosegue)
+- VFX e SFX quando si hitta qualcosa che ferma il proiettile
+- VFX e SFX quando il proiettile si autodistrugge senza hittare niente
+- VFX e SFX quando il proiettile si distrugge (sia autodistruzione che hit)
+- CameraShake attivabile quando si hitta e/o si distrugge

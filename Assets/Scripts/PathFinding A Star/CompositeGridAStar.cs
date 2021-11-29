@@ -1,8 +1,8 @@
-﻿namespace redd096
-{
-    using System.Collections.Generic;
-    using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
+namespace redd096
+{
     [AddComponentMenu("redd096/Path Finding A Star/Composite Grid A Star")]
     public class CompositeGridAStar : GridAStar
     {

@@ -1,9 +1,9 @@
-﻿namespace redd096
-{
-    using UnityEngine;
-    using System.Collections;
-    using System.Collections.Generic;
+﻿using UnityEngine;
+using System.Collections;
+using System.Collections.Generic;
 
+namespace redd096
+{
     #region classes
 
     [System.Serializable]

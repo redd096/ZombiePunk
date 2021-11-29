@@ -1,0 +1,11 @@
+order in layer:
+- canvas UIManager = 100
+- tutto il resto = 0
+- weapons = 1 e -1 (script cambia layer a seconda della rotatione)
+- Tilemap (collision) = -99
+- Tilemap = -100
+
+layer fisici:
+- NotNavigableWithPathFinding, usato dal PathFinding come layer not walkable, usato anche dai nemici come muri da evitare (settato su Tilemap con collider)
+- CharactersIgnoreCollisionWithThis, usato dal CollisionComponent dei Character per sapere quale layer ignorare (settato sul prefab dei proiettili)
+- Player, usato dai nemici per trovare un target (settato sul prefab del Player)

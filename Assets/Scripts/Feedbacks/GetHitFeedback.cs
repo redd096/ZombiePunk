@@ -1,112 +1,102 @@
 ﻿using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
-using redd096;
+using NaughtyAttributes;
 
-public class GetHitFeedback : MonoBehaviour
+namespace redd096
 {
-    [Header("Blink - Default get component in children")]
-    [SerializeField] SpriteRenderer[] spritesToUse = default;
-    [SerializeField] Material blinkMaterial = default;
-    [SerializeField] float blinkDuration = 0.2f;
-
-    [Header("On Get Damage")]
-    [SerializeField] InstantiatedGameObjectStruct[] gameObjectsOnGetDamage = default;
-    [SerializeField] ParticleSystem particlesOnGetDamage = default;
-    [SerializeField] AudioClass audioOnGetDamage = default;
-
-    [Header("On Die")]
-    [SerializeField] bool destroyWeaponOnDeath = true;
-    [SerializeField] InstantiatedGameObjectStruct[] gameObjectsOnDie = default;
-    [SerializeField] ParticleSystem particlesOnDie = default;
-    [SerializeField] AudioClass audioOnDie = default;
-
-    HealthComponent component;
-    WeaponComponent weaponComponent;
-    Dictionary<SpriteRenderer, Material> savedMaterials = new Dictionary<SpriteRenderer, Material>();
-    Coroutine blinkCoroutine;
-
-    void Awake()
+    public class GetHitFeedback : MonoBehaviour
     {
-        //save materials
-        if (spritesToUse == null || spritesToUse.Length <= 0) spritesToUse = GetComponentsInChildren<SpriteRenderer>();
-        foreach (SpriteRenderer sprite in spritesToUse)
-            savedMaterials.Add(sprite, sprite.material);
-    }
+        [Header("Necessary Components - default get in parent")]
+        [SerializeField] HealthComponent component;
 
-    void OnEnable()
-    {
-        //get references
-        component = GetComponent<HealthComponent>();
-        weaponComponent = GetComponent<WeaponComponent>();
-        if (spritesToUse == null || spritesToUse.Length <= 0) spritesToUse = GetComponentsInChildren<SpriteRenderer>();
+        [Header("Blink - Default get component in children")]
+        [SerializeField] bool blinkOnGetDamage = true;
+        [EnableIf("blinkOnGetDamage")] [SerializeField] SpriteRenderer[] spritesToUse = default;
+        [EnableIf("blinkOnGetDamage")] [SerializeField] Material blinkMaterial = default;
+        [EnableIf("blinkOnGetDamage")] [SerializeField] float blinkDuration = 0.2f;
 
-        //add events
-        if (component)
+        [Header("On Get Damage")]
+        [SerializeField] InstantiatedGameObjectStruct gameObjectOnGetDamage = default;
+        [SerializeField] ParticleSystem particlesOnGetDamage = default;
+        [SerializeField] AudioClass audioOnGetDamage = default;
+
+        [Header("On Die")]
+        [SerializeField] InstantiatedGameObjectStruct gameObjectOnDie = default;
+        [SerializeField] ParticleSystem particlesOnDie = default;
+        [SerializeField] AudioClass audioOnDie = default;
+
+        Dictionary<SpriteRenderer, Material> savedMaterials = new Dictionary<SpriteRenderer, Material>();
+        Coroutine blinkCoroutine;
+
+        void Awake()
         {
-            component.onGetDamage += OnGetDamage;
-            component.onDie += OnDie;
-        }
-    }
-
-    void OnDisable()
-    {
-        //remove events
-        if (component)
-        {
-            component.onGetDamage -= OnGetDamage;
-            component.onDie -= OnDie;
-        }
-    }
-
-    #region private API
-
-    void OnGetDamage()
-    {
-        //instantiate vfx and sfx
-        foreach (InstantiatedGameObjectStruct objectOnGetDamage in gameObjectsOnGetDamage)
-        {
-            InstantiateGameObjectManager.instance.Play(objectOnGetDamage, transform.position, transform.rotation);
-        }
-        ParticlesManager.instance.Play(particlesOnGetDamage, transform.position, transform.rotation);
-        SoundManager.instance.Play(audioOnGetDamage, transform.position);
-
-        //blink
-        if (blinkCoroutine == null)
-            blinkCoroutine = StartCoroutine(BlinkCoroutine());
-    }
-
-    IEnumerator BlinkCoroutine()
-    {
-        //set blink material, wait, then back to saved material
-        foreach (SpriteRenderer sprite in savedMaterials.Keys)
-            sprite.material = blinkMaterial;
-
-        yield return new WaitForSeconds(blinkDuration);
-
-        foreach (SpriteRenderer sprite in savedMaterials.Keys)
-            sprite.material = savedMaterials[sprite];
-
-        blinkCoroutine = null;
-    }
-
-    void OnDie()
-    {
-        //destroy equipped weapon
-        if(destroyWeaponOnDeath)
-        {
-            if (weaponComponent && weaponComponent.CurrentWeapon)
-                Destroy(weaponComponent.CurrentWeapon.gameObject);
+            //save materials
+            if (spritesToUse == null || spritesToUse.Length <= 0) spritesToUse = GetComponentsInChildren<SpriteRenderer>();
+            foreach (SpriteRenderer sprite in spritesToUse)
+                savedMaterials.Add(sprite, sprite.material);
         }
 
-        //instantiate vfx and sfx
-        foreach (InstantiatedGameObjectStruct objectOnDie in gameObjectsOnDie)
+        void OnEnable()
         {
-            InstantiateGameObjectManager.instance.Play(objectOnDie, transform.position, transform.rotation);
-        }
-        ParticlesManager.instance.Play(particlesOnDie, transform.position, transform.rotation);
-        SoundManager.instance.Play(audioOnDie, transform.position);
-    }
+            //get references
+            if(component == null) component = GetComponentInParent<HealthComponent>();
+            if (spritesToUse == null || spritesToUse.Length <= 0) spritesToUse = GetComponentsInChildren<SpriteRenderer>();
 
-    #endregion
+            //add events
+            if (component)
+            {
+                component.onGetDamage += OnGetDamage;
+                component.onDie += OnDie;
+            }
+        }
+
+        void OnDisable()
+        {
+            //remove events
+            if (component)
+            {
+                component.onGetDamage -= OnGetDamage;
+                component.onDie -= OnDie;
+            }
+        }
+
+        #region private API
+
+        void OnGetDamage()
+        {
+            //instantiate vfx and sfx
+            InstantiateGameObjectManager.instance.Play(gameObjectOnGetDamage, transform.position, transform.rotation);
+            ParticlesManager.instance.Play(particlesOnGetDamage, transform.position, transform.rotation);
+            SoundManager.instance.Play(audioOnGetDamage, transform.position);
+
+            //blink
+            if (blinkCoroutine == null && blinkOnGetDamage)
+                blinkCoroutine = StartCoroutine(BlinkCoroutine());
+        }
+
+        IEnumerator BlinkCoroutine()
+        {
+            //set blink material, wait, then back to saved material
+            foreach (SpriteRenderer sprite in savedMaterials.Keys)
+                sprite.material = blinkMaterial;
+
+            yield return new WaitForSeconds(blinkDuration);
+
+            foreach (SpriteRenderer sprite in savedMaterials.Keys)
+                sprite.material = savedMaterials[sprite];
+
+            blinkCoroutine = null;
+        }
+
+        void OnDie()
+        {
+            //instantiate vfx and sfx
+            InstantiateGameObjectManager.instance.Play(gameObjectOnDie, transform.position, transform.rotation);
+            ParticlesManager.instance.Play(particlesOnDie, transform.position, transform.rotation);
+            SoundManager.instance.Play(audioOnDie, transform.position);
+        }
+
+        #endregion
+    }
 }
