@@ -13,10 +13,11 @@ namespace redd096
         [Tooltip("Set drag to 0 to not stop bullet")] [SerializeField] MovementComponent movementComponent;
 
         [Header("Layer Penetrable")]
-        [SerializeField] LayerMask layerPenetrable = default;
+        [Tooltip("Layers to hit but not destroy bullet")] [SerializeField] LayerMask layersPenetrable = default;
+        [Tooltip("Layers to ignore (no hit and no destroy bullet)")] [SerializeField] LayerMask layersToIgnore = default;
 
         [Header("Bullet")]
-        [SerializeField] bool friendlyFire = true;
+        [Header("When a character shoot, can hit also other characters of same type?")] [SerializeField] bool friendlyFire = true;
         [SerializeField] bool ignoreShield = false;
         [Tooltip("Knockback who hit")] [SerializeField] float knockBack = 1;
 
@@ -89,7 +90,7 @@ namespace redd096
 
             this.owner = owner;
             this.weapon = weapon;
-            ownerType = owner ? (int)owner.CharacterType : -1;
+            ownerType = owner ? (int)owner.CharacterType : -1;  //if is not a character, set type to -1
 
             //ignore every collision with owner
             if (owner)
@@ -130,6 +131,10 @@ namespace redd096
             if (alreadyDead)
                 return;
 
+            //be sure to not hit layers to ignore
+            if (hit != null && ContainsLayer(layersToIgnore, hit.layer))
+                return;
+
             //be sure to hit something, but not other bullets or weapons or this owner
             if (hit == null || hit.GetComponentInParent<Bullet>() || hit.GetComponentInParent<WeaponRange>() || (owner && hit.GetComponentInParent<Redd096Main>() == owner))
                 return;
@@ -141,7 +146,7 @@ namespace redd096
 
             //if friendly fire is disabled, be sure to not hit same type of character
             if (friendlyFire == false
-                && hitMain is Character && ((Character)hitMain).CharacterType == (Character.ECharacterType)ownerType)
+                && hitMain is Character && ((int)((Character)hitMain).CharacterType == ownerType))
                 return;
 
             //call event
@@ -157,7 +162,7 @@ namespace redd096
             }
 
             //if is not a penetrable layer, destroy this object
-            if (ContainsLayer(layerPenetrable, hit.layer) == false)
+            if (ContainsLayer(layersPenetrable, hit.layer) == false)
             {
                 //call event
                 onLastHit?.Invoke(hit);
@@ -194,10 +199,13 @@ namespace redd096
             foreach (Collider2D col in Physics2D.OverlapCircleAll(transform.position, radiusAreaDamage))
             {
                 Redd096Main hitMain = col.GetComponentInParent<Redd096Main>();
-                if (hitMain != null && hits.Contains(hitMain) == false)
+
+                //be sure to not hit again the same, and be sure is not in layers to ignore
+                if (hitMain != null && hits.Contains(hitMain) == false && ContainsLayer(layersToIgnore, hitMain.gameObject.layer))
                 {
-                    //add only one time in the list, and do damage
                     hits.Add(hitMain);
+
+                    //do damage
                     if (hitMain.GetSavedComponent<HealthComponent>()) hitMain.GetSavedComponent<HealthComponent>().GetDamage(damage);
 
                     //and knockback if necessary
