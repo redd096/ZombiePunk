@@ -2,8 +2,8 @@
 using UnityEngine;
 using redd096;
 
-[AddComponentMenu("redd096/Tasks FSM/Condition/Check Can See Component 2D Advanced")]
-public class CheckCanSeeComponent2DAdvanced : ConditionTask
+[AddComponentMenu("redd096/Tasks FSM/Condition/Check Can See Target 2D Advanced")]
+public class CheckCanSeeTarget2DAdvanced : ConditionTask
 {
     [Header("Necessary Components - default get in parent")]
     [SerializeField] AimComponent component;
