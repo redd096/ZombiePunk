@@ -9,7 +9,7 @@ namespace redd096
 
         [Header("Pivot - default is this transform")]
         [SerializeField] Transform objectPivot = default;
-        [SerializeField] float offsetFromPlayer = 1;
+        [SerializeField] float offsetFromCharacter = 0.5f;
 
         void OnEnable()
         {
@@ -27,9 +27,9 @@ namespace redd096
         void MoveWeapon()
         {
             //move to owner + offset
-            if (weaponBASE.Owner && weaponBASE.Owner.GetSavedComponent<AimComponent>())
+            if (weaponBASE && weaponBASE.Owner && weaponBASE.Owner.GetSavedComponent<AimComponent>())
             {
-                transform.position = (Vector2)weaponBASE.Owner.transform.position + (weaponBASE.Owner.GetSavedComponent<AimComponent>().AimDirectionInput * offsetFromPlayer);
+                objectPivot.position = (Vector2)weaponBASE.Owner.transform.position + (weaponBASE.Owner.GetSavedComponent<AimComponent>().AimDirectionInput * offsetFromCharacter);
             }
         }
     }

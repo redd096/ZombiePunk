@@ -16,7 +16,7 @@ namespace redd096
 		[Tooltip("Amplitude of the shake. A larger value shakes the camera harder")] [SerializeField] float shakeAmount = 0.7f;
 
 		[Header("Overwrite - start shake also if another is running")]
-		[Tooltip("If another shake is already running, stop it and start new one")] [SerializeField] bool ovewriteShake = true;
+		[Tooltip("If another shake is already running, stop it and start new one")] [SerializeField] bool overwriteShake = true;
 
 		Coroutine shakeCoroutine;
 		Vector3 originalPos;
@@ -72,7 +72,7 @@ namespace redd096
 				originalPos = camTransform.localPosition;
 
 			//do only if there is not another shake, or can overwrite it
-			if (shakeCoroutine == null || ovewriteShake)
+			if (shakeCoroutine == null || overwriteShake)
 			{
 				//start or restart shake coroutine
 				if (shakeCoroutine != null)

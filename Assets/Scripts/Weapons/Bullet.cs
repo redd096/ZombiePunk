@@ -34,6 +34,7 @@ namespace redd096
         [EnableIf("doAreaDamage")] [SerializeField] bool doAreaDamageAlsoOnAutoDestruction = true;
 
         [Header("DEBUG")]
+        [SerializeField] bool drawDebug = false;
         [ReadOnly] [SerializeField] Vector2 direction = Vector2.zero;
         [ReadOnly] [SerializeField] float damage = 0;
         [ReadOnly] [SerializeField] float bulletSpeed = 0;
@@ -65,10 +66,13 @@ namespace redd096
         void OnDrawGizmos()
         {
             //draw area damage
-            if (doAreaDamage && radiusAreaDamage > 0)
+            if (drawDebug)
             {
-                Gizmos.color = Color.red;
-                Gizmos.DrawWireSphere(transform.position, radiusAreaDamage);
+                if (doAreaDamage && radiusAreaDamage > 0)
+                {
+                    Gizmos.color = Color.red;
+                    Gizmos.DrawWireSphere(transform.position, radiusAreaDamage);
+                }
             }
         }
 

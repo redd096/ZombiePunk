@@ -11,8 +11,8 @@ public class AttackTarget : ActionTask
     [Header("Shoot")]
     [SerializeField] string targetBlackboardName = "Target";
     [SerializeField] float timeBeforeFirstAttack = 0.5f;
-    [SerializeField] float timeBetweenAttacks = 0.5f;
     [SerializeField] float durationAttack = 1;
+    [SerializeField] float timeBetweenAttacks = 0.5f;
 
     Transform target;
     float timerBeforeAttack;
