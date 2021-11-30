@@ -17,7 +17,7 @@ namespace redd096
         [Tooltip("Layers to ignore (no hit and no destroy bullet)")] [SerializeField] LayerMask layersToIgnore = default;
 
         [Header("Bullet")]
-        [Header("When a character shoot, can hit also other characters of same type?")] [SerializeField] bool friendlyFire = true;
+        [Tooltip("When a character shoot, can hit also other characters of same type?")] [SerializeField] bool friendlyFire = true;
         [SerializeField] bool ignoreShield = false;
         [Tooltip("Knockback who hit")] [SerializeField] float knockBack = 1;
 
