@@ -18,13 +18,13 @@ public class CheckCanSeeTarget2DAdvanced : ConditionTask
     [SerializeField] string saveTargetInBlackboardAs = "Target";
 
     [Header("DEBUG")]
-    [SerializeField] bool showDebug = false;
+    [SerializeField] bool drawDebug = false;
 
     List<Transform> possibleTargets = new List<Transform>();
 
     void OnDrawGizmos()
     {
-        if(showDebug)
+        if(drawDebug)
         {
             Gizmos.color = Color.red;
 

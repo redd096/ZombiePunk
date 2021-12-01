@@ -12,7 +12,7 @@ public class CheckDistance2D : ConditionTask
     [SerializeField] float distance = 7;
 
     [Header("DEBUG")]
-    [SerializeField] bool showDebug = false;
+    [SerializeField] bool drawDebug = false;
     [Range(0f, 0.1f)] [SerializeField] float equalsCheckThreshold = 0.05f;
     [Tooltip("Return true or false when target is null?")] [SerializeField] bool ifTargetIsNullReturnTrue = false;
 
@@ -21,7 +21,7 @@ public class CheckDistance2D : ConditionTask
     void OnDrawGizmos()
     {
         //draw radius distance
-        if(showDebug)
+        if(drawDebug)
         {
             Gizmos.color = Color.cyan;
             Gizmos.DrawWireSphere(transformTask.position, distance);

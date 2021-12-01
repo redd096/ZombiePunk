@@ -16,7 +16,7 @@ public class PatrolWithPathFinding : ActionTask
     [SerializeField] float timeToWaitWhenReach = 1;
 
     [Header("DEBUG")]
-    [SerializeField] bool showDebug = false;
+    [SerializeField] bool drawDebug = false;
     [Range(0f, 0.5f)] [SerializeField] float approxReachNode = 0.05f;
 
     Vector2 startPosition;
@@ -26,7 +26,7 @@ public class PatrolWithPathFinding : ActionTask
     void OnDrawGizmos()
     {
         //draw radius patrol
-        if (showDebug)
+        if (drawDebug)
         {
             Gizmos.color = Color.magenta;
             Gizmos.DrawWireSphere(Application.isPlaying ? startPosition : (Vector2)transformTask.position, radiusPatrol);
