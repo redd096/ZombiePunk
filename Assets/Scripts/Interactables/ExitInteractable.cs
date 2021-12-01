@@ -10,7 +10,7 @@ public class ExitInteractable : InteractableBASE
     [Tooltip("Check every player has weapon")] [SerializeField] bool checkEveryPlayerHasWeapon = true;
 
     [Header("On Interact")]
-    [SerializeField] string sceneToLoad = "Customize Scene";
+    [SerializeField] [Scene] string sceneToLoad = default;
 
     [Header("DEBUG")]
     [ReadOnly] [ShowNonSerializedField] bool isOpen;
