@@ -8,9 +8,10 @@ namespace redd096
         [Header("Weapon BASE")]
         public string WeaponName = "Weapon Name";
         public int WeaponPrice = 10;
-        [SerializeField] bool destroyWeaponOnDrop = true;
+        [ShowAssetPreview] public Sprite WeaponSprite = default;
 
         [Header("DEBUG")]
+        [SerializeField] bool destroyWeaponOnDrop = true;
         [ReadOnly] public Character Owner;
 
         //events

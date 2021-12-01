@@ -29,9 +29,16 @@ namespace redd096
             //get references
             owner = GetComponent<Character>();
 
-            //instantiate and equip default weapon
-            if (weaponPrefab)
+            //if there is a weapon in game manager, equip it
+            if (GameManager.instance && GameManager.instance.GetWeapon())
+            {
+                PickWeapon(Instantiate(GameManager.instance.GetWeapon()));
+            }
+            //else instantiate and equip default weapon
+            else if (weaponPrefab)
+            {
                 PickWeapon(Instantiate(weaponPrefab));
+            }
         }
 
         void OnEnable()
