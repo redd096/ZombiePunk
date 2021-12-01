@@ -4,7 +4,7 @@ namespace redd096
 {
     public class MoveWeaponFeedback : MonoBehaviour
     {
-        [Header("Necessary Components - default get from this gameObject")]
+        [Header("Necessary Components - default get in parent")]
         [SerializeField] WeaponBASE weaponBASE;
 
         [Header("Pivot - default is this transform")]
@@ -14,7 +14,7 @@ namespace redd096
         void OnEnable()
         {
             //get references
-            if(weaponBASE == null) weaponBASE = GetComponent<WeaponBASE>();
+            if(weaponBASE == null) weaponBASE = GetComponentInParent<WeaponBASE>();
             if (objectPivot == null) objectPivot = transform;
         }
 

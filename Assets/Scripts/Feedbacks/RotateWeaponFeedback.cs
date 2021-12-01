@@ -4,7 +4,7 @@ namespace redd096
 {
     public class RotateWeaponFeedback : MonoBehaviour
     {
-        [Header("Necessary Components - default get from this gameObject")]
+        [Header("Necessary Components - default get in parent")]
         [SerializeField] WeaponBASE weaponBASE;
 
         [Header("Sprites to flip - default get in children")]
@@ -16,7 +16,7 @@ namespace redd096
         void OnEnable()
         {
             //get references
-            if (weaponBASE == null) weaponBASE = GetComponent<WeaponBASE>();
+            if (weaponBASE == null) weaponBASE = GetComponentInParent<WeaponBASE>();
             if (spritesToFlip == null || spritesToFlip.Length <= 0) spritesToFlip = GetComponentsInChildren<SpriteRenderer>();
             if (objectPivot == null) objectPivot = transform;
         }

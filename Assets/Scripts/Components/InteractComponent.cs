@@ -30,6 +30,8 @@ namespace redd096
 		InteractableBASE[] possibleInteractables;
 		InteractableBASE nearestInteractable;
 
+		Redd096Main owner;
+
         void OnDrawGizmos()
         {
 			//draw area interactable
@@ -39,6 +41,12 @@ namespace redd096
 				Gizmos.DrawWireSphere(transform.position, radiusInteract);
 				Gizmos.color = Color.white;
 			}
+        }
+
+        void Awake()
+		{
+			//get references
+			owner = GetComponent<Redd096Main>();
         }
 
         void OnEnable()
@@ -128,15 +136,46 @@ namespace redd096
 			possibleInteractables = list.ToArray();
 			InteractableBASE nearest = FindNearest();
 
-			//call events and set nearest interactable
 			if(nearest != nearestInteractable)
-            {
-				onLostInteractable?.Invoke(nearestInteractable);
-				onFoundInteractable?.Invoke(nearest);
+			{
+				//call events
+				if (nearestInteractable)
+					onLostInteractable?.Invoke(nearestInteractable);
 
+				if(nearest)
+					onFoundInteractable?.Invoke(nearest);
+
+				//and set nearest interactable
 				nearestInteractable = nearest;
             }
 		}
+
+		/// <summary>
+		/// Interact with nearest interactable
+		/// </summary>
+		public void Interact()
+        {
+			if (nearestInteractable)
+				nearestInteractable.Interact(owner);
+        }
+
+		/// <summary>
+		/// Return nearest interactable
+		/// </summary>
+		/// <returns></returns>
+		public InteractableBASE GetNearestInteractable()
+        {
+			return nearestInteractable;
+        }
+
+		/// <summary>
+		/// Return a list of every possible interactable
+		/// </summary>
+		/// <returns></returns>
+		public InteractableBASE[] GetEveryPossibleInteractable()
+        {
+			return possibleInteractables;
+        }
 
 		#endregion
 	}

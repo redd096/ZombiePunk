@@ -5,7 +5,7 @@ namespace redd096
 {
     public class WeaponRangeFeedback : MonoBehaviour
     {
-        [Header("Necessary Components - default get from this gameObject")]
+        [Header("Necessary Components - default get in parent")]
         [SerializeField] WeaponRange weaponRange;
 
         [Header("On Instantiate Bullet")]
@@ -39,7 +39,7 @@ namespace redd096
         void OnEnable()
         {
             //get references
-            if(weaponRange == null) weaponRange = GetComponent<WeaponRange>();
+            if(weaponRange == null) weaponRange = GetComponentInParent<WeaponRange>();
             if (mainBarrel == null) mainBarrel = transform;
             if (barrelOnPress == null) barrelOnPress = transform;
 

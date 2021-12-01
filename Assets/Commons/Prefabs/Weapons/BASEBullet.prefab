@@ -182,9 +182,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementComponent: {fileID: 9155807054505577213}
-  layerPenetrable:
+  layersPenetrable:
     serializedVersion: 2
     m_Bits: 0
+  layersToIgnore:
+    serializedVersion: 2
+    m_Bits: 512
   friendlyFire: 1
   ignoreShield: 0
   knockBack: 1
@@ -196,6 +199,7 @@ MonoBehaviour:
   knockbackAlsoInArea: 1
   delayAutodestruction: 0
   doAreaDamageAlsoOnAutoDestruction: 1
+  drawDebug: 0
   direction: {x: 0, y: 0}
   damage: 0
   bulletSpeed: 0

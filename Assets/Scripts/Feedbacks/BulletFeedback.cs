@@ -5,7 +5,7 @@ namespace redd096
 {
     public class BulletFeedback : MonoBehaviour
     {
-        [Header("Necessary Components - default get from this gameObject")]
+        [Header("Necessary Components - default get in parent")]
         [SerializeField] Bullet bullet;
 
         [Header("On Hit (also if move through this object)")]
@@ -41,7 +41,7 @@ namespace redd096
         {
             //get references
             if(bullet == null)
-                bullet = GetComponent<Bullet>();
+                bullet = GetComponentInParent<Bullet>();
 
             //add events
             if (bullet)

@@ -68,7 +68,7 @@ namespace redd096
             }
 
             //set new state
-            CurrentState = States != null && States.Length > nextState ? States[nextState] : null;
+            CurrentState = nextState >= 0 && States != null && States.Length > nextState ? States[nextState] : null;
 
             //enter in new state
             if(CurrentState != null)

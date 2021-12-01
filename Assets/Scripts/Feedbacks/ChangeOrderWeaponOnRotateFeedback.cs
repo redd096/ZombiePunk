@@ -4,7 +4,7 @@ namespace redd096
 {
     public class ChangeOrderWeaponOnRotateFeedback : MonoBehaviour
     {
-        [Header("Necessary Components - default get from this gameObject")]
+        [Header("Necessary Components - default get in parent")]
         [SerializeField] WeaponBASE weaponBASE;
 
         [Header("Sprites - default get in children")]
@@ -17,7 +17,7 @@ namespace redd096
         void OnEnable()
         {
             //get referemces
-            if(weaponBASE == null) weaponBASE = GetComponent<WeaponBASE>();
+            if(weaponBASE == null) weaponBASE = GetComponentInParent<WeaponBASE>();
             if (spritesToUse == null || spritesToUse.Length <= 0) spritesToUse = GetComponentsInChildren<SpriteRenderer>();
 
             //add events

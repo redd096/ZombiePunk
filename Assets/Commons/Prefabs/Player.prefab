@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 500905860386566410}
   - component: {fileID: 1679298214608976014}
   - component: {fileID: 3062211758472486148}
+  - component: {fileID: 7120763324073849737}
   m_Layer: 10
   m_Name: NormalState
   m_TagString: Untagged
@@ -102,6 +103,22 @@ MonoBehaviour:
   playerInput: {fileID: 1427099914}
   pressType: 1
   buttonName: Pause
+--- !u!114 &7120763324073849737
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162182017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d97c322900c054b419fd13a05aec2674, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TaskName: '[CONDITION] TimeScale <= 0'
+  compare: 4
+  value: 0
+  equalsCheckThreshold: 0.05
 --- !u!1 &1395402416062982212
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,6 +334,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   updateMode: 2
   timeCoroutine: 0.1
+  radiusInteract: 1.5
+  layersToIgnore:
+    serializedVersion: 2
+    m_Bits: 0
+  drawDebug: 0
 --- !u!114 &1499721902347103055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -563,9 +585,10 @@ MonoBehaviour:
     - {fileID: 1679298214608976014}
     Transitions:
     - StateDestination: 1
-      TransitionCheck: 0
+      TransitionCheck: 1
       Conditions:
       - {fileID: 3062211758472486148}
+      - {fileID: 7120763324073849737}
   - StateName: Pause State
     Actions:
     - {fileID: 5936289722176551963}

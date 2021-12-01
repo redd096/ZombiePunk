@@ -5,7 +5,7 @@ namespace redd096
 {
     public class WeaponBASEFeedback : MonoBehaviour
     {
-        [Header("Necessary Components - default get from this gameObject")]
+        [Header("Necessary Components - default get in parent")]
         [SerializeField] WeaponBASE weaponBASE;
 
         [Header("On Pick")]
@@ -34,7 +34,7 @@ namespace redd096
         {
             //get references
             if(weaponBASE == null)
-                weaponBASE = GetComponent<WeaponBASE>();
+                weaponBASE = GetComponentInParent<WeaponBASE>();
 
             //add events
             if (weaponBASE)

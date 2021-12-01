@@ -16,13 +16,21 @@ namespace redd096
 
         //events
         public System.Action onGetDamage { get; set; }
-        public System.Action onDie { get; set; }
+        public System.Action<Redd096Main> onDie { get; set; }
         public System.Action onGetHealth { get; set; }
+
+        Redd096Main owner;
 
         void OnValidate()
         {
             //set default health
             CurrentHealth = MaxHealth;
+        }
+
+        void Awake()
+        {
+            //get references
+            owner = GetComponent<Redd096Main>();
         }
 
         /// <summary>
@@ -59,7 +67,7 @@ namespace redd096
             alreadyDead = true;
 
             //call event
-            onDie?.Invoke();
+            onDie?.Invoke(owner);
 
             //destroy object
             Destroy(gameObject);

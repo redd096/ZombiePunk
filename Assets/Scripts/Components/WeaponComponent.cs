@@ -18,8 +18,9 @@ namespace redd096
         [ReadOnly] public WeaponBASE CurrentWeapon = default;
 
         //events
-        public System.Action onPickEquip { get; set; }
-        public System.Action onDropEquip { get; set; }
+        public System.Action onPickWeapon { get; set; }         //called at every pick
+        public System.Action onDropWeapon { get; set; }         //called at every drop
+        public System.Action onChangeWeapon { get; set; }       //called at every pick and every drop
 
         Character owner;
 
@@ -55,7 +56,7 @@ namespace redd096
             }
         }
 
-        void OnDie()
+        void OnDie(Redd096Main whoDied)
         {
             //save weapon to destroy
             GameObject weaponToDestroy = CurrentWeapon ? CurrentWeapon.gameObject : null;
@@ -86,8 +87,9 @@ namespace redd096
             //set equip owner
             CurrentWeapon.PickWeapon(owner);
 
-            //call event
-            onPickEquip?.Invoke();
+            //call events
+            onPickWeapon?.Invoke();
+            onChangeWeapon?.Invoke();
         }
 
         /// <summary>
@@ -105,7 +107,8 @@ namespace redd096
             CurrentWeapon = null;
 
             //call event
-            onDropEquip?.Invoke();
+            onDropWeapon?.Invoke();
+            onChangeWeapon?.Invoke();
         }
     }
 }

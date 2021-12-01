@@ -28,6 +28,7 @@ Managers In Scene
 
 Level Manager
 - contiene la lista dei giocatori in game
+- contiene la lista dei nemici in game
 - alla morte di un giocatore, chiama lo UIManager per far apparire il menu di sconfitta
 
 Camera Shake
@@ -97,6 +98,11 @@ Movement Component
 Aim Component
 - usato per mirare (sapere dove dirigere i proiettili, dove girare gli sprite, ecc...)
 - si possono richiedere la direzione in cui si mira (destra/sinistra), sia la posizione richiesta che la direzione normalizzata
+
+Interactable Component
+- usato per trovare l'interactable più vicino
+- ha funzioni per interagire con l'interactable trovato
+- si possono richiamare quali sono gli interactable trovati
 
 Health Component
 - usato per subire danni e morire, oppure per ricaricarsi la vita
@@ -213,3 +219,18 @@ Bullet Feedback
 - VFX e SFX quando il proiettile si autodistrugge senza hittare niente
 - VFX e SFX quando il proiettile si distrugge (sia autodistruzione che hit)
 - CameraShake attivabile quando si hitta e/o si distrugge
+
+---------------------------------------------------------------------------------------------------
+Interactables
+---------------------------------------------------------------------------------------------------
+
+ExitInteractable
+- usato per caricare una nuova scena
+- ha delle regole per aprirsi
+
+---------------------------------------------------------------------------------------------------
+Interactables Feedbacks
+---------------------------------------------------------------------------------------------------
+
+ExitFeedbacks
+- chiama l'animator quando si apre o si chiude
