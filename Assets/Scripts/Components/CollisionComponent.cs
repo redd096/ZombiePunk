@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
 
@@ -7,11 +8,12 @@ namespace redd096
 	[AddComponentMenu("redd096/Components/Collision Component")]
 	public class CollisionComponent : MonoBehaviour
 	{
-		enum EUpdateModes { Update, FixedUpdate }
+		enum EUpdateModes { Update, FixedUpdate, Coroutine }
 		public enum EDirectionEnum { up, right, left, down }
 
 		[Header("Check Raycasts")]
-		[Tooltip("Check collisions on Update or FixedUpdate?")] [SerializeField] EUpdateModes updateMode = EUpdateModes.FixedUpdate;
+		[Tooltip("Check collisions on Update or FixedUpdate?")] [SerializeField] EUpdateModes updateMode = EUpdateModes.Coroutine;
+		[EnableIf("updateMode", EUpdateModes.Coroutine)] [SerializeField] float timeCoroutine = 0.1f;
 		[Tooltip("Number of rays cast for every side horizontally")] [SerializeField] int numberOfHorizontalRays = 4;
 		[Tooltip("Number of rays cast for every side vertically")] [SerializeField] int numberOfVerticalRays = 4;
 		[Tooltip("A small value to accomodate for edge cases")] [SerializeField] float offsetRays = 0.01f;
@@ -48,7 +50,27 @@ namespace redd096
 		//for debug
 		float drawDebugDuration = -1;
 
-		void Update()
+		//update mode
+		Coroutine updateCoroutine;
+
+        void OnEnable()
+        {
+			//start coroutine
+			if(updateMode == EUpdateModes.Coroutine)
+				updateCoroutine = StartCoroutine(UpdateCoroutine());
+        }
+
+        void OnDisable()
+		{
+			//be sure to stop coroutine
+			if (updateCoroutine != null)
+			{
+				StopCoroutine(updateCoroutine);
+				updateCoroutine = null;
+			}
+		}
+
+        void Update()
 		{
 			//do only if update mode is Update
 			if (updateMode == EUpdateModes.Update)
@@ -61,6 +83,16 @@ namespace redd096
 			if (updateMode == EUpdateModes.FixedUpdate)
 				UpdateCollisions();
 		}
+
+		IEnumerator UpdateCoroutine()
+        {
+			//do only if update mode is Coroutine
+			while(updateMode == EUpdateModes.Coroutine)
+            {
+				UpdateCollisions();
+				yield return new WaitForSeconds(timeCoroutine);
+            }
+        }
 
 		[Button]
 		void DrawCollisions()

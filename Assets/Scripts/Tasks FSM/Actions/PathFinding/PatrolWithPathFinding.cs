@@ -17,7 +17,7 @@ public class PatrolWithPathFinding : ActionTask
 
     [Header("DEBUG")]
     [SerializeField] bool showDebug = false;
-    [Range(0f, 0.1f)] [SerializeField] float approxReachNode = 0.05f;
+    [Range(0f, 0.5f)] [SerializeField] float approxReachNode = 0.05f;
 
     Vector2 startPosition;
     float waitTimer;

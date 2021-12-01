@@ -15,7 +15,7 @@ public class ChaseWithPathFinding : ActionTask
     [SerializeField] float speedChase = 5;
 
     [Header("DEBUG")]
-    [Range(0f, 0.1f)] [SerializeField] float approxReachNode = 0.05f;
+    [Range(0f, 0.5f)] [SerializeField] float approxReachNode = 0.05f;
 
     Transform target;
     List<Node> path;

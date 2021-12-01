@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 namespace redd096
 {
@@ -8,11 +9,13 @@ namespace redd096
         [SerializeField] bool friendlyFire = false;
         [SerializeField] float damage = 10;
         [SerializeField] float pushForce = 10;
-
-        Character character;
+        [Tooltip("Necessary for on collision stay, to not call damage every frame")] [SerializeField] float delayBetweenAttacks = 1;
 
         //events
         public System.Action onHit { get; set; }
+
+        Character character;
+        Dictionary<Character, float> hits = new Dictionary<Character, float>();
 
         void Awake()
         {
@@ -21,22 +24,68 @@ namespace redd096
 
         void OnCollisionEnter2D(Collision2D collision)
         {
-            //check if hit character
+            //check if hit character and is not already in the list
             Character hitCharacter = collision.gameObject.GetComponentInParent<Character>();
-            if (hitCharacter &&
-                (character == null || hitCharacter != character) &&                                                 //be sure to not hit self
-                (character == null || friendlyFire || hitCharacter.CharacterType != character.CharacterType))       //and be sure is enabled friendly fire or hit another type of character
+            if (hitCharacter && hits.ContainsKey(hitCharacter) == false)
             {
-                //call event
-                onHit?.Invoke();
-
-                //if hit something, do damage and push back
-                if (hitCharacter.GetSavedComponent<HealthComponent>())
-                    hitCharacter.GetSavedComponent<HealthComponent>().GetDamage(damage);
-
-                if (hitCharacter && hitCharacter.GetSavedComponent<MovementComponent>())
-                    hitCharacter.GetSavedComponent<MovementComponent>().PushInDirection(((Vector2)hitCharacter.transform.position - collision.GetContact(0).point).normalized, pushForce);
+                //check can damage
+                if ((character == null || hitCharacter != character) &&                                                 //be sure to not hit self
+                    (character == null || friendlyFire || hitCharacter.CharacterType != character.CharacterType))       //and be sure is enabled friendly fire or hit another type of character
+                {
+                    //damage it and add to the list
+                    OnHit(collision, hitCharacter);
+                    hits.Add(hitCharacter, Time.time + delayBetweenAttacks);    //set timer
+                }
             }
+        }
+
+        void OnCollisionStay2D(Collision2D collision)
+        {
+            //check if hit character and is in the list
+            Character hitCharacter = collision.gameObject.GetComponentInParent<Character>();
+            if (hitCharacter && hits.ContainsKey(hitCharacter))
+            {
+                //damage after delay
+                if (Time.time > hits[hitCharacter])
+                {
+                    OnHit(collision, hitCharacter);
+                    hits[hitCharacter] = Time.time + delayBetweenAttacks;       //reset timer
+                }
+            }
+        }
+
+        void OnCollisionExit2D(Collision2D collision)
+        {
+            //check if hit character and is in the list
+            Character hitCharacter = collision.gameObject.GetComponentInParent<Character>();
+            if (hitCharacter && hits.ContainsKey(hitCharacter))
+            {
+                //remove from the list
+                hits.Remove(hitCharacter);
+            }
+        }
+
+        void OnHit(Collision2D collision, Character hitCharacter)
+        {
+            //if there is no character, do nothing
+            if(hitCharacter == null)
+            {
+                //and remove from the list
+                if (hits.ContainsKey(hitCharacter))
+                    hits.Remove(hitCharacter);
+
+                return;
+            }
+
+            //call event
+            onHit?.Invoke();
+
+            //do damage and push back
+            if (hitCharacter.GetSavedComponent<HealthComponent>())
+                hitCharacter.GetSavedComponent<HealthComponent>().GetDamage(damage);
+
+            if (hitCharacter && hitCharacter.GetSavedComponent<MovementComponent>())
+                hitCharacter.GetSavedComponent<MovementComponent>().PushInDirection(((Vector2)hitCharacter.transform.position - collision.GetContact(0).point).normalized, pushForce);
         }
     }
 }

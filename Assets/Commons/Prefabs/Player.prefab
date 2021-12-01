@@ -196,6 +196,7 @@ GameObject:
   - component: {fileID: 8030054746575277773}
   - component: {fileID: 9212065468761235124}
   - component: {fileID: 1574786710114621755}
+  - component: {fileID: 8714289106783076041}
   - component: {fileID: 1499721902347103055}
   - component: {fileID: 1188341792263175973}
   - component: {fileID: 1427099914}
@@ -248,7 +249,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82478a5c24b4a4d409856fb238f53755, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateMode: 1
+  updateMode: 2
+  timeCoroutine: 0.1
   numberOfHorizontalRays: 4
   numberOfVerticalRays: 4
   offsetRays: 0.01
@@ -301,6 +303,20 @@ MonoBehaviour:
   IsLookingRight: 1
   AimDirectionInput: {x: 0, y: 0}
   AimPositionNotNormalized: {x: 0, y: 0}
+--- !u!114 &8714289106783076041
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395402416665274895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 62364d43e17515b4880122ff08a28f56, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  updateMode: 2
+  timeCoroutine: 0.1
 --- !u!114 &1499721902347103055
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -563,6 +579,7 @@ MonoBehaviour:
     StateName: 
     Actions: []
     Transitions: []
+  blackboardDebug: []
 --- !u!1 &8821669000293377164
 GameObject:
   m_ObjectHideFlags: 0
@@ -638,7 +655,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TaskName: '[CONDITION] TimeScale > 0'
-  playerInput: {fileID: 1427099914}
   compare: 1
   value: 0
   equalsCheckThreshold: 0.05
