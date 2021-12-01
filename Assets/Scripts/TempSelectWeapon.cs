@@ -7,6 +7,7 @@ using NaughtyAttributes;
 public class TempSelectWeapon : MonoBehaviour
 {
     [Header("Buttons in scene")]
+    [SerializeField] bool hideButtonsIfNotUsed = true;
     [SerializeField] Button[] buttonsInScene = default;
 
     [Header("Prefabs of every weapon possible")]
@@ -21,15 +22,23 @@ public class TempSelectWeapon : MonoBehaviour
         List<WeaponBASE> weapons = new List<WeaponBASE>(weaponsPrefabs);
         for(int i = 0; i < buttonsInScene.Length; i++)
         {
-            if (buttonsInScene[i] && weapons.Count > 0)
+            if (buttonsInScene[i])
             {
-                //find a random weapon and set button with this
-                WeaponBASE randomWeapon = weapons[Random.Range(0, weapons.Count)];
-                buttonsInScene[i].image.sprite = randomWeapon.WeaponSprite;
-                buttonsInScene[i].onClick.AddListener(() => SetWeapon(randomWeapon));
+                if (weapons.Count > 0)
+                {
+                    //find a random weapon and set button with this
+                    WeaponBASE randomWeapon = weapons[Random.Range(0, weapons.Count)];
+                    buttonsInScene[i].image.sprite = randomWeapon.WeaponSprite;
+                    buttonsInScene[i].onClick.AddListener(() => SetWeapon(randomWeapon));
 
-                //remove weapon from the list, to not have duplicates
-                weapons.Remove(randomWeapon);
+                    //remove weapon from the list, to not have duplicates
+                    weapons.Remove(randomWeapon);
+                }
+                //if there are not enough weapons, deactive button if setted
+                else if(hideButtonsIfNotUsed)
+                {
+                    buttonsInScene[i].gameObject.SetActive(false);
+                }
             }
         }
     }
