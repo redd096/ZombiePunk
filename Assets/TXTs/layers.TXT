@@ -8,5 +8,6 @@ order in layer:
 
 layer fisici:
 - NotNavigableWithPathFinding, usato dal PathFinding come layer not walkable, usato anche dai nemici come muri da evitare (settato su Tilemap con collider)
-- CharactersIgnoreCollisionWithThis, usato dal CollisionComponent dei Character per sapere quale layer ignorare, lo ignorano anche i bullets (settato sul prefab dei proiettili e sugli interagibili)
+- CharactersIgnoreCollisionWithThis, usato dal CollisionComponent dei Character per sapere quale layer ignorare, lo ignorano anche i bullets (settato sul prefab dei proiettili e degli interagibili)
 - Player, usato dai nemici per trovare un target (settato sul prefab del Player)
+- Enemy, usato dal CollisionComponent dei Nemici per ignorarsi tra di loro e non scontrarsi (settato sul prefab dei Nemici)

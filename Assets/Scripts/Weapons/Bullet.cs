@@ -15,6 +15,7 @@ namespace redd096
         [Header("Layer Penetrable")]
         [Tooltip("Layers to hit but not destroy bullet")] [SerializeField] LayerMask layersPenetrable = default;
         [Tooltip("Layers to ignore (no hit and no destroy bullet)")] [SerializeField] LayerMask layersToIgnore = default;
+        [Tooltip("Ignore trigger colliders")] [SerializeField] bool ignoreTriggers = true;
 
         [Header("Bullet")]
         [Tooltip("When a character shoot, can hit also other characters of same type?")] [SerializeField] bool friendlyFire = true;
@@ -125,22 +126,25 @@ namespace redd096
 
         void OnCollisionEnter2D(Collision2D collision)
         {
-            OnHit(collision.gameObject);
+            OnHit(collision);
         }
 
         #region private API
 
-        void OnHit(GameObject hit)
+        void OnHit(Collision2D collision)
         {
             if (alreadyDead)
                 return;
 
-            //be sure to not hit layers to ignore
-            if (hit != null && ContainsLayer(layersToIgnore, hit.layer))
+            GameObject hit = collision.gameObject;
+
+            //be sure to hit something and be sure to not hit layers to ignore
+            if (hit == null || ContainsLayer(layersToIgnore, hit.layer)
+                || (ignoreTriggers && collision.collider.isTrigger))        //if ignore triggers, be sure to not hit triggers
                 return;
 
-            //be sure to hit something, but not other bullets or weapons or this owner
-            if (hit == null || hit.GetComponentInParent<Bullet>() || hit.GetComponentInParent<WeaponRange>() || (owner && hit.GetComponentInParent<Redd096Main>() == owner))
+            //be sure to not hit other bullets or weapons or this owner
+            if (hit.GetComponentInParent<Bullet>() || hit.GetComponentInParent<WeaponRange>() || (owner && hit.GetComponentInParent<Character>() == owner))
                 return;
 
             //don't hit again same object (for penetrate shots)
@@ -204,8 +208,9 @@ namespace redd096
             {
                 Redd096Main hitMain = col.GetComponentInParent<Redd096Main>();
 
-                //be sure to not hit again the same, and be sure is not in layers to ignore
-                if (hitMain != null && hits.Contains(hitMain) == false && ContainsLayer(layersToIgnore, hitMain.gameObject.layer))
+                if (hitMain != null && hits.Contains(hitMain) == false                      //be sure hit something and is not already hitted
+                    && ContainsLayer(layersToIgnore, hitMain.gameObject.layer) == false     //be sure is not in layers to ignore
+                    && (ignoreTriggers == false || col.isTrigger == false))                 //be sure is not enabled ignoreTriggers, or is not trigger
                 {
                     hits.Add(hitMain);
 
