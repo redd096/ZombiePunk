@@ -222,8 +222,8 @@ namespace redd096
         public void MoveInDirection(Vector2 direction, float newSpeed)
         {
             //save last input direction + set movement
-            MoveDirectionInput = direction;
-            desiredVelocity = direction * newSpeed;
+            MoveDirectionInput = direction.normalized;
+            desiredVelocity = MoveDirectionInput * newSpeed;
         }
 
         /// <summary>
