@@ -174,7 +174,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7913340268479855512}
   - component: {fileID: 7913340268479855517}
-  - component: {fileID: 7913340268479855518}
   - component: {fileID: 7913340268479855519}
   m_Layer: 0
   m_Name: PathFinding
@@ -214,27 +213,6 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   updateOnAwake: 1
-  gridWorldSize: {x: 18, y: 10}
-  nodeDiameter: 1
-  overlapDiameter: 0.9
-  alphaNodes: 0.3
---- !u!114 &7913340268479855518
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7913340268479855513}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba434c3300cc8704397df0d631a6ea8f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useZ: 0
-  unwalkableMask:
-    serializedVersion: 2
-    m_Bits: 0
-  updateOnAwake: 0
   gridWorldSize: {x: 18, y: 10}
   nodeDiameter: 1
   overlapDiameter: 0.9

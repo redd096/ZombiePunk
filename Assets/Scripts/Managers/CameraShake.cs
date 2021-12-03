@@ -41,13 +41,18 @@ namespace redd096
 			//shake
 			while (shake > Time.time && Time.timeScale > 0)
 			{
+				//stop if there is no camera
+				if (camTransform == null)
+					break;
+
 				camTransform.localPosition = originalPos + Random.insideUnitSphere * amount;
 
 				yield return null;
 			}
 
 			//then reset to original position
-			camTransform.localPosition = originalPos;
+			if(camTransform)
+				camTransform.localPosition = originalPos;
 
 			shakeCoroutine = null;
 		}
@@ -68,7 +73,7 @@ namespace redd096
 		public void StartShake(float duration, float amount)
 		{
 			//set start position if no shake is running
-			if (shakeCoroutine == null)
+			if (shakeCoroutine == null && camTransform)
 				originalPos = camTransform.localPosition;
 
 			//do only if there is not another shake, or can overwrite it

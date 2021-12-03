@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 4530200245026224416}
   - component: {fileID: 4613187070457227814}
   - component: {fileID: 6115611408477706948}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: PatrolState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -51,7 +51,7 @@ MonoBehaviour:
   radiusPatrol: 5
   speedPatrol: 2
   timeToWaitWhenReach: 1
-  showDebug: 0
+  drawDebug: 0
   approxReachNode: 0.05
 --- !u!114 &6115611408477706948
 MonoBehaviour:
@@ -74,7 +74,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 256
   saveTargetInBlackboardAs: Target
-  showDebug: 0
+  drawDebug: 0
 --- !u!1 &3201550107863072112
 GameObject:
   m_ObjectHideFlags: 0
@@ -86,7 +86,7 @@ GameObject:
   - component: {fileID: 54514933447892740}
   - component: {fileID: 249290229373077359}
   - component: {fileID: 3226339378362866299}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ShootState
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -124,8 +124,8 @@ MonoBehaviour:
   aimComponent: {fileID: 1287676850431733405}
   targetBlackboardName: Target
   timeBeforeFirstAttack: 0.5
-  timeBetweenAttacks: 0.5
   durationAttack: 1
+  timeBetweenAttacks: 0.5
 --- !u!114 &3226339378362866299
 MonoBehaviour:
   m_ObjectHideFlags: 0
