@@ -14,6 +14,7 @@ public class ExitInteractable : InteractableBASE
 
     [Header("DEBUG")]
     [ReadOnly] [ShowNonSerializedField] bool isOpen;
+    public bool IsOpen => isOpen;
 
     //events
     public System.Action onOpen { get; set; }

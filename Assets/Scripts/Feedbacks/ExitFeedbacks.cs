@@ -10,6 +10,8 @@ public class ExitFeedbacks : MonoBehaviour
     [SerializeField] string closeAnimation = "Close";
     [SerializeField] string openAnimation = "Open";
 
+    bool isOpen;
+
     void OnEnable()
     {
         //get references
@@ -21,6 +23,13 @@ public class ExitFeedbacks : MonoBehaviour
         {
             interactable.onOpen += OnOpen;
             interactable.onClose += OnClose;
+
+            //open if interactable is open but animator is still closed
+            if (interactable.IsOpen && isOpen == false)
+                OnOpen();
+            //or close if is close but animator is still opened
+            else if (interactable.IsOpen == false && isOpen)
+                OnClose();
         }
     }
 
@@ -36,6 +45,8 @@ public class ExitFeedbacks : MonoBehaviour
 
     void OnOpen()
     {
+        isOpen = true;
+
         //move to open animation
         if(anim)
         {
@@ -45,6 +56,8 @@ public class ExitFeedbacks : MonoBehaviour
 
     void OnClose()
     {
+        isOpen = false;
+
         //move to close animation
         if (anim)
         {
