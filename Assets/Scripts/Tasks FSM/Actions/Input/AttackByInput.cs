@@ -43,7 +43,7 @@ public class AttackByInput : ActionTask
         {
             isAttacking = true;
 
-            if (component && component.CurrentWeapon)
+            if (component.CurrentWeapon)
                 component.CurrentWeapon.PressAttack();
         }
         //on release, stop it if automatic shoot
@@ -51,7 +51,7 @@ public class AttackByInput : ActionTask
         {
             isAttacking = false;
 
-            if (component && component.CurrentWeapon)
+            if (component.CurrentWeapon)
                 component.CurrentWeapon.ReleaseAttack();
         }
     }

@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using NaughtyAttributes;
 
 namespace redd096
 {
@@ -21,11 +22,19 @@ namespace redd096
         public float Damage = 10;
         public float BulletSpeed = 10;
 
+        [Header("Ammo")]
+        public bool hasAmmo = true;
+        [OnValueChanged("ChangedMaxAmmo")] [EnableIf("hasAmmo")] [Min(0)] public int maxAmmo = 32;
+        [ReadOnly] public int currentAmmo = 32;
+        [EnableIf("hasAmmo")] public float delayReload = 1;
+
         [Header("DEBUG")]
         [SerializeField] bool drawDebug = false;
 
+        //private
         float timeForNextShot;
         Coroutine automaticShootCoroutine;
+        Coroutine reloadCoroutine;
 
         //bullets
         Pooling<Bullet> bulletsPooling = new Pooling<Bullet>();
@@ -46,6 +55,12 @@ namespace redd096
         public System.Action onShoot { get; set; }
         public System.Action onPressAttack { get; set; }
         public System.Action onReleaseAttack { get; set; }
+
+        void ChangedMaxAmmo()
+        {
+            //when change max ammo, reset current ammo (used by editor)
+            currentAmmo = maxAmmo;
+        }
 
         public override void PressAttack()
         {
@@ -81,6 +96,27 @@ namespace redd096
             onReleaseAttack?.Invoke();
         }
 
+        public void Reload()
+        {
+            //do only if this weapon has ammo, and is not full
+            if (hasAmmo && currentAmmo < maxAmmo)
+            {
+                //start reload coroutine
+                if (reloadCoroutine == null)
+                    reloadCoroutine = StartCoroutine(ReloadCoroutine());
+            }
+        }
+
+        public void AbortReload()
+        {
+            //stop reload coroutine if running
+            if(reloadCoroutine != null)
+            {
+                StopCoroutine(reloadCoroutine);
+                reloadCoroutine = null;
+            }
+        }
+
         #region private API
 
         /// <summary>
@@ -88,6 +124,22 @@ namespace redd096
         /// </summary>
         void Shoot()
         {
+            //if this weapon has ammo
+            if(hasAmmo)
+            {
+                //if there are not enough ammos, start reload instead of shoot
+                if(currentAmmo <= 0)
+                {
+                    Reload();
+                    return;
+                }
+                //else remove ammos
+                else
+                {
+                    currentAmmo--;
+                }
+            }
+
             //shoot every bullet
             if (BarrelSimultaneously)
             {
@@ -160,6 +212,17 @@ namespace redd096
 
                 yield return null;
             }
+        }
+
+        IEnumerator ReloadCoroutine()
+        {
+            //wait
+            yield return new WaitForSeconds(delayReload);
+
+            //then reload ammos
+            currentAmmo = maxAmmo;
+
+            reloadCoroutine = null;
         }
 
         #endregion

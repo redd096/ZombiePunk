@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 500905860386566410}
   - component: {fileID: 1679298214608976014}
   - component: {fileID: 6756547324650557166}
+  - component: {fileID: 6833780260954007610}
   - component: {fileID: 3062211758472486148}
   - component: {fileID: 7120763324073849737}
   m_Layer: 10
@@ -104,6 +105,22 @@ MonoBehaviour:
   component: {fileID: 8714289106783076041}
   playerInput: {fileID: 1427099914}
   inputName: Interact
+--- !u!114 &6833780260954007610
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162182017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4c06b3f86f8a5e84da38c95b1038ff3c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TaskName: '[ACTION] Reload'
+  component: {fileID: 1188341792263175973}
+  playerInput: {fileID: 1427099914}
+  inputName: Reload
 --- !u!114 &3062211758472486148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -685,6 +702,7 @@ MonoBehaviour:
     - {fileID: 500905860386566410}
     - {fileID: 1679298214608976014}
     - {fileID: 6756547324650557166}
+    - {fileID: 6833780260954007610}
     Transitions:
     - StateDestination: 1
       TransitionCheck: 1
