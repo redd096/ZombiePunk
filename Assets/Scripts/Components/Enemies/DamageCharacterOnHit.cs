@@ -5,8 +5,11 @@ namespace redd096
 {
     public class DamageCharacterOnHit : MonoBehaviour
     {
+        [Header("Do Damage On Hit?")]
+        [SerializeField] bool isActive = true;
+
         [Header("Damage")]
-        [SerializeField] bool friendlyFire = false;
+        [SerializeField] List<Character.ECharacterType> charactersToHit = new List<Character.ECharacterType>() { Character.ECharacterType.Player };
         [SerializeField] float damage = 10;
         [SerializeField] float pushForce = 10;
         [Tooltip("Necessary for on collision stay, to not call damage every frame")] [SerializeField] float delayBetweenAttacks = 1;
@@ -19,18 +22,22 @@ namespace redd096
 
         void Awake()
         {
+            //get references
             character = GetComponent<Character>();
         }
 
         void OnCollisionEnter2D(Collision2D collision)
         {
+            if (isActive == false)
+                return;
+
             //check if hit character and is not already in the list
             Character hitCharacter = collision.gameObject.GetComponentInParent<Character>();
             if (hitCharacter && hits.ContainsKey(hitCharacter) == false)
             {
                 //check can damage
-                if ((character == null || hitCharacter != character) &&                                                 //be sure to not hit self
-                    (character == null || friendlyFire || hitCharacter.CharacterType != character.CharacterType))       //and be sure is enabled friendly fire or hit another type of character
+                if ((character == null || hitCharacter != character) &&     //be sure to not hit self
+                    charactersToHit.Contains(hitCharacter.CharacterType))   //and be sure is type can hit
                 {
                     //damage it and add to the list
                     OnHit(collision, hitCharacter);
@@ -41,6 +48,9 @@ namespace redd096
 
         void OnCollisionStay2D(Collision2D collision)
         {
+            if (isActive == false)
+                return;
+
             //check if hit character and is in the list
             Character hitCharacter = collision.gameObject.GetComponentInParent<Character>();
             if (hitCharacter && hits.ContainsKey(hitCharacter))
@@ -56,6 +66,9 @@ namespace redd096
 
         void OnCollisionExit2D(Collision2D collision)
         {
+            if (isActive == false)
+                return;
+
             //check if hit character and is in the list
             Character hitCharacter = collision.gameObject.GetComponentInParent<Character>();
             if (hitCharacter && hits.ContainsKey(hitCharacter))
