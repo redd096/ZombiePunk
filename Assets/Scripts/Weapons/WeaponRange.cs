@@ -137,6 +137,7 @@ namespace redd096
                 else
                 {
                     currentAmmo--;
+                    AbortReload();  //be sure is not reloading
                 }
             }
 
