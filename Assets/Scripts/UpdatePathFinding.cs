@@ -93,15 +93,20 @@ public class UpdatePathFinding : MonoBehaviour
 
     void OnDie(Redd096Main whoDied)
     {
-        //update on death
-        if(updateOnDeath)
-            UpdatePath();
+        //update on death (update with a delay, to be sure this gameObject is destroyed)
+        if (updateOnDeath)
+            UpdatePath(1);
     }
 
-    void UpdatePath()
+    void UpdatePath(float delay = 0)
     {
         //update path
         if (GameManager.instance && GameManager.instance.pathFindingAStar)
-            GameManager.instance.pathFindingAStar.UpdateGrid();
+        {
+            if(delay <= 0)
+                GameManager.instance.pathFindingAStar.UpdateGrid();
+            else
+                GameManager.instance.pathFindingAStar.Invoke("UpdateGrid", 1);      //update with a delay
+        }
     }
 }

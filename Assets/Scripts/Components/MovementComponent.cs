@@ -60,7 +60,7 @@ namespace redd096
 
             //set velocity (input + push + check collisions)
             CurrentVelocity = CalculateVelocity();
-            CurrentSpeed = CurrentVelocity.magnitude;
+            CurrentSpeed = CurrentVelocity != Vector2.zero ? CurrentVelocity.magnitude : 0.0f;
 
             //set if change movement direction
             if (IsMovingRight != CheckIsMovingRight())
