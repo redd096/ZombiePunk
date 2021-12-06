@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 using NaughtyAttributes;
 
 namespace redd096
@@ -27,6 +28,8 @@ namespace redd096
         [OnValueChanged("ChangedMaxAmmo")] [EnableIf("hasAmmo")] [Min(0)] public int maxAmmo = 32;
         [ReadOnly] public int currentAmmo = 32;
         [EnableIf("hasAmmo")] public float delayReload = 1;
+        //Not Martin Stuff
+        private Text ammoText;
 
         [Header("DEBUG")]
         [SerializeField] bool drawDebug = false;
@@ -55,6 +58,17 @@ namespace redd096
         public System.Action onShoot { get; set; }
         public System.Action onPressAttack { get; set; }
         public System.Action onReleaseAttack { get; set; }
+
+        //Not Martin Stuff
+        private void Start()
+        {
+            ammoText = GameObject.Find("AmmoText").GetComponent<Text>();
+        }
+        private void Update()
+        {
+            ammoText.text = currentAmmo.ToString();
+        }
+
 
         void ChangedMaxAmmo()
         {
