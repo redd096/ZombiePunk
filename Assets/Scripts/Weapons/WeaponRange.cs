@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 using NaughtyAttributes;
 
 namespace redd096
@@ -28,8 +27,6 @@ namespace redd096
         [OnValueChanged("ChangedMaxAmmo")] [EnableIf("hasAmmo")] [Min(0)] public int maxAmmo = 32;
         [ReadOnly] public int currentAmmo = 32;
         [EnableIf("hasAmmo")] public float delayReload = 1;
-        //Not Martin Stuff
-        private Text ammoText;
 
         [Header("DEBUG")]
         [SerializeField] bool drawDebug = false;
@@ -58,17 +55,6 @@ namespace redd096
         public System.Action onShoot { get; set; }
         public System.Action onPressAttack { get; set; }
         public System.Action onReleaseAttack { get; set; }
-
-        //Not Martin Stuff
-        private void Start()
-        {
-            ammoText = GameObject.Find("AmmoText").GetComponent<Text>();
-        }
-        private void Update()
-        {
-            ammoText.text = currentAmmo.ToString();
-        }
-
 
         void ChangedMaxAmmo()
         {
@@ -152,6 +138,10 @@ namespace redd096
                 {
                     currentAmmo--;
                     AbortReload();  //be sure is not reloading
+
+                    //update UI
+                    if (Owner && Owner.CharacterType == Character.ECharacterType.Player)
+                        GameManager.instance.uiManager.SetAmmoText(currentAmmo);
                 }
             }
 
@@ -236,6 +226,10 @@ namespace redd096
 
             //then reload ammos
             currentAmmo = maxAmmo;
+
+            //update UI
+            if(Owner && Owner.CharacterType == Character.ECharacterType.Player)
+                GameManager.instance.uiManager.SetAmmoText(currentAmmo);
 
             reloadCoroutine = null;
         }
