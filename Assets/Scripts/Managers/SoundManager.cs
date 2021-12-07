@@ -45,9 +45,14 @@ namespace redd096
 
         //sound parent (instantiate if null)
         private Transform soundsParent;
-        Transform SoundsParent { get {
+        Transform SoundsParent
+        {
+            get
+            {
                 if (soundsParent == null) { soundsParent = new GameObject("Sounds Parent").transform; }
-                return soundsParent; } }
+                return soundsParent;
+            }
+        }
 
         //audio sources in scene
         AudioSource musicBackgroundAudioSource;
@@ -363,6 +368,15 @@ namespace redd096
         {
             //in instance, call Play 2D
             instance.Play(false, soundsOnClick, Vector2.zero);
+        }
+
+        /// <summary>
+        /// Called by buttons in UI - play specific sound
+        /// </summary>
+        public void PlayOnClick(AudioClip sound)
+        {
+            //in instance, call Play 2D
+            instance.Play(false, sound, Vector2.zero);
         }
 
         #endregion
