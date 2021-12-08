@@ -62,7 +62,9 @@ public class ExplodeOnDeath : MonoBehaviour
 
     void OnDie(Redd096Main whoDied)
     {
-        DamageInArea();
+        //do area damage if setted
+        if(doAreaDamage && radiusAreaDamage > 0)
+            DamageInArea();
     }
 
     void DamageInArea()
