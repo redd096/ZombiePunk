@@ -12,7 +12,7 @@ namespace redd096
         [Header("Destroy Weapon On Death (necessary HealthComponent - default get from this gameObject)")]
         [SerializeField] bool dropWeaponOnDeath = true;
         [SerializeField] bool destroyWeaponOnDeath = true;
-        [EnableIf(EConditionOperator.Or, "dropWeaponOnDeath", "destroyWeaponOnDeath")] [SerializeField] HealthComponent healthComponent;
+        [EnableIf(EConditionOperator.Or, "dropWeaponOnDeath", "destroyWeaponOnDeath")] [SerializeField] HealthComponent healthComponent = default;
 
         [Header("DEBUG")]
         [ReadOnly] public WeaponBASE CurrentWeapon = default;

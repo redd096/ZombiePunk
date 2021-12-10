@@ -331,6 +331,7 @@ GameObject:
   - component: {fileID: 9212065468761235124}
   - component: {fileID: 1574786710114621755}
   - component: {fileID: 8714289106783076041}
+  - component: {fileID: 4204542304424851587}
   - component: {fileID: 1499721902347103055}
   - component: {fileID: 1188341792263175973}
   - component: {fileID: 1427099914}
@@ -457,6 +458,21 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 0
   drawDebug: 0
+--- !u!114 &4204542304424851587
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395402416665274895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fad44a6177f4878448694fe45a46649e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  cameraToControl: {fileID: 1473410680}
+  dropCameraOnDeath: 1
+  healthComponent: {fileID: 1499721902347103055}
 --- !u!114 &1499721902347103055
 MonoBehaviour:
   m_ObjectHideFlags: 0
