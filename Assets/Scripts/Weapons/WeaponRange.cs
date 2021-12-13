@@ -9,7 +9,7 @@ namespace redd096
     {
         [Header("Range Weapon")]
         [Tooltip("Keep pressed or click?")] public bool Automatic = true;
-        public float RateOfFire = 0.2f;
+        [Tooltip("Delay between shots")] public float RateOfFire = 0.2f;
         [Tooltip("Push back when shoot")] public float Recoil = 1;
         [Tooltip("Rotate random the shot when instantiated")] public float NoiseAccuracy = 10;
 

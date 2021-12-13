@@ -29,15 +29,16 @@ namespace redd096
             //get references
             owner = GetComponent<Character>();
 
-            //if there is a weapon in game manager, equip it
-            if (GameManager.instance && GameManager.instance.GetWeapon())
-            {
-                PickWeapon(Instantiate(GameManager.instance.GetWeapon()));
-            }
-            //else instantiate and equip default weapon
-            else if (weaponPrefab)
+            //instantiate and equip default weapon
+            if (weaponPrefab)
             {
                 PickWeapon(Instantiate(weaponPrefab));
+            }
+
+            //if has a weapon and is a Player, add customizations saved in GameManager
+            if (CurrentWeapon && owner.CharacterType == Character.ECharacterType.Player && GameManager.instance)
+            {
+                GameManager.instance.AddCustomizationsToWeapon(CurrentWeapon);
             }
         }
 
