@@ -57,6 +57,8 @@ public class CustomizeWeapon : MonoBehaviour
         showedCustomizations.Clear();
         currentCustomizations.Clear();
         currentTotalWeight = 0;
+        foreach (Transform child in inventoryParent)
+            Destroy(child.gameObject);
 
         //create buttons
         CreateButtons();
