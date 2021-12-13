@@ -37,7 +37,7 @@ public class CustomizeWeapon : MonoBehaviour
     [SerializeField] [Scene] string sceneToLoad = "SampleScene";
 
     [Button("Update Clickable Buttons", EButtonEnableMode.Playmode)]
-    void UpdateClickableButtons() => SetClickableButtons();
+    void UpdateClickableButtons() { ShowTotalWeight(); SetClickableButtons(); }
 
     /// <summary>
     /// save which button is showing which customization

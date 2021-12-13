@@ -10,7 +10,7 @@ public class CustomizeData : ScriptableObject
     [Header("Menu")]
     public int Weight = 1;
     public string Name = "PowerUp";
-    public Sprite Sprite = default;
+    [ShowAssetPreview] public Sprite Sprite = default;
 
     [Header("Weapon Customization")]
     public bool SetAutomaticWeapon = false;
