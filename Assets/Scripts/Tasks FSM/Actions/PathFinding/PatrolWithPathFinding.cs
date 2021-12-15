@@ -8,7 +8,7 @@ public class PatrolWithPathFinding : ActionTask
     [Header("Necessary Components - default get in parent or GameManager")]
     [SerializeField] MovementComponent component;
     [SerializeField] AimComponent aimComponent;
-    [SerializeField] PathFindingAStar pathFinding;
+    [SerializeField] PathFindingAStar2D pathFinding;
 
     [Header("Patrol")]
     [SerializeField] float radiusPatrol = 5;
@@ -21,7 +21,7 @@ public class PatrolWithPathFinding : ActionTask
 
     Vector2 startPosition;
     float waitTimer;
-    List<Node> path;
+    List<Node2D> path;
 
     void OnDrawGizmos()
     {
@@ -94,11 +94,11 @@ public class PatrolWithPathFinding : ActionTask
     {
         //move to node
         if(component)
-            component.MoveInDirection((path[0].worldPosition - transformTask.position).normalized, speedPatrol);
+            component.MoveInDirection((path[0].worldPosition - (Vector2)transformTask.position).normalized, speedPatrol);
 
         //aim at next node of the path
         if (aimComponent)
-            aimComponent.AimAt(path[0].worldPosition - transformTask.position);
+            aimComponent.AimAt(path[0].worldPosition - (Vector2)transformTask.position);
     }
 
     void CheckReachNode()

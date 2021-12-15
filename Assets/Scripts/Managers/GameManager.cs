@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using redd096;
-using NaughtyAttributes;
 
 [AddComponentMenu("redd096/Singletons/Game Manager")]
 [DefaultExecutionOrder(-100)]
@@ -12,14 +11,14 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] CustomizeData[] currentCustomizations = default;
 
     public UIManager uiManager { get; private set; }
-    public PathFindingAStar pathFindingAStar { get; private set; }
+    public PathFindingAStar2D pathFindingAStar { get; private set; }
     public LevelManager levelManager { get; private set; }
 
     protected override void SetDefaults()
     {
         //get references
         uiManager = FindObjectOfType<UIManager>();
-        pathFindingAStar = FindObjectOfType<PathFindingAStar>();
+        pathFindingAStar = FindObjectOfType<PathFindingAStar2D>();
         levelManager = FindObjectOfType<LevelManager>();
     }
 

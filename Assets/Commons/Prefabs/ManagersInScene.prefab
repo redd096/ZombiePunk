@@ -251,8 +251,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7913340268479855512}
-  - component: {fileID: 7913340268479855517}
-  - component: {fileID: 7913340268479855519}
+  - component: {fileID: 62355844536710495}
+  - component: {fileID: 4779366767106300251}
   m_Layer: 0
   m_Name: PathFinding
   m_TagString: Untagged
@@ -274,7 +274,7 @@ Transform:
   m_Father: {fileID: 7913340268312218488}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &7913340268479855517
+--- !u!114 &62355844536710495
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -283,10 +283,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 7913340268479855513}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78eb0bbcb4e35ea4c829db1e87bd385d, type: 3}
+  m_Script: {fileID: 11500000, guid: d39d3f77b0ae25044ab57ff78b6d315d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  useZ: 0
   unwalkableMask:
     serializedVersion: 2
     m_Bits: 4352
@@ -295,7 +294,8 @@ MonoBehaviour:
   nodeDiameter: 1
   overlapDiameter: 0.9
   alphaNodes: 0.3
---- !u!114 &7913340268479855519
+  agentCanOverlapNodesOutsideGrids: 1
+--- !u!114 &4779366767106300251
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -304,10 +304,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 7913340268479855513}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80e932a650e3f9049a571aa7e9564cfe, type: 3}
+  m_Script: {fileID: 11500000, guid: bfd5fc8ba5487b5419d7b8b87674324c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Grid: {fileID: 7913340268479855517}
+  Grid: {fileID: 62355844536710495}
 --- !u!1 &7913340268533180607
 GameObject:
   m_ObjectHideFlags: 0

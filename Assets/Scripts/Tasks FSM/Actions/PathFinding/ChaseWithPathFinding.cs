@@ -8,7 +8,7 @@ public class ChaseWithPathFinding : ActionTask
     [Header("Necessary Components - default get in parent or GameManager")]
     [SerializeField] MovementComponent component;
     [SerializeField] AimComponent aimComponent;
-    [SerializeField] PathFindingAStar pathFinding;
+    [SerializeField] PathFindingAStar2D pathFinding;
 
     [Header("Chase")]
     [SerializeField] string targetBlackboardName = "Target";
@@ -18,8 +18,8 @@ public class ChaseWithPathFinding : ActionTask
     [Range(0f, 0.5f)] [SerializeField] float approxReachNode = 0.05f;
 
     Transform target;
-    List<Node> path;
-    Node lastWalkableNode;
+    List<Node2D> path;
+    Node2D lastWalkableNode;
 
     protected override void OnInitTask()
     {
@@ -59,7 +59,7 @@ public class ChaseWithPathFinding : ActionTask
         if (path != null && path.Count > 0)
         {
             //if on a walkable node, save it
-            Node currentNode = pathFinding.Grid.NodeFromWorldPosition(transformTask.position);
+            Node2D currentNode = pathFinding.Grid.NodeFromWorldPosition(transformTask.position);
             if (currentNode.isWalkable)
                 lastWalkableNode = currentNode;
 
@@ -71,7 +71,7 @@ public class ChaseWithPathFinding : ActionTask
         else if(lastWalkableNode != null)
         {
             //if target is in a not walkable node, but neighbour of our last walkable node, move straight to it
-            Node targetNode = pathFinding.Grid.NodeFromWorldPosition(target.position);
+            Node2D targetNode = pathFinding.Grid.NodeFromWorldPosition(target.position);
             if (pathFinding.Grid.GetNeighbours(lastWalkableNode).Contains(targetNode))
             {
                 MoveAndAim(target.position);

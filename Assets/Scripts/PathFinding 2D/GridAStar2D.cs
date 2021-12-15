@@ -9,14 +9,14 @@ namespace redd096
 
     using UnityEditor;
 
-    [CustomEditor(typeof(GridAStar), true)]
-    public class GridAStarEditor : Editor
+    [CustomEditor(typeof(GridAStar2D), true)]
+    public class GridAStar2DEditor : Editor
     {
-        private GridAStar gridAStar;
+        private GridAStar2D gridAStar;
 
         private void OnEnable()
         {
-            gridAStar = target as GridAStar;
+            gridAStar = target as GridAStar2D;
         }
 
         public override void OnInspectorGUI()
@@ -41,13 +41,10 @@ namespace redd096
 
     #endregion
 
-    [AddComponentMenu("redd096/Path Finding A Star/Grid A Star")]
-    public class GridAStar : MonoBehaviour
+    [AddComponentMenu("redd096/Path Finding A Star/Grid A Star 2D")]
+    public class GridAStar2D : MonoBehaviour
     {
         #region variables
-
-        [Header("Use Z instead of Y")]
-        [SerializeField] protected bool useZ = true;
 
         [Header("Layer Mask Unwalkable")]
         [SerializeField] protected LayerMask unwalkableMask = default;
@@ -62,15 +59,16 @@ namespace redd096
         [SerializeField] protected float alphaNodes = 0.3f;
 
         //grid
-        Node[,] grid;
+        Node2D[,] grid;
 
         float nodeRadius;
         float overlapRadius;
         Vector2Int gridSize;
 
         //properties
+        public Vector2Int GridSize => gridSize;
         public int MaxSize => gridSize.x * gridSize.y;
-        public virtual Vector3 GridWorldPosition => transform.position;
+        public virtual Vector2 GridWorldPosition => transform.position;
         public Vector2 GridWorldSize => gridWorldSize;
 
         #endregion
@@ -92,20 +90,17 @@ namespace redd096
         {
             //draw area
             Gizmos.color = Color.cyan;
-            if (useZ)
-                Gizmos.DrawWireCube(GridWorldPosition, new Vector3(gridWorldSize.x, 1, gridWorldSize.y));      //use z
-            else
-                Gizmos.DrawWireCube(GridWorldPosition, new Vector3(gridWorldSize.x, gridWorldSize.y, 1));      //or y
+            Gizmos.DrawWireCube(GridWorldPosition, new Vector2(gridWorldSize.x, gridWorldSize.y));
 
             //draw every node in grid
             if (grid != null)
             {
-                foreach (Node node in grid)
+                foreach (Node2D node in grid)
                 {
                     //set color if walkable or not
                     Gizmos.color = new Color(1, 1, 1, alphaNodes) * (node.isWalkable ? Color.green : Color.red);
                     //Gizmos.DrawSphere(node.worldPosition, nodeRadius);
-                    Gizmos.DrawCube(node.worldPosition, Vector3.one * (nodeDiameter - 0.1f));
+                    Gizmos.DrawCube(node.worldPosition, Vector2.one * (nodeDiameter - 0.1f));
                 }
             }
         }
@@ -126,10 +121,8 @@ namespace redd096
         void CreateGrid()
         {
             //reset grid and find bottom left world position
-            grid = new Node[gridSize.x, gridSize.y];
-            Vector3 worldBottomLeft = useZ ?
-                GridWorldPosition + (Vector3.left * gridWorldSize.x / 2) + (Vector3.back * gridWorldSize.y / 2) :      //use z
-                GridWorldPosition + (Vector3.left * gridWorldSize.x / 2) + (Vector3.down * gridWorldSize.y / 2);       //or y
+            grid = new Node2D[gridSize.x, gridSize.y];
+            Vector2 worldBottomLeft = GridWorldPosition + (Vector2.left * gridWorldSize.x / 2) + (Vector2.down * gridWorldSize.y / 2);
 
             //create grid
             for (int x = 0; x < gridSize.x; x++)
@@ -137,36 +130,43 @@ namespace redd096
                 for (int y = 0; y < gridSize.y; y++)
                 {
                     //find world position and if walkable
-                    Vector3 worldPosition = useZ ?
-                        worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.forward * (y * nodeDiameter + nodeRadius) :     //use z
-                        worldBottomLeft + Vector3.right * (x * nodeDiameter + nodeRadius) + Vector3.up * (y * nodeDiameter + nodeRadius);           //or y
+                    Vector2 worldPosition = worldBottomLeft + Vector2.right * (x * nodeDiameter + nodeRadius) + Vector2.up * (y * nodeDiameter + nodeRadius);
 
                     //set new node in grid
-                    grid[x, y] = new Node(IsWalkable(worldPosition), worldPosition, x, y);
+                    grid[x, y] = new Node2D(IsWalkable(worldPosition, out bool agentCanOverlap), agentCanOverlap, worldPosition, x, y);
                 }
             }
         }
 
-        protected virtual bool IsWalkable(Vector3 worldPosition)
+        protected virtual bool IsWalkable(Vector2 worldPosition, out bool agentCanOverlap)
         {
-            return useZ ?
-                gameObject.scene.GetPhysicsScene().OverlapSphere(worldPosition, overlapRadius, new Collider[1], unwalkableMask, QueryTriggerInteraction.UseGlobal) <= 0 :   //use 3d (z)
-                gameObject.scene.GetPhysicsScene2D().OverlapCircle(worldPosition, overlapRadius, unwalkableMask) == false;                                                  //or 2d (y)
+            //overlap circle (agent can overlap only on walkable nodes)
+            agentCanOverlap = gameObject.scene.GetPhysicsScene2D().OverlapCircle(worldPosition, overlapRadius, unwalkableMask) == false;
+            return agentCanOverlap;
         }
 
         #endregion
 
         #region public API
 
+        /// <summary>
+        /// Is grid created or is null?
+        /// </summary>
+        /// <returns></returns>
         public bool IsGridCreated()
         {
             //return if the grid was being created
             return grid != null;
         }
 
-        public List<Node> GetNeighbours(Node node)
+        /// <summary>
+        /// Get nodes around the node passed as parameter
+        /// </summary>
+        /// <param name="node"></param>
+        /// <returns></returns>
+        public List<Node2D> GetNeighbours(Node2D node)
         {
-            List<Node> neighbours = new List<Node>();
+            List<Node2D> neighbours = new List<Node2D>();
 
             for (int x = -1; x <= 1; x++)
             {
@@ -191,16 +191,19 @@ namespace redd096
             return neighbours;
         }
 
-        public Node NodeFromWorldPosition(Vector3 worldPosition)
+        /// <summary>
+        /// Get node from world position
+        /// </summary>
+        /// <param name="worldPosition"></param>
+        /// <returns></returns>
+        public Node2D NodeFromWorldPosition(Vector2 worldPosition)
         {
             //be sure to get right result also if grid doesn't start at [0,0]
             worldPosition -= GridWorldPosition;
 
             //find percent
             float percentX = (worldPosition.x + gridWorldSize.x / 2) / gridWorldSize.x;
-            float percentY = useZ ?
-                (worldPosition.z + gridWorldSize.y / 2) / gridWorldSize.y :     //use z
-                (worldPosition.y + gridWorldSize.y / 2) / gridWorldSize.y;      //or y
+            float percentY = (worldPosition.y + gridWorldSize.y / 2) / gridWorldSize.y;
             percentX = Mathf.Clamp01(percentX);
             percentY = Mathf.Clamp01(percentY);
 
@@ -212,20 +215,33 @@ namespace redd096
             return grid[x, y];
         }
 
-        public bool IsInsideGrid(Vector3 worldPosition)
+        /// <summary>
+        /// Is world position inside the grid?
+        /// </summary>
+        /// <param name="worldPosition"></param>
+        /// <returns></returns>
+        public bool IsInsideGrid(Vector2 worldPosition)
         {
             //outside left or right
             if (worldPosition.x < GridWorldPosition.x - (gridWorldSize.x * 0.5f) || worldPosition.x > GridWorldPosition.x + (gridWorldSize.x * 0.5f))
                 return false;
 
-            //outside down or up (if useZ, use back or forward)
-            if (useZ && worldPosition.z < GridWorldPosition.z - (gridWorldSize.y * 0.5f) || worldPosition.z > GridWorldPosition.z + (gridWorldSize.y * 0.5f))
-                return false;
-            else if (useZ == false && worldPosition.y < GridWorldPosition.y - (gridWorldSize.y * 0.5f) || worldPosition.y > GridWorldPosition.y + (gridWorldSize.y * 0.5f))
+            //outside down or up
+            if (worldPosition.y < GridWorldPosition.y - (gridWorldSize.y * 0.5f) || worldPosition.y > GridWorldPosition.y + (gridWorldSize.y * 0.5f))
                 return false;
 
             //else is inside
             return true;
+        }
+
+        /// <summary>
+        /// Get node at grid position
+        /// </summary>
+        /// <param name="gridPosition"></param>
+        /// <returns></returns>
+        public Node2D GetNodeByCoordinates(int x, int y)
+        {
+            return grid[x, y];
         }
 
         #endregion
