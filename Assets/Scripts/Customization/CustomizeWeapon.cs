@@ -31,6 +31,7 @@ public class CustomizeWeapon : MonoBehaviour
     [SerializeField] int maxWeight = 10;
     [SerializeField] GameObject prefabInventoryElement = default;
     [SerializeField] Transform inventoryParent = default;
+    [SerializeField] Transform trashParent = default;
     [SerializeField] Text weightText = default;
 
     [Header("Scene to Load after selected weapon")]
@@ -46,29 +47,43 @@ public class CustomizeWeapon : MonoBehaviour
     /// <summary>
     /// customizations in inventory, to save for next scenes
     /// </summary>
-    List<CustomizeData> currentCustomizations = new List<CustomizeData>();
+    List<CustomizeData> inventoryCustomizations = new List<CustomizeData>();
+    /// <summary>
+    /// customizations in the trash. Can be replaced in inventory. When exit from this scene will be destroyed
+    /// </summary>
+    List<CustomizeData> trashCustomizations = new List<CustomizeData>();
     /// <summary>
     /// weight of every element in inventory
     /// </summary>
-    int currentTotalWeight = 0;
+    int inventoryTotalWeight = 0;
 
     void Start()
     {
+        //reset vars
         showedCustomizations.Clear();
-        currentCustomizations.Clear();
-        currentTotalWeight = 0;
-        foreach (Transform child in inventoryParent)
-            Destroy(child.gameObject);
+        inventoryCustomizations.Clear();
+        trashCustomizations.Clear();
+        inventoryTotalWeight = 0;
+        if (inventoryParent)
+        {
+            foreach (Transform child in inventoryParent)
+                Destroy(child.gameObject);
+        }
+        if (trashParent)
+        {
+            foreach (Transform child in trashParent)
+                Destroy(child.gameObject);
+        }
 
         //create buttons
         CreateButtons();
 
         //get current customizations
         if (GameManager.instance)
-            currentCustomizations.AddRange(GameManager.instance.GetCustomizations());
+            inventoryCustomizations.AddRange(GameManager.instance.GetCustomizations());
 
         //show inventory and total weight
-        if (currentCustomizations != null)
+        if (inventoryCustomizations != null)
         {
             ShowInventoryAndCalculateTotalWeight();
             ShowTotalWeight();
@@ -119,27 +134,19 @@ public class CustomizeWeapon : MonoBehaviour
     void ShowInventoryAndCalculateTotalWeight()
     {
         //instantiate every button and calculate weight
-        foreach(CustomizeData customization in currentCustomizations)
+        foreach(CustomizeData customization in inventoryCustomizations)
         {
-            currentTotalWeight += customization.Weight;
+            //calculate weight
+            inventoryTotalWeight += customization.Weight;
 
-            if (prefabInventoryElement == null || inventoryParent == null)
-                continue;
-
-            GameObject go = Instantiate(prefabInventoryElement, inventoryParent, false);
-
-            //set button sprite and function
-            Button button = go.GetComponentInChildren<Button>();
-            if(button)
+            //instantiate button
+            if (prefabInventoryElement && inventoryParent)
             {
-                button.image.sprite = customization.Sprite;
-                button.onClick.AddListener(() => RemoveCustomization(go, customization));
-            }
+                GameObject go = Instantiate(prefabInventoryElement, inventoryParent, false);
 
-            //set text it with customization weight
-            Text text = go.GetComponentInChildren<Text>();
-            if (text)
-                text.text = customization.Weight.ToString();
+                //set button sprite, text and function
+                SetButton(go, customization, RemoveCustomization);
+            }
         }
     }
 
@@ -147,7 +154,7 @@ public class CustomizeWeapon : MonoBehaviour
     {
         //set text with total weight
         if (weightText)
-            weightText.text = $"{currentTotalWeight}/{maxWeight}";
+            weightText.text = $"{inventoryTotalWeight}/{maxWeight}";
     }
 
     void SetClickableButtons()
@@ -158,7 +165,7 @@ public class CustomizeWeapon : MonoBehaviour
             if(customButton.customization)
             {
                 //if exceed max weight, deactive
-                if(currentTotalWeight + customButton.customization.Weight > maxWeight)
+                if(inventoryTotalWeight + customButton.customization.Weight > maxWeight)
                 {
                     if (customButton.button) customButton.button.interactable = false;
                 }
@@ -171,6 +178,22 @@ public class CustomizeWeapon : MonoBehaviour
         }
     }
 
+    void SetButton(GameObject go, CustomizeData customization, System.Action<GameObject, CustomizeData> func)
+    {
+        //set button sprite and function
+        Button button = go.GetComponentInChildren<Button>();
+        if (button)
+        {
+            button.image.sprite = customization.Sprite;
+            button.onClick.AddListener(() => func(go, customization));
+        }
+
+        //set text with customization weight
+        Text text = go.GetComponentInChildren<Text>();
+        if (text)
+            text.text = customization.Weight.ToString();
+    }
+
     #endregion
 
     #region buttons
@@ -178,15 +201,15 @@ public class CustomizeWeapon : MonoBehaviour
     void AddCustomization(CustomizeData customization)
     {
         //do only if is possible (weight do not exceed max weight)
-        if (currentTotalWeight + customization.Weight > maxWeight)
+        if (inventoryTotalWeight + customization.Weight > maxWeight)
             return;
 
         //add to inventory
-        currentCustomizations.Add(customization);
+        inventoryCustomizations.Add(customization);
 
         //save in game manager
         if (GameManager.instance)
-            GameManager.instance.SetCustomizations(currentCustomizations.ToArray());
+            GameManager.instance.SetCustomizations(inventoryCustomizations.ToArray());
         else
             Debug.LogWarning("There is no Game Manager in scene");
 
@@ -199,12 +222,56 @@ public class CustomizeWeapon : MonoBehaviour
 
     void RemoveCustomization(GameObject element, CustomizeData customization)
     {
-        //remove customization from inventory and remove weight
-        currentCustomizations.Remove(customization);
-        currentTotalWeight -= customization.Weight;
+        if (inventoryCustomizations.Contains(customization))
+        {
+            //remove customization from inventory and remove weight
+            inventoryCustomizations.Remove(customization);
+            inventoryTotalWeight -= customization.Weight;
+
+            //add to trash
+            trashCustomizations.Add(customization);
+
+            //instantiate button in the trash
+            if (prefabInventoryElement && trashParent)
+            {
+                GameObject go = Instantiate(prefabInventoryElement, trashParent, false);
+
+                //set button sprite, text and function
+                SetButton(go, customization, PickCustomizationFromTrash);
+            }
+        }
 
         //remove button from scene and update weight text
-        Destroy(element);
+        if(element) Destroy(element);
+        ShowTotalWeight();
+
+        //recheck which button is clickable (based on weight)
+        SetClickableButtons();
+    }
+
+    void PickCustomizationFromTrash(GameObject element, CustomizeData customization)
+    {
+        if (trashCustomizations.Contains(customization))
+        {
+            //remove customization from trash
+            trashCustomizations.Remove(customization);
+
+            //add to inventory and add weight
+            inventoryCustomizations.Add(customization);
+            inventoryTotalWeight += customization.Weight;
+
+            //instantiate button in the inventory
+            if (prefabInventoryElement && inventoryParent)
+            {
+                GameObject go = Instantiate(prefabInventoryElement, inventoryParent, false);
+
+                //set button sprite, text and function
+                SetButton(go, customization, RemoveCustomization);
+            }
+        }
+
+        //remove button from scene and update weight text
+        if (element) Destroy(element);
         ShowTotalWeight();
 
         //recheck which button is clickable (based on weight)

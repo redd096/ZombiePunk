@@ -9,7 +9,7 @@ public class GameManager : Singleton<GameManager>
     //se si vuole fare multiplayer, si salva un array per ogni ID
     //nel menu customizzazione si aggiunge uno script ai prefab per passare il PointerEventData al click, per sapere l'ID di chi ha cliccato
     [Header("DEBUG")]
-    [ReadOnly] [SerializeField] CustomizeData[] currentCustomizations = default;
+    [SerializeField] CustomizeData[] currentCustomizations = default;
 
     public UIManager uiManager { get; private set; }
     public PathFindingAStar pathFindingAStar { get; private set; }
