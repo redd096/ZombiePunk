@@ -9,6 +9,7 @@ namespace redd096
         enum ETypeOverlap { circle, box }
 
         [Header("Collider Agent")]
+        [SerializeField] Vector2 offset = Vector2.zero;
         [SerializeField] ETypeOverlap typeOverlap = ETypeOverlap.box;
         [EnableIf("typeOverlap", ETypeOverlap.box)] [SerializeField] Vector2 sizeCollider = Vector2.one;
         [EnableIf("typeOverlap", ETypeOverlap.circle)] [SerializeField] float radiusCollider = 1;
@@ -32,12 +33,12 @@ namespace redd096
                 //draw box overlap
                 if (typeOverlap == ETypeOverlap.box)
                 {
-                    Gizmos.DrawWireCube(transform.position, sizeCollider);
+                    Gizmos.DrawWireCube((Vector2)transform.position + offset, sizeCollider);
                 }
                 //draw circle overlap
                 else
                 {
-                    Gizmos.DrawWireSphere(transform.position, radiusCollider);
+                    Gizmos.DrawWireSphere((Vector2)transform.position + offset, radiusCollider);
                 }
 
                 Gizmos.color = Color.white;
@@ -73,10 +74,10 @@ namespace redd096
         {
             //calculate nodes
             CalculateNodes(
-                transform.position.x - sizeCollider.x,
-                transform.position.x + sizeCollider.x,
-                transform.position.y + sizeCollider.y,
-                transform.position.y - sizeCollider.y);
+                transform.position.x + offset.x - sizeCollider.x,
+                transform.position.x + offset.x + sizeCollider.x,
+                transform.position.y + offset.y + sizeCollider.y,
+                transform.position.y + offset.y - sizeCollider.y);
 
             //check every node
             for (int x = leftNode.gridPosition.x; x <= rightNode.gridPosition.x; x++)
