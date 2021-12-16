@@ -97,10 +97,10 @@ namespace redd096
         {
             //calculate nodes
             CalculateNodes(
-                transform.position.x - radiusCollider,
-                transform.position.x + radiusCollider,
-                transform.position.y + radiusCollider,
-                transform.position.y - radiusCollider);
+                transform.position.x + offset.x - radiusCollider,
+                transform.position.x + offset.x + radiusCollider,
+                transform.position.y + offset.y + radiusCollider,
+                transform.position.y + offset.y - radiusCollider);
 
             //check every node
             for (int x = leftNode.gridPosition.x; x <= rightNode.gridPosition.x; x++)
