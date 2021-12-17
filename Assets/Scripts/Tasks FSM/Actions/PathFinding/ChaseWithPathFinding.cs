@@ -8,6 +8,7 @@ public class ChaseWithPathFinding : ActionTask
     [Header("Necessary Components - default get in parent or GameManager")]
     [SerializeField] MovementComponent component;
     [SerializeField] AimComponent aimComponent;
+    [SerializeField] AgentAStar2D agentAStar;
     [SerializeField] PathFindingAStar2D pathFinding;
 
     [Header("Chase")]
@@ -28,6 +29,7 @@ public class ChaseWithPathFinding : ActionTask
         //get references
         if (component == null) component = GetStateMachineComponent<MovementComponent>();
         if (aimComponent == null) aimComponent = GetStateMachineComponent<AimComponent>();
+        if (agentAStar == null) agentAStar = GetStateMachineComponent<AgentAStar2D>();
         if (pathFinding == null) pathFinding = GameManager.instance ? GameManager.instance.pathFindingAStar : null;
 
         //show warnings if not found
@@ -89,7 +91,7 @@ public class ChaseWithPathFinding : ActionTask
     void UpdatePath()
     {
         //get path
-        path = pathFinding.FindPath(transformTask.position, target.position);
+        path = pathFinding.FindPath(transformTask.position, target.position, agentAStar);
     }
 
     void MoveAndAim(Vector3 destination)

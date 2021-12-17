@@ -8,6 +8,7 @@ public class PatrolWithPathFinding : ActionTask
     [Header("Necessary Components - default get in parent or GameManager")]
     [SerializeField] MovementComponent component;
     [SerializeField] AimComponent aimComponent;
+    [SerializeField] AgentAStar2D agentAStar;
     [SerializeField] PathFindingAStar2D pathFinding;
 
     [Header("Patrol")]
@@ -41,6 +42,7 @@ public class PatrolWithPathFinding : ActionTask
         //get references
         if (component == null) component = GetComponentInParent<MovementComponent>();
         if (aimComponent == null) aimComponent = GetComponentInParent<AimComponent>();
+        if (agentAStar == null) agentAStar = GetStateMachineComponent<AgentAStar2D>();
         if (pathFinding == null) pathFinding = GameManager.instance ? GameManager.instance.pathFindingAStar : null;
 
         //show warnings if not found
@@ -87,7 +89,7 @@ public class PatrolWithPathFinding : ActionTask
 
         //get path
         if(pathFinding)
-            path = pathFinding.FindPath(transformTask.position, randomPoint);
+            path = pathFinding.FindPath(transformTask.position, randomPoint, agentAStar);
     }
 
     void MoveAndAimToNextNode()
