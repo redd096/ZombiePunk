@@ -92,6 +92,7 @@ MonoBehaviour:
   TaskName: '[ACTION] Patrol'
   component: {fileID: 5017728266285329905}
   aimComponent: {fileID: 5017728266285329904}
+  agentAStar: {fileID: 283268124930683889}
   pathFinding: {fileID: 0}
   radiusPatrol: 5
   speedPatrol: 2
@@ -168,6 +169,7 @@ MonoBehaviour:
   TaskName: '[ACTION] Chase'
   component: {fileID: 5017728266285329905}
   aimComponent: {fileID: 5017728266285329904}
+  agentAStar: {fileID: 283268124930683889}
   pathFinding: {fileID: 0}
   targetBlackboardName: Target
   speedChase: 5
@@ -496,12 +498,12 @@ PrefabInstance:
     - target: {fileID: 8314279716461989256, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: sizeCollider.x
-      value: 0.7010843
+      value: 0.9
       objectReference: {fileID: 0}
     - target: {fileID: 8314279716461989256, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: sizeCollider.y
-      value: 0.8249369
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b031062a6fbcbd4e8dadc539f1dfa61, type: 3}
@@ -527,6 +529,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b1ff3f8559b35648bb34b56a1796ce1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &283268124930683889 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8314279716461989256, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+    type: 3}
+  m_PrefabInstance: {fileID: 8109891673206357625}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af9e4182897a4614baf83c04ff030ffd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!114 &5017728266285329917 stripped

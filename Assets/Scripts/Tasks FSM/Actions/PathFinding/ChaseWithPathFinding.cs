@@ -20,7 +20,7 @@ public class ChaseWithPathFinding : ActionTask
 
     Transform target;
     List<Node2D> path;
-    Node2D lastWalkableNode;
+    //Node2D lastWalkableNode;
 
     protected override void OnInitTask()
     {
@@ -60,30 +60,30 @@ public class ChaseWithPathFinding : ActionTask
         //if there is path, move to next node
         if (path != null && path.Count > 0)
         {
-            //if on a walkable node, save it
-            Node2D currentNode = pathFinding.Grid.NodeFromWorldPosition(transformTask.position);
-            if (currentNode.isWalkable)
-                lastWalkableNode = currentNode;
+            ////if on a walkable node, save it
+            //Node2D currentNode = pathFinding.Grid.NodeFromWorldPosition(transformTask.position);
+            //if (currentNode.isWalkable)
+            //    lastWalkableNode = currentNode;
 
             //move and aim to next node
             MoveAndAim(path[0].worldPosition);
             CheckReachNode();
         }
-        //if there is no path, move straight to target (only if last walkable node is setted)
-        else if(lastWalkableNode != null)
-        {
-            //if target is in a not walkable node, but neighbour of our last walkable node, move straight to it
-            Node2D targetNode = pathFinding.Grid.NodeFromWorldPosition(target.position);
-            if (pathFinding.Grid.GetNeighbours(lastWalkableNode).Contains(targetNode))
-            {
-                MoveAndAim(target.position);
-            }
-            //else move back to last walkable node
-            else
-            {
-                MoveAndAim(lastWalkableNode.worldPosition);
-            }
-        }
+        ////if there is no path, move straight to target (only if last walkable node is setted)
+        //else if(lastWalkableNode != null)
+        //{
+        //    //if target is in a not walkable node, but neighbour of our last walkable node, move straight to it
+        //    Node2D targetNode = pathFinding.Grid.NodeFromWorldPosition(target.position);
+        //    if (pathFinding.Grid.GetNeighbours(lastWalkableNode).Contains(targetNode))
+        //    {
+        //        MoveAndAim(target.position);
+        //    }
+        //    //else move back to last walkable node
+        //    else
+        //    {
+        //        MoveAndAim(lastWalkableNode.worldPosition);
+        //    }
+        //}
     }
 
     #region private API
