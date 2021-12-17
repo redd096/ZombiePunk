@@ -17,7 +17,9 @@ public class ChaseWithPathFinding : ActionTask
 
     [Header("DEBUG")]
     [Range(0f, 0.5f)] [SerializeField] float approxReachNode = 0.05f;
+    [SerializeField] float delayRecalculatePath = 0.2f;
 
+    float timerBeforeNextUpdatePath;
     Transform target;
     List<Node2D> path;
     //Node2D lastWalkableNode;
@@ -90,8 +92,13 @@ public class ChaseWithPathFinding : ActionTask
 
     void UpdatePath()
     {
-        //get path
-        path = pathFinding.FindPath(transformTask.position, target.position, agentAStar);
+        //delay between every update of the path
+        if (Time.time > timerBeforeNextUpdatePath)
+        {
+            //get path
+            path = pathFinding.FindPath(transformTask.position, target.position, agentAStar);
+            timerBeforeNextUpdatePath = Time.time + delayRecalculatePath;                           //reset timer
+        }
     }
 
     void MoveAndAim(Vector3 destination)

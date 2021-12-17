@@ -19,7 +19,9 @@ public class PatrolWithPathFinding : ActionTask
     [Header("DEBUG")]
     [SerializeField] bool drawDebug = false;
     [Range(0f, 0.5f)] [SerializeField] float approxReachNode = 0.05f;
+    [SerializeField] float delayRecalculatePath = 0.2f;
 
+    float timerBeforeNextUpdatePath;
     Vector2 startPosition;
     float waitTimer;
     List<Node2D> path;
@@ -40,8 +42,8 @@ public class PatrolWithPathFinding : ActionTask
         base.OnInitTask();
 
         //get references
-        if (component == null) component = GetComponentInParent<MovementComponent>();
-        if (aimComponent == null) aimComponent = GetComponentInParent<AimComponent>();
+        if (component == null) component = GetStateMachineComponent<MovementComponent>();
+        if (aimComponent == null) aimComponent = GetStateMachineComponent<AimComponent>();
         if (agentAStar == null) agentAStar = GetStateMachineComponent<AgentAStar2D>();
         if (pathFinding == null) pathFinding = GameManager.instance ? GameManager.instance.pathFindingAStar : null;
 
@@ -84,12 +86,19 @@ public class PatrolWithPathFinding : ActionTask
 
     void FindNewPath()
     {
-        //get random point in patrol area
-        Vector3 randomPoint = startPosition + Random.insideUnitCircle * radiusPatrol;
+        //delay between every update of the path
+        if (Time.time > timerBeforeNextUpdatePath)
+        {
+            //reset timer
+            timerBeforeNextUpdatePath = Time.time + delayRecalculatePath;
 
-        //get path
-        if(pathFinding)
-            path = pathFinding.FindPath(transformTask.position, randomPoint, agentAStar);
+            //get random point in patrol area
+            Vector3 randomPoint = startPosition + Random.insideUnitCircle * radiusPatrol;
+
+            //get path
+            if (pathFinding)
+                path = pathFinding.FindPath(transformTask.position, randomPoint, agentAStar);
+        }
     }
 
     void MoveAndAimToNextNode()
