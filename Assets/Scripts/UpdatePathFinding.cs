@@ -103,10 +103,10 @@ public class UpdatePathFinding : MonoBehaviour
         //update path
         if (GameManager.instance && GameManager.instance.pathFindingAStar)
         {
-            if(delay <= 0)
+            if (delay <= 0)
                 GameManager.instance.pathFindingAStar.UpdateGrid();
             else
-                GameManager.instance.pathFindingAStar.Invoke("UpdateGrid", 1);      //update with a delay
+                GameManager.instance.pathFindingAStar.Invoke("UpdateGrid", delay);      //update with a delay
         }
     }
 }

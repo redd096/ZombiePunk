@@ -8,7 +8,8 @@ public class ChaseWithPathFinding : ActionTask
     [Header("Necessary Components - default get in parent or GameManager")]
     [SerializeField] MovementComponent component;
     [SerializeField] AimComponent aimComponent;
-    [SerializeField] PathFindingAStar pathFinding;
+    [SerializeField] AgentAStar2D agentAStar;
+    [SerializeField] PathFindingAStar2D pathFinding;
 
     [Header("Chase")]
     [SerializeField] string targetBlackboardName = "Target";
@@ -18,8 +19,8 @@ public class ChaseWithPathFinding : ActionTask
     [Range(0f, 0.5f)] [SerializeField] float approxReachNode = 0.05f;
 
     Transform target;
-    List<Node> path;
-    Node lastWalkableNode;
+    List<Node2D> path;
+    //Node2D lastWalkableNode;
 
     protected override void OnInitTask()
     {
@@ -28,6 +29,7 @@ public class ChaseWithPathFinding : ActionTask
         //get references
         if (component == null) component = GetStateMachineComponent<MovementComponent>();
         if (aimComponent == null) aimComponent = GetStateMachineComponent<AimComponent>();
+        if (agentAStar == null) agentAStar = GetStateMachineComponent<AgentAStar2D>();
         if (pathFinding == null) pathFinding = GameManager.instance ? GameManager.instance.pathFindingAStar : null;
 
         //show warnings if not found
@@ -58,30 +60,30 @@ public class ChaseWithPathFinding : ActionTask
         //if there is path, move to next node
         if (path != null && path.Count > 0)
         {
-            //if on a walkable node, save it
-            Node currentNode = pathFinding.Grid.NodeFromWorldPosition(transformTask.position);
-            if (currentNode.isWalkable)
-                lastWalkableNode = currentNode;
+            ////if on a walkable node, save it
+            //Node2D currentNode = pathFinding.Grid.NodeFromWorldPosition(transformTask.position);
+            //if (currentNode.isWalkable)
+            //    lastWalkableNode = currentNode;
 
             //move and aim to next node
             MoveAndAim(path[0].worldPosition);
             CheckReachNode();
         }
-        //if there is no path, move straight to target (only if last walkable node is setted)
-        else if(lastWalkableNode != null)
-        {
-            //if target is in a not walkable node, but neighbour of our last walkable node, move straight to it
-            Node targetNode = pathFinding.Grid.NodeFromWorldPosition(target.position);
-            if (pathFinding.Grid.GetNeighbours(lastWalkableNode).Contains(targetNode))
-            {
-                MoveAndAim(target.position);
-            }
-            //else move back to last walkable node
-            else
-            {
-                MoveAndAim(lastWalkableNode.worldPosition);
-            }
-        }
+        ////if there is no path, move straight to target (only if last walkable node is setted)
+        //else if(lastWalkableNode != null)
+        //{
+        //    //if target is in a not walkable node, but neighbour of our last walkable node, move straight to it
+        //    Node2D targetNode = pathFinding.Grid.NodeFromWorldPosition(target.position);
+        //    if (pathFinding.Grid.GetNeighbours(lastWalkableNode).Contains(targetNode))
+        //    {
+        //        MoveAndAim(target.position);
+        //    }
+        //    //else move back to last walkable node
+        //    else
+        //    {
+        //        MoveAndAim(lastWalkableNode.worldPosition);
+        //    }
+        //}
     }
 
     #region private API
@@ -89,7 +91,7 @@ public class ChaseWithPathFinding : ActionTask
     void UpdatePath()
     {
         //get path
-        path = pathFinding.FindPath(transformTask.position, target.position);
+        path = pathFinding.FindPath(transformTask.position, target.position, agentAStar);
     }
 
     void MoveAndAim(Vector3 destination)

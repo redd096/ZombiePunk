@@ -47,6 +47,7 @@ MonoBehaviour:
   TaskName: '[ACTION] Patrol'
   component: {fileID: 1287676850431733404}
   aimComponent: {fileID: 1287676850431733405}
+  agentAStar: {fileID: 6310225719352537244}
   pathFinding: {fileID: 0}
   radiusPatrol: 5
   speedPatrol: 2
@@ -384,6 +385,16 @@ PrefabInstance:
       propertyPath: m_SpriteTilingProperty.adaptiveTilingThreshold
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 8314279716461989256, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: sizeCollider.x
+      value: 0.9
+      objectReference: {fileID: 0}
+    - target: {fileID: 8314279716461989256, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: sizeCollider.y
+      value: 1
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8b031062a6fbcbd4e8dadc539f1dfa61, type: 3}
 --- !u!114 &1287676850431733404 stripped
@@ -420,6 +431,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: ecebc7d509e0d074c9c76c66e3ada814, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6310225719352537244 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8314279716461989256, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+    type: 3}
+  m_PrefabInstance: {fileID: 2661677416958229780}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af9e4182897a4614baf83c04ff030ffd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &1287676850510943802 stripped

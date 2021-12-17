@@ -8,7 +8,8 @@ public class PatrolWithPathFinding : ActionTask
     [Header("Necessary Components - default get in parent or GameManager")]
     [SerializeField] MovementComponent component;
     [SerializeField] AimComponent aimComponent;
-    [SerializeField] PathFindingAStar pathFinding;
+    [SerializeField] AgentAStar2D agentAStar;
+    [SerializeField] PathFindingAStar2D pathFinding;
 
     [Header("Patrol")]
     [SerializeField] float radiusPatrol = 5;
@@ -21,7 +22,7 @@ public class PatrolWithPathFinding : ActionTask
 
     Vector2 startPosition;
     float waitTimer;
-    List<Node> path;
+    List<Node2D> path;
 
     void OnDrawGizmos()
     {
@@ -41,6 +42,7 @@ public class PatrolWithPathFinding : ActionTask
         //get references
         if (component == null) component = GetComponentInParent<MovementComponent>();
         if (aimComponent == null) aimComponent = GetComponentInParent<AimComponent>();
+        if (agentAStar == null) agentAStar = GetStateMachineComponent<AgentAStar2D>();
         if (pathFinding == null) pathFinding = GameManager.instance ? GameManager.instance.pathFindingAStar : null;
 
         //show warnings if not found
@@ -87,18 +89,18 @@ public class PatrolWithPathFinding : ActionTask
 
         //get path
         if(pathFinding)
-            path = pathFinding.FindPath(transformTask.position, randomPoint);
+            path = pathFinding.FindPath(transformTask.position, randomPoint, agentAStar);
     }
 
     void MoveAndAimToNextNode()
     {
         //move to node
         if(component)
-            component.MoveInDirection((path[0].worldPosition - transformTask.position).normalized, speedPatrol);
+            component.MoveInDirection((path[0].worldPosition - (Vector2)transformTask.position).normalized, speedPatrol);
 
         //aim at next node of the path
         if (aimComponent)
-            aimComponent.AimAt(path[0].worldPosition - transformTask.position);
+            aimComponent.AimAt(path[0].worldPosition - (Vector2)transformTask.position);
     }
 
     void CheckReachNode()

@@ -96,6 +96,7 @@ GameObject:
   - component: {fileID: 3832161719942337417}
   - component: {fileID: 3832161719942337422}
   - component: {fileID: 3832161719942337423}
+  - component: {fileID: 8314279716461989256}
   - component: {fileID: 3832161719942337420}
   - component: {fileID: 3832161719942337412}
   m_Layer: 11
@@ -232,6 +233,22 @@ MonoBehaviour:
   destroyWeaponOnDeath: 1
   healthComponent: {fileID: 3832161719942337422}
   CurrentWeapon: {fileID: 0}
+--- !u!114 &8314279716461989256
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3832161719942337421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: af9e4182897a4614baf83c04ff030ffd, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  typeOverlap: 1
+  sizeCollider: {x: 1, y: 1}
+  radiusCollider: 1
+  drawDebug: 0
 --- !u!50 &3832161719942337420
 Rigidbody2D:
   serializedVersion: 4
