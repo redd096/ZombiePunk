@@ -22,7 +22,6 @@ public class SpawnManager : MonoBehaviour
     public System.Action<SpawnManager> onRestart { get; set; }              //called when finish all the lists and restart from the first
     public System.Action<SpawnManager> onFinishToSpawn { get; set; }        //called when finish all the lists and stops
 
-
     void Awake()
     {
         //deactive every spawn
@@ -47,7 +46,7 @@ public class SpawnManager : MonoBehaviour
         if(spawnsActive.Contains(spawn))
         {
             spawnsActive.Remove(spawn);
-            spawn.onEveryObjectIsKilled -= OnKilledEverySpawnedObject;
+            spawn.onEveryObjectIsDead -= OnKilledEverySpawnedObject;
         }
 
         //check if finish to spawn this list
@@ -102,7 +101,7 @@ public class SpawnManager : MonoBehaviour
                 continue;
 
             spawn.gameObject.SetActive(true);
-            spawn.onEveryObjectIsKilled += OnKilledEverySpawnedObject;
+            spawn.onEveryObjectIsDead += OnKilledEverySpawnedObject;
 
             //add to list, to know when every spawn of this list has finished
             spawnsActive.Add(spawn);

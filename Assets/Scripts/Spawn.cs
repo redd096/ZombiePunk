@@ -15,9 +15,9 @@ public class Spawn : MonoBehaviour
     [ShowNonSerializedField] int index = 0;
 
     //events
-    public System.Action<GameObject> onSpawn { get; set; }
-    public System.Action<Spawn> onFinishSpawn { get; set; }
-    public System.Action<Spawn> onEveryObjectIsKilled { get; set; }
+    public System.Action<GameObject> onSpawn { get; set; }              //called when spawn an object
+    public System.Action<Spawn> onFinishSpawn { get; set; }             //called when finish to spawn every object
+    public System.Action<Spawn> onEveryObjectIsDead { get; set; }     //called when finish to spawn and every object with health component is dead (if there aren't, is called when finish to spawn)
 
     Coroutine spawnCoroutine;
 
@@ -49,6 +49,9 @@ public class Spawn : MonoBehaviour
         onFinishSpawn?.Invoke(this);
 
         spawnCoroutine = null;
+
+        //call the function to check: if there aren't objects with health component, call the event where every object is dead
+        OnKilledObject(null);
     }
 
     void OnKilledObject(HealthComponent whoDied)
@@ -66,7 +69,7 @@ public class Spawn : MonoBehaviour
             if(spawnedAlives.Count <= 0)
             {
                 //call event
-                onEveryObjectIsKilled?.Invoke(this);
+                onEveryObjectIsDead?.Invoke(this);
             }
         }
     }
