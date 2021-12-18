@@ -41,7 +41,7 @@ namespace redd096
             }
         }
 
-        void OnDie(Redd096Main whoDied)
+        void OnDie(HealthComponent whoDied)
         {
             //drop camera on death, if setted
             if (dropCameraOnDeath && cameraToControl)

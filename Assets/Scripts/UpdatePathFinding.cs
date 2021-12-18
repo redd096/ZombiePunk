@@ -91,7 +91,7 @@ public class UpdatePathFinding : MonoBehaviour
         }
     }
 
-    void OnDie(Redd096Main whoDied)
+    void OnDie(HealthComponent whoDied)
     {
         //update on death (update with a delay, to be sure this gameObject is destroyed)
         if (updateOnDeath)

@@ -89,7 +89,7 @@ namespace redd096
             blinkCoroutine = null;
         }
 
-        void OnDie(Redd096Main whoDied)
+        void OnDie(HealthComponent whoDied)
         {
             //instantiate vfx and sfx
             InstantiateGameObjectManager.instance.Play(gameObjectOnDie, transform.position, transform.rotation);

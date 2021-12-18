@@ -60,7 +60,7 @@ public class ExplodeOnDeath : MonoBehaviour
         }
     }
 
-    void OnDie(Redd096Main whoDied)
+    void OnDie(HealthComponent whoDied)
     {
         //do area damage if setted
         if(doAreaDamage && radiusAreaDamage > 0)

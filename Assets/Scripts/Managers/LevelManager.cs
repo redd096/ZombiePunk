@@ -119,7 +119,7 @@ public class LevelManager : MonoBehaviour
 
     #region events
 
-    void OnPlayerDie(Redd096Main whoDied)
+    void OnPlayerDie(HealthComponent whoDied)
     {
         //when a player die, set every player to state Null
         foreach (Character player in Players)
