@@ -7,6 +7,7 @@ public class ExitInteractable : InteractableBASE
 {
     [Header("Rules to Open")]
     [Tooltip("Check there are no enemies in scene")] [SerializeField] bool checkNoEnemiesInScene = true;
+    [Tooltip("If there are spawn managers in scene, check when every spawn has finished and every enemy is killed")] [SerializeField] bool checkEverySpawnManager = true;
     [Tooltip("Check every player has weapon")] [SerializeField] bool checkEveryPlayerHasWeapon = true;
 
     [Header("On Interact")]
@@ -24,6 +25,7 @@ public class ExitInteractable : InteractableBASE
     //necessary for checks
     List<Character> enemies = new List<Character>();
     List<Character> players = new List<Character>();
+    List<SpawnManager> spawnManagers = new List<SpawnManager>();
 
     #region public API
 
@@ -35,20 +37,30 @@ public class ExitInteractable : InteractableBASE
         //register to every enemy death
         foreach (Character enemy in GameManager.instance.levelManager.Enemies)
         {
-            if (enemy.GetSavedComponent<HealthComponent>())
+            if (enemy && enemy.GetSavedComponent<HealthComponent>())
             {
                 enemy.GetSavedComponent<HealthComponent>().onDie += OnEnemyDie;
-                enemies.Add(enemy);     //and add to the list
+                enemies.Add(enemy);             //and add to the list
             }
         }
 
         //register to every player change weapon
         foreach(Character player in GameManager.instance.levelManager.Players)
         {
-            if(player.GetSavedComponent<WeaponComponent>())
+            if(player && player.GetSavedComponent<WeaponComponent>())
             {
                 player.GetSavedComponent<WeaponComponent>().onChangeWeapon += OnPlayerChangeWeapon;
-                players.Add(player);
+                players.Add(player);            //and add to the list
+            }
+        }
+
+        //register to every spawn manager finish spawn
+        foreach(SpawnManager spawnManager in GameManager.instance.levelManager.SpawnManagers)
+        {
+            if (spawnManager)
+            {
+                spawnManager.onFinishToSpawn += OnFinishToSpawn;
+                spawnManagers.Add(spawnManager);    //and add to the list
             }
         }
 
@@ -61,25 +73,29 @@ public class ExitInteractable : InteractableBASE
     /// </summary>
     public void DeactiveExit()
     {
-        //unregister from every enemy death
+        //unregister from every enemy
         foreach (Character enemy in enemies)
         {
-            if (enemy.GetSavedComponent<HealthComponent>())
-            {
+            if (enemy && enemy.GetSavedComponent<HealthComponent>())
                 enemy.GetSavedComponent<HealthComponent>().onDie -= OnEnemyDie;
-            }
         }
         enemies.Clear();
 
-        //unregister from every player change weapon
+        //unregister from every player
         foreach (Character player in players)
         {
-            if (player.GetSavedComponent<WeaponComponent>())
-            {
+            if (player && player.GetSavedComponent<WeaponComponent>())
                 player.GetSavedComponent<WeaponComponent>().onChangeWeapon -= OnPlayerChangeWeapon;
-            }
         }
         players.Clear();
+
+        //unregister from every spawm manager
+        foreach(SpawnManager spawnManager in spawnManagers)
+        {
+            if(spawnManager)
+                spawnManager.onFinishToSpawn -= OnFinishToSpawn;
+        }
+        spawnManagers.Clear();
     }
 
     /// <summary>
@@ -127,6 +143,16 @@ public class ExitInteractable : InteractableBASE
         DoCheck();
     }
 
+    void OnFinishToSpawn(SpawnManager spawnManager)
+    {
+        //remove spawn manager from the list
+        if(spawnManagers.Contains(spawnManager))
+            spawnManagers.Remove(spawnManager);
+
+        //do checks
+        DoCheck();
+    }
+
     #endregion
 
     #region private API
@@ -160,6 +186,12 @@ public class ExitInteractable : InteractableBASE
                     break;
                 }
             }
+        }
+
+        //check every spawn manager
+        if(canOpen && checkEverySpawnManager)
+        {
+            canOpen = spawnManagers.Count <= 0;
         }
 
         return canOpen;

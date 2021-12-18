@@ -16,11 +16,11 @@ public class SpawnManager : MonoBehaviour
     [ShowNonSerializedField] int index = 0;
 
     //events
-    public System.Action<Spawn[]> onActiveList { get; set; }        //called when active a list of spawns
-    public System.Action<Spawn[]> onFinishList { get; set; }        //called when finish a list of spawns
-    public System.Action onFinishEveryList { get; set; }            //called when finish all the lists
-    public System.Action onRestart { get; set; }                    //called when finish all the lists and restart from the first
-    public System.Action onFinishToSpawn { get; set; }              //called when finish all the lists and stops
+    public System.Action<Spawn[]> onActiveList { get; set; }                //called when active a list of spawns
+    public System.Action<Spawn[]> onFinishList { get; set; }                //called when finish a list of spawns
+    public System.Action<SpawnManager> onFinishEveryList { get; set; }      //called when finish all the lists
+    public System.Action<SpawnManager> onRestart { get; set; }              //called when finish all the lists and restart from the first
+    public System.Action<SpawnManager> onFinishToSpawn { get; set; }        //called when finish all the lists and stops
 
 
     void Awake()
@@ -115,12 +115,12 @@ public class SpawnManager : MonoBehaviour
     void FinishEveryList()
     {
         //call event on finish every list
-        onFinishEveryList?.Invoke();
+        onFinishEveryList?.Invoke(this);
 
         //restart from the first
         if(restartWhenFinish)
         {
-            onRestart?.Invoke();
+            onRestart?.Invoke(this);
 
             index = 0;
             ActiveList();
@@ -128,7 +128,7 @@ public class SpawnManager : MonoBehaviour
         //or finish to spawn
         else
         {
-            onFinishToSpawn?.Invoke();
+            onFinishToSpawn?.Invoke(this);
         }
     }
 

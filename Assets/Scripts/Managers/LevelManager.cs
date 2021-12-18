@@ -3,22 +3,31 @@ using UnityEngine;
 using redd096;
 using NaughtyAttributes;
 
+[DefaultExecutionOrder(-5)]
 public class LevelManager : MonoBehaviour
 {
-    [ReadOnly] public List<Character> Players = new List<Character>();
-    [ReadOnly] public List<Character> Enemies = new List<Character>();
-    [ReadOnly] public List<ExitInteractable> Exits = new List<ExitInteractable>();
+    [Header("Elements in scene by default")]
+    [ReadOnly] public HashSet<Character> Players = new HashSet<Character>();
+    [ReadOnly] public HashSet<Character> Enemies = new HashSet<Character>();
+    [ReadOnly] public HashSet<SpawnManager> SpawnManagers = new HashSet<SpawnManager>();
+    [ReadOnly] public HashSet<ExitInteractable> Exits = new HashSet<ExitInteractable>();
 
     void OnEnable()
     {
-        //find every character in scene and add to lists
+        //find every character in scene
         foreach(Character character in FindObjectsOfType<Character>())
         {
-            AddPlayer(character);
-            AddEnemy(character);
+            if (character.CharacterType == Character.ECharacterType.Player) AddPlayer(character);
+            else Enemies.Add(character);
         }
 
-        //find every exit in scene and add to lists
+        //find every spawn manager in scene
+        foreach(SpawnManager spawnManager in FindObjectsOfType<SpawnManager>())
+        {
+            SpawnManagers.Add(spawnManager);
+        }
+
+        //find every exit in scene
         foreach(ExitInteractable exit in FindObjectsOfType<ExitInteractable>())
         {
             AddExit(exit);
@@ -35,11 +44,10 @@ public class LevelManager : MonoBehaviour
         Players.Clear();
 
         //remove every enemy from the list
-        foreach (Character character in Enemies)
-        {
-            RemoveEnemy(character);
-        }
         Enemies.Clear();
+
+        //remove every spawn manager from the list
+        SpawnManagers.Clear();
 
         //remove every exit from the list
         foreach (ExitInteractable exit in Exits)
@@ -53,66 +61,40 @@ public class LevelManager : MonoBehaviour
 
     void AddPlayer(Character character)
     {
-        //only Player and not duplicate
-        if (character.CharacterType == Character.ECharacterType.Player && Players.Contains(character) == false)
+        //register to events
+        if (Players.Contains(character) == false)
         {
-            //add to the list and register to events
-            Players.Add(character);
             if (character.GetSavedComponent<HealthComponent>())
                 character.GetSavedComponent<HealthComponent>().onDie += OnPlayerDie;
+
+            //add to the list
+            Players.Add(character);
         }
     }
 
     void RemovePlayer(Character character)
     {
-        //only if inside the list
-        if (Players.Contains(character))
-        {
-            //unregister from events
-            if (character.GetSavedComponent<HealthComponent>())
-                character.GetSavedComponent<HealthComponent>().onDie -= OnPlayerDie;
-        }
-    }
-
-    void AddEnemy(Character character)
-    {
-        //only AI and not duplicate
-        if (character.CharacterType == Character.ECharacterType.AI && Enemies.Contains(character) == false)
-        {
-            //add to the list
-            Enemies.Add(character);
-        }
-    }
-
-    void RemoveEnemy(Character character)
-    {
-        //only if inside the list
-        if (Enemies.Contains(character))
-        {
-            //remove from the list
-            //Players.Remove(character);
-        }
+        //unregister from events
+        if (character.GetSavedComponent<HealthComponent>())
+            character.GetSavedComponent<HealthComponent>().onDie -= OnPlayerDie;
     }
 
     void AddExit(ExitInteractable exit)
     {
-        //not duplicate
+        //active it
         if (Exits.Contains(exit) == false)
         {
-            //add to list and active it
-            Exits.Add(exit);
             exit.ActiveExit();
+
+            //add to list
+            Exits.Add(exit);
         }
     }
 
     void RemoveExit(ExitInteractable exit)
     {
-        //only if inside the list
-        if(Exits.Contains(exit))
-        {
-            //deactivate it
-            exit.DeactiveExit();
-        }
+        //deactivate it
+        exit.DeactiveExit();
     }
 
     #endregion
