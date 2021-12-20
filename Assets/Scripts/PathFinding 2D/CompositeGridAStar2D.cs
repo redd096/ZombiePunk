@@ -3,12 +3,15 @@ using UnityEngine;
 
 namespace redd096
 {
+    /// <summary>
+    /// Used to create a single grid using every grid in the scene
+    /// </summary>
     [AddComponentMenu("redd096/Path Finding A Star/Composite Grid A Star 2D")]
     public class CompositeGridAStar2D : GridAStar2D
     {
         [Header("Composite")]
         [Tooltip("If the node we want to reach makes the agent overlap with a node outside of every grid, we want our agent to move anyway? Then set true.\n" +
-            "Or maybe we prefer to calculate it like a wall? Then set false")] 
+            "Or maybe we prefer to calculate it like a wall? Then set false")]
         [SerializeField] bool agentCanOverlapNodesOutsideGrids = true;
 
         List<GridAStar2D> gridsAStar = new List<GridAStar2D>();

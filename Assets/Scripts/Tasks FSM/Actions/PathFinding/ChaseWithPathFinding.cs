@@ -16,6 +16,7 @@ public class ChaseWithPathFinding : ActionTask
     [SerializeField] float speedChase = 5;
 
     [Header("DEBUG")]
+    [SerializeField] bool drawDebug = false;
     [Range(0f, 0.5f)] [SerializeField] float approxReachNode = 0.05f;
     [SerializeField] float delayRecalculatePath = 0.2f;
 
@@ -23,6 +24,25 @@ public class ChaseWithPathFinding : ActionTask
     Transform target;
     List<Node2D> path;
     //Node2D lastWalkableNode;
+
+    void OnDrawGizmos()
+    {
+        //draw radius patrol
+        if (drawDebug)
+        {
+            //draw path
+            if (path != null && path.Count > 0)
+            {
+                Gizmos.color = Color.magenta;
+                for (int i = 0; i < path.Count; i++)
+                {
+                    if (i + 1 < path.Count)
+                        Gizmos.DrawLine(path[i].worldPosition, path[i + 1].worldPosition);
+                }
+                Gizmos.color = Color.white;
+            }
+        }
+    }
 
     protected override void OnInitTask()
     {
@@ -86,6 +106,15 @@ public class ChaseWithPathFinding : ActionTask
         //        MoveAndAim(lastWalkableNode.worldPosition);
         //    }
         //}
+    }
+
+    public override void OnExitTask()
+    {
+        base.OnExitTask();
+
+        //remove path
+        if (path != null)
+            path.Clear();
     }
 
     #region private API

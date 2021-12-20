@@ -205,9 +205,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aaaab6921855c544d8a04ec7a20be6b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Players: []
-  Enemies: []
-  Exits: []
 --- !u!1 &7913340268312218489
 GameObject:
   m_ObjectHideFlags: 0
@@ -288,7 +285,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   unwalkableMask:
     serializedVersion: 2
-    m_Bits: 4352
+    m_Bits: 256
   updateOnAwake: 1
   gridWorldSize: {x: 18, y: 10}
   nodeDiameter: 0.25
@@ -308,7 +305,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   Grid: {fileID: 62355844536710495}
-  delayBetweenUpdatesGrid: 0.2
+  delayBeforeUpdateGrid: 0.2
 --- !u!1 &7913340268533180607
 GameObject:
   m_ObjectHideFlags: 0

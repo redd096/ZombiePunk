@@ -97,6 +97,8 @@ GameObject:
   - component: {fileID: 3832161719942337422}
   - component: {fileID: 3832161719942337423}
   - component: {fileID: 8314279716461989256}
+  - component: {fileID: 2909709813193156785}
+  - component: {fileID: 6040581983838073339}
   - component: {fileID: 3832161719942337420}
   - component: {fileID: 3832161719942337412}
   m_Layer: 11
@@ -245,10 +247,45 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: af9e4182897a4614baf83c04ff030ffd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  typeOverlap: 1
+  offset: {x: 0, y: 0}
+  typeCollider: 1
   sizeCollider: {x: 1, y: 1}
   radiusCollider: 1
+  obstacleAStar: {fileID: 2909709813193156785}
   drawDebug: 0
+--- !u!114 &2909709813193156785
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3832161719942337421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 07e9770e1bad0824d8627ae9cf102c23, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  collidersToUse: []
+--- !u!114 &6040581983838073339
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3832161719942337421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e5efc7b5205a0f41904adf56d1df2a5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  component: {fileID: 2909709813193156785}
+  movementComponent: {fileID: 3832161719942337416}
+  healthComponent: {fileID: 3832161719942337422}
+  updateMode: 2
+  timeCoroutine: 0.1
+  updateOnStart: 1
+  updateOnMoves: 1
+  updateOnDeath: 1
 --- !u!50 &3832161719942337420
 Rigidbody2D:
   serializedVersion: 4

@@ -34,6 +34,18 @@ public class PatrolWithPathFinding : ActionTask
             Gizmos.color = Color.magenta;
             Gizmos.DrawWireSphere(Application.isPlaying ? startPosition : (Vector2)transformTask.position, radiusPatrol);
             Gizmos.color = Color.white;
+
+            //draw path
+            if (path != null && path.Count > 0)
+            {
+                Gizmos.color = Color.cyan;
+                for (int i = 0; i < path.Count; i++)
+                {
+                    if (i + 1 < path.Count)
+                        Gizmos.DrawLine(path[i].worldPosition, path[i + 1].worldPosition);
+                }
+                Gizmos.color = Color.white;
+            }
         }
     }
 
@@ -80,6 +92,15 @@ public class PatrolWithPathFinding : ActionTask
         //when reach node, remove from list. If reach end of path, set wait timer
         CheckReachNode();
         CheckReachEndPath();
+    }
+
+    public override void OnExitTask()
+    {
+        base.OnExitTask();
+
+        //remove path
+        if(path != null)
+            path.Clear();
     }
 
     #region private API

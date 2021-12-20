@@ -8,12 +8,14 @@ public class UpdatePathFinding : MonoBehaviour
     enum EUpdateModes { Update, FixedUpdate, Coroutine, None }
 
     [Header("Necessary Components - default get from this gameObject")]
-    [Tooltip("To update when is moving")] [SerializeField] MovementComponent component;
+    [Tooltip("To update the grid")] [SerializeField] ObstacleAStar2D component;
+    [Tooltip("To update when is moving")] [SerializeField] MovementComponent movementComponent;
     [Tooltip("To update when is dead")] [SerializeField] HealthComponent healthComponent;
 
     [Header("Updates")]
     [Tooltip("Update or FixedUpdate?")] [SerializeField] EUpdateModes updateMode = EUpdateModes.Coroutine;
     [Tooltip("Delay between updates using Coroutine method")] [EnableIf("updateMode", EUpdateModes.Coroutine)] [SerializeField] float timeCoroutine = 0.1f;
+    [SerializeField] bool updateOnStart = true;
     [SerializeField] bool updateOnMoves = true;
     [SerializeField] bool updateOnDeath = true;
 
@@ -23,11 +25,13 @@ public class UpdatePathFinding : MonoBehaviour
     void OnEnable()
     {
         //get references
-        if (component == null) component = GetComponent<MovementComponent>();
+        if (component == null) component = GetComponent<ObstacleAStar2D>();
+        if (movementComponent == null) movementComponent = GetComponent<MovementComponent>();
         if (healthComponent == null) healthComponent = GetComponent<HealthComponent>();
 
-        if (component == null) Debug.LogWarning("Missing MovementComponent on " + name);
-        if (healthComponent == null) Debug.LogWarning("Missing HealthComponent on " + name);
+        if (component == null) Debug.LogWarning("Missing ObstacleAStar2D on " + name);
+        if (updateOnMoves && movementComponent == null) Debug.LogWarning("Missing MovementComponent on " + name);
+        if (updateOnDeath && healthComponent == null) Debug.LogWarning("Missing HealthComponent on " + name);
 
         //add events
         if (healthComponent)
@@ -56,13 +60,20 @@ public class UpdatePathFinding : MonoBehaviour
         }
     }
 
+    void Start()
+    {
+        //update on start
+        if (updateOnStart)
+            UpdatePath(true);
+    }
+
     void Update()
     {
         //do only if update mode is Update
         if (updateMode == EUpdateModes.Update)
         {
             //update on moves
-            if(updateOnMoves && component && component.CurrentSpeed > 0)
+            if(updateOnMoves && movementComponent && movementComponent.CurrentSpeed > 0)
                 UpdatePath();
         }
     }
@@ -73,7 +84,7 @@ public class UpdatePathFinding : MonoBehaviour
         if (updateMode == EUpdateModes.FixedUpdate)
         {
             //update on moves
-            if (updateOnMoves && component && component.CurrentSpeed > 0)
+            if (updateOnMoves && movementComponent && movementComponent.CurrentSpeed > 0)
                 UpdatePath();
         }
     }
@@ -84,7 +95,7 @@ public class UpdatePathFinding : MonoBehaviour
         while (updateMode == EUpdateModes.Coroutine)
         {
             //update on moves
-            if (updateOnMoves && component && component.CurrentSpeed > 0)
+            if (updateOnMoves && movementComponent && movementComponent.CurrentSpeed > 0)
                 UpdatePath();
 
             yield return new WaitForSeconds(timeCoroutine);
@@ -93,20 +104,25 @@ public class UpdatePathFinding : MonoBehaviour
 
     void OnDie(HealthComponent whoDied)
     {
-        //update on death (update with a delay, to be sure this gameObject is destroyed)
+        //update on death (remove colliders to be sure is not calculated again)
         if (updateOnDeath)
-            UpdatePath(1);
+        {
+            if (component)
+            {
+                component.RemoveColliders();
+            }
+
+            UpdatePath();
+        }
     }
 
-    void UpdatePath(float delay = 0)
+    void UpdatePath(bool updateImmediatly = false)
     {
         //update path
         if (GameManager.instance && GameManager.instance.pathFindingAStar)
         {
-            if (delay <= 0)
-                GameManager.instance.pathFindingAStar.UpdateGrid();
-            else
-                GameManager.instance.pathFindingAStar.Invoke("UpdateGrid", delay);      //update with a delay
+            if(component)
+                GameManager.instance.pathFindingAStar.UpdateGrid(component, updateImmediatly);
         }
     }
 }

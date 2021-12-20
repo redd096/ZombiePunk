@@ -28,7 +28,8 @@ namespace redd096
             if (GUILayout.Button("Update Nodes"))
             {
                 //update nodes
-                gridAStar.UpdateGrid();
+                gridAStar.BuildGrid();
+                gridAStar.UpdateObstaclesPosition(FindObjectsOfType<ObstacleAStar2D>());
 
                 //repaint scene and set undo
                 SceneView.RepaintAll();
@@ -41,6 +42,9 @@ namespace redd096
 
     #endregion
 
+    /// <summary>
+    /// Grid used for pathfinding
+    /// </summary>
     [AddComponentMenu("redd096/Path Finding A Star/Grid A Star 2D")]
     public class GridAStar2D : MonoBehaviour
     {
@@ -70,6 +74,7 @@ namespace redd096
         public int MaxSize => gridSize.x * gridSize.y;
         public virtual Vector2 GridWorldPosition => transform.position;
         public Vector2 GridWorldSize => gridWorldSize;
+        public float NodeRadius => nodeRadius;
 
         #endregion
 
@@ -77,7 +82,7 @@ namespace redd096
         {
             //create grid
             if (updateOnAwake && IsGridCreated() == false)
-                UpdateGrid();
+                BuildGrid();
         }
 
         void OnDrawGizmosSelected()
@@ -92,7 +97,7 @@ namespace redd096
                 foreach (Node2D node in grid)
                 {
                     //set color if walkable or not
-                    Gizmos.color = new Color(1, 1, 1, alphaNodes) * (node.isWalkable ? Color.green : Color.red);
+                    Gizmos.color = new Color(1, 1, 1, alphaNodes) * (node.isWalkable ? (node.obstaclesOnThisNode.Count <= 0 ? Color.green : Color.magenta) : Color.red);
                     //Gizmos.DrawSphere(node.worldPosition, overlapRadius);
                     Gizmos.DrawCube(node.worldPosition, Vector2.one * overlapDiameter);
                 }
@@ -146,7 +151,7 @@ namespace redd096
         /// <summary>
         /// Recreate grid (set which node is walkable and which not)
         /// </summary>
-        public void UpdateGrid()
+        public void BuildGrid()
         {
             SetGridSize();
             CreateGrid();
@@ -160,6 +165,39 @@ namespace redd096
         {
             //return if the grid was being created
             return grid != null;
+        }
+
+        /// <summary>
+        /// Update obstacles position on the grid
+        /// </summary>
+        /// <param name="obstacles"></param>
+        public void UpdateObstaclesPosition(ObstacleAStar2D[] obstacles)
+        {
+            //update position of every obstacle
+            if (obstacles != null)
+            {
+                foreach (ObstacleAStar2D obstacle in obstacles)
+                    obstacle.UpdatePositionOnGrid(this);
+            }
+        }
+
+        /// <summary>
+        /// Is world position inside the grid?
+        /// </summary>
+        /// <param name="worldPosition"></param>
+        /// <returns></returns>
+        public bool IsInsideGrid(Vector2 worldPosition)
+        {
+            //outside left or right
+            if (worldPosition.x < GridWorldPosition.x - (gridWorldSize.x * 0.5f) || worldPosition.x > GridWorldPosition.x + (gridWorldSize.x * 0.5f))
+                return false;
+
+            //outside down or up
+            if (worldPosition.y < GridWorldPosition.y - (gridWorldSize.y * 0.5f) || worldPosition.y > GridWorldPosition.y + (gridWorldSize.y * 0.5f))
+                return false;
+
+            //else is inside
+            return true;
         }
 
         /// <summary>
@@ -199,7 +237,7 @@ namespace redd096
         /// </summary>
         /// <param name="worldPosition"></param>
         /// <returns></returns>
-        public Node2D NodeFromWorldPosition(Vector2 worldPosition)
+        public Node2D GetNodeFromWorldPosition(Vector2 worldPosition)
         {
             //be sure to get right result also if grid doesn't start at [0,0]
             worldPosition -= GridWorldPosition;
@@ -219,25 +257,6 @@ namespace redd096
         }
 
         /// <summary>
-        /// Is world position inside the grid?
-        /// </summary>
-        /// <param name="worldPosition"></param>
-        /// <returns></returns>
-        public bool IsInsideGrid(Vector2 worldPosition)
-        {
-            //outside left or right
-            if (worldPosition.x < GridWorldPosition.x - (gridWorldSize.x * 0.5f) || worldPosition.x > GridWorldPosition.x + (gridWorldSize.x * 0.5f))
-                return false;
-
-            //outside down or up
-            if (worldPosition.y < GridWorldPosition.y - (gridWorldSize.y * 0.5f) || worldPosition.y > GridWorldPosition.y + (gridWorldSize.y * 0.5f))
-                return false;
-
-            //else is inside
-            return true;
-        }
-
-        /// <summary>
         /// Get node at grid position
         /// </summary>
         /// <param name="gridPosition"></param>
@@ -245,6 +264,56 @@ namespace redd096
         public Node2D GetNodeByCoordinates(int x, int y)
         {
             return grid[x, y];
+        }
+
+        /// <summary>
+        /// From a start node, calculate node at the extremes of a box
+        /// </summary>
+        /// <param name="startNode">start node</param>
+        /// <param name="leftDown">left down of the box</param>
+        /// <param name="rightUp">right up of the box</param>
+        /// <param name="leftNode"></param>
+        /// <param name="rightNode"></param>
+        /// <param name="downNode"></param>
+        /// <param name="upNode"></param>
+        public void GetNodesExtremesOfABox(Node2D startNode, Vector2 leftDown, Vector2 rightUp, out Node2D leftNode, out Node2D rightNode, out Node2D downNode, out Node2D upNode)
+        {
+            //set left node
+            leftNode = startNode;
+            for (int x = startNode.gridPosition.x - 1; x >= 0; x--)
+            {
+                if (grid[x, startNode.gridPosition.y].worldPosition.x + nodeRadius >= leftDown.x)
+                    leftNode = grid[x, startNode.gridPosition.y];
+                else
+                    break;
+            }
+            //set right node
+            rightNode = startNode;
+            for (int x = startNode.gridPosition.x + 1; x < gridSize.x; x++)
+            {
+                if (grid[x, startNode.gridPosition.y].worldPosition.x - nodeRadius <= rightUp.x)
+                    rightNode = grid[x, startNode.gridPosition.y];
+                else
+                    break;
+            }
+            //set up node
+            upNode = startNode;
+            for (int y = startNode.gridPosition.y + 1; y < gridSize.y; y++)
+            {
+                if (grid[startNode.gridPosition.x, y].worldPosition.y - nodeRadius <= rightUp.y)
+                    upNode = grid[startNode.gridPosition.x, y];
+                else
+                    break;
+            }
+            //set down node
+            downNode = startNode;
+            for (int y = startNode.gridPosition.y - 1; y >= 0; y--)
+            {
+                if (grid[startNode.gridPosition.x, y].worldPosition.y + nodeRadius >= leftDown.y)
+                    downNode = grid[startNode.gridPosition.x, y];
+                else
+                    break;
+            }
         }
 
         #endregion

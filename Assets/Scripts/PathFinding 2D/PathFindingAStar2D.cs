@@ -15,6 +15,9 @@ using UnityEngine;
 
 namespace redd096
 {
+    /// <summary>
+    /// Call this to calculate a path using pathfinding or to update the grid
+    /// </summary>
     [AddComponentMenu("redd096/Path Finding A Star/Path Finding A Star 2D")]
     public class PathFindingAStar2D : MonoBehaviour
     {
@@ -26,6 +29,7 @@ namespace redd096
 
         //vars
         Coroutine updateGridCoroutine;
+        List<ObstacleAStar2D> obstaclesToUpdate = new List<ObstacleAStar2D>();
 
         void Awake()
         {
@@ -80,11 +84,11 @@ namespace redd096
 
             //be sure the grid is created
             if (Grid.IsGridCreated() == false)
-                Grid.UpdateGrid();
+                Grid.BuildGrid();
 
             //get nodes from world position
-            Node2D startNode = Grid.NodeFromWorldPosition(startPosition);
-            Node2D targetNode = Grid.NodeFromWorldPosition(targetPosition);
+            Node2D startNode = Grid.GetNodeFromWorldPosition(startPosition);
+            Node2D targetNode = Grid.GetNodeFromWorldPosition(targetPosition);
 
             Heap2D<Node2D> openList = new Heap2D<Node2D>(Grid.MaxSize);     //nodes to be evaluated
             HashSet<Node2D> closedList = new HashSet<Node2D>();             //already evaluated
@@ -181,31 +185,37 @@ namespace redd096
         }
 
         /// <summary>
-        /// Update grid. There is a delay before updates in case multiple objects call at same time. If you don't want delays, call UpdateGridImmediatly() instead
+        /// Update obstacles position on the grid. There is a delay before updates in case multiple objects call at same time
         /// </summary>
-        public void UpdateGrid()
+        /// <param name="obstacle">Obstacle to add at the lists of obstacles to update</param>
+        /// <param name="updateImmediatly">To update immediatly instead of use a delay</param>
+        public void UpdateGrid(ObstacleAStar2D obstacle, bool updateImmediatly = false)
         {
+            //add to list of obstacles to update
+            if (obstaclesToUpdate.Contains(obstacle) == false)
+                obstaclesToUpdate.Add(obstacle);
+
+            //if update immediatly, don't start coroutine
+            if (updateImmediatly)
+            {
+                //stop timer (to be sure is not updated two times)
+                if (updateGridCoroutine != null)
+                {
+                    StopCoroutine(updateGridCoroutine);
+                    updateGridCoroutine = null;
+                }
+
+                //and update immediatly grid
+                Grid.UpdateObstaclesPosition(obstaclesToUpdate.ToArray());
+                obstaclesToUpdate.Clear();
+                return;
+            }
+
             //start timer to Update Grid. If timer is already running, do nothing (update will be already call)
             if (updateGridCoroutine == null)
             {
                 updateGridCoroutine = StartCoroutine(UpdateGridCoroutine());
             }
-        }
-
-        /// <summary>
-        /// Update grid immediatly, without delays
-        /// </summary>
-        public void UpdateGridImmediatly()
-        {
-            //stop timer (to be sure is not updated two times)
-            if (updateGridCoroutine != null)
-            {
-                StopCoroutine(updateGridCoroutine);
-                updateGridCoroutine = null;
-            }
-
-            //and update immediatly grid
-            Grid.UpdateGrid();
         }
 
         #endregion
@@ -278,7 +288,10 @@ namespace redd096
 
             //then update grid
             if (Grid)
-                Grid.UpdateGrid();
+            {
+                Grid.UpdateObstaclesPosition(obstaclesToUpdate.ToArray());
+                obstaclesToUpdate.Clear();
+            }
 
             updateGridCoroutine = null;
         }
