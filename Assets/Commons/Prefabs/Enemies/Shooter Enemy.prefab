@@ -54,6 +54,7 @@ MonoBehaviour:
   timeToWaitWhenReach: 1
   drawDebug: 0
   approxReachNode: 0.05
+  delayRecalculatePath: 0.2
 --- !u!114 &6115611408477706948
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -124,9 +125,9 @@ MonoBehaviour:
   component: {fileID: 1287676850431733403}
   aimComponent: {fileID: 1287676850431733405}
   targetBlackboardName: Target
-  timeBeforeFirstAttack: 0.5
-  durationAttack: 1
-  timeBetweenAttacks: 0.5
+  timeBeforeFirstAttack: 0.2
+  durationAttack: 0.2
+  timeBetweenAttacks: 2
 --- !u!114 &3226339378362866299
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -203,6 +204,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 3832161719942337416, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: maxSpeed
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3832161719942337421, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: m_Name
@@ -212,7 +218,7 @@ PrefabInstance:
         type: 3}
       propertyPath: weaponPrefab
       value: 
-      objectReference: {fileID: 2449362379551670818, guid: 2854b35d2f5599a47ba4785c69cff9a8,
+      objectReference: {fileID: 7737347699123493500, guid: af08f119ac58799439c0abe3f4414cca,
         type: 3}
     - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
