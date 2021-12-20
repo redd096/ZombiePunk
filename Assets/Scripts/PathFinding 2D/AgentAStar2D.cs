@@ -151,10 +151,10 @@ namespace redd096
             //if there are obstacles
             if (nodeToCheck.obstaclesOnThisNode.Count > 0)
             {
-                //if there is only one obstacle and is self, return false
+                //if there is self obstacle, return false
                 if (obstacleAStar)
                 {
-                    if (nodeToCheck.obstaclesOnThisNode.Count == 1 && nodeToCheck.obstaclesOnThisNode.Contains(obstacleAStar))
+                    if (nodeToCheck.obstaclesOnThisNode.Contains(obstacleAStar))
                         return false;
                 }
 
