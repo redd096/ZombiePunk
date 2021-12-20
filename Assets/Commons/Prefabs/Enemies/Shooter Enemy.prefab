@@ -50,7 +50,7 @@ MonoBehaviour:
   agentAStar: {fileID: 6310225719352537244}
   pathFinding: {fileID: 0}
   radiusPatrol: 5
-  speedPatrol: 2
+  speedPatrol: 0.8
   timeToWaitWhenReach: 1
   drawDebug: 0
   approxReachNode: 0.05
@@ -207,7 +207,7 @@ PrefabInstance:
     - target: {fileID: 3832161719942337416, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: maxSpeed
-      value: 1
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3832161719942337421, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
@@ -220,6 +220,11 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 7737347699123493500, guid: af08f119ac58799439c0abe3f4414cca,
         type: 3}
+    - target: {fileID: 3832161719942337423, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: dropWeaponOnDeath
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: States.Array.size

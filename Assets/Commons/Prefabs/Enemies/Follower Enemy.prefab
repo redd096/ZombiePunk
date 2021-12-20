@@ -94,9 +94,9 @@ MonoBehaviour:
   aimComponent: {fileID: 5017728266285329904}
   agentAStar: {fileID: 283268124930683889}
   pathFinding: {fileID: 0}
-  radiusPatrol: 5
-  speedPatrol: 2
-  timeToWaitWhenReach: 1
+  radiusPatrol: 6
+  speedPatrol: 1
+  timeToWaitWhenReach: 0
   drawDebug: 0
   approxReachNode: 0.15
   delayRecalculatePath: 0.2
@@ -173,7 +173,7 @@ MonoBehaviour:
   agentAStar: {fileID: 283268124930683889}
   pathFinding: {fileID: 0}
   targetBlackboardName: Target
-  speedChase: 5
+  speedChase: 0.8
   approxReachNode: 0.15
   delayRecalculatePath: 0.2
 --- !u!114 &4590521979274603978
@@ -191,7 +191,7 @@ MonoBehaviour:
   TaskName: '[CONDITION] Distance from Player > value'
   targetBlackboardName: Target
   compare: 1
-  distance: 7
+  distance: 8
   drawDebug: 0
   equalsCheckThreshold: 0.05
   ifTargetIsNullReturnTrue: 0
@@ -279,7 +279,7 @@ PrefabInstance:
     - target: {fileID: 3832161719942337416, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: maxSpeed
-      value: 1
+      value: 50
       objectReference: {fileID: 0}
     - target: {fileID: 3832161719942337421, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
