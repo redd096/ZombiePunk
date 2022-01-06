@@ -6,7 +6,7 @@ namespace redd096
     public class DamageCharacterOnHit : MonoBehaviour
     {
         [Header("Do Damage On Hit?")]
-        [SerializeField] bool isActive = true;
+        public bool IsActive = true;
 
         [Header("Damage")]
         [SerializeField] List<Character.ECharacterType> charactersToHit = new List<Character.ECharacterType>() { Character.ECharacterType.Player };
@@ -71,7 +71,7 @@ namespace redd096
 
         void OnHit(Collision2D collision, Character hitCharacter)
         {
-            if (isActive == false)
+            if (IsActive == false)
                 return;
 
             //if there is no character, do nothing
@@ -89,7 +89,7 @@ namespace redd096
 
             //do damage and push back
             if (hitCharacter.GetSavedComponent<HealthComponent>())
-                hitCharacter.GetSavedComponent<HealthComponent>().GetDamage(damage);
+                hitCharacter.GetSavedComponent<HealthComponent>().GetDamage(damage, character, collision.GetContact(0).point);
 
             if (hitCharacter && hitCharacter.GetSavedComponent<MovementComponent>())
                 hitCharacter.GetSavedComponent<MovementComponent>().PushInDirection(((Vector2)hitCharacter.transform.position - collision.GetContact(0).point).normalized, pushForce);

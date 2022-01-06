@@ -6,14 +6,19 @@ using redd096;
 public class DamageOnHit : ActionTask
 {
     [Header("Damage")]
-    [SerializeField] List<Character.ECharacterType> charactersToHit = new List<Character.ECharacterType>() { Character.ECharacterType.AI };
+    [SerializeField] List<Character.ECharacterType> charactersToHit = new List<Character.ECharacterType>() { Character.ECharacterType.Player };
     [SerializeField] bool hitAlsoNotCharacters = true;
     [SerializeField] float damage = 10;
     [SerializeField] float pushForce = 10;
     [Tooltip("Necessary for on collision stay, to not call damage every frame")] [SerializeField] float delayBetweenAttacks = 1;
 
+    [Header("DEBUG")]
+    [SerializeField] bool disableBaseDamageCharacterOnHit = true;
+
     Redd096Main self;
+    Character selfCharacter;
     NotifyCollisions notifyCollisions;
+    DamageCharacterOnHit damageCharacterOnHit;
     Dictionary<Redd096Main, float> hits = new Dictionary<Redd096Main, float>();
 
     protected override void OnInitTask()
@@ -22,7 +27,9 @@ public class DamageOnHit : ActionTask
 
         //get references
         self = GetStateMachineComponent<Redd096Main>();
+        selfCharacter = self ? self as Character : null;
         notifyCollisions = GetStateMachineComponent<NotifyCollisions>();
+        damageCharacterOnHit = GetStateMachineComponent<DamageCharacterOnHit>();
     }
 
     public override void OnEnterTask()
@@ -36,6 +43,12 @@ public class DamageOnHit : ActionTask
             notifyCollisions.onCollisionStay += OnOwnerCollisionStay2D;
             notifyCollisions.onCollisionExit += OnOwnerCollisionExit2D;
         }
+
+        //disable base damage character on hit
+        if(disableBaseDamageCharacterOnHit && damageCharacterOnHit)
+        {
+            damageCharacterOnHit.IsActive = false;
+        }
     }
 
     public override void OnExitTask()
@@ -48,6 +61,12 @@ public class DamageOnHit : ActionTask
             notifyCollisions.onCollisionEnter -= OnOwnerCollisionEnter2D;
             notifyCollisions.onCollisionStay -= OnOwnerCollisionStay2D;
             notifyCollisions.onCollisionExit -= OnOwnerCollisionExit2D;
+        }
+
+        //re-enable base damage character on hit
+        if (disableBaseDamageCharacterOnHit && damageCharacterOnHit)
+        {
+            damageCharacterOnHit.IsActive = true;
         }
     }
 
@@ -113,7 +132,7 @@ public class DamageOnHit : ActionTask
 
         //do damage and push back
         if (hit.GetSavedComponent<HealthComponent>())
-            hit.GetSavedComponent<HealthComponent>().GetDamage(damage);
+            hit.GetSavedComponent<HealthComponent>().GetDamage(damage, selfCharacter, collision.GetContact(0).point);
 
         if (hit && hit.GetSavedComponent<MovementComponent>())
             hit.GetSavedComponent<MovementComponent>().PushInDirection(((Vector2)hit.transform.position - collision.GetContact(0).point).normalized, pushForce);

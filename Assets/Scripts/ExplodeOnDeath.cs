@@ -22,6 +22,8 @@ public class ExplodeOnDeath : MonoBehaviour
     [Header("DEBUG")]
     [SerializeField] bool drawDebug = false;
 
+    Character selfCharacter;
+
     void OnDrawGizmos()
     {
         //draw area damage
@@ -40,6 +42,8 @@ public class ExplodeOnDeath : MonoBehaviour
         //get references
         if (component == null)
             component = GetComponent<HealthComponent>();
+        if (selfCharacter == null)
+            selfCharacter = GetComponent<Character>();
 
         if (component == null)
             Debug.LogWarning("Missing HealthComponent on " + name);
@@ -85,7 +89,7 @@ public class ExplodeOnDeath : MonoBehaviour
 
                 //do damage
                 if (hitMain.GetSavedComponent<HealthComponent>()) 
-                    hitMain.GetSavedComponent<HealthComponent>().GetDamage(damage);
+                    hitMain.GetSavedComponent<HealthComponent>().GetDamage(damage, selfCharacter, transform.position, ignoreShield);
 
                 //and knockback
                 if (hitMain && hitMain.GetSavedComponent<MovementComponent>())
