@@ -57,15 +57,18 @@ public class DamageOnHit : ActionTask
         Redd096Main hit = collision.gameObject.GetComponentInParent<Redd096Main>();
         if (hit && hits.ContainsKey(hit) == false)
         {
-            Character hitCharacter = hit as Character;
-
-            //check can damage
-            if ((self == null || hit != self) &&                                                    //be sure to not hit self
-                (hitCharacter == null || charactersToHit.Contains(hitCharacter.CharacterType)))     //and be sure is type can hit (or is not a character)
+            //be sure to not hit self
+            if (self == null || hit != self)
             {
-                //damage it and add to the list
-                OnHit(collision, hit);
-                hits.Add(hit, Time.time + delayBetweenAttacks);    //set timer
+                //check can damage
+                Character hitCharacter = hit as Character;
+                if ((hitCharacter != null && charactersToHit.Contains(hitCharacter.CharacterType))        //be sure is a type of character can hit
+                    || (hitCharacter == null && hitAlsoNotCharacters))                                    //or is not a character and can hit also them
+                {
+                    //damage it and add to the list
+                    OnHit(collision, hit);
+                    hits.Add(hit, Time.time + delayBetweenAttacks);    //set timer
+                }
             }
         }
     }
