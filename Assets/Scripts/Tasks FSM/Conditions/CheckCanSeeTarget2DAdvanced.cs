@@ -35,7 +35,7 @@ public class CheckCanSeeTarget2DAdvanced : ConditionTask
             Gizmos.DrawWireSphere(transformTask.position, awarnessDistance);
 
             //draw view angle
-            Vector2 direction = Application.isPlaying && component ? component.AimDirectionInput : Vector2.right;
+            Vector2 direction = Application.isPlaying && component ? (useOnlyLeftAndRight ? (component.IsLookingRight ? Vector2.right : Vector2.left) : component.AimDirectionInput) : Vector2.right;            
             Gizmos.matrix = Matrix4x4.TRS(transformTask.position, Quaternion.LookRotation(direction), Vector3.one);
             Gizmos.DrawFrustum(Vector3.zero, viewAngle, maxDistance, 0, 1f);
 

@@ -15,8 +15,8 @@ public class AttackTarget : ActionTask
     [SerializeField] float timeBetweenAttacks = 0.5f;
 
     Transform target;
-    float timerBeforeAttack;
-    float timerAttack;
+    float timerBeforeAttack;    //time between attacks
+    float timerAttack;          //duration attack
     bool isAttacking;
 
     protected override void OnInitTask()

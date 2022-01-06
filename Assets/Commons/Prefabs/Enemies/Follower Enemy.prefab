@@ -1,50 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &3476773514036217960
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 5435407239762866468}
-  - component: {fileID: 2066688402717877208}
-  m_Layer: 11
-  m_Name: WaitState
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &5435407239762866468
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3476773514036217960}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 5017728266096039255}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2066688402717877208
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3476773514036217960}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 9ebce06f0f66c4044b64a76a2f8f2ef9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TaskName: '[CONDITION] Wait Timer'
-  timer: 1
 --- !u!1 &4822859814762986907
 GameObject:
   m_ObjectHideFlags: 0
@@ -133,7 +88,7 @@ GameObject:
   - component: {fileID: 538894979910403547}
   - component: {fileID: 5006673314565892149}
   - component: {fileID: 4590521979274603978}
-  - component: {fileID: 192139844484476030}
+  - component: {fileID: 796685682045754373}
   m_Layer: 11
   m_Name: ChaseState
   m_TagString: Untagged
@@ -196,7 +151,7 @@ MonoBehaviour:
   drawDebug: 0
   equalsCheckThreshold: 0.05
   ifTargetIsNullReturnTrue: 0
---- !u!114 &192139844484476030
+--- !u!114 &796685682045754373
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -205,11 +160,91 @@ MonoBehaviour:
   m_GameObject: {fileID: 4963673809899504658}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c380c9c567831c9469b9664871e25e6e, type: 3}
+  m_Script: {fileID: 11500000, guid: eb3a55590bce2fd4dbb1cc86ea68401a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  TaskName: '[CONDITION] Hit Character'
-  component: {fileID: 5017728266285329917}
+  TaskName: '[CONDITION] Distance from Player < value'
+  targetBlackboardName: Target
+  compare: 2
+  distance: 1
+  drawDebug: 0
+  equalsCheckThreshold: 0.05
+  ifTargetIsNullReturnTrue: 0
+--- !u!1 &7367816136740611222
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3628033648742202563}
+  - component: {fileID: 6796249669525476183}
+  - component: {fileID: 4159337474234587344}
+  m_Layer: 11
+  m_Name: AttackState
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3628033648742202563
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7367816136740611222}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5017728266096039255}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &6796249669525476183
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7367816136740611222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1218850b81033364e9b4554b1c567233, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TaskName: '[ACTION] Damage in Area'
+  component: {fileID: 5017728266285329904}
+  timeBeforeFirstAttack: 0.2
+  damage: 10
+  pushForce: 10
+  targetBlackboardName: Target
+  targetLayer:
+    serializedVersion: 2
+    m_Bits: 1024
+  layerWalls:
+    serializedVersion: 2
+    m_Bits: 256
+  offsetArea: 1
+  sizeArea: {x: 1, y: 1}
+  repeatAttack: 0
+  timeBetweenAttacks: 0.2
+  drawDebug: 0
+--- !u!114 &4159337474234587344
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7367816136740611222}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9ebce06f0f66c4044b64a76a2f8f2ef9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TaskName: '[CONDITION] Wait Timer'
+  timer: 1
 --- !u!1001 &8109891673206357625
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -305,6 +340,11 @@ PrefabInstance:
     - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: States.Array.data[2].StateName
+      value: Attack State
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: States.Array.data[3].StateName
       value: Wait State
       objectReference: {fileID: 0}
     - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
@@ -320,7 +360,7 @@ PrefabInstance:
     - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: States.Array.data[2].Actions.Array.size
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
@@ -336,7 +376,7 @@ PrefabInstance:
         type: 3}
       propertyPath: States.Array.data[2].Actions.Array.data[0]
       value: 
-      objectReference: {fileID: 5006673314565892149}
+      objectReference: {fileID: 6796249669525476183}
     - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: States.Array.data[0].Transitions.Array.size
@@ -350,6 +390,11 @@ PrefabInstance:
     - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: States.Array.data[2].Transitions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: States.Array.data[3].Transitions.Array.size
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
@@ -389,6 +434,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
+      propertyPath: States.Array.data[3].Transitions.Array.data[0].Conditions.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
       propertyPath: States.Array.data[0].Transitions.Array.data[0].Conditions.Array.data[0]
       value: 
       objectReference: {fileID: 4306199777638785658}
@@ -401,17 +451,22 @@ PrefabInstance:
         type: 3}
       propertyPath: States.Array.data[1].Transitions.Array.data[1].Conditions.Array.data[0]
       value: 
-      objectReference: {fileID: 192139844484476030}
+      objectReference: {fileID: 796685682045754373}
     - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: States.Array.data[2].Transitions.Array.data[0].Conditions.Array.data[0]
       value: 
-      objectReference: {fileID: 2066688402717877208}
+      objectReference: {fileID: 4159337474234587344}
     - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: States.Array.data[2].Transitions.Array.data[1].Conditions.Array.data[0]
       value: 
       objectReference: {fileID: 4590521979274603978}
+    - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: States.Array.data[3].Transitions.Array.data[0].Conditions.Array.data[0]
+      value: 
+      objectReference: {fileID: 0}
     - target: {fileID: 3832161720222177749, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: m_Size.x
@@ -544,18 +599,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: af9e4182897a4614baf83c04ff030ffd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &5017728266285329917 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3832161719942337412, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
-    type: 3}
-  m_PrefabInstance: {fileID: 8109891673206357625}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78c3912747fe8384ab5be50c4b45379e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &5017728266096039255 stripped
