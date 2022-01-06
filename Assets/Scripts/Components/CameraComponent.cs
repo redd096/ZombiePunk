@@ -9,6 +9,10 @@ namespace redd096
         [Header("Camera - by default is MainCamera")]
         [SerializeField] Camera cameraToControl = default;
 
+        [Header("Update camera position to follow this object")]
+        [SerializeField] bool updatePosition = true;
+        [SerializeField] Vector3 offsetPosition = new Vector3(0, 0, -10);
+
         [Header("Drop Camera On Death (necessary HealthComponent - default get from this gameObject)")]
         [SerializeField] bool dropCameraOnDeath = true;
         [EnableIf("dropCameraOnDeath")] [SerializeField] HealthComponent healthComponent = default;
@@ -16,7 +20,7 @@ namespace redd096
         void Awake()
         {
             //get references
-            cameraToControl = Camera.main;
+            if(cameraToControl == null) cameraToControl = Camera.main;
         }
 
         void OnEnable()
@@ -39,6 +43,13 @@ namespace redd096
             {
                 healthComponent.onDie -= OnDie;
             }
+        }
+
+        private void Update()
+        {
+            //update camera position if necessary
+            if (updatePosition && cameraToControl)
+                cameraToControl.transform.position = transform.position + offsetPosition;
         }
 
         void OnDie(HealthComponent whoDied)
