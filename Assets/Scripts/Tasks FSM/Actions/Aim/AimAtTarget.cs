@@ -13,7 +13,23 @@ public class AimAtTarget : ActionTask
     [Tooltip("Rotate immediatly or use a rotation speed")] [SerializeField] bool rotateUsingSpeed = false;
     [EnableIf("rotateUsingSpeed")] [SerializeField] float rotationSpeed = 50;
 
+    [Header("DEBUG")]
+    [SerializeField] bool drawDebug = false;
+
     Transform target;
+
+    void OnDrawGizmos()
+    {
+        //draw line to reach position and to target
+        if (drawDebug)
+        {
+            Gizmos.color = Color.red;
+            Gizmos.DrawLine(transformTask.position, Application.isPlaying && component ? (Vector2)transformTask.position + component.AimDirectionInput * 2 : (Vector2)transformTask.position + Vector2.right * 2);
+            Gizmos.color = Color.cyan;
+            if (target) Gizmos.DrawLine(transformTask.position, target.position);
+            Gizmos.color = Color.white;
+        }
+    }
 
     protected override void OnInitTask()
     {

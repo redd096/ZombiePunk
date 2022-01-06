@@ -28,9 +28,6 @@ namespace redd096
 
         void OnCollisionEnter2D(Collision2D collision)
         {
-            if (isActive == false)
-                return;
-
             //check if hit character and is not already in the list
             Character hitCharacter = collision.gameObject.GetComponentInParent<Character>();
             if (hitCharacter && hits.ContainsKey(hitCharacter) == false)
@@ -48,9 +45,6 @@ namespace redd096
 
         void OnCollisionStay2D(Collision2D collision)
         {
-            if (isActive == false)
-                return;
-
             //check if hit character and is in the list
             Character hitCharacter = collision.gameObject.GetComponentInParent<Character>();
             if (hitCharacter && hits.ContainsKey(hitCharacter))
@@ -66,10 +60,7 @@ namespace redd096
 
         void OnCollisionExit2D(Collision2D collision)
         {
-            if (isActive == false)
-                return;
-
-            //check if hit character and is in the list
+            //check if exit hit character and is in the list
             Character hitCharacter = collision.gameObject.GetComponentInParent<Character>();
             if (hitCharacter && hits.ContainsKey(hitCharacter))
             {
@@ -80,8 +71,11 @@ namespace redd096
 
         void OnHit(Collision2D collision, Character hitCharacter)
         {
+            if (isActive == false)
+                return;
+
             //if there is no character, do nothing
-            if(hitCharacter == null)
+            if (hitCharacter == null)
             {
                 //and remove from the list
                 if (hits.ContainsKey(hitCharacter))

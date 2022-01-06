@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using redd096;
 using NaughtyAttributes;
@@ -29,7 +28,6 @@ public class DamageInArea : ActionTask
     [Header("DEBUG")]
     [SerializeField] bool drawDebug = false;
 
-    Transform target;
     float timerBeforeAttack;    //time between attacks
     bool canAttack = true;
     List<Redd096Main> possibleTargets = new List<Redd096Main>();
@@ -65,9 +63,8 @@ public class DamageInArea : ActionTask
         canAttack = true;   //set can do always first attack
 
         //aim at target
-        target = stateMachine.GetBlackboardElement(targetBlackboardName) as Transform;  //get target from blackboard
+        Transform target = stateMachine.GetBlackboardElement(targetBlackboardName) as Transform;  //get target from blackboard
         if (component && target) component.AimAt(target.position - transformTask.position);
-        Debug.Log(target.position);
     }
 
     public override void OnUpdateTask()
