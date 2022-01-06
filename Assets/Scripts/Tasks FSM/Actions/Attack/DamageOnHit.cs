@@ -20,6 +20,7 @@ public class DamageOnHit : ActionTask
     NotifyCollisions notifyCollisions;
     DamageCharacterOnHit damageCharacterOnHit;
     Dictionary<Redd096Main, float> hits = new Dictionary<Redd096Main, float>();
+    bool isActive;
 
     protected override void OnInitTask()
     {
@@ -30,6 +31,25 @@ public class DamageOnHit : ActionTask
         selfCharacter = self ? self as Character : null;
         notifyCollisions = GetStateMachineComponent<NotifyCollisions>();
         damageCharacterOnHit = GetStateMachineComponent<DamageCharacterOnHit>();
+
+        //add events
+        if (notifyCollisions)
+        {
+            notifyCollisions.onCollisionEnter += OnOwnerCollisionEnter2D;
+            notifyCollisions.onCollisionStay += OnOwnerCollisionStay2D;
+            notifyCollisions.onCollisionExit += OnOwnerCollisionExit2D;
+        }
+    }
+
+    void OnDestroy()
+    {
+        //remove events when this statemachine is destroyed
+        if (notifyCollisions)
+        {
+            notifyCollisions.onCollisionEnter -= OnOwnerCollisionEnter2D;
+            notifyCollisions.onCollisionStay -= OnOwnerCollisionStay2D;
+            notifyCollisions.onCollisionExit -= OnOwnerCollisionExit2D;
+        }
     }
 
     public override void OnEnterTask()
@@ -37,12 +57,7 @@ public class DamageOnHit : ActionTask
         base.OnEnterTask();
 
         //enable only when the task is active
-        if(notifyCollisions)
-        {
-            notifyCollisions.onCollisionEnter += OnOwnerCollisionEnter2D;
-            notifyCollisions.onCollisionStay += OnOwnerCollisionStay2D;
-            notifyCollisions.onCollisionExit += OnOwnerCollisionExit2D;
-        }
+        isActive = true;
 
         //disable base damage character on hit
         if(disableBaseDamageCharacterOnHit && damageCharacterOnHit)
@@ -56,12 +71,7 @@ public class DamageOnHit : ActionTask
         base.OnExitTask();
 
         //disable when exit from the task
-        if (notifyCollisions)
-        {
-            notifyCollisions.onCollisionEnter -= OnOwnerCollisionEnter2D;
-            notifyCollisions.onCollisionStay -= OnOwnerCollisionStay2D;
-            notifyCollisions.onCollisionExit -= OnOwnerCollisionExit2D;
-        }
+        isActive = false;
 
         //re-enable base damage character on hit
         if (disableBaseDamageCharacterOnHit && damageCharacterOnHit)
@@ -120,6 +130,9 @@ public class DamageOnHit : ActionTask
 
     void OnHit(Collision2D collision, Redd096Main hit)
     {
+        if (isActive == false)
+            return;
+
         //if there is no hit, do nothing
         if (hit == null)
         {
