@@ -2,6 +2,7 @@
 
 namespace redd096
 {
+    [AddComponentMenu("redd096/Feedbacks/Change Order Weapon On Rotate Feedback")]
     public class ChangeOrderWeaponOnRotateFeedback : MonoBehaviour
     {
         [Header("Necessary Components - default get in parent")]

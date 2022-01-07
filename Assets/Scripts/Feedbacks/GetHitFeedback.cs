@@ -5,6 +5,7 @@ using NaughtyAttributes;
 
 namespace redd096
 {
+    [AddComponentMenu("redd096/Feedbacks/Get Hit Feedback")]
     public class GetHitFeedback : MonoBehaviour
     {
         [Header("Necessary Components - default get in parent")]

@@ -2,6 +2,7 @@
 
 namespace redd096
 {
+    [AddComponentMenu("redd096/Feedbacks/Rotate Weapon Feedback")]
     public class RotateWeaponFeedback : MonoBehaviour
     {
         [Header("Necessary Components - default get in parent")]

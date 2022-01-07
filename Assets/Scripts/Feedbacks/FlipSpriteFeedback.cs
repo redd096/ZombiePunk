@@ -2,6 +2,7 @@
 
 namespace redd096
 {
+    [AddComponentMenu("redd096/Feedbacks/Flip Sprite Feedback")]
     public class FlipSpriteFeedback : MonoBehaviour
     {
         [Header("Necessary Components - default get in parent")]

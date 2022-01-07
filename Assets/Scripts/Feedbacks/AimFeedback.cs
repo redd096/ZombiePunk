@@ -1,56 +1,59 @@
 ﻿using UnityEngine;
-using redd096;
 using UnityEngine.InputSystem;
 
-public class AimFeedback : MonoBehaviour
+namespace redd096
 {
-    [Header("Necessary Components - default get in parent")]
-    [SerializeField] AimComponent aimComponent = default;
-    [SerializeField] PlayerInput playerInput = default;
-
-    [Header("Aim Sprite (already in scene/prefab)")]
-    [SerializeField] GameObject aimSprite = default;
-    [SerializeField] float minDistance = 1.5f;
-    [SerializeField] float maxDistance = 2.5f;
-
-    [Header("Mouse free or clamped by min and max?")]
-    [SerializeField] bool mouseFree = true;
-    [SerializeField] string mouseSchemeName = "KeyboardAndMouse";
-
-    void OnEnable()
+    [AddComponentMenu("redd096/Feedbacks/Aim Feedback")]
+    public class AimFeedback : MonoBehaviour
     {
-        //get references
-        if (aimComponent == null) aimComponent = GetComponentInParent<AimComponent>();
-        if (playerInput == null) playerInput = GetComponentInParent<PlayerInput>();
-    }
+        [Header("Necessary Components - default get in parent")]
+        [SerializeField] AimComponent aimComponent = default;
+        [SerializeField] PlayerInput playerInput = default;
 
-    void Update()
-    {
-        //update sprite position
-        UpdateAimSpritePosition();
-    }
+        [Header("Aim Sprite (already in scene/prefab)")]
+        [SerializeField] GameObject aimSprite = default;
+        [SerializeField] float minDistance = 1.5f;
+        [SerializeField] float maxDistance = 2.5f;
 
-    void UpdateAimSpritePosition()
-    {
-        if (aimSprite == null || aimComponent == null)
-            return;
+        [Header("Mouse free or clamped by min and max?")]
+        [SerializeField] bool mouseFree = true;
+        [SerializeField] string mouseSchemeName = "KeyboardAndMouse";
 
-        //if mouse free, and using mouse
-        if (mouseFree && playerInput && playerInput.currentControlScheme == mouseSchemeName)
-        {            
-            aimSprite.transform.position = aimComponent.AimPositionNotNormalized;                                           //set current position
-        }
-        //else, check distance
-        else
+        void OnEnable()
         {
-            float distance = Vector2.Distance(transform.position, aimComponent.AimPositionNotNormalized);
+            //get references
+            if (aimComponent == null) aimComponent = GetComponentInParent<AimComponent>();
+            if (playerInput == null) playerInput = GetComponentInParent<PlayerInput>();
+        }
 
-            if (distance > maxDistance)
-                aimSprite.transform.position = (Vector2)transform.position + aimComponent.AimDirectionInput * maxDistance;  //max distance
-            else if (distance < minDistance)
-                aimSprite.transform.position = (Vector2)transform.position + aimComponent.AimDirectionInput * minDistance;  //min distance
+        void Update()
+        {
+            //update sprite position
+            UpdateAimSpritePosition();
+        }
+
+        void UpdateAimSpritePosition()
+        {
+            if (aimSprite == null || aimComponent == null)
+                return;
+
+            //if mouse free, and using mouse
+            if (mouseFree && playerInput && playerInput.currentControlScheme == mouseSchemeName)
+            {
+                aimSprite.transform.position = aimComponent.AimPositionNotNormalized;                                           //set current position
+            }
+            //else, check distance
             else
-                aimSprite.transform.position = aimComponent.AimPositionNotNormalized;                                       //current distance
+            {
+                float distance = Vector2.Distance(transform.position, aimComponent.AimPositionNotNormalized);
+
+                if (distance > maxDistance)
+                    aimSprite.transform.position = (Vector2)transform.position + aimComponent.AimDirectionInput * maxDistance;  //max distance
+                else if (distance < minDistance)
+                    aimSprite.transform.position = (Vector2)transform.position + aimComponent.AimDirectionInput * minDistance;  //min distance
+                else
+                    aimSprite.transform.position = aimComponent.AimPositionNotNormalized;                                       //current distance
+            }
         }
     }
 }

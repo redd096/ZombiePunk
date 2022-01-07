@@ -3,6 +3,7 @@ using NaughtyAttributes;
 
 namespace redd096
 {
+    [AddComponentMenu("redd096/Feedbacks/Weapon BASE Feedback")]
     public class WeaponBASEFeedback : MonoBehaviour
     {
         [Header("Necessary Components - default get in parent")]

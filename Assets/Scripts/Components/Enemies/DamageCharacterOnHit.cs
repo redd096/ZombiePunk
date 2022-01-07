@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace redd096
 {
+    [AddComponentMenu("redd096/Components/Enemies/Damage Character On hit")]
     public class DamageCharacterOnHit : MonoBehaviour
     {
         [Header("Do Damage On Hit?")]

@@ -3,6 +3,7 @@ using NaughtyAttributes;
 
 namespace redd096
 {
+    [AddComponentMenu("redd096/Feedbacks/Weapon Range Feedback")]
     public class WeaponRangeFeedback : MonoBehaviour
     {
         [Header("Necessary Components - default get in parent")]

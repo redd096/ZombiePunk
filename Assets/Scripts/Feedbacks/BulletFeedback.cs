@@ -3,6 +3,7 @@ using NaughtyAttributes;
 
 namespace redd096
 {
+    [AddComponentMenu("redd096/Feedbacks/Bullet Feedback")]
     public class BulletFeedback : MonoBehaviour
     {
         [Header("Necessary Components - default get in parent")]
