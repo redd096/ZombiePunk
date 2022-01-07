@@ -1,12 +1,26 @@
 ﻿using UnityEngine;
 using redd096;
+using UnityEngine.InputSystem;
 
 [AddComponentMenu("redd096/Tasks FSM/Action/Pause Action")]
 public class PauseAction : ActionTask
 {
+    [Header("Necessary Components - default get in parent")]
+    [SerializeField] PlayerInput playerInput;
+
+    [Header("Resume Button")]
+    [SerializeField] string buttonName = "Resume";
+
     protected override void OnInitTask()
     {
         base.OnInitTask();
+
+        //set references
+        if (playerInput == null) playerInput = GetStateMachineComponent<PlayerInput>();
+
+        //show warning if not found
+        if (playerInput && playerInput.actions == null)
+            Debug.LogWarning("Miss Actions on PlayerInput on " + stateMachine);
 
         if (SceneLoader.instance == null)
             Debug.LogWarning("Miss SceneLoader in scene");
@@ -18,15 +32,20 @@ public class PauseAction : ActionTask
 
         //pause on enter this task
         if (SceneLoader.instance)
+        {
             SceneLoader.instance.PauseGame();
+        }
     }
 
-    public override void OnExitTask()
+    public override void OnUpdateTask()
     {
-        base.OnExitTask();
+        base.OnUpdateTask();
 
-        //resume on exit from this task
-        if (SceneLoader.instance)
-            SceneLoader.instance.ResumeGame();
+        //if press input, resume
+        if(playerInput.actions.FindAction(buttonName).triggered)
+        {
+            if (SceneLoader.instance)
+                SceneLoader.instance.ResumeGame();
+        }
     }
 }

@@ -12,6 +12,13 @@ public class LevelManager : MonoBehaviour
     [ReadOnly] public HashSet<SpawnManager> SpawnManagers = new HashSet<SpawnManager>();
     [ReadOnly] public HashSet<ExitInteractable> Exits = new HashSet<ExitInteractable>();
 
+    void Awake()
+    {
+        //by default call resume game, to lock mouse
+        if (SceneLoader.instance)
+            SceneLoader.instance.ResumeGame();
+    }
+
     void OnEnable()
     {
         //find every character in scene

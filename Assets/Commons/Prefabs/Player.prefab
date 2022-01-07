@@ -1047,7 +1047,7 @@ MonoBehaviour:
     - StateDestination: 0
       TransitionCheck: 1
       Conditions:
-      - {fileID: 1645313245427908579}
+      - {fileID: 0}
       - {fileID: 6312129766404596600}
   CurrentState:
     StateName: 
@@ -1146,7 +1146,6 @@ GameObject:
   m_Component:
   - component: {fileID: 7129474322103025472}
   - component: {fileID: 5936289722176551963}
-  - component: {fileID: 1645313245427908579}
   - component: {fileID: 6312129766404596600}
   m_Layer: 10
   m_Name: PauseState
@@ -1182,21 +1181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TaskName: '[ACTION] Pause'
---- !u!114 &1645313245427908579
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8821669000293377164}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: cfd83f4883e361a4fb7b18feeb5c23c7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TaskName: '[CONDITION] Press Resume'
   playerInput: {fileID: 1427099914}
-  pressType: 1
   buttonName: Resume
 --- !u!114 &6312129766404596600
 MonoBehaviour:
