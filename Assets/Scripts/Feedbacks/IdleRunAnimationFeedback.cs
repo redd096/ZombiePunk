@@ -9,6 +9,9 @@ namespace redd096
         [SerializeField] Animator anim = default;
         [SerializeField] MovementComponent movementComponent = default;
 
+        [Header("Run when speed > this value")]
+        [SerializeField] float valueToRun = 0.1f;
+
         [Header("Animations - play by state name or set bool parameter")]
         [SerializeField] bool playStateName = true;
         [EnableIf("playStateName")] [SerializeField] string idleAnimation = "Idle";
@@ -29,7 +32,7 @@ namespace redd096
             if(anim && movementComponent)
             {
                 //start run
-                if(movementComponent.CurrentSpeed > 0 && isRunning == false)
+                if(movementComponent.CurrentSpeed > valueToRun && isRunning == false)
                 {
                     isRunning = true;
 
@@ -40,7 +43,7 @@ namespace redd096
                         anim.SetBool(boolName, true);
                 }
                 //back to idle
-                else if(movementComponent.CurrentSpeed <= 0 && isRunning)
+                else if(movementComponent.CurrentSpeed <= valueToRun && isRunning)
                 {
                     isRunning = false;
 
