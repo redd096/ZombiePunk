@@ -22,6 +22,13 @@ namespace redd096
         [SerializeField] ParticleSystem particlesOnGetDamage = default;
         [SerializeField] AudioClass audioOnGetDamage = default;
 
+        [Header("On Get Damage Gamepad Vibration")]
+        [SerializeField] bool gamepadVibration = false;
+        [SerializeField] bool customVibration = false;
+        [EnableIf("customVibration")] [SerializeField] float vibrationDuration = 0.1f;
+        [EnableIf("customVibration")] [SerializeField] float lowFrequency = 0.5f;
+        [EnableIf("customVibration")] [SerializeField] float highFrequency = 0.8f;
+
         [Header("On Die (instantiate every element in array)")]
         [SerializeField] InstantiatedGameObjectStruct[] gameObjectsOnDie = default;
         [SerializeField] ParticleSystem particlesOnDie = default;
@@ -74,6 +81,16 @@ namespace redd096
             //blink
             if (blinkCoroutine == null && blinkOnGetDamage)
                 blinkCoroutine = StartCoroutine(BlinkCoroutine());
+
+            //gamepad vibration
+            if(gamepadVibration && GamepadVibration.instance)
+            {
+                //custom or default
+                if (customVibration)
+                    GamepadVibration.instance.StartVibration(vibrationDuration, lowFrequency, highFrequency);
+                else
+                    GamepadVibration.instance.StartVibration();
+            }
         }
 
         IEnumerator BlinkCoroutine()

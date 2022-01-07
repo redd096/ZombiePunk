@@ -88,6 +88,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Invincible: 0
   MaxHealth: 100
+  percentageDamageWhenHitFromFriend: 0.25
   CurrentHealth: 100
 --- !u!114 &6346302796936980952
 MonoBehaviour:
@@ -128,7 +129,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78c3912747fe8384ab5be50c4b45379e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isActive: 0
+  IsActive: 1
   charactersToHit: 00000000
   damage: 10
   pushForce: 10
@@ -163,6 +164,7 @@ MonoBehaviour:
   healthComponent: {fileID: 6346302796936980951}
   updateMode: 2
   timeCoroutine: 0.1
+  updateOnStart: 1
   updateOnMoves: 1
   updateOnDeath: 1
 --- !u!50 &5508545904737132308
@@ -351,9 +353,12 @@ MonoBehaviour:
     audioClip: {fileID: 0}
     volume: 1
     is3D: 0
-  gameObjectOnDie:
-    instantiatedGameObject: {fileID: 0}
-    timeAutodestruction: 0
+  gamepadVibration: 0
+  customVibration: 0
+  vibrationDuration: 0.1
+  lowFrequency: 0.5
+  highFrequency: 0.8
+  gameObjectsOnDie: []
   particlesOnDie: {fileID: 0}
   audioOnDie:
     audioClip: {fileID: 0}

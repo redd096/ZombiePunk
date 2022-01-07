@@ -26,6 +26,13 @@ namespace redd096
         [EnableIf(EConditionOperator.And, "cameraShake", "customShake")] [SerializeField] float shakeDuration = 1;
         [EnableIf(EConditionOperator.And, "cameraShake", "customShake")] [SerializeField] float shakeAmount = 0.7f;
 
+        [Header("On Shoot Gamepad Vibration")]
+        [SerializeField] bool gamepadVibration = false;
+        [SerializeField] bool customVibration = false;
+        [EnableIf("customVibration")] [SerializeField] float vibrationDuration = 0.1f;
+        [EnableIf("customVibration")] [SerializeField] float lowFrequency = 0.5f;
+        [EnableIf("customVibration")] [SerializeField] float highFrequency = 0.8f;
+
         [Header("On Press Attack - barrel by default is transform")]
         [SerializeField] Transform barrelOnPress = default;
         [SerializeField] InstantiatedGameObjectStruct gameObjectOnPress = default;
@@ -122,6 +129,16 @@ namespace redd096
                     CameraShake.instance.StartShake(shakeDuration, shakeAmount);
                 else
                     CameraShake.instance.StartShake();
+            }
+
+            //gamepad vibration
+            if (gamepadVibration && GamepadVibration.instance)
+            {
+                //custom or default
+                if (customVibration)
+                    GamepadVibration.instance.StartVibration(vibrationDuration, lowFrequency, highFrequency);
+                else
+                    GamepadVibration.instance.StartVibration();
             }
 
             //update ammo UI

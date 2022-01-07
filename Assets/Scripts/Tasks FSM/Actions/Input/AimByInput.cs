@@ -18,6 +18,7 @@ public class AimByInput : ActionTask
     [SerializeField] bool resetWhenReleaseAnalogInput = false;
 
     Vector2 inputValue;
+    Vector2 lastAnalogSavedValue;
 
     protected override void OnInitTask()
     {
@@ -57,9 +58,17 @@ public class AimByInput : ActionTask
         //or using analog
         else
         {
-            //check if reset input when released
+            //check if moving analog or reset input when released
             if (inputValue != Vector2.zero || resetWhenReleaseAnalogInput)
+            {
                 component.AimAt((Vector2)transformTask.position + inputValue);
+                lastAnalogSavedValue = inputValue;  //save input
+            }
+            //else show last saved input
+            else
+            {
+                component.AimAt((Vector2)transformTask.position + lastAnalogSavedValue);
+            }
         }
     }
 }
