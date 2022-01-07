@@ -44,6 +44,11 @@ namespace redd096
         [SerializeField] bool updateAmmoOnShoot = true;
         [SerializeField] bool updateAmmoOnReload = true;
 
+        [Header("On Reload")]
+        [SerializeField] InstantiatedGameObjectStruct gameObjectOnReload = default;
+        [SerializeField] ParticleSystem particlesOnReload = default;
+        [SerializeField] AudioClass audioOnReload = default;
+
         //deactive on release attack
         GameObject instantiatedGameObjectOnPress;
         ParticleSystem instantiatedParticlesOnPress;
@@ -64,6 +69,7 @@ namespace redd096
                 weaponRange.onShoot += OnShoot;
                 weaponRange.onPressAttack += OnPressAttack;
                 weaponRange.onReleaseAttack += OnReleaseAttack;
+                weaponRange.onStartReload += OnStartReload;
                 weaponRange.onEndReload += OnEndReload;
             }
         }
@@ -78,6 +84,7 @@ namespace redd096
                 weaponRange.onShoot -= OnShoot;
                 weaponRange.onPressAttack -= OnPressAttack;
                 weaponRange.onReleaseAttack -= OnReleaseAttack;
+                weaponRange.onStartReload -= OnStartReload;
                 weaponRange.onEndReload -= OnEndReload;
             }
         }
@@ -174,6 +181,14 @@ namespace redd096
                 Pooling.Destroy(instantiatedParticlesOnPress.gameObject);
             if (instantiatedAudioOnPress)
                 Pooling.Destroy(instantiatedAudioOnPress.gameObject);
+        }
+
+        void OnStartReload()
+        {
+            //instantiate vfx and sfx
+            InstantiateGameObjectManager.instance.Play(gameObjectOnReload, transform.position, transform.rotation);
+            ParticlesManager.instance.Play(particlesOnReload, transform.position, transform.rotation);
+            SoundManager.instance.Play(audioOnReload, transform.position);
         }
 
         void OnEndReload()
