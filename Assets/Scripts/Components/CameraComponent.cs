@@ -11,23 +11,17 @@ namespace redd096
 
         [Header("Update camera position to follow this object")]
         [SerializeField] bool updatePosition = true;
-        [SerializeField] Vector3 offsetPosition = new Vector3(0, 0, -10);
+        [EnableIf("updatePosition")] [SerializeField] Vector3 offsetPosition = new Vector3(0, 0, -10);
 
         [Header("Drop Camera On Death (necessary HealthComponent - default get from this gameObject)")]
         [SerializeField] bool dropCameraOnDeath = true;
         [EnableIf("dropCameraOnDeath")] [SerializeField] HealthComponent healthComponent = default;
 
-        void Awake()
-        {
-            //get references
-            if(cameraToControl == null) cameraToControl = Camera.main;
-        }
-
         void OnEnable()
         {
             //get references
-            if (healthComponent == null)
-                healthComponent = GetComponent<HealthComponent>();
+            if (cameraToControl == null) cameraToControl = Camera.main;
+            if (healthComponent == null) healthComponent = GetComponent<HealthComponent>();
 
             //add events
             if (healthComponent)
@@ -45,7 +39,7 @@ namespace redd096
             }
         }
 
-        private void Update()
+        void Update()
         {
             //update camera position if necessary
             if (updatePosition && cameraToControl)
@@ -60,8 +54,11 @@ namespace redd096
                 //only if child of this gameObject
                 foreach(Camera childCam in GetComponentsInChildren<Camera>())
                 {
-                    if(childCam == cameraToControl)
+                    if (childCam == cameraToControl)
+                    {
                         cameraToControl.transform.SetParent(null);
+                        break;
+                    }
                 }
             }
         }
