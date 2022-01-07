@@ -19,6 +19,8 @@ namespace redd096
         [SerializeField] InstantiatedGameObjectStruct gameObjectOnShoot = default;
         [SerializeField] ParticleSystem particlesOnShoot = default;
         [SerializeField] AudioClass audioOnShoot = default;
+        [SerializeField] InstantiatedGameObjectStruct gameObjectNotFollowWeapon = default;
+        [SerializeField] ParticleSystem particlesNotFollowWeapon = default;
 
         [Header("On Shoot Camera Shake")]
         [SerializeField] bool cameraShake = true;
@@ -121,6 +123,8 @@ namespace redd096
             GameObject instantiatedGameObject = InstantiateGameObjectManager.instance.Play(gameObjectOnShoot, mainBarrel.position, mainBarrel.rotation);
             ParticleSystem instantiatedParticles = ParticlesManager.instance.Play(particlesOnShoot, mainBarrel.position, mainBarrel.rotation);
             SoundManager.instance.Play(audioOnShoot, mainBarrel.position);
+            InstantiateGameObjectManager.instance.Play(gameObjectNotFollowWeapon, mainBarrel.position, mainBarrel.rotation);
+            ParticlesManager.instance.Play(particlesNotFollowWeapon, mainBarrel.position, mainBarrel.rotation);
 
             //set parent to vfx
             if (instantiatedGameObject)

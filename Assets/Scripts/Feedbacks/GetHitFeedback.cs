@@ -31,8 +31,8 @@ namespace redd096
 
         [Header("On Die (instantiate every element in array)")]
         [SerializeField] InstantiatedGameObjectStruct[] gameObjectsOnDie = default;
-        [SerializeField] ParticleSystem particlesOnDie = default;
-        [SerializeField] AudioClass audioOnDie = default;
+        [SerializeField] ParticleSystem[] particlesOnDie = default;
+        [SerializeField] AudioClass[] audiosOnDie = default;
 
         Dictionary<SpriteRenderer, Material> savedMaterials = new Dictionary<SpriteRenderer, Material>();
         Coroutine blinkCoroutine;
@@ -110,11 +110,14 @@ namespace redd096
         void OnDie(HealthComponent whoDied)
         {
             //instantiate vfx and sfx
-            foreach (InstantiatedGameObjectStruct goOnDie in gameObjectsOnDie)
-                InstantiateGameObjectManager.instance.Play(goOnDie, transform.position, transform.rotation);    //instantiate every element in array
+            foreach (InstantiatedGameObjectStruct go in gameObjectsOnDie)
+                InstantiateGameObjectManager.instance.Play(go, transform.position, transform.rotation);    //instantiate every element in array
 
-            ParticlesManager.instance.Play(particlesOnDie, transform.position, transform.rotation);
-            SoundManager.instance.Play(audioOnDie, transform.position);
+            foreach(ParticleSystem particle in particlesOnDie)
+                ParticlesManager.instance.Play(particle, transform.position, transform.rotation);               //instantiate every element in array
+
+            foreach (AudioClass audio in audiosOnDie)
+                SoundManager.instance.Play(audio, transform.position);                                          //instantiate every element in array
         }
 
         #endregion
