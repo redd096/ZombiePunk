@@ -3,6 +3,7 @@ using NaughtyAttributes;
 
 namespace redd096
 {
+    [AddComponentMenu("redd096/Feedbacks/Idle Run Animation Feedback")]
     public class IdleRunAnimationFeedback : MonoBehaviour
     {
         [Header("Necessary Components - default get in child and parent")]
