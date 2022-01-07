@@ -10,7 +10,7 @@ public class DustRunFeedback : MonoBehaviour
     [Header("Run when speed > this value")]
     [SerializeField] float valueToRun = 0.1f;
 
-    [Header("Dust to activate (in scene/prefab)")]
+    [Header("Dust to activate (already in scene/prefab)")]
     [SerializeField] GameObject dustObject = default;
 
     [Header("Rotate Dust")]
