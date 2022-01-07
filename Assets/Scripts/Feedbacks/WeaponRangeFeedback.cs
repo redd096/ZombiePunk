@@ -28,10 +28,10 @@ namespace redd096
 
         [Header("On Shoot Gamepad Vibration")]
         [SerializeField] bool gamepadVibration = false;
-        [SerializeField] bool customVibration = false;
-        [EnableIf("customVibration")] [SerializeField] float vibrationDuration = 0.1f;
-        [EnableIf("customVibration")] [SerializeField] float lowFrequency = 0.5f;
-        [EnableIf("customVibration")] [SerializeField] float highFrequency = 0.8f;
+        [EnableIf("gamepadVibration")] [SerializeField] bool customVibration = false;
+        [EnableIf(EConditionOperator.And, "gamepadVibration", "customVibration")] [SerializeField] float vibrationDuration = 0.1f;
+        [EnableIf(EConditionOperator.And, "gamepadVibration", "customVibration")] [SerializeField] float lowFrequency = 0.5f;
+        [EnableIf(EConditionOperator.And, "gamepadVibration", "customVibration")] [SerializeField] float highFrequency = 0.8f;
 
         [Header("On Press Attack - barrel by default is transform")]
         [SerializeField] Transform barrelOnPress = default;
