@@ -34,6 +34,7 @@ namespace redd096
         [SerializeField] ParticleSystem[] particlesOnDie = default;
         [SerializeField] AudioClass[] audiosOnDie = default;
 
+        Character selfCharacter;
         Dictionary<SpriteRenderer, Material> savedMaterials = new Dictionary<SpriteRenderer, Material>();
         Coroutine blinkCoroutine;
 
@@ -50,6 +51,7 @@ namespace redd096
             //get references
             if(component == null) component = GetComponentInParent<HealthComponent>();
             if (spritesToUse == null || spritesToUse.Length <= 0) spritesToUse = GetComponentsInChildren<SpriteRenderer>();
+            if (selfCharacter == null) selfCharacter = GetComponentInParent<Character>();
 
             //add events
             if (component)
@@ -83,13 +85,16 @@ namespace redd096
                 blinkCoroutine = StartCoroutine(BlinkCoroutine());
 
             //gamepad vibration
-            if(gamepadVibration && GamepadVibration.instance)
+            if (selfCharacter && selfCharacter.CharacterType == Character.ECharacterType.Player)
             {
-                //custom or default
-                if (customVibration)
-                    GamepadVibration.instance.StartVibration(vibrationDuration, lowFrequency, highFrequency);
-                else
-                    GamepadVibration.instance.StartVibration();
+                if (gamepadVibration && GamepadVibration.instance)
+                {
+                    //custom or default
+                    if (customVibration)
+                        GamepadVibration.instance.StartVibration(vibrationDuration, lowFrequency, highFrequency);
+                    else
+                        GamepadVibration.instance.StartVibration();
+                }
             }
         }
 

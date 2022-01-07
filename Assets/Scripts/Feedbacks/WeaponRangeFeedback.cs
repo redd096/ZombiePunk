@@ -143,13 +143,16 @@ namespace redd096
             }
 
             //gamepad vibration
-            if (gamepadVibration && GamepadVibration.instance)
+            if (weaponRange && weaponRange.Owner && weaponRange.Owner.CharacterType == Character.ECharacterType.Player)
             {
-                //custom or default
-                if (customVibration)
-                    GamepadVibration.instance.StartVibration(vibrationDuration, lowFrequency, highFrequency);
-                else
-                    GamepadVibration.instance.StartVibration();
+                if (gamepadVibration && GamepadVibration.instance)
+                {
+                    //custom or default
+                    if (customVibration)
+                        GamepadVibration.instance.StartVibration(vibrationDuration, lowFrequency, highFrequency);
+                    else
+                        GamepadVibration.instance.StartVibration();
+                }
             }
 
             //update ammo UI
