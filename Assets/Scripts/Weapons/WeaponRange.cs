@@ -57,6 +57,7 @@ namespace redd096
         public System.Action onReleaseAttack { get; set; }
         public System.Action onStartReload { get; set; }
         public System.Action onEndReload { get; set; }
+        public System.Action onAbortReload { get; set; }
 
 
         void ChangedMaxAmmo()
@@ -118,6 +119,9 @@ namespace redd096
             {
                 StopCoroutine(reloadCoroutine);
                 reloadCoroutine = null;
+
+                //call event
+                onAbortReload?.Invoke();
             }
         }
 
