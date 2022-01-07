@@ -39,6 +39,7 @@ namespace redd096
 
         //events
         public System.Action<string> onSetState { get; set; }
+        public System.Action<string> onSetBlackboardValue { get; set; }
 
         void Start()
         {
@@ -222,6 +223,9 @@ namespace redd096
                     blackboardDebug.Add(key);
                 }
             }
+
+            //call event
+            onSetBlackboardValue?.Invoke(key);
         }
 
         /// <summary>
