@@ -60,24 +60,24 @@ public class AimAtTarget : ActionTask
             //immediatly
             if (rotateUsingSpeed == false)
             {
-                component.AimAt(target.position - transformTask.position);
+                component.AimAt(target.position);
             }
             //or with rotation speed
             else
             {
                 //calculate direction to target
-                Vector2 directionToReach = (target.position - transformTask.position);                  //direction to target
-                float angle = Vector2.SignedAngle(component.AimDirectionInput, directionToReach);       //rotation angle
+                Vector2 directionToReach = (target.position - transformTask.position).normalized;   //direction to target
+                float angle = Vector2.SignedAngle(component.AimDirectionInput, directionToReach);   //rotation angle
 
                 //rotate only if not already looking at target
                 if (Mathf.Abs(angle) > Mathf.Epsilon)
                 {
                     //calculate rotation, but if exceed, clamp it
                     float rotationAngle = rotationSpeed * Time.deltaTime > Mathf.Abs(angle) ? angle : rotationSpeed * Time.deltaTime * Mathf.Sign(angle);
-                    Vector2 newAimPosition = Quaternion.AngleAxis(rotationAngle, Vector3.forward) * component.AimPositionNotNormalized;
+                    Vector2 newAimPosition = Quaternion.AngleAxis(rotationAngle, Vector3.forward) * component.AimDirectionInput;
 
                     //set new aim position
-                    component.AimAt(newAimPosition);
+                    component.AimAt((Vector2)transformTask.position + newAimPosition);
                 }
             }
         }

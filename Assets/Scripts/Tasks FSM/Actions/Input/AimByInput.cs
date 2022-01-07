@@ -51,7 +51,7 @@ public class AimByInput : ActionTask
             //be sure to have camera setted
             if (cam && stateMachine)
             {
-                component.AimAt(cam.ScreenToWorldPoint(inputValue) - transformTask.position);
+                component.AimAt(cam.ScreenToWorldPoint(inputValue));
             }
         }
         //or using analog
@@ -59,7 +59,7 @@ public class AimByInput : ActionTask
         {
             //check if reset input when released
             if (inputValue != Vector2.zero || resetWhenReleaseAnalogInput)
-                component.AimAt(inputValue);
+                component.AimAt((Vector2)transformTask.position + inputValue);
         }
     }
 }

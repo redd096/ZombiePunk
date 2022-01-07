@@ -66,7 +66,7 @@ public class DamageInArea : ActionTask
 
         //aim at target
         Transform target = stateMachine.GetBlackboardElement(targetBlackboardName) as Transform;  //get target from blackboard
-        if (component && target) component.AimAt(target.position - transformTask.position);
+        if (component && target) component.AimAt(target.position);
     }
 
     public override void OnUpdateTask()

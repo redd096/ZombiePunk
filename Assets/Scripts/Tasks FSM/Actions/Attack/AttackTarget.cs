@@ -54,7 +54,7 @@ public class AttackTarget : ActionTask
 
         //aim at target
         if (aimComponent && target)
-            aimComponent.AimAt(target.position - transformTask.position);
+            aimComponent.AimAt(target.position);
 
         //wait before attack
         if (timerBeforeAttack > Time.time)

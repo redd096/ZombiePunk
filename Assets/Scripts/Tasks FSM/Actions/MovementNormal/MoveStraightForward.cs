@@ -46,7 +46,7 @@ public class MoveStraightForward : ActionTask
 
         //aim at target
         target = stateMachine.GetBlackboardElement(targetBlackboardName) as Transform;  //get target from blackboard
-        if (aimComponent && target) aimComponent.AimAt(target.position - transformTask.position);
+        if (aimComponent && target) aimComponent.AimAt(target.position);
     }
 
     public override void OnUpdateTask()
@@ -65,10 +65,10 @@ public class MoveStraightForward : ActionTask
                 //calculate rotation
                 float angle = Vector2.SignedAngle(aimComponent.AimDirectionInput, (target.position - transformTask.position).normalized);               //angle from aim to target
                 float rotationAngle = rotationSpeed * Time.deltaTime > Mathf.Abs(angle) ? angle : rotationSpeed * Time.deltaTime * Mathf.Sign(angle);   //clamp
-                Vector2 newAimPosition = Quaternion.AngleAxis(rotationAngle, Vector3.forward) * aimComponent.AimPositionNotNormalized;                  //rotate
+                Vector2 newAimPosition = Quaternion.AngleAxis(rotationAngle, Vector3.forward) * aimComponent.AimDirectionInput;                         //rotate
 
                 //set new aim position
-                aimComponent.AimAt(newAimPosition);
+                aimComponent.AimAt((Vector2)transformTask.position + newAimPosition);
             }
         }
     }

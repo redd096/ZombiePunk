@@ -138,7 +138,7 @@ public class ChaseWithPathFinding : ActionTask
 
         //aim at destination
         if (aimComponent)
-            aimComponent.AimAt(destination - transformTask.position);
+            aimComponent.AimAt(destination);
     }
 
     void CheckReachNode()

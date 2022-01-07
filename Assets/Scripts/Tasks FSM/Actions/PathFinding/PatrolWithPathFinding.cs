@@ -130,7 +130,7 @@ public class PatrolWithPathFinding : ActionTask
 
         //aim at next node of the path
         if (aimComponent)
-            aimComponent.AimAt(path[0].worldPosition - (Vector2)transformTask.position);
+            aimComponent.AimAt(path[0].worldPosition);
     }
 
     void CheckReachNode()
