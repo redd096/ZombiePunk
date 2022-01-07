@@ -55,6 +55,9 @@ namespace redd096
         public System.Action onShoot { get; set; }
         public System.Action onPressAttack { get; set; }
         public System.Action onReleaseAttack { get; set; }
+        public System.Action onStartReload { get; set; }
+        public System.Action onEndReload { get; set; }
+
 
         void ChangedMaxAmmo()
         {
@@ -67,8 +70,6 @@ namespace redd096
             //check rate of fire
             if (Time.time > timeForNextShot)
             {
-                timeForNextShot = Time.time + RateOfFire;
-
                 //shoot
                 Shoot();
 
@@ -101,6 +102,9 @@ namespace redd096
             //do only if this weapon has ammo, and is not full
             if (hasAmmo && currentAmmo < maxAmmo)
             {
+                //call event
+                onStartReload?.Invoke();
+
                 //start reload coroutine
                 if (reloadCoroutine == null)
                     reloadCoroutine = StartCoroutine(ReloadCoroutine());
@@ -110,7 +114,7 @@ namespace redd096
         public void AbortReload()
         {
             //stop reload coroutine if running
-            if(reloadCoroutine != null)
+            if (reloadCoroutine != null)
             {
                 StopCoroutine(reloadCoroutine);
                 reloadCoroutine = null;
@@ -125,10 +129,10 @@ namespace redd096
         void Shoot()
         {
             //if this weapon has ammo
-            if(hasAmmo)
+            if (hasAmmo)
             {
                 //if there are not enough ammos, start reload instead of shoot
-                if(currentAmmo <= 0)
+                if (currentAmmo <= 0)
                 {
                     Reload();
                     return;
@@ -138,12 +142,11 @@ namespace redd096
                 {
                     currentAmmo--;
                     AbortReload();  //be sure is not reloading
-
-                    //update UI
-                    if (Owner && Owner.CharacterType == Character.ECharacterType.Player)
-                        GameManager.instance.uiManager.SetAmmoText(currentAmmo);
                 }
             }
+
+            //update rate of fire
+            timeForNextShot = Time.time + RateOfFire;
 
             //shoot every bullet
             if (BarrelSimultaneously)
@@ -179,7 +182,7 @@ namespace redd096
             Vector2 direction = Quaternion.AngleAxis(randomNoiseAccuracy, Vector3.forward) * barrel.right;                                  //direction with noise
 
             //draw debug
-            if(drawDebug)
+            if (drawDebug)
                 Debug.DrawLine(barrel.position, (Vector2)barrel.position + direction, Color.red, 1);
 
             //instantiate bullet
@@ -209,8 +212,6 @@ namespace redd096
                 //check rate of fire
                 if (Time.time > timeForNextShot)
                 {
-                    timeForNextShot = Time.time + RateOfFire;
-
                     //shoot
                     Shoot();
                 }
@@ -227,9 +228,8 @@ namespace redd096
             //then reload ammos
             currentAmmo = maxAmmo;
 
-            //update UI
-            if(Owner && Owner.CharacterType == Character.ECharacterType.Player)
-                GameManager.instance.uiManager.SetAmmoText(currentAmmo);
+            //call event
+            onEndReload?.Invoke();
 
             reloadCoroutine = null;
         }
