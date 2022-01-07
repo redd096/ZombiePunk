@@ -3,6 +3,7 @@ using UnityEngine;
 using redd096;
 using UnityEngine.UI;
 
+[AddComponentMenu("redd096/Feedbacks/Weapon Component Bars Feedback")]
 public class WeaponComponentBarsFeedback : MonoBehaviour
 {
     [Header("Necessary Components - default get in parent")]
