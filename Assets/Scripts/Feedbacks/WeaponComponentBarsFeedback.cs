@@ -11,6 +11,7 @@ public class WeaponComponentBarsFeedback : MonoBehaviour
     [Header("Bars (already in scene/prefab)")]
     [SerializeField] Image rateOfFireImage = default;
     [SerializeField] Image reloadImage = default;
+    [SerializeField] bool showRateOfFireAlsoOnAutomatic = false;
 
     Coroutine rateOfFireCoroutine;
     Coroutine reloadCoroutine;
@@ -116,22 +117,26 @@ public class WeaponComponentBarsFeedback : MonoBehaviour
     {
         if(weaponRange && rateOfFireImage)
         {
-            //enable bar
-            rateOfFireImage.fillAmount = 1;
-            rateOfFireImage.gameObject.SetActive(true);
-
-            //update bar
-            float delta = 0;
-            while (delta < 1)
+            //only if show also on automatic, or if is not automatic
+            if (showRateOfFireAlsoOnAutomatic || weaponRange.Automatic == false)
             {
-                delta += Time.deltaTime / weaponRange.RateOfFire;
-                rateOfFireImage.fillAmount = 1 - delta;
+                //enable bar
+                rateOfFireImage.fillAmount = 1;
+                rateOfFireImage.gameObject.SetActive(true);
 
-                yield return null;
+                //update bar
+                float delta = 0;
+                while (delta < 1)
+                {
+                    delta += Time.deltaTime / weaponRange.RateOfFire;
+                    rateOfFireImage.fillAmount = 1 - delta;
+
+                    yield return null;
+                }
+
+                //disable bar
+                rateOfFireImage.gameObject.SetActive(false);
             }
-
-            //disable bar
-            rateOfFireImage.gameObject.SetActive(false);
         }
     }
 
