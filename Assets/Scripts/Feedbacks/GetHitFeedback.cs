@@ -96,6 +96,13 @@ namespace redd096
                         GamepadVibration.instance.StartVibration();
                 }
             }
+
+            //spawn blood on screen
+            if(selfCharacter && selfCharacter.CharacterType == Character.ECharacterType.Player)
+            {
+                if (GameManager.instance && GameManager.instance.uiManager)
+                    GameManager.instance.uiManager.ShowBloodOnScreen();
+            }
         }
 
         IEnumerator BlinkCoroutine()
