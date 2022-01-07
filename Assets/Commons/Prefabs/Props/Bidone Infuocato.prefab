@@ -1,24 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!95 &6808131927876924418
-Animator:
-  serializedVersion: 3
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1993969832883936335}
-  m_Enabled: 1
-  m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 56747aa0bc186694b89a41ae636c2665, type: 2}
-  m_CullingMode: 0
-  m_UpdateMode: 0
-  m_ApplyRootMotion: 0
-  m_LinearVelocityBlending: 0
-  m_WarningMessage: 
-  m_HasTransformHierarchy: 1
-  m_AllowConstantClipSamplingOptimization: 1
-  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!114 &-3779468534512911288
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -42,40 +23,25 @@ MonoBehaviour:
     m_Bits: 0
   ignoreTriggers: 1
   drawDebug: 0
---- !u!114 &3356825219030840013
-MonoBehaviour:
+--- !u!95 &6808131927876924418
+Animator:
+  serializedVersion: 3
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1993969834178220377}
+  m_GameObject: {fileID: 1993969832883936335}
   m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e3b8da87bc0c26f4e9665721ebd40483, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  component: {fileID: 0}
-  blinkOnGetDamage: 0
-  spritesToUse: []
-  blinkMaterial: {fileID: 0}
-  blinkDuration: 0.2
-  gameObjectOnGetDamage:
-    instantiatedGameObject: {fileID: 0}
-    timeAutodestruction: 0
-  particlesOnGetDamage: {fileID: 0}
-  audioOnGetDamage:
-    audioClip: {fileID: 0}
-    volume: 1
-    is3D: 0
-  gameObjectOnDie:
-    instantiatedGameObject: {fileID: 4604114667202933057, guid: e38cad007c3b82e4cbc69e4b929e1b59,
-      type: 3}
-    timeAutodestruction: 2
-  particlesOnDie: {fileID: 0}
-  audioOnDie:
-    audioClip: {fileID: 0}
-    volume: 1
-    is3D: 0
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 9100000, guid: 56747aa0bc186694b89a41ae636c2665, type: 2}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorControllerStateOnDisable: 0
 --- !u!1001 &4881506423914262703
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -85,9 +51,31 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 5550845141576596750, guid: 5e05e79a0fa62864599dcfa950cfae29,
         type: 3}
+      propertyPath: gameObjectsOnDie.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5550845141576596750, guid: 5e05e79a0fa62864599dcfa950cfae29,
+        type: 3}
       propertyPath: gameObjectOnDie.instantiatedGameObject
       value: 
       objectReference: {fileID: 5026473052662162991, guid: 14628a4dccf5c284bb95c4c039c3ba4b,
+        type: 3}
+    - target: {fileID: 5550845141576596750, guid: 5e05e79a0fa62864599dcfa950cfae29,
+        type: 3}
+      propertyPath: gameObjectsOnDie.Array.data[1].timeAutodestruction
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5550845141576596750, guid: 5e05e79a0fa62864599dcfa950cfae29,
+        type: 3}
+      propertyPath: gameObjectsOnDie.Array.data[0].instantiatedGameObject
+      value: 
+      objectReference: {fileID: 5026473052662162991, guid: 14628a4dccf5c284bb95c4c039c3ba4b,
+        type: 3}
+    - target: {fileID: 5550845141576596750, guid: 5e05e79a0fa62864599dcfa950cfae29,
+        type: 3}
+      propertyPath: gameObjectsOnDie.Array.data[1].instantiatedGameObject
+      value: 
+      objectReference: {fileID: 4604114667202933057, guid: e38cad007c3b82e4cbc69e4b929e1b59,
         type: 3}
     - target: {fileID: 6346302796936980949, guid: 5e05e79a0fa62864599dcfa950cfae29,
         type: 3}
@@ -231,12 +219,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa5b2cefbf279d4584e6c4862ab6aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &1993969834178220377 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6346302797955981814, guid: 5e05e79a0fa62864599dcfa950cfae29,
-    type: 3}
-  m_PrefabInstance: {fileID: 4881506423914262703}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1993969832883936335 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 6346302797664103648, guid: 5e05e79a0fa62864599dcfa950cfae29,
