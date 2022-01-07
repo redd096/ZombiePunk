@@ -1,0 +1,56 @@
+﻿using UnityEngine;
+using NaughtyAttributes;
+
+namespace redd096
+{
+    public class IdleRunAnimationFeedback : MonoBehaviour
+    {
+        [Header("Necessary Components - default get in child and parent")]
+        [SerializeField] Animator anim = default;
+        [SerializeField] MovementComponent movementComponent = default;
+
+        [Header("Animations - play by state name or set bool parameter")]
+        [SerializeField] bool playStateName = true;
+        [EnableIf("playStateName")] [SerializeField] string idleAnimation = "Idle";
+        [EnableIf("playStateName")] [SerializeField] string runAnimation = "Run";
+        [EnableIf("setBoolParameter")] [SerializeField] string boolName = "IsRunning";
+        bool setBoolParameter => !playStateName;
+
+        bool isRunning;
+
+        void OnEnable()
+        {
+            if (anim == null) anim = GetComponentInChildren<Animator>();
+            if (movementComponent == null) movementComponent = GetComponentInParent<MovementComponent>();
+        }
+
+        void Update()
+        {
+            if(anim && movementComponent)
+            {
+                //start run
+                if(movementComponent.CurrentSpeed > 0 && isRunning == false)
+                {
+                    isRunning = true;
+
+                    //set animator
+                    if (playStateName)
+                        anim.Play(runAnimation);
+                    else
+                        anim.SetBool(boolName, true);
+                }
+                //back to idle
+                else if(movementComponent.CurrentSpeed <= 0 && isRunning)
+                {
+                    isRunning = false;
+
+                    //set animator
+                    if (playStateName)
+                        anim.Play(idleAnimation);
+                    else
+                        anim.SetBool(boolName, false);
+                }
+            }
+        }
+    }
+}

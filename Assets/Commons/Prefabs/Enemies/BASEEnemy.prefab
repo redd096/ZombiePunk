@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 3832161718985136008}
   - component: {fileID: 3832161718985136010}
   - component: {fileID: 3832161718985136011}
+  - component: {fileID: 8545621178297549515}
   m_Layer: 11
   m_Name: Graphics
   m_TagString: Untagged
@@ -73,14 +74,30 @@ MonoBehaviour:
     audioClip: {fileID: 0}
     volume: 1
     is3D: 0
-  gameObjectOnDie:
-    instantiatedGameObject: {fileID: 0}
-    timeAutodestruction: 0
+  gameObjectsOnDie: []
   particlesOnDie: {fileID: 0}
   audioOnDie:
     audioClip: {fileID: 0}
     volume: 1
     is3D: 0
+--- !u!114 &8545621178297549515
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3832161718985136009}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d7a5a327499106a4a9e6b52a7dea3199, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 0}
+  movementComponent: {fileID: 3832161719942337416}
+  playStateName: 1
+  idleAnimation: Idle
+  runAnimation: Run
+  boolName: IsRunning
 --- !u!1 &3832161719942337421
 GameObject:
   m_ObjectHideFlags: 0
@@ -230,6 +247,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Invincible: 0
   MaxHealth: 100
+  percentageDamageWhenHitFromFriend: 0.25
   CurrentHealth: 100
 --- !u!114 &3832161719942337423
 MonoBehaviour:
@@ -332,7 +350,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78c3912747fe8384ab5be50c4b45379e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isActive: 1
+  IsActive: 1
   charactersToHit: 00000000
   damage: 10
   pushForce: 10
