@@ -332,6 +332,7 @@ GameObject:
   - component: {fileID: 3518836364102036358}
   - component: {fileID: 3433839292999844395}
   - component: {fileID: 4293602916014893294}
+  - component: {fileID: 648923787466061354}
   m_Layer: 10
   m_Name: Graphics
   m_TagString: Untagged
@@ -400,11 +401,9 @@ MonoBehaviour:
   lowFrequency: 0.5
   highFrequency: 0.8
   gameObjectsOnDie: []
-  particlesOnDie: {fileID: 0}
-  audioOnDie:
-    audioClip: {fileID: 0}
-    volume: 1
-    is3D: 0
+  particlesOnDie:
+  - {fileID: 0}
+  audiosOnDie: []
 --- !u!114 &3518836364102036358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -452,13 +451,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d7a5a327499106a4a9e6b52a7dea3199, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  anim: {fileID: 0}
+  anim: {fileID: 3901220146294768956}
   movementComponent: {fileID: 9212065468761235124}
   valueToRun: 0.1
-  playStateName: 1
-  idleAnimation: Idle
-  runAnimation: Run
   boolName: IsRunning
+--- !u!114 &648923787466061354
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395402416062982212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0b7d6d5ef049dbd44b84be54d35aef89, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 3901220146294768956}
+  healthComponent: {fileID: 1499721902347103055}
+  hitTrigger: Damage
+  deathTrigger: Dead
+  setTriggerOnGetDamage: 1
+  setTriggerOnDie: 1
 --- !u!1 &1395402416665274895
 GameObject:
   m_ObjectHideFlags: 0

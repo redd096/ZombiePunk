@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using NaughtyAttributes;
 
 namespace redd096
 {
@@ -13,12 +12,8 @@ namespace redd096
         [Header("Run when speed > this value")]
         [SerializeField] float valueToRun = 0.1f;
 
-        [Header("Animations - play by state name or set bool parameter")]
-        [SerializeField] bool playStateName = true;
-        [EnableIf("playStateName")] [SerializeField] string idleAnimation = "Idle";
-        [EnableIf("playStateName")] [SerializeField] string runAnimation = "Run";
-        [EnableIf("setBoolParameter")] [SerializeField] string boolName = "IsRunning";
-        bool setBoolParameter => !playStateName;
+        [Header("Animator parameters")]
+        [SerializeField] string boolName = "IsRunning";
 
         bool isRunning;
 
@@ -38,10 +33,7 @@ namespace redd096
                     isRunning = true;
 
                     //set animator
-                    if (playStateName)
-                        anim.Play(runAnimation);
-                    else
-                        anim.SetBool(boolName, true);
+                    anim.SetBool(boolName, true);
                 }
                 //back to idle
                 else if(movementComponent.CurrentSpeed <= valueToRun && isRunning)
@@ -49,10 +41,7 @@ namespace redd096
                     isRunning = false;
 
                     //set animator
-                    if (playStateName)
-                        anim.Play(idleAnimation);
-                    else
-                        anim.SetBool(boolName, false);
+                    anim.SetBool(boolName, false);
                 }
             }
         }
