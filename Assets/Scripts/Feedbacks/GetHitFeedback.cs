@@ -123,7 +123,7 @@ namespace redd096
         {
             //instantiate vfx and sfx
             foreach (InstantiatedGameObjectStruct go in gameObjectsOnDie)
-                InstantiateGameObjectManager.instance.Play(go, transform.position, transform.rotation);    //instantiate every element in array
+                InstantiateGameObjectManager.instance.Play(go, transform.position, transform.rotation);         //instantiate every element in array
 
             foreach(ParticleSystem particle in particlesOnDie)
                 ParticlesManager.instance.Play(particle, transform.position, transform.rotation);               //instantiate every element in array

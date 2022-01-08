@@ -8,17 +8,14 @@ namespace redd096
         [Header("Necessary Components - default get in parent")]
         [SerializeField] WeaponBASE weaponBASE;
 
-        [Header("Sprites to flip - default get in children")]
-        [SerializeField] SpriteRenderer[] spritesToFlip = default;
-
         [Header("Pivot - default is this transform")]
         [SerializeField] Transform objectPivot = default;
+        [Tooltip("By default this weapon is looking to the right?")] [SerializeField] bool defaultLookRight = true;
 
         void OnEnable()
         {
             //get references
             if (weaponBASE == null) weaponBASE = GetComponentInParent<WeaponBASE>();
-            if (spritesToFlip == null || spritesToFlip.Length <= 0) spritesToFlip = GetComponentsInChildren<SpriteRenderer>();
             if (objectPivot == null) objectPivot = transform;
         }
 
@@ -34,11 +31,16 @@ namespace redd096
             if (weaponBASE && weaponBASE.Owner && weaponBASE.Owner.GetSavedComponent<AimComponent>())
             {
                 Vector2 aimDirection = weaponBASE.Owner.GetSavedComponent<AimComponent>().AimDirectionInput;
-                objectPivot.rotation = Quaternion.LookRotation(Vector3.forward, Quaternion.AngleAxis(90, Vector3.forward) * aimDirection);
+                Quaternion rotation = Quaternion.LookRotation(Vector3.forward, Quaternion.AngleAxis(90, Vector3.forward) * aimDirection);
 
-                //when rotate to left, flip Y to not be upside down
-                foreach (SpriteRenderer sprite in spritesToFlip)
-                    sprite.flipY = aimDirection.x < 0;
+                //when rotate to opposite direction (from default), rotate 180 updown
+                if((defaultLookRight && aimDirection.x < 0) || (defaultLookRight == false && aimDirection.x > 0))
+                {
+                    rotation *= Quaternion.AngleAxis(180, Vector3.right);
+                }
+
+                //set rotation
+                objectPivot.transform.rotation = rotation;
             }
         }
     }

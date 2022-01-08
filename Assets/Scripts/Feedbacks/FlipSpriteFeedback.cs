@@ -20,7 +20,10 @@ namespace redd096
 
             //add events
             if (component)
+            {
                 component.onChangeAimDirection += OnChangeAimDirection;
+                OnChangeAimDirection(component.IsLookingRight);     //set default rotation
+            }
         }
 
         void OnDisable()

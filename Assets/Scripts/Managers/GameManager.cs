@@ -5,6 +5,9 @@ using redd096;
 [DefaultExecutionOrder(-100)]
 public class GameManager : Singleton<GameManager>
 {
+    [Header("Lock 60 FPS")]
+    [SerializeField] bool lock60Fps = true;
+
     //se si vuole fare multiplayer, si salva un array per ogni ID
     //nel menu customizzazione si aggiunge uno script ai prefab per passare il PointerEventData al click, per sapere l'ID di chi ha cliccato
     [Header("DEBUG")]
@@ -20,6 +23,9 @@ public class GameManager : Singleton<GameManager>
         uiManager = FindObjectOfType<UIManager>();
         pathFindingAStar = FindObjectOfType<PathFindingAStar2D>();
         levelManager = FindObjectOfType<LevelManager>();
+
+        //lock 60 fps or free
+        Application.targetFrameRate = lock60Fps ? 60 : -1;
     }
 
     #region public API
