@@ -45,7 +45,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TaskName: '[CONDITION] Wait Stun'
-  timer: 1
+  timer: 2
 --- !u!114 &7208696716054577956
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -62,7 +62,7 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 1024
-  awarnessDistance: 100
+  awarnessDistance: 30
   layerWalls:
     serializedVersion: 2
     m_Bits: 256
@@ -118,7 +118,7 @@ MonoBehaviour:
   agentAStar: {fileID: 283268124930683889}
   pathFinding: {fileID: 0}
   radiusPatrol: 6
-  speedPatrol: 1
+  speedPatrol: 3
   timeToWaitWhenReach: 0
   drawDebug: 0
   approxReachNode: 0.15
@@ -139,7 +139,7 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 1024
-  awarnessDistance: 100
+  awarnessDistance: 30
   layerWalls:
     serializedVersion: 2
     m_Bits: 256
@@ -195,7 +195,7 @@ MonoBehaviour:
   component: {fileID: 5017728266285329905}
   aimComponent: {fileID: 5017728266285329904}
   targetBlackboardName: Target
-  speedMovement: 5
+  speedMovement: 8
   rotationSpeed: 0
   drawDebug: 0
 --- !u!114 &1450085658283314429
@@ -213,9 +213,9 @@ MonoBehaviour:
   TaskName: '[ACTION] Damage Enemies on Hit'
   charactersToHit: 0000000001000000
   hitAlsoNotCharacters: 1
-  damage: 10
-  pushForce: 10
-  delayBetweenAttacks: 1
+  damage: 45
+  pushForce: 15
+  delayBetweenAttacks: 5
   disableBaseDamageCharacterOnHit: 1
 --- !u!114 &3360261081416026689
 MonoBehaviour:
@@ -230,7 +230,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TaskName: '[CONDITION] Charge X seconds'
-  timer: 2
+  timer: 1.5
 --- !u!114 &1179393818734631335
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -312,7 +312,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TaskName: '[CONDITION] Wait Delay'
-  timer: 1
+  timer: 1.5
 --- !u!114 &1555291369073421152
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,7 +329,7 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 1024
-  awarnessDistance: 100
+  awarnessDistance: 30
   layerWalls:
     serializedVersion: 2
     m_Bits: 256
@@ -394,7 +394,17 @@ PrefabInstance:
     - target: {fileID: 3832161719942337412, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: damage
-      value: 34
+      value: 45
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832161719942337412, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: pushForce
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832161719942337412, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: delayBetweenAttacks
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 3832161719942337413, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
@@ -453,13 +463,28 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3832161719942337416, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
+      propertyPath: drag
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832161719942337416, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
       propertyPath: maxSpeed
-      value: 50
+      value: 30
       objectReference: {fileID: 0}
     - target: {fileID: 3832161719942337421, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: m_Name
       value: Charger Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832161719942337422, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: MaxHealth
+      value: 170
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832161719942337422, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: CurrentHealth
+      value: 170
       objectReference: {fileID: 0}
     - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
