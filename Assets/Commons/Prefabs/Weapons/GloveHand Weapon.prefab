@@ -1,65 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &1466909936064926750
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7758327373539988601}
-  m_Layer: 0
-  m_Name: Barrel (2)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7758327373539988601
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1466909936064926750}
-  m_LocalRotation: {x: -0, y: -0, z: -0.2588186, w: 0.965926}
-  m_LocalPosition: {x: 0.25, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 3464549454924647520}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -30.000002}
---- !u!1 &1996706600505505698
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 2470829988728330681}
-  m_Layer: 0
-  m_Name: Barrel (1)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &2470829988728330681
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1996706600505505698}
-  m_LocalRotation: {x: -0, y: -0, z: 0.2588186, w: 0.965926}
-  m_LocalPosition: {x: 0.25, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 3464549454924647520}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 30.000002}
 --- !u!1001 &5376583992643623006
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -127,10 +67,26 @@ PrefabInstance:
       propertyPath: gamepadVibration
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4321745274758492328, guid: c5af849b48471b14bb21dad7d6bfa48f,
+        type: 3}
+      propertyPath: gameObjectOnInstantiateBullet.timeAutodestruction
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 4321745274758492328, guid: c5af849b48471b14bb21dad7d6bfa48f,
+        type: 3}
+      propertyPath: gameObjectOnInstantiateBullet.instantiatedGameObject
+      value: 
+      objectReference: {fileID: 3681886766371026488, guid: a19f0535664cfe84fb9289faabbe9e00,
+        type: 3}
     - target: {fileID: 5397089067082224666, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
       propertyPath: m_Name
       value: GloveHand Weapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 5727192707231015915, guid: c5af849b48471b14bb21dad7d6bfa48f,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.25
       objectReference: {fileID: 0}
     - target: {fileID: 6239450715638717376, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
@@ -188,23 +144,17 @@ PrefabInstance:
     - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
       propertyPath: Barrels.Array.size
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
       propertyPath: Barrels.Array.data[1]
       value: 
-      objectReference: {fileID: 2470829988728330681}
+      objectReference: {fileID: 0}
     - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
       propertyPath: Barrels.Array.data[2]
       value: 
-      objectReference: {fileID: 7758327373539988601}
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5af849b48471b14bb21dad7d6bfa48f, type: 3}
---- !u!4 &3464549454924647520 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 8829865587629724734, guid: c5af849b48471b14bb21dad7d6bfa48f,
-    type: 3}
-  m_PrefabInstance: {fileID: 5376583992643623006}
-  m_PrefabAsset: {fileID: 0}
