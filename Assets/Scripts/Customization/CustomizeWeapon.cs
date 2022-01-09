@@ -101,23 +101,26 @@ public class CustomizeWeapon : MonoBehaviour
         List<CustomizeData> tempCustomizations = new List<CustomizeData>(customizations);
         foreach (GameObject element in buttonsInScene)
         {
-            Button button = element.GetComponentInChildren<Button>();
-            if (button)
+            CustomizeButton customizeButton = element.GetComponentInChildren<CustomizeButton>();
+            if (customizeButton && customizeButton.button)
             {
                 //find a random customization and set button with this
                 if (tempCustomizations.Count > 0)
                 {
                     CustomizeData random = tempCustomizations[Random.Range(0, tempCustomizations.Count)];
-                    button.image.sprite = random.Sprite;
-                    button.onClick.AddListener(() => AddCustomization(random));
+                    customizeButton.button.image.sprite = random.Sprite;
+                    customizeButton.button.onClick.AddListener(() => AddCustomization(random));
 
                     //if there is text, set with customization weight
-                    Text textWeight = element.GetComponentInChildren<Text>();
-                    if (textWeight)
-                        textWeight.text = random.Weight.ToString();
+                    if (customizeButton.namePowerUp)
+                        customizeButton.namePowerUp.text = random.Weight.ToString();
+
+                    //if there is a description, set with customization description
+                    if (customizeButton.descriptionPowerUp)
+                        customizeButton.descriptionPowerUp.text = random.Description;
 
                     //save which customization is using this button
-                    showedCustomizations.Add(new CustomButtonStruct(button, random));
+                    showedCustomizations.Add(new CustomButtonStruct(customizeButton.button, random));
 
                     //remove customization from the list, to not have duplicates
                     tempCustomizations.Remove(random);
@@ -125,7 +128,7 @@ public class CustomizeWeapon : MonoBehaviour
                 //if there are not enough customizations, deactive button if setted
                 else if (hideButtonsIfNotUsed)
                 {
-                    button.gameObject.SetActive(false);
+                    customizeButton.button.gameObject.SetActive(false);
                 }
             }
         }
@@ -180,18 +183,22 @@ public class CustomizeWeapon : MonoBehaviour
 
     void SetButton(GameObject go, CustomizeData customization, System.Action<GameObject, CustomizeData> func)
     {
+        CustomizeButton customizeButton = go.GetComponentInChildren<CustomizeButton>();
+
         //set button sprite and function
-        Button button = go.GetComponentInChildren<Button>();
-        if (button)
+        if (customizeButton && customizeButton.button)
         {
-            button.image.sprite = customization.Sprite;
-            button.onClick.AddListener(() => func(go, customization));
+            customizeButton.button.image.sprite = customization.Sprite;
+            customizeButton.button.onClick.AddListener(() => func(go, customization));
         }
 
         //set text with customization weight
-        Text text = go.GetComponentInChildren<Text>();
-        if (text)
-            text.text = customization.Weight.ToString();
+        if (customizeButton && customizeButton.namePowerUp)
+            customizeButton.namePowerUp.text = customization.Weight.ToString();
+
+        //set text with customization description
+        if (customizeButton && customizeButton.descriptionPowerUp)
+            customizeButton.descriptionPowerUp.text = customization.Description;
     }
 
     #endregion
