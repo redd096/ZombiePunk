@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3632475036436791546}
   - component: {fileID: 5205303253929873160}
   m_Layer: 0
-  m_Name: Spawn (1)
+  m_Name: Spawn(1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -54,54 +54,6 @@ MonoBehaviour:
   - {fileID: 5017728266285329908, guid: 6307245d6b140674ebb00d298bd3d5b4, type: 3}
   - {fileID: 5017728266285329908, guid: 6307245d6b140674ebb00d298bd3d5b4, type: 3}
   - {fileID: 5017728266285329908, guid: 6307245d6b140674ebb00d298bd3d5b4, type: 3}
-  spawnedAlives: []
---- !u!1 &527195297171071517
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 3756418267651282650}
-  - component: {fileID: 1674871991528193091}
-  m_Layer: 0
-  m_Name: Spawn (4)
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &3756418267651282650
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 527195297171071517}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 2, y: -9, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 1647611695326700381}
-  m_RootOrder: 4
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1674871991528193091
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 527195297171071517}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f18ad0a40500e9044b8c62ec968630a3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  timeBeforeFirstSpawn: 1
-  timeBetweenSpawns: 2
-  prefabsToSpawn:
-  - {fileID: 5017728266285329908, guid: 90216b2be81838144902e00f920511c9, type: 3}
   spawnedAlives: []
 --- !u!1 &1593774038607645800
 GameObject:
@@ -1289,7 +1241,6 @@ Transform:
   - {fileID: 3632475036436791546}
   - {fileID: 5242683327683854890}
   - {fileID: 9061051508770078124}
-  - {fileID: 3756418267651282650}
   m_Father: {fileID: 8771357817350904792}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1312,7 +1263,6 @@ MonoBehaviour:
     - {fileID: 5205303253929873160}
     - {fileID: 1401816979212373129}
     - {fileID: 3352644341450348049}
-    - {fileID: 1674871991528193091}
   spawnsActive: []
 --- !u!1 &3586435042583772677
 GameObject:
@@ -1325,7 +1275,7 @@ GameObject:
   - component: {fileID: 7112535087900092569}
   - component: {fileID: 1985220059636164994}
   m_Layer: 0
-  m_Name: Spawn
+  m_Name: Spawn(1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3087,7 +3037,7 @@ GameObject:
   - component: {fileID: 9061051508770078124}
   - component: {fileID: 3352644341450348049}
   m_Layer: 0
-  m_Name: Spawn (3)
+  m_Name: Spawn(1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3122,6 +3072,7 @@ MonoBehaviour:
   timeBeforeFirstSpawn: 1
   timeBetweenSpawns: 2
   prefabsToSpawn:
+  - {fileID: 5017728266285329908, guid: 6307245d6b140674ebb00d298bd3d5b4, type: 3}
   - {fileID: 5017728266285329908, guid: 6307245d6b140674ebb00d298bd3d5b4, type: 3}
   - {fileID: 5017728266285329908, guid: 6307245d6b140674ebb00d298bd3d5b4, type: 3}
   - {fileID: 5017728266285329908, guid: 6307245d6b140674ebb00d298bd3d5b4, type: 3}
@@ -3171,7 +3122,7 @@ GameObject:
   - component: {fileID: 5242683327683854890}
   - component: {fileID: 1401816979212373129}
   m_Layer: 0
-  m_Name: Spawn (2)
+  m_Name: Spawn(1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -3206,6 +3157,8 @@ MonoBehaviour:
   timeBeforeFirstSpawn: 1
   timeBetweenSpawns: 2
   prefabsToSpawn:
+  - {fileID: 5017728266285329908, guid: 6307245d6b140674ebb00d298bd3d5b4, type: 3}
+  - {fileID: 5017728266285329908, guid: 6307245d6b140674ebb00d298bd3d5b4, type: 3}
   - {fileID: 5017728266285329908, guid: 6307245d6b140674ebb00d298bd3d5b4, type: 3}
   - {fileID: 5017728266285329908, guid: 6307245d6b140674ebb00d298bd3d5b4, type: 3}
   - {fileID: 5017728266285329908, guid: 6307245d6b140674ebb00d298bd3d5b4, type: 3}
