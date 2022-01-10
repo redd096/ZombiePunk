@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 0
+  m_UseShadowmask: 1
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -441,21 +441,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 62355844536710495, guid: f44541dc0c295d74fb95d4adb8fca61e,
-        type: 3}
-      propertyPath: nodeDiameter
-      value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 62355844536710495, guid: f44541dc0c295d74fb95d4adb8fca61e,
-        type: 3}
-      propertyPath: gridWorldSize.x
-      value: 30
-      objectReference: {fileID: 0}
-    - target: {fileID: 62355844536710495, guid: f44541dc0c295d74fb95d4adb8fca61e,
-        type: 3}
-      propertyPath: gridWorldSize.y
-      value: 30
-      objectReference: {fileID: 0}
     - target: {fileID: 7913340268312218488, guid: f44541dc0c295d74fb95d4adb8fca61e,
         type: 3}
       propertyPath: m_RootOrder
@@ -516,15 +501,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: ManagersInScene
       objectReference: {fileID: 0}
-    - target: {fileID: 7913340269323313832, guid: f44541dc0c295d74fb95d4adb8fca61e,
-        type: 3}
-      propertyPath: m_Camera
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 8754409232119372601, guid: f44541dc0c295d74fb95d4adb8fca61e,
         type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 4.7000732
+      propertyPath: m_AnchoredPosition.y
+      value: -3.8000488
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f44541dc0c295d74fb95d4adb8fca61e, type: 3}
@@ -535,6 +515,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 434958705420828881, guid: c4cf782fc0fa00349ad898cddc22f085,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 4
+      objectReference: {fileID: 0}
     - target: {fileID: 4154311883598659988, guid: c4cf782fc0fa00349ad898cddc22f085,
         type: 3}
       propertyPath: restartWhenFinish
