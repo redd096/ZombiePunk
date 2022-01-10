@@ -114,8 +114,9 @@ public class LevelManager : MonoBehaviour
         foreach (Character player in Players)
             player.GetComponentInChildren<StateMachineRedd096>().SetState(-1);
 
-        //and show end menu
+        //and show end menu (and show cursor)
         GameManager.instance.uiManager.EndMenu(true);
+        SceneLoader.instance.LockMouse(CursorLockMode.None);
     }
 
     #endregion
