@@ -10,19 +10,20 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3920d285c2af41c4c9ea665e5d7b158b, type: 3}
-  m_Name: MagnumModule +Damage and +Bullet Speed
+  m_Name: SniperModule
   m_EditorClassIdentifier: 
-  Weight: 4
-  Name: MagnumModule
-  Description: Adds damage and reduces ammo
-  Sprite: {fileID: 21300000, guid: f405f3dfc8104b54ca6b6cc09e4360bf, type: 3}
+  Weight: 3
+  Name: Sniper
+  Description: MORE damage but the rate of fire has increased a lot and the ammo
+    are reduced
+  Sprite: {fileID: 21300000, guid: 83aa10fe7f5bd7944b088eaffbd2032d, type: 3}
   SetAutomaticWeapon: 0
-  Automatic: 1
+  Automatic: 0
   SetRateOfFire: 1
-  CustomizationTypeRateOfFire: 1
-  RateOfFire: 0
+  CustomizationTypeRateOfFire: 0
+  RateOfFire: 1.1
   SetRecoil: 1
-  CustomizationTypeRecoil: 1
+  CustomizationTypeRecoil: 0
   Recoil: 0
   SetNoiseAccuracy: 1
   CustomizationTypeNoiseAccuracy: 0
@@ -30,19 +31,19 @@ MonoBehaviour:
   SetBarrelSimultaneously: 0
   BarrelSimultaneously: 1
   SetBulletPrefab: 1
-  BulletPrefab: {fileID: 6399300652785083162, guid: e146e912b66697145841d3f447d8e1dd,
+  BulletPrefab: {fileID: 6399300652785083162, guid: d433895fd07ad7d4b94f9a95312204c8,
     type: 3}
   SetDamage: 1
   CustomizationTypeDamage: 0
-  Damage: 15
+  Damage: 40
   SetBulletSpeed: 1
   CustomizationTypeBulletSpeed: 0
-  BulletSpeed: 4
+  BulletSpeed: 24
   SetHasAmmo: 1
   HasAmmo: 1
   SetMaxAmmo: 1
   CustomizationTypeMaxAmmo: 1
-  MaxAmmo: 4
+  MaxAmmo: 7
   SetDelayReload: 1
-  CustomizationTypeDelayReload: 1
-  DelayReload: 0.3
+  CustomizationTypeDelayReload: 0
+  DelayReload: 0.5
