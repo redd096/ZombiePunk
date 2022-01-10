@@ -59,6 +59,9 @@ public class WeaponBarsFeedback : MonoBehaviour
         //add events if has weapon
         if (weaponComponent && weaponComponent.CurrentWeapon && weaponComponent.CurrentWeapon is WeaponRange)
         {
+            //be sure to remove old weapon
+            OnDropWeapon();
+
             //save ref
             weaponRange = weaponComponent.CurrentWeapon as WeaponRange;
 
