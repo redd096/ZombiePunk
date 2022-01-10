@@ -17,11 +17,26 @@ namespace redd096
         [SerializeField] bool dropCameraOnDeath = true;
         [EnableIf("dropCameraOnDeath")] [SerializeField] HealthComponent healthComponent = default;
 
+        Transform cameraParent;
+
         void OnEnable()
         {
             //get references
             if (cameraToControl == null) cameraToControl = Camera.main;
             if (healthComponent == null) healthComponent = GetComponent<HealthComponent>();
+
+            //set cam parent
+            if (cameraToControl)
+            {
+                cameraParent = new GameObject("Camera Parent (camera component)").transform;
+                cameraParent.SetParent(cameraToControl.transform.parent);               //set same parent (if camera was child of something)
+                cameraParent.localPosition = cameraToControl.transform.localPosition;   //set start local position
+                cameraToControl.transform.SetParent(cameraParent);					    //set camera parent
+            }
+            else
+            {
+                Debug.LogWarning("There is no camera to control for Camera Component");
+            }
 
             //add events
             if (healthComponent)
@@ -42,8 +57,8 @@ namespace redd096
         void Update()
         {
             //update camera position if necessary
-            if (updatePosition && cameraToControl)
-                cameraToControl.transform.position = transform.position + offsetPosition;
+            if (updatePosition && cameraParent)
+                cameraParent.position = transform.position + offsetPosition;
         }
 
         void OnDie(HealthComponent whoDied)
