@@ -100,15 +100,14 @@ namespace redd096
 
         public void Reload()
         {
-            //do only if this weapon has ammo, and is not full
-            if (hasAmmo && currentAmmo < maxAmmo)
+            //do only if this weapon has ammo, and is not full (and is not already reloading)
+            if (hasAmmo && currentAmmo < maxAmmo && reloadCoroutine == null)
             {
                 //call event
                 onStartReload?.Invoke();
 
                 //start reload coroutine
-                if (reloadCoroutine == null)
-                    reloadCoroutine = StartCoroutine(ReloadCoroutine());
+                reloadCoroutine = StartCoroutine(ReloadCoroutine());
             }
         }
 
