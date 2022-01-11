@@ -49,6 +49,14 @@ public class GameManager : Singleton<GameManager>
     }
 
     /// <summary>
+    /// Reset customizations
+    /// </summary>
+    public void ClearCustomizations()
+    {
+        currentCustomizations = new CustomizeData[0];
+    }
+
+    /// <summary>
     /// Add customizations to weapon
     /// </summary>
     /// <param name="weapon"></param>
