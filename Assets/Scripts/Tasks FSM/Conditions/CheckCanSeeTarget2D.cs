@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using redd096;
+using NaughtyAttributes;
 
 [AddComponentMenu("redd096/Tasks FSM/Condition/Check Can See Target 2D")]
 public class CheckCanSeeTarget2D : ConditionTask
@@ -8,7 +9,8 @@ public class CheckCanSeeTarget2D : ConditionTask
     [Header("Can See Component 2D")]
     [SerializeField] LayerMask targetLayer;
     [SerializeField] float awarnessDistance = 5;
-    [SerializeField] LayerMask layerWalls;
+    [Tooltip("Check if there is a wall between this object and target")] [SerializeField] bool checkViewClear = true;
+    [EnableIf("checkViewClear")] [SerializeField] LayerMask layerWalls;
     [SerializeField] string saveTargetInBlackboardAs = "Target";
 
     [Header("DEBUG")]
@@ -71,7 +73,7 @@ public class CheckCanSeeTarget2D : ConditionTask
     bool IsViewClear(Transform t)
     {
         //check there is nothing between
-        return Physics2D.Linecast(transformTask.position, t.position, layerWalls.value) == false;
+        return checkViewClear == false || Physics2D.Linecast(transformTask.position, t.position, layerWalls.value) == false;
     }
 
     Transform GetNearest()

@@ -17,7 +17,8 @@ public class DamageInArea : ActionTask
     [Header("Area Attack")]
     [SerializeField] string targetBlackboardName = "Target";
     [SerializeField] LayerMask targetLayer;
-    [SerializeField] LayerMask layerWalls;
+    [Tooltip("Check if there is a wall between this object and target")] [SerializeField] bool checkViewClear = true;
+    [EnableIf("checkViewClear")] [SerializeField] LayerMask layerWalls;
     [SerializeField] float offsetArea = 1;
     [SerializeField] Vector2 sizeArea = Vector2.one;
 
@@ -137,7 +138,7 @@ public class DamageInArea : ActionTask
     bool IsViewClear(Transform t)
     {
         //check there is nothing between
-        return Physics2D.Linecast(transformTask.position, t.position, layerWalls.value) == false;
+        return checkViewClear == false || Physics2D.Linecast(transformTask.position, t.position, layerWalls.value) == false;
     }
 
     #endregion

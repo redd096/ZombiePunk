@@ -86,7 +86,7 @@ namespace redd096
 
             //update nodes
             RemoveFromPreviousNodes();
-            SetNewNodes();
+            if (isActive) SetNewNodes();
         }
 
         public void RemoveColliders()
