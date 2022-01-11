@@ -123,7 +123,7 @@ public class DamageInArea : ActionTask
 
         //find every element in area, using layer
         Vector2 direction = component ? component.AimDirectionInput : Vector2.right;
-        foreach (Collider2D col in Physics2D.OverlapBoxAll((Vector2)transformTask.position + direction * offsetArea, sizeArea, 0, targetLayer))
+        foreach (Collider2D col in Physics2D.OverlapBoxAll((Vector2)transformTask.position + direction * offsetArea, sizeArea, 0, targetLayer.value))
         {
             //add to list if has component
             Redd096Main target = col.GetComponentInParent<Redd096Main>();
