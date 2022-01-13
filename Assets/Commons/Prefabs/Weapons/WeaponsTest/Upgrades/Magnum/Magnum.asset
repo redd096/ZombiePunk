@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3920d285c2af41c4c9ea665e5d7b158b, type: 3}
   m_Name: Magnum
   m_EditorClassIdentifier: 
-  Weight: 6
+  Weight: 4
   Name: MagnumModule
   Description: ' +++ Damage, + Accuracy, ++ Recoil, + Bullet speed, -- Ammo, + Reload
     time.'
@@ -24,10 +24,13 @@ MonoBehaviour:
   RateOfFire: 0
   SetRecoil: 1
   CustomizationTypeRecoil: 0
-  Recoil: 10
+  Recoil: 15
   SetNoiseAccuracy: 1
   CustomizationTypeNoiseAccuracy: 1
   NoiseAccuracy: 2
+  SetBarrels: 0
+  CustomizationTypeBarrels: 0
+  Barrels: Barrel Name
   SetBarrelSimultaneously: 0
   BarrelSimultaneously: 1
   SetBulletPrefab: 1
@@ -35,10 +38,10 @@ MonoBehaviour:
     type: 3}
   SetDamage: 1
   CustomizationTypeDamage: 0
-  Damage: 45
+  Damage: 10
   SetBulletSpeed: 1
   CustomizationTypeBulletSpeed: 0
-  BulletSpeed: 3
+  BulletSpeed: 4
   SetHasAmmo: 1
   HasAmmo: 1
   SetMaxAmmo: 1

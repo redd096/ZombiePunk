@@ -12,21 +12,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3920d285c2af41c4c9ea665e5d7b158b, type: 3}
   m_Name: Second half Magnum
   m_EditorClassIdentifier: 
-  Weight: 5
+  Weight: 3
   Name: MagnumModule
   Description: ++ Recoil, -- Ammo, + Reload time, +++ Damage.
   Sprite: {fileID: 21300000, guid: b3f932068b7e2664a8ad317b38a870ce, type: 3}
   SetAutomaticWeapon: 0
   Automatic: 1
   SetRateOfFire: 1
-  CustomizationTypeRateOfFire: 1
-  RateOfFire: 0
+  CustomizationTypeRateOfFire: 0
+  RateOfFire: 0.05
   SetRecoil: 1
   CustomizationTypeRecoil: 0
-  Recoil: 10
+  Recoil: 5
   SetNoiseAccuracy: 0
   CustomizationTypeNoiseAccuracy: 1
   NoiseAccuracy: 0
+  SetBarrels: 0
+  CustomizationTypeBarrels: 0
+  Barrels: Barrel Name
   SetBarrelSimultaneously: 0
   BarrelSimultaneously: 1
   SetBulletPrefab: 1
@@ -34,7 +37,7 @@ MonoBehaviour:
     type: 3}
   SetDamage: 1
   CustomizationTypeDamage: 0
-  Damage: 45
+  Damage: 10
   SetBulletSpeed: 0
   CustomizationTypeBulletSpeed: 0
   BulletSpeed: 0

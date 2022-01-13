@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3920d285c2af41c4c9ea665e5d7b158b, type: 3}
   m_Name: ShotgunModule -ammo and delay reload
   m_EditorClassIdentifier: 
-  Weight: 3
+  Weight: 4
   Name: Shotgun
   Description: Significantly increased damage with reduced ammo
   Sprite: {fileID: 21300000, guid: 64904fe8c68dc594584620aa851b9fe5, type: 3}
@@ -26,7 +26,10 @@ MonoBehaviour:
   Recoil: 0.8
   SetNoiseAccuracy: 1
   CustomizationTypeNoiseAccuracy: 0
-  NoiseAccuracy: 10
+  NoiseAccuracy: 5
+  SetBarrels: 1
+  CustomizationTypeBarrels: 0
+  Barrels: Barrel da aggiungere
   SetBarrelSimultaneously: 0
   BarrelSimultaneously: 1
   SetBulletPrefab: 1
@@ -34,7 +37,7 @@ MonoBehaviour:
     type: 3}
   SetDamage: 1
   CustomizationTypeDamage: 0
-  Damage: 25
+  Damage: 10
   SetBulletSpeed: 1
   CustomizationTypeBulletSpeed: 1
   BulletSpeed: 4
@@ -42,7 +45,7 @@ MonoBehaviour:
   HasAmmo: 1
   SetMaxAmmo: 1
   CustomizationTypeMaxAmmo: 1
-  MaxAmmo: 6
+  MaxAmmo: 4
   SetDelayReload: 1
   CustomizationTypeDelayReload: 0
-  DelayReload: 0.5
+  DelayReload: 0
