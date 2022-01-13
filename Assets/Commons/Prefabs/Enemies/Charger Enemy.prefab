@@ -250,6 +250,45 @@ MonoBehaviour:
   movementComponent: {fileID: 5017728266285329905}
   checkMovementDirection: 1
   timeBeforeStartCheck: 0.2
+--- !u!114 &7056212038512986989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017728265048648176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ff7c08c8a1e42a4dabdf1f75e6c1478, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 6757414115337315533}
+  movementComponent: {fileID: 5017728266285329905}
+  stateMachine: {fileID: 5017728266096039248}
+  valueToRun: 0.1
+  intName: State
+  idleIndex: 0
+  patrolIndex: 1
+  chargeIndex: 2
+  stunIndex: 3
+  delayIndex: 4
+--- !u!114 &2570449415094680954
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017728266285329908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4f7de95fee4e5f146a5f214ae31380e1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  component: {fileID: 5017728266285329904}
+  offset: {x: 0.4, y: -0.15}
+  size: {x: 0.2, y: 0.9}
+  percentageDamage: 1
+  drawDebug: 0
 --- !u!1 &7367816136740611222
 GameObject:
   m_ObjectHideFlags: 0
@@ -338,45 +377,6 @@ MonoBehaviour:
     m_Bits: 256
   saveTargetInBlackboardAs: Target
   drawDebug: 0
---- !u!114 &2570449415094680954
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5017728266285329908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f7de95fee4e5f146a5f214ae31380e1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  component: {fileID: 5017728266285329904}
-  offset: {x: 0.4, y: -0.15}
-  size: {x: 0.2, y: 0.9}
-  percentageDamage: 1
-  drawDebug: 0
---- !u!114 &7056212038512986989
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5017728265048648176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ff7c08c8a1e42a4dabdf1f75e6c1478, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 6757414115337315533}
-  movementComponent: {fileID: 5017728266285329905}
-  stateMachine: {fileID: 5017728266096039248}
-  valueToRun: 0.1
-  intName: State
-  idleIndex: 0
-  patrolIndex: 1
-  chargeIndex: 2
-  stunIndex: 3
-  delayIndex: 4
 --- !u!1001 &8109891673206357625
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -493,6 +493,11 @@ PrefabInstance:
         type: 3}
       propertyPath: maxSpeed
       value: 30
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832161719942337418, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: EnemyType
+      value: Charger
       objectReference: {fileID: 0}
     - target: {fileID: 3832161719942337421, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}

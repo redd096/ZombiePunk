@@ -10,7 +10,8 @@ public class AcidEffect : MonoBehaviour
     [Header("Targets")]
     [SerializeField] List<Character.ECharacterType> charactersToHit = new List<Character.ECharacterType>() { Character.ECharacterType.Player };
     [SerializeField] bool hitAlsoNotCharacters = true;
-    [SerializeField] bool hitAlsoWhoCreatedAcid = false;    //can hit owner
+    [SerializeField] bool hitAlsoWhoCreatedAcid = false;        //can hit owner
+    [SerializeField] bool hitAlsoEnemiesOfSameType = false;     //can hit same type of enemy
 
     [Header("Timer Disappear (0 = no disappear)")]
     [SerializeField] float duration = 2;
@@ -55,6 +56,14 @@ public class AcidEffect : MonoBehaviour
                 if ((hitCharacter != null && charactersToHit.Contains(hitCharacter.CharacterType))        //be sure is a type of character can hit
                     || (hitCharacter == null && hitAlsoNotCharacters))                                    //or is not a character and can hit also them
                 {
+                    //check same type of enemy
+                    if(hitAlsoEnemiesOfSameType == false                                                                                                                //if can't hit same type
+                        && hitCharacter && owner && hitCharacter.CharacterType == Character.ECharacterType.AI && owner.CharacterType == Character.ECharacterType.AI     //and are both enemies
+                        && hitCharacter.EnemyType == owner.EnemyType)                                                                                                   //of same type
+                    {
+                        return;                                                                                                                                         //then return
+                    }
+
                     //damage it and add to the list
                     OnHit(collision, hit);
                     hits.Add(hit, Time.time + delayBetweenAttacks);    //set timer

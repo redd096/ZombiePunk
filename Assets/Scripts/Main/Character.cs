@@ -1,4 +1,5 @@
 ﻿using UnityEngine;
+using NaughtyAttributes;
 
 namespace redd096
 {
@@ -6,6 +7,8 @@ namespace redd096
     public class Character : Redd096Main
     {
         public enum ECharacterType { Player, AI };
+
         public ECharacterType CharacterType = ECharacterType.AI;
+        [ShowIf("CharacterType", ECharacterType.AI)] public string EnemyType = "Base Enemy";
     }
 }
