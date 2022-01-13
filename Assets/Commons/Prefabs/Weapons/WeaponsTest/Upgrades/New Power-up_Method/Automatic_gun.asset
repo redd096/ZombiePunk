@@ -10,27 +10,26 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3920d285c2af41c4c9ea665e5d7b158b, type: 3}
-  m_Name: Triple barrels
+  m_Name: Automatic_gun
   m_EditorClassIdentifier: 
-  Weight: 3
+  Weight: 2
   Name: Rifle
-  Description: MORE damage but the rate of fire has increased a lot and the ammo
-    are reduced
+  Description: Set the weapon Automatic, +Damage, +Recoil, -Ammo.
   Sprite: {fileID: 21300000, guid: b66c5810e1003eb4bac2af5765b2e7a4, type: 3}
-  SetAutomaticWeapon: 0
-  Automatic: 0
-  SetRateOfFire: 0
-  CustomizationTypeRateOfFire: 1
-  RateOfFire: 0.2
+  SetAutomaticWeapon: 1
+  Automatic: 1
+  SetRateOfFire: 1
+  CustomizationTypeRateOfFire: 0
+  RateOfFire: 0.25
   SetRecoil: 1
   CustomizationTypeRecoil: 0
   Recoil: 2
   SetNoiseAccuracy: 1
   CustomizationTypeNoiseAccuracy: 0
-  NoiseAccuracy: 3
-  SetBarrels: 1
+  NoiseAccuracy: 4
+  SetBarrels: 0
   CustomizationTypeBarrels: 0
-  Barrels: Double barrel
+  Barrels: Barrel da aggiungere
   SetBarrelSimultaneously: 0
   BarrelSimultaneously: 1
   SetBulletPrefab: 1
@@ -38,15 +37,15 @@ MonoBehaviour:
     type: 3}
   SetDamage: 1
   CustomizationTypeDamage: 0
-  Damage: 20
+  Damage: 10
   SetBulletSpeed: 1
   CustomizationTypeBulletSpeed: 0
-  BulletSpeed: 3
+  BulletSpeed: 2
   SetHasAmmo: 1
   HasAmmo: 1
   SetMaxAmmo: 1
   CustomizationTypeMaxAmmo: 1
-  MaxAmmo: 8
+  MaxAmmo: 2
   SetDelayReload: 1
-  CustomizationTypeDelayReload: 1
-  DelayReload: 0.7
+  CustomizationTypeDelayReload: 0
+  DelayReload: 0.5
