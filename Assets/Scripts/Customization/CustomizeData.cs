@@ -29,6 +29,10 @@ public class CustomizeData : ScriptableObject
     [EnableIf("SetNoiseAccuracy")] public ECustomizationType CustomizationTypeNoiseAccuracy = ECustomizationType.Reduce;
     [EnableIf("SetNoiseAccuracy")] [Tooltip("Rotate random the shot when instantiated")] public float NoiseAccuracy = 10;
     [Space]
+    public bool SetBarrels = false;
+    [EnableIf("SetBarrels")] public ECustomizationType CustomizationTypeBarrels = ECustomizationType.Add;
+    [EnableIf("SetNoiseAccuracy")] [Tooltip("Find barrel by name in weapon")] public string Barrels = "Barrel Name";
+    [Space]
     public bool SetBarrelSimultaneously = false;
     [EnableIf("SetBarrelSimultaneously")] [Tooltip("When more than one barrel, shoot every bullet simultaneously or from one random?")] public bool BarrelSimultaneously = true;
     
@@ -79,6 +83,9 @@ public class CustomizeData : ScriptableObject
 
         if (SetNoiseAccuracy)
             weaponRange.NoiseAccuracy += CustomizationTypeNoiseAccuracy == ECustomizationType.Add ? NoiseAccuracy : -NoiseAccuracy;
+
+        if (SetBarrels)
+            weaponRange.ChangeBarrels(CustomizationTypeBarrels == ECustomizationType.Add, Barrels);
 
         if (SetBarrelSimultaneously)
             weaponRange.BarrelSimultaneously = BarrelSimultaneously;

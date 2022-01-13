@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using NaughtyAttributes;
 
@@ -121,6 +122,49 @@ namespace redd096
 
                 //call event
                 onAbortReload?.Invoke();
+            }
+        }
+
+        /// <summary>
+        /// Add or remove barrels to use
+        /// </summary>
+        /// <param name="add">true if add, false if remove</param>
+        /// <param name="nameBarrelsGroup">name of a gameObject with every necessary barrel as child</param>
+        public void ChangeBarrels(bool add, string nameBarrelsGroup)
+        {
+            //find child recursively
+            foreach (Transform barrelGroup in GetComponentsInChildren<Transform>())                 
+            {
+                //find by name
+                if (barrelGroup.name == nameBarrelsGroup)                                           
+                {
+                    //create a copy of current barrels
+                    List<Transform> newBarrels = new List<Transform>(Barrels);
+
+                    //if there are no childs, add or remove this barrel group as single barrel
+                    if(barrelGroup.childCount <= 0)
+                    {
+                        if (add)
+                            newBarrels.Add(barrelGroup);
+                        else
+                            newBarrels.Remove(barrelGroup);
+                    }
+                    //else add or remove every child
+                    else
+                    {
+                        foreach (Transform barrel in barrelGroup)
+                        {
+                            if (add)
+                                newBarrels.Add(barrel);
+                            else
+                                newBarrels.Remove(barrel);
+                        }
+                    }
+
+                    //set new barrels
+                    Barrels = newBarrels.ToArray();
+                    break;
+                }
             }
         }
 
