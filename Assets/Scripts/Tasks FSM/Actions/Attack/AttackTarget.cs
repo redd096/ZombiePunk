@@ -33,7 +33,7 @@ public class AttackTarget : ActionTask
         base.OnEnterTask();
 
         //get target from blackboard
-        target = stateMachine.GetBlackboardElement(targetBlackboardName) as Transform;
+        target = stateMachine.GetBlackboardElement<Transform>(targetBlackboardName);
 
         //be sure is not attacking and set timer for next attack
         StopAttack();

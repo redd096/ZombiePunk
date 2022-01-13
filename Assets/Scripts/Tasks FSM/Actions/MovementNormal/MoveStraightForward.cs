@@ -45,7 +45,7 @@ public class MoveStraightForward : ActionTask
         base.OnEnterTask();
 
         //aim at target
-        target = stateMachine.GetBlackboardElement(targetBlackboardName) as Transform;  //get target from blackboard
+        target = stateMachine.GetBlackboardElement<Transform>(targetBlackboardName);  //get target from blackboard
         if (aimComponent && target) aimComponent.AimAt(target.position);
     }
 

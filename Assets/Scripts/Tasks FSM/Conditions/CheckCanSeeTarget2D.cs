@@ -50,7 +50,7 @@ public class CheckCanSeeTarget2D : ConditionTask
 
         //if found targets, save nearest in the blackboard
         Transform target = GetNearest();
-        if (stateMachine.GetBlackboardElement(saveTargetInBlackboardAs) as Transform != target) //save only if not already in the blackboard (to call set only one time - necessary for feedbacks)
+        if (stateMachine.GetBlackboardElement<Transform>(saveTargetInBlackboardAs) != target) //save only if not already in the blackboard (to call set only one time - necessary for feedbacks)
             stateMachine.SetBlackboardElement(saveTargetInBlackboardAs, target);
 
         return true;

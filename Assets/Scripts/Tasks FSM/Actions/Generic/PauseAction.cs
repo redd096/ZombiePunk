@@ -2,7 +2,7 @@
 using redd096;
 using UnityEngine.InputSystem;
 
-[AddComponentMenu("redd096/Tasks FSM/Action/Pause Action")]
+[AddComponentMenu("redd096/Tasks FSM/Action/Generic/Pause Action")]
 public class PauseAction : ActionTask
 {
     [Header("Necessary Components - default get in parent")]

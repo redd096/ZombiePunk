@@ -44,7 +44,7 @@ public class AimAtTarget : ActionTask
         base.OnEnterTask();
 
         //get target from blackboard
-        target = stateMachine.GetBlackboardElement(targetBlackboardName) as Transform;
+        target = stateMachine.GetBlackboardElement<Transform>(targetBlackboardName);
     }
 
     public override void OnUpdateTask()

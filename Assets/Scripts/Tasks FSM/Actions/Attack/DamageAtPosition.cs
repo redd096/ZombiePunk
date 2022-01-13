@@ -3,23 +3,19 @@ using UnityEngine;
 using redd096;
 using NaughtyAttributes;
 
-[AddComponentMenu("redd096/Tasks FSM/Action/Attack/Damage In Area")]
-public class DamageInArea : ActionTask
+[AddComponentMenu("redd096/Tasks FSM/Action/Attack/Damage At Position")]
+public class DamageAtPosition : ActionTask
 {
-    [Header("Necessary Components - default get in parent")]
-    [SerializeField] AimComponent component;
-
     [Header("Attack")]
     [SerializeField] float timeBeforeFirstAttack = 0.2f;
     [SerializeField] float damage = 10;
     [SerializeField] float pushForce = 10;
 
     [Header("Area Attack")]
-    [SerializeField] string targetBlackboardName = "Target";
+    [SerializeField] string positionBlackboardName = "Last Target Position";
     [SerializeField] LayerMask targetLayer;
     [Tooltip("Check if there is a wall between this object and target")] [SerializeField] bool checkViewClear = true;
     [EnableIf("checkViewClear")] [SerializeField] LayerMask layerWalls;
-    [SerializeField] float offsetArea = 1;
     [SerializeField] Vector2 sizeArea = Vector2.one;
 
     [Header("Repeat Attack")]
@@ -32,6 +28,7 @@ public class DamageInArea : ActionTask
     Character selfCharacter;
     float timerBeforeAttack;    //time between attacks
     List<Redd096Main> possibleTargets = new List<Redd096Main>();
+    Vector2 positionFromBlackboard;
 
     void OnDrawGizmos()
     {
@@ -40,8 +37,7 @@ public class DamageInArea : ActionTask
             Gizmos.color = Color.red;
 
             //draw attack area
-            Vector2 direction = Application.isPlaying && component ? component.AimDirectionInput : Vector2.right;
-            Gizmos.DrawWireCube((Vector2)transformTask.position + direction * offsetArea, sizeArea);
+            Gizmos.DrawWireCube(positionFromBlackboard, sizeArea);
 
             Gizmos.color = Color.white;
         }
@@ -52,7 +48,6 @@ public class DamageInArea : ActionTask
         base.OnInitTask();
 
         //get references
-        if (component == null) component = GetStateMachineComponent<AimComponent>();
         selfCharacter = GetStateMachineComponent<Character>();
     }
 
@@ -63,9 +58,8 @@ public class DamageInArea : ActionTask
         //set timer before attack
         timerBeforeAttack = Time.time + timeBeforeFirstAttack;
 
-        //aim at target
-        Transform target = stateMachine.GetBlackboardElement<Transform>(targetBlackboardName);  //get target from blackboard
-        if (component && target) component.AimAt(target.position);
+        //get values from blackboard
+        positionFromBlackboard = stateMachine.GetBlackboardElement<Vector2>(positionBlackboardName);
     }
 
     public override void OnUpdateTask()
@@ -90,17 +84,17 @@ public class DamageInArea : ActionTask
     {
         //find possible targets
         FindPossibleTargets();
-        foreach(Redd096Main target in new List<Redd096Main>(possibleTargets))
+        foreach (Redd096Main target in new List<Redd096Main>(possibleTargets))
         {
             //if view is clear
-            if(target && IsViewClear(target.transform))
+            if (target && IsViewClear(target.transform))
             {
                 //do damage and push back
                 if (target.GetSavedComponent<HealthComponent>())
-                    target.GetSavedComponent<HealthComponent>().GetDamage(damage, selfCharacter, transformTask.position);
+                    target.GetSavedComponent<HealthComponent>().GetDamage(damage, selfCharacter, positionFromBlackboard);
 
                 if (target && target.GetSavedComponent<MovementComponent>())
-                    target.GetSavedComponent<MovementComponent>().PushInDirection((target.transform.position - transformTask.position).normalized, pushForce);
+                    target.GetSavedComponent<MovementComponent>().PushInDirection(((Vector2)target.transform.position - positionFromBlackboard).normalized, pushForce);
             }
         }
     }
@@ -113,14 +107,17 @@ public class DamageInArea : ActionTask
         possibleTargets.Clear();
 
         //find every element in area, using layer
-        Vector2 direction = component ? component.AimDirectionInput : Vector2.right;
-        foreach (Collider2D col in Physics2D.OverlapBoxAll((Vector2)transformTask.position + direction * offsetArea, sizeArea, 0, targetLayer.value))
+        foreach (Collider2D col in Physics2D.OverlapBoxAll(positionFromBlackboard, sizeArea, 0, targetLayer.value))
         {
             //add to list if has component
             Redd096Main target = col.GetComponentInParent<Redd096Main>();
             if (target && possibleTargets.Contains(target) == false)
             {
-                possibleTargets.Add(target);
+                //be sure is not self
+                if (target != selfCharacter)
+                {
+                    possibleTargets.Add(target);
+                }
             }
         }
     }

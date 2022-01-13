@@ -1,30 +1,29 @@
 ﻿using UnityEngine;
 using redd096;
 
-[AddComponentMenu("redd096/Tasks FSM/Condition/Check Distance 2D")]
-public class CheckDistance2D : ConditionTask
+[AddComponentMenu("redd096/Tasks FSM/Condition/Check Distance 2D To Position")]
+public class CheckDistance2DToPosition : ConditionTask
 {
     enum ECompareMethod { EqualTo, GreaterThan, LessThan, GreaterOrEqualTo, LessOrEqualTo }
 
     [Header("Check Distance")]
-    [SerializeField] string targetBlackboardName = "Target";
-    [SerializeField] ECompareMethod compare = ECompareMethod.GreaterThan;
-    [SerializeField] float distance = 7;
+    [SerializeField] string positionBlackboardName = "Last Target Position";
+    [SerializeField] ECompareMethod compare = ECompareMethod.LessThan;
+    [SerializeField] float distance = 0.1f;
 
     [Header("DEBUG")]
     [SerializeField] bool drawDebug = false;
     [Range(0f, 0.1f)] [SerializeField] float equalsCheckThreshold = 0.05f;
-    [Tooltip("Return true or false when target is null?")] [SerializeField] bool ifTargetIsNullReturnTrue = false;
 
-    Transform target;
+    Vector2 positionFromBlackboard;
 
     void OnDrawGizmos()
     {
-        //draw radius distance
-        if(drawDebug)
+        //draw line to reach position
+        if (drawDebug)
         {
-            Gizmos.color = Color.cyan;
-            Gizmos.DrawWireSphere(transformTask.position, distance);
+            Gizmos.color = Color.magenta;
+            Gizmos.DrawLine(transformTask.position, positionFromBlackboard);
             Gizmos.color = Color.white;
         }
     }
@@ -33,18 +32,14 @@ public class CheckDistance2D : ConditionTask
     {
         base.OnEnterTask();
 
-        //get target from blackboard
-        target = stateMachine.GetBlackboardElement<Transform>(targetBlackboardName);
+        //get position from blackboard
+        positionFromBlackboard = stateMachine.GetBlackboardElement<Vector2>(positionBlackboardName);
     }
 
     public override bool OnCheckTask()
     {
-        //if there is no target, return
-        if (target == null)
-            return ifTargetIsNullReturnTrue;
-
         //else return compare
-        return Compare(Vector2.Distance(target.position, transformTask.position), distance, compare, equalsCheckThreshold);
+        return Compare(Vector2.Distance(positionFromBlackboard, transformTask.position), distance, compare, equalsCheckThreshold);
     }
 
 
