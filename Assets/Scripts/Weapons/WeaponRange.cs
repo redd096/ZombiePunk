@@ -180,6 +180,9 @@ namespace redd096
         /// <param name="barrel"></param>
         void InstantiateBullet(Transform barrel)
         {
+            if (BulletPrefab == null)
+                return;
+
             //create random noise in accuracy
             float randomNoiseAccuracy = Random.Range(-NoiseAccuracy, NoiseAccuracy);
             Vector2 direction = Quaternion.AngleAxis(randomNoiseAccuracy, Vector3.forward) * barrel.right;                                  //direction with noise

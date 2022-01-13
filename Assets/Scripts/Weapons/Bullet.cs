@@ -40,7 +40,7 @@ namespace redd096
         [ReadOnly] [SerializeField] float damage = 0;
         [ReadOnly] [SerializeField] float bulletSpeed = 0;
 
-        Character owner;
+        public Character Owner;
         WeaponRange weapon;
         int ownerType;
         bool alreadyDead;
@@ -85,16 +85,30 @@ namespace redd096
         /// <param name="direction"></param>
         public void Init(WeaponRange weapon, Character owner, Vector2 direction)
         {
+            //set weapon and initialize with it
+            this.weapon = weapon;
+            Init(owner, direction, weapon.Damage, weapon.BulletSpeed);
+        }
+
+        /// <summary>
+        /// Initialize bullet without using a WeaponRange
+        /// </summary>
+        /// <param name="owner"></param>
+        /// <param name="direction"></param>
+        /// <param name="damage"></param>
+        /// <param name="bulletSpeed"></param>
+        /// <param name="delayAutoDestruction"></param>
+        public void Init(Character owner, Vector2 direction, float damage, float bulletSpeed, float delayAutodestruction = 0)
+        {
             //reset vars
             alreadyDead = false;
             alreadyHit.Clear();
 
             this.direction = direction;
-            this.damage = weapon.Damage;
-            this.bulletSpeed = weapon.BulletSpeed;
+            this.damage = damage;
+            this.bulletSpeed = bulletSpeed;
 
-            this.owner = owner;
-            this.weapon = weapon;
+            this.Owner = owner;
             ownerType = owner ? (int)owner.CharacterType : -1;  //if is not a character, set type to -1
 
             //ignore every collision with owner
@@ -112,6 +126,10 @@ namespace redd096
                     foreach (Collider2D bulletCol in GetComponentsInChildren<Collider2D>())
                         Physics2D.IgnoreCollision(bulletCol, weaponCol);
             }
+
+            //if passed autodestruction is greater then 0, use it. Else keep bullet delay
+            if (delayAutodestruction > Mathf.Epsilon)
+                this.delayAutodestruction = delayAutodestruction;
 
             //autodestruction coroutine
             if (delayAutodestruction > 0)
@@ -144,7 +162,7 @@ namespace redd096
                 return;
 
             //be sure to not hit other bullets or weapons or this owner
-            if (hit.GetComponentInParent<Bullet>() || hit.GetComponentInParent<WeaponRange>() || (owner && hit.GetComponentInParent<Character>() == owner))
+            if (hit.GetComponentInParent<Bullet>() || hit.GetComponentInParent<WeaponRange>() || (Owner && hit.GetComponentInParent<Character>() == Owner))
                 return;
 
             //don't hit again same object (for penetrate shots)
@@ -165,7 +183,7 @@ namespace redd096
                 alreadyHit.Add(hitMain);
 
                 //if hit something, do damage and push back
-                if (hitMain.GetSavedComponent<HealthComponent>()) hitMain.GetSavedComponent<HealthComponent>().GetDamage(damage, owner, collision.GetContact(0).point, ignoreShield);
+                if (hitMain.GetSavedComponent<HealthComponent>()) hitMain.GetSavedComponent<HealthComponent>().GetDamage(damage, Owner, collision.GetContact(0).point, ignoreShield);
                 if (hitMain && hitMain.GetSavedComponent<MovementComponent>()) hitMain.GetSavedComponent<MovementComponent>().PushInDirection(direction, knockBack);
             }
 
@@ -196,8 +214,8 @@ namespace redd096
             List<Redd096Main> hits = new List<Redd096Main>();
 
             //be sure to not hit owner (if necessary)
-            if (areaCanDamageWhoShoot == false && owner)
-                hits.Add(owner);
+            if (areaCanDamageWhoShoot == false && Owner)
+                hits.Add(Owner);
 
             //be sure to not hit who was already hit by bullet (if necessary)
             if (areaCanDamageWhoHit == false && hit != null)
@@ -215,7 +233,7 @@ namespace redd096
                     hits.Add(hitMain);
 
                     //do damage
-                    if (hitMain.GetSavedComponent<HealthComponent>()) hitMain.GetSavedComponent<HealthComponent>().GetDamage(damage, owner, transform.position, ignoreShieldAreaDamage);
+                    if (hitMain.GetSavedComponent<HealthComponent>()) hitMain.GetSavedComponent<HealthComponent>().GetDamage(damage, Owner, transform.position, ignoreShieldAreaDamage);
 
                     //and knockback if necessary
                     if (knockbackAlsoInArea && hitMain && hitMain.GetSavedComponent<MovementComponent>())

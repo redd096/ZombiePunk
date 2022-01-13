@@ -31,7 +31,6 @@ public class DamageInArea : ActionTask
 
     Character selfCharacter;
     float timerBeforeAttack;    //time between attacks
-    bool canAttack = true;
     List<Redd096Main> possibleTargets = new List<Redd096Main>();
 
     void OnDrawGizmos()
@@ -63,7 +62,6 @@ public class DamageInArea : ActionTask
 
         //set timer before attack
         timerBeforeAttack = Time.time + timeBeforeFirstAttack;
-        canAttack = true;   //set can do always first attack
 
         //aim at target
         Transform target = stateMachine.GetBlackboardElement(targetBlackboardName) as Transform;  //get target from blackboard
@@ -78,21 +76,13 @@ public class DamageInArea : ActionTask
         if (timerBeforeAttack > Time.time)
             return;
 
-        if (canAttack)
+        if (timerBeforeAttack > 0)
         {
             //attack
             DoAttack();
 
-            //set timer for next attack
-            if (repeatAttack)
-            {
-                timerBeforeAttack = Time.time + timeBetweenAttacks;
-            }
-            //or stop attacks
-            else
-            {
-                canAttack = false;
-            }
+            //set timer for next attack, or stop attacks (set timer -1)
+            timerBeforeAttack = repeatAttack ? Time.time + timeBetweenAttacks : -1;
         }
     }
 
