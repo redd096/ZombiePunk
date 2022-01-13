@@ -40,7 +40,7 @@ namespace redd096
         [ReadOnly] [SerializeField] float damage = 0;
         [ReadOnly] [SerializeField] float bulletSpeed = 0;
 
-        public Character Owner;
+        [HideInInspector] public Character Owner;
         WeaponRange weapon;
         int ownerType;
         bool alreadyDead;
