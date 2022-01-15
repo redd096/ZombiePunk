@@ -10,14 +10,12 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 3920d285c2af41c4c9ea665e5d7b158b, type: 3}
-  m_Name: Bullet speed and delay reload
+  m_Name: Ammo and damage lv2
   m_EditorClassIdentifier: 
   Weight: 1
-  Name: Damage and noise
-  Description: 'Adds damage and reduce noise
-
-'
-  Sprite: {fileID: 21300000, guid: 248287e4d226ffe43b2ae5cbe12e97df, type: 3}
+  Name: Ammo and damage
+  Description: Adds damage  and adds ammo
+  Sprite: {fileID: 21300000, guid: 758be09384bca1f44944847129dbb696, type: 3}
   SetAutomaticWeapon: 0
   Automatic: 1
   SetRateOfFire: 1
@@ -27,8 +25,8 @@ MonoBehaviour:
   CustomizationTypeRecoil: 0
   Recoil: 0
   SetNoiseAccuracy: 1
-  CustomizationTypeNoiseAccuracy: 1
-  NoiseAccuracy: 2
+  CustomizationTypeNoiseAccuracy: 0
+  NoiseAccuracy: 0
   SetBarrels: 0
   CustomizationTypeBarrels: 0
   Barrels: Barrel Name
@@ -39,7 +37,7 @@ MonoBehaviour:
     type: 3}
   SetDamage: 1
   CustomizationTypeDamage: 0
-  Damage: 5
+  Damage: 6
   SetBulletSpeed: 1
   CustomizationTypeBulletSpeed: 0
   BulletSpeed: 0
@@ -47,7 +45,7 @@ MonoBehaviour:
   HasAmmo: 1
   SetMaxAmmo: 1
   CustomizationTypeMaxAmmo: 0
-  MaxAmmo: 0
+  MaxAmmo: 15
   SetDelayReload: 1
   CustomizationTypeDelayReload: 1
   DelayReload: 0
