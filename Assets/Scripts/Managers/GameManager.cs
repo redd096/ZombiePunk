@@ -12,6 +12,7 @@ public class GameManager : Singleton<GameManager>
     //nel menu customizzazione si aggiunge uno script ai prefab per passare il PointerEventData al click, per sapere l'ID di chi ha cliccato
     [Header("DEBUG")]
     [SerializeField] CustomizeData[] currentCustomizations = default;
+    [SerializeField] WeaponBASE currentWeapon = default;
 
     public UIManager uiManager { get; private set; }
     public PathFindingAStar2D pathFindingAStar { get; private set; }
@@ -28,7 +29,7 @@ public class GameManager : Singleton<GameManager>
         Application.targetFrameRate = lock60Fps ? 60 : -1;
     }
 
-    #region public API
+    #region customizations API
 
     /// <summary>
     /// Set customizations for next scene
@@ -78,6 +79,36 @@ public class GameManager : Singleton<GameManager>
 
         //else return normal weapon
         return weapon;
+    }
+
+    #endregion
+
+    #region weapons API
+
+    /// <summary>
+    /// Set weapon for next scene
+    /// </summary>
+    /// <param name="weapon"></param>
+    public void SetWeapon(WeaponBASE weapon)
+    {
+        currentWeapon = weapon;
+    }
+
+    /// <summary>
+    /// Return current weapon
+    /// </summary>
+    /// <returns></returns>
+    public WeaponBASE GetWeapon()
+    {
+        return currentWeapon;
+    }
+
+    /// <summary>
+    /// Reset weapon
+    /// </summary>
+    public void ClearWeapon()
+    {
+        currentWeapon = null;
     }
 
     #endregion

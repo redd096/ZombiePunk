@@ -112,12 +112,12 @@ public class CustomizeWeapon : MonoBehaviour
                     customizeButton.button.onClick.AddListener(() => AddCustomization(random));
 
                     //if there is text, set with customization weight
-                    if (customizeButton.namePowerUp)
-                        customizeButton.namePowerUp.text = random.Weight.ToString();
+                    if (customizeButton.numberText)
+                        customizeButton.numberText.text = random.Weight.ToString();
 
                     //if there is a description, set with customization description
-                    if (customizeButton.descriptionPowerUp)
-                        customizeButton.descriptionPowerUp.text = random.Description;
+                    if (customizeButton.descriptionText)
+                        customizeButton.descriptionText.text = random.Description;
 
                     //save which customization is using this button
                     showedCustomizations.Add(new CustomButtonStruct(customizeButton.button, random));
@@ -193,12 +193,12 @@ public class CustomizeWeapon : MonoBehaviour
         }
 
         //set text with customization weight
-        if (customizeButton && customizeButton.namePowerUp)
-            customizeButton.namePowerUp.text = customization.Weight.ToString();
+        if (customizeButton && customizeButton.numberText)
+            customizeButton.numberText.text = customization.Weight.ToString();
 
         //set text with customization description
-        if (customizeButton && customizeButton.descriptionPowerUp)
-            customizeButton.descriptionPowerUp.text = customization.Description;
+        if (customizeButton && customizeButton.descriptionText)
+            customizeButton.descriptionText.text = customization.Description;
     }
 
     #endregion
