@@ -47,7 +47,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b7409adbfd2dfdd498ef5476cfb71437, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  lock60Fps: 1
   currentCustomizations: []
+  currentWeapon: {fileID: 0}
 --- !u!114 &7509590392313314039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -136,8 +138,8 @@ MonoBehaviour:
     m_RotationOrder: 4
   stopBackgroundMusicThisScene: 0
   musicThisScene:
-    audioClip: {fileID: 0}
-    volume: 1
+    audioClip: {fileID: 8300000, guid: 965d7cabc2dae3a448f67ce096e89e24, type: 3}
+    volume: 0.05
   loopMusicThisScene: 1
   sound2DPrefab: {fileID: 1461404069507654330, guid: af28c695598bbf84ba47882bedf3b30d,
     type: 3}
@@ -156,4 +158,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d26c3023ca7797a4fb846497a5849b27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lockMouse: 1
+  changeCursorLockMode: 1
+  lockModeOnResume: 2
