@@ -98,7 +98,7 @@ namespace redd096
         /// <param name="damage"></param>
         /// <param name="bulletSpeed"></param>
         /// <param name="delayAutoDestruction"></param>
-        public void Init(Character owner, Vector2 direction, float damage, float bulletSpeed, float delayAutodestruction = 0)
+        public void Init(Character owner, Vector2 direction, float damage, float bulletSpeed, float autodestruction = 0)
         {
             //reset vars
             alreadyDead = false;
@@ -128,8 +128,8 @@ namespace redd096
             }
 
             //if passed autodestruction is greater then 0, use it. Else keep bullet delay
-            if (delayAutodestruction > Mathf.Epsilon)
-                this.delayAutodestruction = delayAutodestruction;
+            if (autodestruction > Mathf.Epsilon)
+                delayAutodestruction = autodestruction;
 
             //autodestruction coroutine
             if (delayAutodestruction > 0)
