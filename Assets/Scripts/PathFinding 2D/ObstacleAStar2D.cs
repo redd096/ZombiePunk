@@ -87,7 +87,7 @@ namespace redd096
             //remove this from previous nodes
             foreach (Node2D node in nodesPosition)
             {
-                if (node.obstaclesOnThisNode.Contains(this))
+                if (node != null && node.obstaclesOnThisNode.Contains(this))
                     node.obstaclesOnThisNode.Remove(this);
             }
 
@@ -100,6 +100,9 @@ namespace redd096
         /// </summary>
         public void SetNewNodes()
         {
+            if (grid == null)
+                return;
+
             //set nodes using box or circle
             if (typeCollider == ETypeCollider.box)
                 SetNodesUsingBox();
