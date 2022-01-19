@@ -32,6 +32,7 @@ namespace redd096
         Node2D rightNode;
         Node2D upNode;
         Node2D downNode;
+        Node2D nodeToCheck;
 
         void OnDrawGizmos()
         {
@@ -96,7 +97,6 @@ namespace redd096
             grid.GetNodesExtremesOfABox(node, node.worldPosition + offset, sizeCollider * 0.5f, out leftNode, out rightNode, out downNode, out upNode);
 
             //check every node
-            Node2D nodeToCheck;
             for (int x = leftNode.gridPosition.x; x <= rightNode.gridPosition.x; x++)
             {
                 for (int y = downNode.gridPosition.y; y <= upNode.gridPosition.y; y++)
@@ -118,7 +118,6 @@ namespace redd096
             grid.GetNodesExtremesOfABox(node, node.worldPosition + offset, Vector2.one * radiusCollider, out leftNode, out rightNode, out downNode, out upNode);
 
             //check every node
-            Node2D nodeToCheck;
             for (int x = leftNode.gridPosition.x; x <= rightNode.gridPosition.x; x++)
             {
                 for (int y = downNode.gridPosition.y; y <= upNode.gridPosition.y; y++)
