@@ -62,7 +62,7 @@ public class DamageOnHit : ActionTask
         //disable base damage character on hit
         if(disableBaseDamageCharacterOnHit && damageCharacterOnHit)
         {
-            damageCharacterOnHit.IsActive = false;
+            damageCharacterOnHit.SetCanDoDamage(false);
         }
     }
 
@@ -76,7 +76,7 @@ public class DamageOnHit : ActionTask
         //re-enable base damage character on hit
         if (disableBaseDamageCharacterOnHit && damageCharacterOnHit)
         {
-            damageCharacterOnHit.IsActive = true;
+            damageCharacterOnHit.SetCanDoDamage(true);
         }
     }
 

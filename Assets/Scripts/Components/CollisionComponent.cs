@@ -24,7 +24,7 @@ namespace redd096
 		[SerializeField] BoxCollider2D boxCollider = default;
 
 		[Header("DEBUG")]
-		[SerializeField] bool drawDebug = false;
+		[SerializeField] bool drawDebugInPlay = false;
 		[ShowNativeProperty] bool IsHittingRight => rightHits.Count > 0;
 		[ShowNativeProperty] bool IsHittingLeft => leftHits.Count > 0;
 		[ShowNativeProperty] bool IsHittingUp => upHits.Count > 0;
@@ -98,8 +98,8 @@ namespace redd096
 		void DrawCollisions()
 		{
 			//be sure drawDebug is true
-			bool previousDraw = drawDebug;
-			drawDebug = true;
+			bool previousDraw = drawDebugInPlay;
+			drawDebugInPlay = true;
 
 			//set time
 			drawDebugDuration = 2;
@@ -108,7 +108,7 @@ namespace redd096
 			UpdateCollisions();
 
 			//restore debug values
-			drawDebug = previousDraw;
+			drawDebugInPlay = previousDraw;
 			drawDebugDuration = -1;
 		}
 
@@ -140,21 +140,24 @@ namespace redd096
 			rightHits.Clear();
 			leftHits.Clear();
 
+			Vector2 raycastOriginPoint;
+			RaycastHit2D rightHit;
+			RaycastHit2D leftHit;
 			for (int i = 0; i < numberOfHorizontalRays; i++)
 			{
 				//from bottom to top
-				Vector2 raycastOriginPoint = Vector2.Lerp(horizontalRaycastOriginBottom, horizontalRaycastOriginTop, (float)i / (numberOfHorizontalRays - 1));
+				raycastOriginPoint = Vector2.Lerp(horizontalRaycastOriginBottom, horizontalRaycastOriginTop, (float)i / (numberOfHorizontalRays - 1));
 
 				//raycast right and left
-				RaycastHit2D rightHit = RayCastHitSomething(raycastOriginPoint, Vector2.right, raycastHorizontalLength);
-				RaycastHit2D leftHit = RayCastHitSomething(raycastOriginPoint, Vector2.left, raycastHorizontalLength);
+				rightHit = RayCastHitSomething(raycastOriginPoint, Vector2.right, raycastHorizontalLength);
+				leftHit = RayCastHitSomething(raycastOriginPoint, Vector2.left, raycastHorizontalLength);
 
 				//save hits
 				if (rightHit) rightHits.Add(rightHit);
 				if (leftHit) leftHits.Add(leftHit);
 
 				//debug raycasts
-				if (drawDebug)
+				if (drawDebugInPlay)
 				{
 					DebugRaycast(raycastOriginPoint, Vector2.right, raycastHorizontalLength, rightHit ? Color.red : Color.cyan);
 					DebugRaycast(raycastOriginPoint, Vector2.left, raycastHorizontalLength, leftHit ? Color.red : Color.cyan);
@@ -171,21 +174,24 @@ namespace redd096
 			upHits.Clear();
 			downHits.Clear();
 
+			Vector2 raycastOriginPoint;
+			RaycastHit2D upHit;
+			RaycastHit2D downHit;
 			for (int i = 0; i < numberOfVerticalRays; i++)
 			{
 				//from left to right
-				Vector2 raycastOriginPoint = Vector2.Lerp(verticalRaycastOriginLeft, verticalRaycastOriginRight, (float)i / (numberOfVerticalRays - 1));
+				raycastOriginPoint = Vector2.Lerp(verticalRaycastOriginLeft, verticalRaycastOriginRight, (float)i / (numberOfVerticalRays - 1));
 
 				//raycasts up and down
-				RaycastHit2D upHit = RayCastHitSomething(raycastOriginPoint, Vector2.up, raycastVerticalLength);
-				RaycastHit2D downHit = RayCastHitSomething(raycastOriginPoint, Vector2.down, raycastVerticalLength);
+				upHit = RayCastHitSomething(raycastOriginPoint, Vector2.up, raycastVerticalLength);
+				downHit = RayCastHitSomething(raycastOriginPoint, Vector2.down, raycastVerticalLength);
 
 				//save hits
 				if (upHit) upHits.Add(upHit);
 				if (downHit) downHits.Add(downHit);
 
 				//debug raycasts
-				if (drawDebug)
+				if (drawDebugInPlay)
 				{
 					DebugRaycast(raycastOriginPoint, Vector2.up, raycastVerticalLength, upHit ? Color.red : Color.blue);
 					DebugRaycast(raycastOriginPoint, Vector2.down, raycastVerticalLength, downHit ? Color.red : Color.blue);
