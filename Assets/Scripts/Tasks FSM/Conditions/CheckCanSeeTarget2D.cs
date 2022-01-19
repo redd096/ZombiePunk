@@ -18,6 +18,10 @@ public class CheckCanSeeTarget2D : ConditionTask
 
     List<Transform> possibleTargets = new List<Transform>();
 
+    //used in get nearest
+    Transform target;
+    float distance;
+
     void OnDrawGizmos()
     {
         if(drawDebug)
@@ -49,7 +53,7 @@ public class CheckCanSeeTarget2D : ConditionTask
             return false;
 
         //if found targets, save nearest in the blackboard
-        Transform target = GetNearest();
+        GetNearest();
         if (stateMachine.GetBlackboardElement<Transform>(saveTargetInBlackboardAs) != target) //save only if not already in the blackboard (to call set only one time - necessary for feedbacks)
             stateMachine.SetBlackboardElement(saveTargetInBlackboardAs, target);
 
@@ -76,10 +80,10 @@ public class CheckCanSeeTarget2D : ConditionTask
         return checkViewClear == false || Physics2D.Linecast(transformTask.position, t.position, layerWalls.value) == false;
     }
 
-    Transform GetNearest()
+    void GetNearest()
     {
-        float distance = Mathf.Infinity;
-        Transform nearest = null;
+        distance = Mathf.Infinity;
+        target = null;
 
         //find nearest
         foreach (Transform t in possibleTargets)
@@ -87,11 +91,9 @@ public class CheckCanSeeTarget2D : ConditionTask
             if (Vector2.Distance(transformTask.position, t.position) < distance)
             {
                 distance = Vector2.Distance(transformTask.position, t.position);
-                nearest = t;
+                target = t;
             }
         }
-
-        return nearest;
     }
 
     #endregion

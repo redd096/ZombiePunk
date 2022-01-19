@@ -107,10 +107,11 @@ public class DamageAtPosition : ActionTask
         possibleTargets.Clear();
 
         //find every element in area, using layer
+        Redd096Main target;
         foreach (Collider2D col in Physics2D.OverlapBoxAll(positionFromBlackboard, sizeArea, 0, targetLayer.value))
         {
             //add to list if has component
-            Redd096Main target = col.GetComponentInParent<Redd096Main>();
+            target = col.GetComponentInParent<Redd096Main>();
             if (target && possibleTargets.Contains(target) == false)
             {
                 //be sure is not self

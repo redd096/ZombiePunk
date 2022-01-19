@@ -41,8 +41,11 @@ public class PauseAction : ActionTask
     {
         base.OnUpdateTask();
 
+        if (playerInput == null || playerInput.actions == null)
+            return;
+
         //if press input, resume
-        if(playerInput.actions.FindAction(buttonName).triggered)
+        if (playerInput.actions.FindAction(buttonName).triggered)
         {
             if (SceneLoader.instance)
                 SceneLoader.instance.ResumeGame();

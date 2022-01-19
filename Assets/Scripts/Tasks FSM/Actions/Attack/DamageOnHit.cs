@@ -21,6 +21,7 @@ public class DamageOnHit : ActionTask
     DamageCharacterOnHit damageCharacterOnHit;
     Dictionary<Redd096Main, float> hits = new Dictionary<Redd096Main, float>();
     bool isActive;
+    Redd096Main hitMain;
 
     protected override void OnInitTask()
     {
@@ -83,20 +84,20 @@ public class DamageOnHit : ActionTask
     void OnOwnerCollisionEnter2D(Collision2D collision)
     {
         //check if hit and is not already in the list
-        Redd096Main hit = collision.gameObject.GetComponentInParent<Redd096Main>();
-        if (hit && hits.ContainsKey(hit) == false)
+        hitMain = collision.gameObject.GetComponentInParent<Redd096Main>();
+        if (hitMain && hits.ContainsKey(hitMain) == false)
         {
             //be sure to not hit self
-            if (self == null || hit != self)
+            if (self == null || hitMain != self)
             {
                 //check can damage
-                Character hitCharacter = hit as Character;
+                Character hitCharacter = hitMain as Character;
                 if ((hitCharacter != null && charactersToHit.Contains(hitCharacter.CharacterType))        //be sure is a type of character can hit
                     || (hitCharacter == null && hitAlsoNotCharacters))                                    //or is not a character and can hit also them
                 {
                     //damage it and add to the list
-                    OnHit(collision, hit);
-                    hits.Add(hit, Time.time + delayBetweenAttacks);    //set timer
+                    OnHit(collision, hitMain);
+                    hits.Add(hitMain, Time.time + delayBetweenAttacks);    //set timer
                 }
             }
         }
@@ -105,14 +106,14 @@ public class DamageOnHit : ActionTask
     void OnOwnerCollisionStay2D(Collision2D collision)
     {
         //check if hit and is in the list
-        Redd096Main hit = collision.gameObject.GetComponentInParent<Redd096Main>();
-        if (hit && hits.ContainsKey(hit))
+        hitMain = collision.gameObject.GetComponentInParent<Redd096Main>();
+        if (hitMain && hits.ContainsKey(hitMain))
         {
             //damage after delay
-            if (Time.time > hits[hit])
+            if (Time.time > hits[hitMain])
             {
-                OnHit(collision, hit);
-                hits[hit] = Time.time + delayBetweenAttacks;       //reset timer
+                OnHit(collision, hitMain);
+                hits[hitMain] = Time.time + delayBetweenAttacks;       //reset timer
             }
         }
     }
@@ -120,11 +121,11 @@ public class DamageOnHit : ActionTask
     void OnOwnerCollisionExit2D(Collision2D collision)
     {
         //check if exit hit and is in the list
-        Redd096Main hit = collision.gameObject.GetComponentInParent<Redd096Main>();
-        if (hit && hits.ContainsKey(hit))
+        hitMain = collision.gameObject.GetComponentInParent<Redd096Main>();
+        if (hitMain && hits.ContainsKey(hitMain))
         {
             //remove from the list
-            hits.Remove(hit);
+            hits.Remove(hitMain);
         }
     }
 

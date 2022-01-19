@@ -77,9 +77,10 @@ public class ExplodeOnDeath : MonoBehaviour
         List<Redd096Main> hits = new List<Redd096Main>();
 
         //find every object damageable in area
+        Redd096Main hitMain;
         foreach (Collider2D col in Physics2D.OverlapCircleAll(transform.position, radiusAreaDamage))
         {
-            Redd096Main hitMain = col.GetComponentInParent<Redd096Main>();
+            hitMain = col.GetComponentInParent<Redd096Main>();
 
             if (hitMain != null && hits.Contains(hitMain) == false                      //be sure hit something and is not already hitted
                 && ContainsLayer(layersToIgnore, hitMain.gameObject.layer) == false     //be sure is not in layers to ignore
