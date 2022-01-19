@@ -65,7 +65,6 @@ public class DustRunFeedback : MonoBehaviour
     {
         if (movementComponent && dustObject)
         {
-
             //start dust when run
             if (movementComponent.CurrentSpeed > valueToRun && dustObject.activeInHierarchy == false)
             {
