@@ -195,12 +195,12 @@ MonoBehaviour:
   positionToReach: {x: 1, y: 100}
   speedMovement: 5
   ignoreCollisions: 1
-  setVisibleOnEnterState: 0
-  valueToSetVisibleOnEnterState: 0
+  setVisibleOnEnterState: 1
+  valueToSetVisibleOnEnterState: 1
   setVisibleOnReachDestination: 1
-  valueToSetVisibleOnReachDestination: 0
+  valueToSetVisibleOnReachDestination: 1
   setVisibleOnExitState: 1
-  valueToSetVisibleOnExitState: 0
+  valueToSetVisibleOnExitState: 1
   drawDebug: 0
   approxReachNode: 0.05
 --- !u!114 &593023077651190045
@@ -218,8 +218,8 @@ MonoBehaviour:
   TaskName: '[ACTION] Set Invincible when move out of screen'
   healthComponent: {fileID: 5017728266285329911}
   setInvincibleOnEnterState: 1
-  valueToSetInvincibleOnEnterState: 1
-  setInvincibleOnExitState: 0
+  valueToSetInvincibleOnEnterState: 0
+  setInvincibleOnExitState: 1
   valueToSetInvincibleOnExitState: 0
 --- !u!114 &1992803523958663862
 MonoBehaviour:
@@ -252,7 +252,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TaskName: '[CONDITION] Wait to move out of screen'
-  timer: 1
+  timer: 1.5
 --- !u!114 &4260081970339191854
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,8 +332,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TaskName: '[ACTION] Damage in target area'
   timeBeforeFirstAttack: 0
-  damage: 10
-  pushForce: 10
+  damage: 50
+  pushForce: 15
   positionBlackboardName: Last Target Position
   targetLayer:
     serializedVersion: 2
@@ -342,10 +342,10 @@ MonoBehaviour:
   layerWalls:
     serializedVersion: 2
     m_Bits: 0
-  sizeArea: {x: 3, y: 3}
+  sizeArea: {x: 4, y: 4}
   repeatAttack: 0
   timeBetweenAttacks: 0.2
-  drawDebug: 0
+  drawDebug: 1
 --- !u!114 &4159337474234587344
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -411,14 +411,14 @@ MonoBehaviour:
   useBlackboard: 1
   positionBlackboardName: Last Target Position
   positionToReach: {x: 1, y: 100}
-  speedMovement: 5
+  speedMovement: 20
   ignoreCollisions: 1
   setVisibleOnEnterState: 1
   valueToSetVisibleOnEnterState: 1
-  setVisibleOnReachDestination: 0
-  valueToSetVisibleOnReachDestination: 0
-  setVisibleOnExitState: 0
-  valueToSetVisibleOnExitState: 0
+  setVisibleOnReachDestination: 1
+  valueToSetVisibleOnReachDestination: 1
+  setVisibleOnExitState: 1
+  valueToSetVisibleOnExitState: 1
   drawDebug: 0
   approxReachNode: 0.05
 --- !u!114 &8690105729368253872
@@ -435,7 +435,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TaskName: '[ACTION] Remove Invincible when reach target'
   healthComponent: {fileID: 5017728266285329911}
-  setInvincibleOnEnterState: 0
+  setInvincibleOnEnterState: 1
   valueToSetInvincibleOnEnterState: 0
   setInvincibleOnExitState: 1
   valueToSetInvincibleOnExitState: 0
@@ -589,6 +589,21 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Jumper Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832161719942337421, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832161719942337422, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: MaxHealth
+      value: 250
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832161719942337422, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: CurrentHealth
+      value: 250
       objectReference: {fileID: 0}
     - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
