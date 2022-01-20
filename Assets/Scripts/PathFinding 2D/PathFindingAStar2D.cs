@@ -21,18 +21,19 @@ namespace redd096
     [AddComponentMenu("redd096/Path Finding A Star/Path Finding A Star 2D")]
     public class PathFindingAStar2D : PathRequestManagerAStar2D
     {
+        public static PathFindingAStar2D instance;
+
         [Header("Default use Find Object of Type")]
         public GridAStar2D Grid = default;
 
-        [Header("Delay when multiple objects call to Update Grid")]
-        [SerializeField] float delayBeforeUpdateGrid = 0.2f;
-
         //obstacles
-        Coroutine updateGridCoroutine;
-        List<ObstacleAStar2D> obstaclesToUpdate = new List<ObstacleAStar2D>();
+        Coroutine updateObstaclePositionOnGridCoroutine;
+        Queue<ObstacleAStar2D> obstaclesQueue = new Queue<ObstacleAStar2D>();
 
         void Awake()
         {
+            instance = this;
+
             if (Grid == null)
                 Grid = FindObjectOfType<GridAStar2D>();
         }
@@ -54,37 +55,18 @@ namespace redd096
         }
 
         /// <summary>
-        /// Update obstacles position on the grid. There is a delay before updates in case multiple objects call at same time
+        /// Update obstacle position on the grid (used for pathfinding)
         /// </summary>
-        /// <param name="obstacle">Obstacle to add at the lists of obstacles to update</param>
-        /// <param name="updateImmediatly">To update immediatly instead of use a delay</param>
-        public void UpdateGrid(ObstacleAStar2D obstacle, bool updateImmediatly = false)
+        /// <param name="obstacle"></param>
+        public void UpdateObstaclePositionOnGrid(ObstacleAStar2D obstacle)
         {
-            //add to list of obstacles to update
-            if (obstaclesToUpdate.Contains(obstacle) == false)
-                obstaclesToUpdate.Add(obstacle);
+            //add to queue
+            if (obstaclesQueue.Contains(obstacle) == false)
+                obstaclesQueue.Enqueue(obstacle);
 
-            //if update immediatly, don't start coroutine
-            if (updateImmediatly)
-            {
-                //stop timer (to be sure is not updated two times)
-                if (updateGridCoroutine != null)
-                {
-                    StopCoroutine(updateGridCoroutine);
-                    updateGridCoroutine = null;
-                }
-
-                //and update immediatly grid
-                Grid.UpdateObstaclesPosition(obstaclesToUpdate.ToArray());
-                obstaclesToUpdate.Clear();
-                return;
-            }
-
-            //start timer to Update Grid. If timer is already running, do nothing (update will be already call)
-            if (updateGridCoroutine == null)
-            {
-                updateGridCoroutine = StartCoroutine(UpdateGridCoroutine());
-            }
+            //start coroutine if not already running
+            if (updateObstaclePositionOnGridCoroutine == null)
+                updateObstaclePositionOnGridCoroutine = StartCoroutine(UpdateObstaclePositionOnGridCoroutine());
         }
 
         #endregion
@@ -239,7 +221,6 @@ namespace redd096
                 }
             }
 
-
             //if there is no path, return null
             if(pathSuccess == false)
             {
@@ -306,19 +287,19 @@ namespace redd096
             return path;
         }
 
-        IEnumerator UpdateGridCoroutine()
+        IEnumerator UpdateObstaclePositionOnGridCoroutine()
         {
-            //wait delay
-            yield return new WaitForSeconds(delayBeforeUpdateGrid);
-
-            //then update grid
-            if (Grid)
+            while (obstaclesQueue.Count > 0)
             {
-                Grid.UpdateObstaclesPosition(obstaclesToUpdate.ToArray());
-                obstaclesToUpdate.Clear();
+                //get obstacle from queue and update its position
+                ObstacleAStar2D obstacle = obstaclesQueue.Dequeue();
+                if (obstacle)
+                    obstacle.UpdatePositionOnGrid(Grid);
+
+                yield return null;
             }
 
-            updateGridCoroutine = null;
+            updateObstaclePositionOnGridCoroutine = null;
         }
 
         #endregion
