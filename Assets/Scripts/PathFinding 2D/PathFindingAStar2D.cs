@@ -19,7 +19,7 @@ namespace redd096
     /// Call this to calculate a path using pathfinding or to update the grid
     /// </summary>
     [AddComponentMenu("redd096/Path Finding A Star/Path Finding A Star 2D")]
-    public class PathFindingAStar2D : MonoBehaviour
+    public class PathFindingAStar2D : PathRequestManagerAStar2D
     {
         [Header("Default use Find Object of Type")]
         public GridAStar2D Grid = default;
@@ -27,7 +27,7 @@ namespace redd096
         [Header("Delay when multiple objects call to Update Grid")]
         [SerializeField] float delayBeforeUpdateGrid = 0.2f;
 
-        //vars
+        //obstacles
         Coroutine updateGridCoroutine;
         List<ObstacleAStar2D> obstaclesToUpdate = new List<ObstacleAStar2D>();
 
@@ -44,10 +44,54 @@ namespace redd096
         /// </summary>
         /// <param name="startPosition"></param>
         /// <param name="targetPosition"></param>
+        /// <param name="func">function to call when finish processing path. Will pass the path as a list of node</param>
         /// <param name="agent"></param>
         /// <param name="returnNearestPointToTarget">if no path to target position, return path to nearest point</param>
-        /// <returns></returns>
-        public List<Node2D> FindPath(Vector2 startPosition, Vector2 targetPosition, AgentAStar2D agent = null, bool returnNearestPointToTarget = true)
+        public void FindPath(Vector2 startPosition, Vector2 targetPosition, System.Action<List<Node2D>> func, AgentAStar2D agent = null, bool returnNearestPointToTarget = true)
+        {
+            //start processing path or add to queue
+            ProcessPath(startPosition, targetPosition, func, agent, returnNearestPointToTarget);
+        }
+
+        /// <summary>
+        /// Update obstacles position on the grid. There is a delay before updates in case multiple objects call at same time
+        /// </summary>
+        /// <param name="obstacle">Obstacle to add at the lists of obstacles to update</param>
+        /// <param name="updateImmediatly">To update immediatly instead of use a delay</param>
+        public void UpdateGrid(ObstacleAStar2D obstacle, bool updateImmediatly = false)
+        {
+            //add to list of obstacles to update
+            if (obstaclesToUpdate.Contains(obstacle) == false)
+                obstaclesToUpdate.Add(obstacle);
+
+            //if update immediatly, don't start coroutine
+            if (updateImmediatly)
+            {
+                //stop timer (to be sure is not updated two times)
+                if (updateGridCoroutine != null)
+                {
+                    StopCoroutine(updateGridCoroutine);
+                    updateGridCoroutine = null;
+                }
+
+                //and update immediatly grid
+                Grid.UpdateObstaclesPosition(obstaclesToUpdate.ToArray());
+                obstaclesToUpdate.Clear();
+                return;
+            }
+
+            //start timer to Update Grid. If timer is already running, do nothing (update will be already call)
+            if (updateGridCoroutine == null)
+            {
+                updateGridCoroutine = StartCoroutine(UpdateGridCoroutine());
+            }
+        }
+
+        #endregion
+
+        #region private API
+
+        protected override IEnumerator FindPathCoroutine(Vector2 startPosition, Vector2 targetPosition, AgentAStar2D agent, bool returnNearestPointToTarget)
         {
             /*
              * OPEN - the set of nodes to be evaluated
@@ -96,7 +140,8 @@ namespace redd096
             //add the start node to OPEN
             openList.Add(startNode);
 
-            Node2D currentNode;
+            Node2D currentNode = null;
+            bool pathSuccess = false;
             while (openList.Count > 0)
             {
                 #region before heap optimization
@@ -125,7 +170,10 @@ namespace redd096
 
                 //path has been found, return it
                 if (currentNode == targetNode)
-                    return RetracePath(startNode, currentNode);
+                {
+                    pathSuccess = true;
+                    break;
+                }
 
                 //foreach Neighbour of the Current node
                 foreach (Node2D neighbour in currentNode.neighbours)
@@ -158,8 +206,15 @@ namespace redd096
                 }
             }
 
-            //if no path
-            if (returnNearestPointToTarget)
+            yield return null;
+
+            //if found path, return it
+            if (pathSuccess)
+            {
+                OnFinishProcessingPath(RetracePath(startNode, currentNode));
+            }
+            //if no path, but can return nearest point
+            else if (returnNearestPointToTarget)
             {
                 //set start node because the start is not setted
                 startNode.hCost = GetDistance(startNode, targetNode);
@@ -178,50 +233,19 @@ namespace redd096
 
                 //find path only if nearest node is not the start node
                 if (startNode != nearestNode)
-                    return FindPath(startNode.worldPosition, nearestNode.worldPosition, agent, false);
+                {
+                    pathSuccess = true;
+                    yield return FindPathCoroutine(startNode.worldPosition, nearestNode.worldPosition, agent, false);
+                }
             }
+
 
             //if there is no path, return null
-            return null;
-        }
-
-        /// <summary>
-        /// Update obstacles position on the grid. There is a delay before updates in case multiple objects call at same time
-        /// </summary>
-        /// <param name="obstacle">Obstacle to add at the lists of obstacles to update</param>
-        /// <param name="updateImmediatly">To update immediatly instead of use a delay</param>
-        public void UpdateGrid(ObstacleAStar2D obstacle, bool updateImmediatly = false)
-        {
-            //add to list of obstacles to update
-            if (obstaclesToUpdate.Contains(obstacle) == false)
-                obstaclesToUpdate.Add(obstacle);
-
-            //if update immediatly, don't start coroutine
-            if (updateImmediatly)
+            if(pathSuccess == false)
             {
-                //stop timer (to be sure is not updated two times)
-                if (updateGridCoroutine != null)
-                {
-                    StopCoroutine(updateGridCoroutine);
-                    updateGridCoroutine = null;
-                }
-
-                //and update immediatly grid
-                Grid.UpdateObstaclesPosition(obstaclesToUpdate.ToArray());
-                obstaclesToUpdate.Clear();
-                return;
-            }
-
-            //start timer to Update Grid. If timer is already running, do nothing (update will be already call)
-            if (updateGridCoroutine == null)
-            {
-                updateGridCoroutine = StartCoroutine(UpdateGridCoroutine());
+                OnFinishProcessingPath(null);
             }
         }
-
-        #endregion
-
-        #region private API
 
         /// <summary>
         /// Calculate distance between 2 nodes

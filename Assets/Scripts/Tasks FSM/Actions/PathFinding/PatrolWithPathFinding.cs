@@ -25,6 +25,7 @@ public class PatrolWithPathFinding : ActionTask
     Vector2 startPosition;
     float waitTimer;
     List<Node2D> path;
+    bool isProcessingPath;
 
     void OnDrawGizmos()
     {
@@ -117,9 +118,19 @@ public class PatrolWithPathFinding : ActionTask
             Vector3 randomPoint = startPosition + Random.insideUnitCircle * radiusPatrol;
 
             //get path
-            if (pathFinding)
-                path = pathFinding.FindPath(transformTask.position, randomPoint, agentAStar);
+            if (pathFinding && isProcessingPath == false)
+            {
+                isProcessingPath = true;
+                pathFinding.FindPath(transformTask.position, randomPoint, OnFindPath, agentAStar);
+            }
         }
+    }
+
+    void OnFindPath(List<Node2D> path)
+    {
+        //set path
+        this.path = path;
+        isProcessingPath = false;
     }
 
     void MoveAndAimToNextNode()

@@ -23,6 +23,7 @@ public class ChaseWithPathFinding : ActionTask
     float timerBeforeNextUpdatePath;
     Transform target;
     List<Node2D> path;
+    bool isPathProcessing;
     //Node2D lastWalkableNode;
 
     void OnDrawGizmos()
@@ -124,10 +125,23 @@ public class ChaseWithPathFinding : ActionTask
         //delay between every update of the path
         if (Time.time > timerBeforeNextUpdatePath)
         {
+            //reset timer
+            timerBeforeNextUpdatePath = Time.time + delayRecalculatePath;
+
             //get path
-            path = pathFinding.FindPath(transformTask.position, target.position, agentAStar);
-            timerBeforeNextUpdatePath = Time.time + delayRecalculatePath;                           //reset timer
+            if (pathFinding && isPathProcessing == false)
+            {
+                isPathProcessing = true;
+                pathFinding.FindPath(transformTask.position, target.position, OnFindPath, agentAStar);
+            }
         }
+    }
+
+    void OnFindPath(List<Node2D> path)
+    {
+        //set path
+        this.path = path;
+        isPathProcessing = false;
     }
 
     void MoveAndAim(Vector3 destination)
