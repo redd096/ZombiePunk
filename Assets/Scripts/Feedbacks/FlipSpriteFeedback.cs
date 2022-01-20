@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 namespace redd096
 {
@@ -12,8 +13,15 @@ namespace redd096
         [Tooltip("By default these sprites are looking to the right?")] [SerializeField] bool defaultLookRight = true;
         [SerializeField] SpriteRenderer[] spritesToFlip = default;
 
+        //TEMP
+        Coroutine flipSpriteCoroutine;
+        Character selfCharacter;
+
         void OnEnable()
         {
+            //TEMP
+            selfCharacter = GetComponentInParent<Character>();
+
             //get references
             if(component == null) component = GetComponentInParent<AimComponent>();
             if (spritesToFlip == null || spritesToFlip.Length <= 0) spritesToFlip = GetComponentsInChildren<SpriteRenderer>();
@@ -35,10 +43,32 @@ namespace redd096
 
         void OnChangeAimDirection(bool isLookingRight)
         {
+            //TEMP for enemies use a coroutine
+            if(selfCharacter && selfCharacter.CharacterType == Character.ECharacterType.AI)
+            {
+                //restart coroutine
+                if (flipSpriteCoroutine != null)
+                    StopCoroutine(flipSpriteCoroutine);
+
+                flipSpriteCoroutine = StartCoroutine(FlipSpriteCoroutine());
+                return;
+            }
+
             //flip right or left
             foreach (SpriteRenderer sprite in spritesToFlip)
-                if(sprite)
+                if (sprite)
                     sprite.flipX = (defaultLookRight && isLookingRight == false) || (defaultLookRight == false && isLookingRight);
+        }
+
+        IEnumerator FlipSpriteCoroutine()
+        {
+            yield return new WaitForSeconds(0.1f);
+
+            //flip right or left
+            if (component)
+                foreach (SpriteRenderer sprite in spritesToFlip)
+                    if (sprite)
+                        sprite.flipX = (defaultLookRight && component.IsLookingRight == false) || (defaultLookRight == false && component.IsLookingRight);
         }
     }
 }
