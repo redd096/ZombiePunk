@@ -9,7 +9,6 @@ public class ChaseWithPathFinding : ActionTask
     [SerializeField] MovementComponent component;
     [SerializeField] AimComponent aimComponent;
     [SerializeField] AgentAStar2D agentAStar;
-    [SerializeField] PathFindingAStar2D pathFinding;
 
     [Header("Chase")]
     [SerializeField] string targetBlackboardName = "Target";
@@ -53,12 +52,11 @@ public class ChaseWithPathFinding : ActionTask
         if (component == null) component = GetStateMachineComponent<MovementComponent>();
         if (aimComponent == null) aimComponent = GetStateMachineComponent<AimComponent>();
         if (agentAStar == null) agentAStar = GetStateMachineComponent<AgentAStar2D>();
-        if (pathFinding == null) pathFinding = GameManager.instance ? GameManager.instance.pathFindingAStar : null;
 
         //show warnings if not found
         if (GameManager.instance == null)
             Debug.LogWarning("Miss GameManager in scene");
-        else if (pathFinding == null)
+        else if (PathFindingAStar2D.instance == null)
             Debug.LogWarning("Miss PathFinding in scene");
     }
 
@@ -129,10 +127,10 @@ public class ChaseWithPathFinding : ActionTask
             timerBeforeNextUpdatePath = Time.time + delayRecalculatePath;
 
             //get path
-            if (pathFinding && isPathProcessing == false)
+            if (PathFindingAStar2D.instance && isPathProcessing == false)
             {
                 isPathProcessing = true;
-                pathFinding.FindPath(transformTask.position, target.position, OnFindPath, agentAStar);
+                PathFindingAStar2D.instance.FindPath(transformTask.position, target.position, OnFindPath, agentAStar);
             }
         }
     }

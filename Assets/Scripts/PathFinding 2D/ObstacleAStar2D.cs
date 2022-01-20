@@ -22,7 +22,6 @@ namespace redd096
         [SerializeField] bool drawDebug = false;
 
         //vars
-        bool isActive = true;
         GridAStar2D grid;
         List<Node2D> nodesPosition = new List<Node2D>();    //nodes with this obstacle
 
