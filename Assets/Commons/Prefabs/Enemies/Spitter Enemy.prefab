@@ -119,7 +119,6 @@ MonoBehaviour:
   component: {fileID: 5017728266285329905}
   aimComponent: {fileID: 5017728266285329904}
   agentAStar: {fileID: 283268124930683889}
-  pathFinding: {fileID: 0}
   radiusPatrol: 6
   speedPatrol: 1
   timeToWaitWhenReach: 0
@@ -216,7 +215,6 @@ MonoBehaviour:
   component: {fileID: 5017728266285329905}
   aimComponent: {fileID: 5017728266285329904}
   agentAStar: {fileID: 283268124930683889}
-  pathFinding: {fileID: 0}
   targetBlackboardName: Target
   speedChase: 0.3
   drawDebug: 0
@@ -236,38 +234,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TaskName: '[CONDITION] Wait Timer Chase'
   timer: 0.9
---- !u!114 &324701590739961021
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5017728265048648176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5d420a2a14f74345899897d27a272c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 6757414115337315533}
-  stateMachine: {fileID: 5017728266096039248}
-  attackStateName: Ranged Attack State
-  triggerOnAttack: Ranged Attack
---- !u!114 &4260081970339191854
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5017728265048648176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5d420a2a14f74345899897d27a272c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 6757414115337315533}
-  stateMachine: {fileID: 5017728266096039248}
-  attackStateName: Melee Attack State
-  triggerOnAttack: Melee Attack
 --- !u!1 &5046580184900396351
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,6 +340,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TaskName: '[CONDITION] Wait Timer Melee'
   timer: 0.9
+--- !u!114 &324701590739961021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017728265048648176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5d420a2a14f74345899897d27a272c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 6757414115337315533}
+  stateMachine: {fileID: 5017728266096039248}
+  attackStateName: Ranged Attack State
+  triggerOnAttack: Ranged Attack
+--- !u!114 &4260081970339191854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017728265048648176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5d420a2a14f74345899897d27a272c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 6757414115337315533}
+  stateMachine: {fileID: 5017728266096039248}
+  attackStateName: Melee Attack State
+  triggerOnAttack: Melee Attack
 --- !u!1001 &8109891673206357625
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -731,22 +729,22 @@ PrefabInstance:
     - target: {fileID: 3832161720222177754, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: m_Size.x
-      value: 0.70108426
+      value: 0.53417134
       objectReference: {fileID: 0}
     - target: {fileID: 3832161720222177754, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: m_Size.y
-      value: 0.82493687
+      value: 0.6505505
       objectReference: {fileID: 0}
     - target: {fileID: 3832161720222177754, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: m_Offset.x
-      value: 0.005254388
+      value: 0.0015175194
       objectReference: {fileID: 0}
     - target: {fileID: 3832161720222177754, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: m_Offset.y
-      value: -0.21332812
+      value: -0.016520202
       objectReference: {fileID: 0}
     - target: {fileID: 3832161720222177754, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
