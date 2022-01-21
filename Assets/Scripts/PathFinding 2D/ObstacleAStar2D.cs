@@ -22,7 +22,6 @@ namespace redd096
         [SerializeField] bool drawDebug = false;
 
         //vars
-        bool isActive = true;
         GridAStar2D grid;
         List<Node2D> nodesPosition = new List<Node2D>();    //nodes with this obstacle
 
@@ -55,6 +54,19 @@ namespace redd096
             }
         }
 
+        void Update()
+        {
+            //update obstacle position
+            if (PathFindingAStar2D.instance)
+                PathFindingAStar2D.instance.UpdateObstaclePositionOnGrid(this);
+        }
+
+        void OnDisable()
+        {
+            //remove obstacle from grid
+            RemoveFromPreviousNodes();
+        }
+
         #region public API
 
         /// <summary>
@@ -71,12 +83,7 @@ namespace redd096
 
             //update nodes
             RemoveFromPreviousNodes();
-            if (isActive) SetNewNodes();
-        }
-
-        public void RemoveColliders()
-        {
-            isActive = false;
+            SetNewNodes();
         }
 
         /// <summary>

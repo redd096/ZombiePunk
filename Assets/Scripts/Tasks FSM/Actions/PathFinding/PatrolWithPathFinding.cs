@@ -9,7 +9,6 @@ public class PatrolWithPathFinding : ActionTask
     [SerializeField] MovementComponent component;
     [SerializeField] AimComponent aimComponent;
     [SerializeField] AgentAStar2D agentAStar;
-    [SerializeField] PathFindingAStar2D pathFinding;
 
     [Header("Patrol")]
     [SerializeField] float radiusPatrol = 5;
@@ -25,6 +24,7 @@ public class PatrolWithPathFinding : ActionTask
     Vector2 startPosition;
     float waitTimer;
     List<Node2D> path;
+    bool isProcessingPath;
 
     void OnDrawGizmos()
     {
@@ -57,12 +57,11 @@ public class PatrolWithPathFinding : ActionTask
         if (component == null) component = GetStateMachineComponent<MovementComponent>();
         if (aimComponent == null) aimComponent = GetStateMachineComponent<AimComponent>();
         if (agentAStar == null) agentAStar = GetStateMachineComponent<AgentAStar2D>();
-        if (pathFinding == null) pathFinding = GameManager.instance ? GameManager.instance.pathFindingAStar : null;
 
         //show warnings if not found
         if (GameManager.instance == null)
             Debug.LogWarning("Miss GameManager in scene");
-        else if (pathFinding == null)
+        else if (PathFindingAStar2D.instance == null)
             Debug.LogWarning("Miss PathFinding in scene");
 
         //save start position
@@ -117,9 +116,19 @@ public class PatrolWithPathFinding : ActionTask
             Vector3 randomPoint = startPosition + Random.insideUnitCircle * radiusPatrol;
 
             //get path
-            if (pathFinding)
-                path = pathFinding.FindPath(transformTask.position, randomPoint, agentAStar);
+            if (PathFindingAStar2D.instance && isProcessingPath == false)
+            {
+                isProcessingPath = true;
+                PathFindingAStar2D.instance.FindPath(transformTask.position, randomPoint, OnFindPath, agentAStar);
+            }
         }
+    }
+
+    void OnFindPath(List<Node2D> path)
+    {
+        //set path
+        this.path = path;
+        isProcessingPath = false;
     }
 
     void MoveAndAimToNextNode()

@@ -15,14 +15,12 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] WeaponBASE currentWeapon = default;
 
     public UIManager uiManager { get; private set; }
-    public PathFindingAStar2D pathFindingAStar { get; private set; }
     public LevelManager levelManager { get; private set; }
 
     protected override void SetDefaults()
     {
         //get references
         uiManager = FindObjectOfType<UIManager>();
-        pathFindingAStar = FindObjectOfType<PathFindingAStar2D>();
         levelManager = FindObjectOfType<LevelManager>();
 
         //lock 60 fps or free
