@@ -8,9 +8,16 @@ public class StartTrigger : MonoBehaviour
 
     public GameObject Spawns;
 
+    public GameObject Trigger;
+
     void OnTriggerEnter2D(Collider2D other)
     {
         Spawns.SetActive(true);
+    }
+
+    void OnTriggerExit2D(Collider2D other)
+    {
+        Trigger.SetActive(false);
     }
 
 }
