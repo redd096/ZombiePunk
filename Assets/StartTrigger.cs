@@ -13,11 +13,11 @@ public class StartTrigger : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D other)
     {
-        if (other.gameObject.CompareTag("Player"))
-        {
-            Spawns.SetActive(true);
-        }
-        
+        Spawns.SetActive(true);
+
+
+
+
     }
 
     void OnTriggerExit2D(Collider2D other)
