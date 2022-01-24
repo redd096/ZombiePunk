@@ -19,34 +19,43 @@ public class Spawn : MonoBehaviour
     public System.Action<Spawn> onFinishSpawn { get; set; }             //called when finish to spawn every object
     public System.Action<Spawn> onEveryObjectIsDead { get; set; }       //called when finish to spawn and every object with health component is dead (if there aren't, is called when finish to spawn)
 
-    Coroutine spawnCoroutine;
-
     //used in spawn object
-    GameObject instantiatedObject;
-    HealthComponent healthInstantiatedObject;
+    Coroutine instantiateCoroutine;
+    Coroutine spawnCoroutine;
+    List<GameObject> instantiatedObjectsToSpawn = new List<GameObject>();
 
-    void OnEnable()
+    void Start()
     {
-        //start coroutine
-        spawnCoroutine = StartCoroutine(SpawnCoroutine());
+        //at start instantiate every prefab and deactive
+        instantiateCoroutine = StartCoroutine(InstantiateEveryPrefab());
     }
 
-    void OnDisable()
+    public void StartSpawn()
     {
         //be sure to stop coroutine
         if (spawnCoroutine != null)
             StopCoroutine(spawnCoroutine);
+
+        //start coroutine
+        spawnCoroutine = StartCoroutine(SpawnCoroutine());
     }
 
     IEnumerator SpawnCoroutine()
     {
-        for(index = 0; index < prefabsToSpawn.Length; index++)
+        //wait to be sure instantiate coroutine is started
+        yield return null;
+
+        //wait to finish instantiate
+        while (instantiateCoroutine != null)
+            yield return null;
+
+        for (index = 0; index < instantiatedObjectsToSpawn.Count; index++)
         {
             //wait
             yield return new WaitForSeconds(index <= 0 ? timeBeforeFirstSpawn : timeBetweenSpawns);
 
             //then spawn
-            SpawnObject();
+            SpawnObject(instantiatedObjectsToSpawn[index]);
         }
 
         //call event
@@ -64,7 +73,7 @@ public class Spawn : MonoBehaviour
         if(spawnedAlives.Contains(whoDied))
         {
             spawnedAlives.Remove(whoDied);
-            whoDied.onDie -= OnKilledObject;
+            if(whoDied) whoDied.onDie -= OnKilledObject;
         }
         
         //if has finished to spawn, check if every spawned object was killed
@@ -80,16 +89,37 @@ public class Spawn : MonoBehaviour
 
     #region private API
 
-    void SpawnObject()
+    IEnumerator InstantiateEveryPrefab()
     {
-        if (prefabsToSpawn[index])
+        GameObject instantiatedObject;
+        foreach (GameObject go in prefabsToSpawn)
+        {
+            if (go == null)
+                continue;
+
+            //spawn and deactive
+            instantiatedObject = Instantiate(go, transform.position, transform.rotation);
+            instantiatedObject.transform.SetParent(transform);
+            instantiatedObject.SetActive(false);
+
+            //add to list
+            instantiatedObjectsToSpawn.Add(instantiatedObject);
+
+            yield return null;
+        }
+
+        instantiateCoroutine = null;
+    }
+
+    void SpawnObject(GameObject objectToSpawn)
+    {
+        if (objectToSpawn)
         {
             //spawn
-            instantiatedObject = Instantiate(prefabsToSpawn[index], transform.position, transform.rotation);
-            instantiatedObject.transform.SetParent(transform);
+            objectToSpawn.SetActive(true);
 
             //if has health, register to events and add to list
-            healthInstantiatedObject = instantiatedObject.GetComponent<HealthComponent>();
+            HealthComponent healthInstantiatedObject = objectToSpawn.GetComponent<HealthComponent>();
             if (healthInstantiatedObject)
             {
                 healthInstantiatedObject.onDie += OnKilledObject;
@@ -97,7 +127,7 @@ public class Spawn : MonoBehaviour
             }
 
             //call event
-            onSpawn?.Invoke(instantiatedObject);
+            onSpawn?.Invoke(objectToSpawn);
         }
     }
 

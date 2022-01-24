@@ -24,19 +24,7 @@ public class SpawnManager : MonoBehaviour
 
     void Awake()
     {
-        //deactive every spawn
-        for(int i = 0; i < spawnsList.Length; i++)
-        {
-            foreach (Spawn spawn in spawnsList[i].Spawns)
-            {
-                if (spawn == null)
-                    continue;
-
-                spawn.gameObject.SetActive(false);
-            }
-        }
-
-        //and active first list
+        //active first list
         ActiveList();
     }
 
@@ -58,8 +46,8 @@ public class SpawnManager : MonoBehaviour
         //if finished
         if (spawnsActive.Count <= 0)
         {
-            //deactive every spawn
-            FinishList();
+            //call event on finish list
+            onFinishList?.Invoke(spawnsList[index].Spawns);
 
             //active next list of spawns
             if (index + 1 < spawnsList.Length)
@@ -77,21 +65,6 @@ public class SpawnManager : MonoBehaviour
 
     #region private API
 
-    void FinishList()
-    {
-        //call event on finish list
-        onFinishList?.Invoke(spawnsList[index].Spawns);
-
-        //deactive every spawn
-        foreach(Spawn spawn in spawnsList[index].Spawns)
-        {
-            if (spawn == null)
-                continue;
-
-            spawn.gameObject.SetActive(false);
-        }
-    }
-
     void ActiveList()
     {
         //active every spawn and register to their events
@@ -100,8 +73,8 @@ public class SpawnManager : MonoBehaviour
             if (spawn == null)
                 continue;
 
-            spawn.gameObject.SetActive(true);
             spawn.onEveryObjectIsDead += OnKilledEverySpawnedObject;
+            spawn.StartSpawn();
 
             //add to list, to know when every spawn of this list has finished
             spawnsActive.Add(spawn);
