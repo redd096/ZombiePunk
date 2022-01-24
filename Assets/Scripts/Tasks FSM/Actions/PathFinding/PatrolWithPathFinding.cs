@@ -68,6 +68,15 @@ public class PatrolWithPathFinding : ActionTask
         startPosition = transformTask.position;
     }
 
+    public override void OnEnterTask()
+    {
+        base.OnEnterTask();
+
+        //remove previous path
+        if (path != null)
+            path.Clear();
+    }
+
     public override void OnUpdateTask()
     {
         base.OnUpdateTask();
@@ -91,15 +100,6 @@ public class PatrolWithPathFinding : ActionTask
         //when reach node, remove from list. If reach end of path, set wait timer
         CheckReachNode();
         CheckReachEndPath();
-    }
-
-    public override void OnExitTask()
-    {
-        base.OnExitTask();
-
-        //remove path
-        if(path != null)
-            path.Clear();
     }
 
     #region private API
