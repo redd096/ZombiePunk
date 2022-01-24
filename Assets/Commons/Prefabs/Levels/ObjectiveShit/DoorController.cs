@@ -5,7 +5,6 @@ using UnityEngine;
 public class DoorController : MonoBehaviour
 {
     public int objectsNumber;
-    public GameObject door;
 
     // Start is called before the first frame update
     void Start()
@@ -18,8 +17,7 @@ public class DoorController : MonoBehaviour
     {
         if (objectsNumber <= 0)
         {
-            print("PORCAMADONNA");
-            Destroy(door);
+            Destroy(gameObject);
         }
     }
 }
