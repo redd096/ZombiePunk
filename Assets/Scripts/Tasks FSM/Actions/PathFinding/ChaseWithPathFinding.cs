@@ -66,6 +66,10 @@ public class ChaseWithPathFinding : ActionTask
 
         //get target from blackboard
         target = stateMachine.GetBlackboardElement<Transform>(targetBlackboardName);
+
+        //remove previous path
+        if (path != null)
+            path.Clear();
     }
 
     public override void OnUpdateTask()
@@ -105,15 +109,6 @@ public class ChaseWithPathFinding : ActionTask
         //        MoveAndAim(lastWalkableNode.worldPosition);
         //    }
         //}
-    }
-
-    public override void OnExitTask()
-    {
-        base.OnExitTask();
-
-        //remove path
-        if (path != null)
-            path.Clear();
     }
 
     #region private API
