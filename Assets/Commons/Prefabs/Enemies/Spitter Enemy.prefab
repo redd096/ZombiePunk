@@ -69,7 +69,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TaskName: '[CONDITION] Wait Timer Ranged'
-  timer: 2
+  timer: 10
 --- !u!1 &4822859814762986907
 GameObject:
   m_ObjectHideFlags: 0
@@ -216,7 +216,7 @@ MonoBehaviour:
   aimComponent: {fileID: 5017728266285329904}
   agentAStar: {fileID: 283268124930683889}
   targetBlackboardName: Target
-  speedChase: 0.3
+  speedChase: 0.4
   drawDebug: 0
   approxReachNode: 0.15
   delayRecalculatePath: 0.2
@@ -504,6 +504,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Spitter Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832161719942337422, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: MaxHealth
+      value: 1000
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832161719942337422, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: CurrentHealth
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
