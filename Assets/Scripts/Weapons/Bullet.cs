@@ -6,11 +6,11 @@ using NaughtyAttributes;
 namespace redd096
 {
     [AddComponentMenu("redd096/Weapons/Bullet")]
-    [RequireComponent(typeof(Rigidbody2D))]
     public class Bullet : MonoBehaviour
     {
         [Header("Necessary Components - default get from this gameObject")]
-        [Tooltip("Set drag to 0 to not stop bullet")] [SerializeField] MovementComponent movementComponent;
+        [Tooltip("Set drag to 0 to not stop bullet")] [SerializeField] MovementComponent movementComponent = default;
+        [SerializeField] CollisionComponent collisionComponent = default;
 
         [Header("Layer Penetrable")]
         [Tooltip("Layers to hit but not destroy bullet")] [SerializeField] LayerMask layersPenetrable = default;
@@ -45,6 +45,7 @@ namespace redd096
         int ownerType;
         bool alreadyDead;
         List<Redd096Main> alreadyHit = new List<Redd096Main>();
+        List<Redd096Main> alreadyHitsDamageInArea = new List<Redd096Main>();
 
         Coroutine autodestructionCoroutine;
 
@@ -74,6 +75,30 @@ namespace redd096
                     Gizmos.color = Color.red;
                     Gizmos.DrawWireSphere(transform.position, radiusAreaDamage);
                 }
+            }
+        }
+
+        void OnEnable()
+        {
+            //get references
+            if (collisionComponent == null)
+                collisionComponent = GetComponent<CollisionComponent>();
+
+            //add events
+            if (collisionComponent)
+            {
+                collisionComponent.onCollisionEnter += OnRDCollisionEnter;
+                collisionComponent.onTriggerEnter += OnRDCollisionEnter;
+            }
+        }
+
+        void OnDisable()
+        {
+            //remove events
+            if (collisionComponent)
+            {
+                collisionComponent.onCollisionEnter -= OnRDCollisionEnter;
+                collisionComponent.onTriggerEnter -= OnRDCollisionEnter;
             }
         }
 
@@ -109,12 +134,12 @@ namespace redd096
             this.bulletSpeed = bulletSpeed;
 
             this.Owner = owner;
-            ownerType = owner ? (int)owner.CharacterType : -1;  //if is not a character, set type to -1
+            ownerType = Owner ? (int)Owner.CharacterType : -1;  //if is not a character, set type to -1
 
             //ignore every collision with owner
-            if (owner)
+            if (Owner)
             {
-                foreach (Collider2D ownerCol in owner.GetComponentsInChildren<Collider2D>())
+                foreach (Collider2D ownerCol in Owner.GetComponentsInChildren<Collider2D>())
                     foreach (Collider2D bulletCol in GetComponentsInChildren<Collider2D>())
                         Physics2D.IgnoreCollision(bulletCol, ownerCol);
             }
@@ -139,30 +164,29 @@ namespace redd096
 
             //push
             if (movementComponent)
-                movementComponent.PushInDirection(direction, bulletSpeed, true);
+                movementComponent.PushInDirection(this.direction, this.bulletSpeed, true);
         }
 
-        void OnCollisionEnter2D(Collision2D collision)
+        void OnRDCollisionEnter(RaycastHit2D collision)
         {
             OnHit(collision);
         }
 
         #region private API
 
-        void OnHit(Collision2D collision)
+        void OnHit(RaycastHit2D collision)
         {
             if (alreadyDead)
                 return;
 
-            GameObject hit = collision.gameObject;
-
-            //be sure to hit something and be sure to not hit layers to ignore
-            if (hit == null || ContainsLayer(layersToIgnore, hit.layer)
-                || (ignoreTriggers && collision.collider.isTrigger))        //if ignore triggers, be sure to not hit triggers
+            //be sure to hit something
+            if (collision == false || collision.transform == false)
                 return;
 
-            //be sure to not hit other bullets or weapons or this owner
-            if (hit.GetComponentInParent<Bullet>() || hit.GetComponentInParent<WeaponRange>() || (Owner && hit.GetComponentInParent<Character>() == Owner))
+            GameObject hit = collision.transform.gameObject;
+
+            //be sure to not hit owner
+            if (Owner && hit.GetComponentInParent<Character>() == Owner)
                 return;
 
             //don't hit again same object (for penetrate shots)
@@ -172,7 +196,7 @@ namespace redd096
 
             //if friendly fire is disabled, be sure to not hit same type of character
             if (friendlyFire == false
-                && hitMain is Character && ((int)((Character)hitMain).CharacterType == ownerType))
+                && hitMain is Character hitCharacter && (int)hitCharacter.CharacterType == ownerType)
                 return;
 
             //call event
@@ -183,7 +207,7 @@ namespace redd096
                 alreadyHit.Add(hitMain);
 
                 //if hit something, do damage and push back
-                if (hitMain.GetSavedComponent<HealthComponent>()) hitMain.GetSavedComponent<HealthComponent>().GetDamage(damage, Owner, collision.GetContact(0).point, ignoreShield);
+                if (hitMain.GetSavedComponent<HealthComponent>()) hitMain.GetSavedComponent<HealthComponent>().GetDamage(damage, Owner, collision.point, ignoreShield);
                 if (hitMain && hitMain.GetSavedComponent<MovementComponent>()) hitMain.GetSavedComponent<MovementComponent>().PushInDirection(direction, knockBack);
             }
 
@@ -211,26 +235,26 @@ namespace redd096
         void DamageInArea(Redd096Main hit)
         {
             //be sure to not hit again the same
-            List<Redd096Main> hits = new List<Redd096Main>();
+            alreadyHitsDamageInArea.Clear();
 
             //be sure to not hit owner (if necessary)
             if (areaCanDamageWhoShoot == false && Owner)
-                hits.Add(Owner);
+                alreadyHitsDamageInArea.Add(Owner);
 
             //be sure to not hit who was already hit by bullet (if necessary)
             if (areaCanDamageWhoHit == false && hit != null)
-                hits.Add(hit);
+                alreadyHitsDamageInArea.Add(hit);
 
             //find every object damageable in area
+            Redd096Main hitMain;
             foreach (Collider2D col in Physics2D.OverlapCircleAll(transform.position, radiusAreaDamage))
             {
-                Redd096Main hitMain = col.GetComponentInParent<Redd096Main>();
+                hitMain = col.GetComponentInParent<Redd096Main>();
 
-                if (hitMain != null && hits.Contains(hitMain) == false                      //be sure hit something and is not already hitted
-                    && ContainsLayer(layersToIgnore, hitMain.gameObject.layer) == false     //be sure is not in layers to ignore
-                    && (ignoreTriggers == false || col.isTrigger == false))                 //be sure is not enabled ignoreTriggers, or is not trigger
+                if (hitMain != null && alreadyHitsDamageInArea.Contains(hitMain) == false                                       //be sure hit something and is not already hitted
+                    && collisionComponent && collisionComponent.CanHit(col) != CollisionComponent.ECollisionResponse.Ignore)    //be sure can be hit
                 {
-                    hits.Add(hitMain);
+                    alreadyHitsDamageInArea.Add(hitMain);
 
                     //do damage
                     if (hitMain.GetSavedComponent<HealthComponent>()) hitMain.GetSavedComponent<HealthComponent>().GetDamage(damage, Owner, transform.position, ignoreShieldAreaDamage);
