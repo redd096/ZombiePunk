@@ -20,7 +20,7 @@ namespace redd096
 		[Tooltip("A small value to accomodate for edge cases")] [SerializeField] float offsetRays = 0.01f;
 		[Tooltip("Layers that raycasts ignore")] [SerializeField] LayerMask layersToIgnore = default;
 
-		[Header("Necessary Components (by default get in children) only Box and Circle")]
+		[Header("Necessary Components (by default get in children) ONLY BOX AND CIRCLE")]
 		[SerializeField] Collider2D selfCollider = default;
 
 		[Header("DEBUG")]
@@ -287,7 +287,7 @@ namespace redd096
 			//call Exit
 			foreach(Collider2D col in previousCollisions)
             {
-				if (currentCollisions.ContainsKey(col) == false)
+				if (col && currentCollisions.ContainsKey(col) == false)
 				{
 					if (col.isTrigger || selfCollider.isTrigger)
 						onTriggerExit?.Invoke(col);							//trigger exit
@@ -396,11 +396,11 @@ namespace redd096
 						desiredPosition.y = hit.point.y - (bounds - transform.position.y);
 					}
 
-					//add to hits, to save hitting this way
-					if (direction == EDirectionEnum.right) rightHits.Add(hit);
-					else if (direction == EDirectionEnum.left) leftHits.Add(hit);
-					else if (direction == EDirectionEnum.up) upHits.Add(hit);
-					else if (direction == EDirectionEnum.down) downHits.Add(hit);
+					////add to hits, to save hitting this way
+					//if (direction == EDirectionEnum.right) rightHits.Add(hit);
+					//else if (direction == EDirectionEnum.left) leftHits.Add(hit);
+					//else if (direction == EDirectionEnum.up) upHits.Add(hit);
+					//else if (direction == EDirectionEnum.down) downHits.Add(hit);
 				}
 			}
 

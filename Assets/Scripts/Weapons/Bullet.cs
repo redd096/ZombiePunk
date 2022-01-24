@@ -14,8 +14,6 @@ namespace redd096
 
         [Header("Layer Penetrable")]
         [Tooltip("Layers to hit but not destroy bullet")] [SerializeField] LayerMask layersPenetrable = default;
-        [Tooltip("Layers to ignore (no hit and no destroy bullet)")] [SerializeField] LayerMask layersToIgnore = default;
-        [Tooltip("Ignore trigger colliders")] [SerializeField] bool ignoreTriggers = true;
 
         [Header("Bullet")]
         [Tooltip("When a character shoot, can hit also other characters of same type?")] [SerializeField] bool friendlyFire = true;
@@ -102,6 +100,13 @@ namespace redd096
             }
         }
 
+        void Update()
+        {
+            //move
+            if (movementComponent)
+                movementComponent.MoveInDirection(direction, bulletSpeed);
+        }
+
         /// <summary>
         /// Initialize bullet
         /// </summary>
@@ -161,10 +166,6 @@ namespace redd096
             {
                 autodestructionCoroutine = StartCoroutine(AutoDestructionCoroutine());
             }
-
-            //push
-            if (movementComponent)
-                movementComponent.PushInDirection(this.direction, this.bulletSpeed, true);
         }
 
         void OnRDCollisionEnter(RaycastHit2D collision)
