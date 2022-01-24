@@ -41,7 +41,7 @@ namespace redd096
         [HideInInspector] public Character Owner;
         WeaponRange weapon;
         int ownerType;
-        bool alreadyDead;
+        bool alreadyDead = true;
         List<Redd096Main> alreadyHit = new List<Redd096Main>();
         List<Redd096Main> alreadyHitsDamageInArea = new List<Redd096Main>();
 
