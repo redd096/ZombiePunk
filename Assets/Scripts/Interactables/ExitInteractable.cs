@@ -19,7 +19,7 @@ namespace redd096
         [ReadOnly] [ShowNonSerializedField] bool isOpen;
         public bool IsOpen => isOpen;
 
-        [Button("ForceExit", EButtonEnableMode.Playmode)] void ForceExit() { ChangeExitState(); }
+        [Button("ForceExit", EButtonEnableMode.Playmode)] public void ForceExit() { ChangeExitState(); }
 
         //events
         public System.Action onOpen { get; set; }
