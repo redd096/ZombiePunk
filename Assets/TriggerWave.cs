@@ -16,7 +16,7 @@ public class TriggerWave : MonoBehaviour
     {
         Spawns.SetActive(true);
 
-        Deactive.SetActive(false);
+        Destroy(Deactive);
 
     }
 

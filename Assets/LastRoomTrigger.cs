@@ -18,7 +18,7 @@ public class LastRoomTrigger : MonoBehaviour
     {
         Spawns.SetActive(true);
 
-        Deactive.SetActive(false);
+        Destroy(Deactive);
 
     }
 
