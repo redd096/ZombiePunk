@@ -57,13 +57,13 @@ public class WeaponBarsFeedback : MonoBehaviour
     void OnPickWeapon()
     {
         //add events if has weapon
-        if (weaponComponent && weaponComponent.CurrentWeapon && weaponComponent.CurrentWeapon is WeaponRange)
+        if (weaponComponent && weaponComponent.EquippedWeapon && weaponComponent.EquippedWeapon is WeaponRange)
         {
             //be sure to remove old weapon
             OnDropWeapon();
 
             //save ref
-            weaponRange = weaponComponent.CurrentWeapon as WeaponRange;
+            weaponRange = weaponComponent.EquippedWeapon as WeaponRange;
 
             weaponRange.onShoot += OnShoot;
             weaponRange.onStartReload += OnStartReload;

@@ -184,7 +184,7 @@ namespace redd096
                 foreach (Character player in players)
                 {
                     //if someone has no weapon, can't open
-                    if (player.GetSavedComponent<WeaponComponent>() == null || player.GetSavedComponent<WeaponComponent>().CurrentWeapon == null)
+                    if (player.GetSavedComponent<WeaponComponent>() == null || player.GetSavedComponent<WeaponComponent>().EquippedWeapon == null)
                     {
                         canOpen = false;
                         break;

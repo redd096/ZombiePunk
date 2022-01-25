@@ -43,16 +43,16 @@ public class AttackByInput : ActionTask
         {
             isAttacking = true;
 
-            if (component.CurrentWeapon)
-                component.CurrentWeapon.PressAttack();
+            if (component.EquippedWeapon)
+                component.EquippedWeapon.PressAttack();
         }
         //on release, stop it if automatic shoot
         else if (inputValue == false && isAttacking)
         {
             isAttacking = false;
 
-            if (component.CurrentWeapon)
-                component.CurrentWeapon.ReleaseAttack();
+            if (component.EquippedWeapon)
+                component.EquippedWeapon.ReleaseAttack();
         }
     }
 
@@ -65,8 +65,8 @@ public class AttackByInput : ActionTask
         {
             isAttacking = false;
 
-            if(component && component.CurrentWeapon)
-                component.CurrentWeapon.ReleaseAttack();
+            if(component && component.EquippedWeapon)
+                component.EquippedWeapon.ReleaseAttack();
         }
     }
 }
