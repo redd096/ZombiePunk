@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
+using NaughtyAttributes;
 
 namespace redd096
 {
@@ -20,8 +21,8 @@ namespace redd096
         [SerializeField] string mouseSchemeName = "KeyboardAndMouse";
 
         [Header("If using canvas Screen Space - default is main camera")]
-        [SerializeField] bool isScreenSpace = true;
-        [SerializeField] Camera cam = default;
+        [Tooltip("Set if moving something in screen space (canvas) or world space")] [SerializeField] bool isScreenSpace = true;
+        [EnableIf("isScreenSpace")] [SerializeField] Camera cam = default;
 
         void OnEnable()
         {
