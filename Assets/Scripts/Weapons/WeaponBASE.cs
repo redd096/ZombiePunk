@@ -3,7 +3,7 @@ using NaughtyAttributes;
 
 namespace redd096
 {
-    public abstract class WeaponBASE : MonoBehaviour
+    public abstract class WeaponBASE : MonoBehaviour, IInteractable
     {
         [Header("Weapon BASE")]
         public string WeaponName = "Weapon Name";
@@ -11,8 +11,10 @@ namespace redd096
         [ShowAssetPreview] public Sprite WeaponSprite = default;
 
         [Header("DEBUG")]
-        [SerializeField] bool destroyWeaponOnDrop = true;
+        [SerializeField] bool destroyWeaponOnDrop = false;
         [ReadOnly] public Character Owner;
+
+        public Vector2 position => transform.position;  //interface
 
         //events
         public System.Action onPickWeapon { get; set; }
@@ -21,7 +23,7 @@ namespace redd096
         #region public API
 
         /// <summary>
-        /// Set owner to look at
+        /// Set owner
         /// </summary>
         /// <param name="owner"></param>
         public void PickWeapon(Character owner)
@@ -48,6 +50,18 @@ namespace redd096
             //destroy weapon, if setted
             if (destroyWeaponOnDrop)
                 Destroy(gameObject);
+        }
+
+        /// <summary>
+        /// Interact to pick this weapon
+        /// </summary>
+        /// <param name="whoInteract"></param>
+        public void Interact(InteractComponent whoInteract)
+        {
+            //if has weapon component, call pick weapon
+            WeaponComponent weaponComponent = whoInteract.GetComponent<WeaponComponent>();
+            if (weaponComponent)
+                weaponComponent.PickWeapon(this);
         }
 
         #endregion

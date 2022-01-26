@@ -35,10 +35,10 @@ public class ReloadByInput : ActionTask
         //on input down
         if(playerInput.actions.FindAction(inputName).triggered)
         {
-            if(component.EquippedWeapon)
+            if(component.CurrentWeapon)
             {
                 //reload weapon if is a range weapon
-                if (component.EquippedWeapon is WeaponRange weaponRange)
+                if (component.CurrentWeapon is WeaponRange weaponRange)
                 {
                     weaponRange.Reload();
                 }

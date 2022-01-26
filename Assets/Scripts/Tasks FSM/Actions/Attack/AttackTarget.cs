@@ -85,8 +85,8 @@ public class AttackTarget : ActionTask
         isAttacking = true;
 
         //if there is a weapon equipped, start attack
-        if (component && component.EquippedWeapon)
-            component.EquippedWeapon.PressAttack();
+        if (component && component.CurrentWeapon)
+            component.CurrentWeapon.PressAttack();
     }
 
     void StopAttack()
@@ -94,8 +94,8 @@ public class AttackTarget : ActionTask
         isAttacking = false;
 
         //if there is a weapon equipped, stop attack
-        if (component && component.EquippedWeapon)
-            component.EquippedWeapon.ReleaseAttack();
+        if (component && component.CurrentWeapon)
+            component.CurrentWeapon.ReleaseAttack();
     }
 
     #endregion

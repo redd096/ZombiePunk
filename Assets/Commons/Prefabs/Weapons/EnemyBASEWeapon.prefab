@@ -45,7 +45,7 @@ MonoBehaviour:
   WeaponName: Gun
   WeaponPrice: 10
   WeaponSprite: {fileID: 21300000, guid: 940509c957fb6784aab009e43b2d4e92, type: 3}
-  destroyWeaponOnDrop: 1
+  destroyWeaponOnDrop: 0
   Owner: {fileID: 0}
   Automatic: 1
   RateOfFire: 0.05
@@ -124,16 +124,36 @@ MonoBehaviour:
     audioClip: {fileID: 0}
     volume: 1
     is3D: 0
+  gameObjectNotFollowWeapon:
+    instantiatedGameObject: {fileID: 0}
+    timeAutodestruction: 0
+  particlesNotFollowWeapon: {fileID: 0}
   cameraShake: 1
   customShake: 0
   shakeDuration: 1
   shakeAmount: 0.7
+  gamepadVibration: 0
+  customVibration: 0
+  vibrationDuration: 0.1
+  lowFrequency: 0.5
+  highFrequency: 0.8
   barrelOnPress: {fileID: 0}
   gameObjectOnPress:
     instantiatedGameObject: {fileID: 0}
     timeAutodestruction: 0
   particlesOnPress: {fileID: 0}
   audioOnPress:
+    audioClip: {fileID: 0}
+    volume: 1
+    is3D: 0
+  updateAmmoOnPick: 1
+  updateAmmoOnShoot: 1
+  updateAmmoOnReload: 1
+  gameObjectOnReload:
+    instantiatedGameObject: {fileID: 0}
+    timeAutodestruction: 0
+  particlesOnReload: {fileID: 0}
+  audioOnReload:
     audioClip: {fileID: 0}
     volume: 1
     is3D: 0
@@ -150,8 +170,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponBASE: {fileID: 7737347699123493500}
-  spritesToFlip: []
   objectPivot: {fileID: 1934563571220182779}
+  defaultLookRight: 1
 --- !u!1001 &5328415497119654829
 PrefabInstance:
   m_ObjectHideFlags: 0

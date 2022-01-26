@@ -23,7 +23,8 @@ namespace redd096
         [ReadOnly] public WeaponBASE[] CurrentWeapons = default;    //it will be always the same size of Max Weapons
         [ShowNonSerializedField] int indexEquippedWeapon = 0;       //it will be always the correct index, or zero
 
-        public WeaponBASE EquippedWeapon => CurrentWeapons != null && indexEquippedWeapon < CurrentWeapons.Length ? CurrentWeapons[indexEquippedWeapon] : null;
+        //the equipped weapon
+        public WeaponBASE CurrentWeapon => CurrentWeapons != null && indexEquippedWeapon < CurrentWeapons.Length ? CurrentWeapons[indexEquippedWeapon] : null;
 
         //events
         public System.Action onPickWeapon { get; set; }         //called at every pick

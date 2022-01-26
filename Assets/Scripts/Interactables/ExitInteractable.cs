@@ -5,7 +5,7 @@ using NaughtyAttributes;
 namespace redd096
 {
     [AddComponentMenu("redd096/Interactables/Exit Interactable")]
-    public class ExitInteractable : InteractableBASE
+    public class ExitInteractable : MonoBehaviour, IInteractable
     {
         [Header("Rules to Open")]
         [Tooltip("Check there are no enemies in scene")] [SerializeField] bool checkNoEnemiesInScene = true;
@@ -18,6 +18,8 @@ namespace redd096
         [Header("DEBUG")]
         [ReadOnly] [ShowNonSerializedField] bool isOpen;
         public bool IsOpen => isOpen;
+
+        public Vector2 position => transform.position;  //interface
 
         [Button("ForceExit", EButtonEnableMode.Playmode)] public void ForceExit() { ChangeExitState(); }
 
@@ -106,7 +108,7 @@ namespace redd096
         /// When someone interact with this object
         /// </summary>
         /// <param name="whoInteract"></param>
-        public override void Interact(InteractComponent whoInteract)
+        public void Interact(InteractComponent whoInteract)
         {
             //only if is open
             if (isOpen == false)
@@ -184,7 +186,7 @@ namespace redd096
                 foreach (Character player in players)
                 {
                     //if someone has no weapon, can't open
-                    if (player.GetSavedComponent<WeaponComponent>() == null || player.GetSavedComponent<WeaponComponent>().EquippedWeapon == null)
+                    if (player.GetSavedComponent<WeaponComponent>() == null || player.GetSavedComponent<WeaponComponent>().CurrentWeapon == null)
                     {
                         canOpen = false;
                         break;
