@@ -28,7 +28,8 @@ namespace redd096
         //events
         public System.Action onPickWeapon { get; set; }         //called at every pick
         public System.Action onDropWeapon { get; set; }         //called at every drop
-        public System.Action onChangeWeapon { get; set; }       //called at every pick and every drop
+        public System.Action onSwitchWeapon { get; set; }       //called when use Switch Weapon
+        public System.Action onChangeWeapon { get; set; }       //called at every pick and every drop. Also when switch weapon
 
         Character owner;
         Transform currentWeaponsParent;
@@ -44,9 +45,6 @@ namespace redd096
 
             //instantiate default weapons
             SetDefaultWeapons();
-
-            //set index equipped weapon
-            UpdateIndexEquippedWeapon();
         }
 
         void OnEnable()
@@ -114,20 +112,8 @@ namespace redd096
 
         void OnDie(HealthComponent whoDied)
         {
-            //destroy equipped weapon on death
-            if (destroyWeaponOnDeath == EWeaponOnDeath.OnlyEquippedOne)
-            {
-                if (CurrentWeapons != null && indexEquippedWeapon < CurrentWeapons.Length && CurrentWeapons[indexEquippedWeapon])
-                    Destroy(CurrentWeapons[indexEquippedWeapon]);
-            }
-            //or destroy every weapon
-            else if (destroyWeaponOnDeath == EWeaponOnDeath.EveryWeapon)
-            {
-                if (CurrentWeapons != null)
-                    for (int i = 0; i < CurrentWeapons.Length; i++)
-                        if (CurrentWeapons[i])
-                            Destroy(CurrentWeapons[i]);
-            }
+            //clone weapons to destroy also if dropped
+            WeaponBASE[] tempWeapons = CurrentWeapons.Clone() as WeaponBASE[];
 
             //drop equipped weapon on death
             if (dropWeaponOnDeath == EWeaponOnDeath.OnlyEquippedOne)
@@ -141,18 +127,70 @@ namespace redd096
                     for (int i = 0; i < CurrentWeapons.Length; i++)
                         DropWeapon(i);
             }
+
+            //destroy equipped weapon on death
+            if (destroyWeaponOnDeath == EWeaponOnDeath.OnlyEquippedOne)
+            {
+                if (tempWeapons != null && indexEquippedWeapon < tempWeapons.Length && tempWeapons[indexEquippedWeapon])
+                    Destroy(tempWeapons[indexEquippedWeapon]);
+            }
+            //or destroy every weapon
+            else if (destroyWeaponOnDeath == EWeaponOnDeath.EveryWeapon)
+            {
+                if (tempWeapons != null)
+                    for (int i = 0; i < tempWeapons.Length; i++)
+                        if (tempWeapons[i])
+                            Destroy(tempWeapons[i]);
+            }
         }
 
-        void UpdateIndexEquippedWeapon()
+        bool UpdateIndexEquippedWeapon()
         {
-            //start from current weapon or last index array (if lower) - if current weapons length is 0, index will be set to 0
-            for (int i = Mathf.Min(indexEquippedWeapon, Mathf.Max(0, CurrentWeapons.Length - 1)); i >= 0; i--)
+            //if there are not weapons, set index to 0
+            if (CurrentWeapons == null || CurrentWeapons.Length <= 0)
             {
-                //set first weapon not null
-                indexEquippedWeapon = i;
-                if (indexEquippedWeapon < CurrentWeapons.Length && CurrentWeapons[indexEquippedWeapon] != null)
-                    break;
+                //return changed weapon
+                indexEquippedWeapon = 0;
+                return true;
             }
+
+            //if current weapon is not null, keep it
+            if (indexEquippedWeapon < CurrentWeapons.Length && CurrentWeapons[indexEquippedWeapon])
+                return false;
+
+            //else move to previous weapons - be sure to start from array length (if index is greater). Start from length instead of length -1 because for cycle start substracting 1
+            if (indexEquippedWeapon > CurrentWeapons.Length)
+                indexEquippedWeapon = CurrentWeapons.Length;
+
+            //be sure to cycle every weapon in array
+            for (int i = 0; i < CurrentWeapons.Length; i++)
+            {
+                indexEquippedWeapon--;
+
+                //if reach array limit, restart
+                if (indexEquippedWeapon < 0)
+                    indexEquippedWeapon = CurrentWeapons.Length - 1;
+
+                //if found weapon not null, set it
+                if (indexEquippedWeapon < CurrentWeapons.Length)
+                {
+                    if (CurrentWeapons[indexEquippedWeapon])
+                    {
+                        indexEquippedWeapon = i;
+
+                        //and active
+                        CurrentWeapons[indexEquippedWeapon].transform.position = transform.position;
+                        CurrentWeapons[indexEquippedWeapon].gameObject.SetActive(true);
+
+                        //return is changing weapon
+                        return true;
+                    }
+                }
+            }
+
+            //if not found weapon, set at 0
+            indexEquippedWeapon = 0;
+            return true;
         }
 
         #endregion
@@ -160,24 +198,14 @@ namespace redd096
         #region public API
 
         /// <summary>
-        /// Pick Weapon (add in an empty slot or replace equipped one with it)
+        /// Pick Weapon and set at index
         /// </summary>
         /// <param name="weapon"></param>
-        public void PickWeapon(WeaponBASE weapon)
+        /// <param name="index"></param>
+        public void PickWeapon(WeaponBASE weapon, int index)
         {
             if (CurrentWeapons == null || CurrentWeapons.Length <= 0)
                 return;
-
-            //find empty slot (or equipped one)
-            int index = indexEquippedWeapon;
-            for (int i = 0; i < CurrentWeapons.Length; i++)
-            {
-                if (CurrentWeapons[i] == null)
-                {
-                    index = i;
-                    break;
-                }
-            }
 
             //if there is already a weapon equipped, drop it
             if (CurrentWeapons[index] != null)
@@ -202,6 +230,26 @@ namespace redd096
             //call events
             onPickWeapon?.Invoke();
             onChangeWeapon?.Invoke();
+        }
+
+        /// <summary>
+        /// Pick Weapon (add in an empty slot or replace equipped one with it)
+        /// </summary>
+        /// <param name="weapon"></param>
+        public void PickWeapon(WeaponBASE weapon)
+        {
+            //find empty slot (or equipped one)
+            int index = indexEquippedWeapon;
+            for (int i = 0; i < CurrentWeapons.Length; i++)
+            {
+                if (CurrentWeapons[i] == null)
+                {
+                    index = i;
+                    break;
+                }
+            }
+
+            PickWeapon(weapon, index);
         }
 
         /// <summary>
@@ -265,7 +313,53 @@ namespace redd096
             CurrentWeapons = weapons;
 
             //set index equipped weapon
-            UpdateIndexEquippedWeapon();
+            if(UpdateIndexEquippedWeapon())
+            {
+                //if changed weapon, call event
+                onChangeWeapon?.Invoke();
+            }
+        }
+
+        /// <summary>
+        /// Switch Weapon
+        /// </summary>
+        /// <param name="nextWeapon">move to next in array or previous?</param>
+        public void SwitchWeapon(bool nextWeapon = true)
+        {
+            if (CurrentWeapons == null || CurrentWeapons.Length <= 0)
+                return;
+
+            //move to next or previous weapons
+            int i = indexEquippedWeapon + (nextWeapon ? 1 : -1);
+            while (i != indexEquippedWeapon)
+            {
+                //if reach array limit, restart
+                if (nextWeapon && i >= CurrentWeapons.Length)
+                    i = 0;
+                else if (nextWeapon == false && i < 0)
+                    i = CurrentWeapons.Length - 1;
+
+                //if found weapon not null, set it
+                if (i >= 0 && i < CurrentWeapons.Length)
+                {
+                    if (CurrentWeapons[i])
+                    {
+                        //deactive previous weapon
+                        if (indexEquippedWeapon < CurrentWeapons.Length && CurrentWeapons[indexEquippedWeapon])
+                            CurrentWeapons[indexEquippedWeapon].gameObject.SetActive(false);
+
+                        //and active new one
+                        CurrentWeapons[i].transform.position = transform.position;
+                        CurrentWeapons[i].gameObject.SetActive(true);
+
+                        indexEquippedWeapon = i;
+
+                        //call event
+                        onChangeWeapon?.Invoke();
+                        break;
+                    }
+                }
+            }
         }
 
         #endregion
