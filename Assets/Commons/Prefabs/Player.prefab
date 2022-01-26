@@ -138,6 +138,7 @@ MonoBehaviour:
   weaponComponent: {fileID: 1188341792263175973}
   playerInput: {fileID: 1427099914}
   inputName: Switch Weapon
+  canSwitchWithMouseScroll: 1
 --- !u!114 &3062211758472486148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -623,8 +624,8 @@ MonoBehaviour:
   weaponsPrefabs:
   - {fileID: 1116660933973906824, guid: 4d8c57ce056c6cf4a87a09749c6b9674, type: 3}
   maxWeapons: 2
-  dropWeaponOnDeath: 1
-  destroyWeaponOnDeath: 1
+  dropWeaponOnDeath: 0
+  destroyWeaponOnDeath: 2
   healthComponent: {fileID: 1499721902347103055}
   CurrentWeapons: []
 --- !u!114 &1427099914
