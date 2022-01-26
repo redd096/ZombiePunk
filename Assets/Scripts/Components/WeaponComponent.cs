@@ -210,9 +210,9 @@ namespace redd096
 
             //if there is already a weapon equipped, drop it
             if (CurrentWeapons[index] != null)
-                DropWeapon(index);
+                DropWeapon(index, false);
 
-            //pick weapon
+            //pick weapon      
             CurrentWeapons[index] = weapon;
 
             //set owner and parent
@@ -257,7 +257,7 @@ namespace redd096
         /// <summary>
         /// Drop Weapon at index
         /// </summary>
-        public void DropWeapon(int index)
+        public void DropWeapon(int index, bool updateIndexEquippedWeapon = true)
         {
             if (CurrentWeapons == null || index >= CurrentWeapons.Length)
                 return;
@@ -277,7 +277,8 @@ namespace redd096
             CurrentWeapons[index] = null;
 
             //set index equipped weapon
-            UpdateIndexEquippedWeapon();
+            if (updateIndexEquippedWeapon)
+                UpdateIndexEquippedWeapon();
 
             //call event
             onDropWeapon?.Invoke();
