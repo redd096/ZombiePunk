@@ -33,13 +33,13 @@ namespace redd096
         public System.Action onChangeWeapon { get; set; }       //called at every pick and every drop. Also when switch weapon
 
         Character owner;
-        Transform currentWeaponsParent;
+        Transform _currentWeaponsParent;
+        Transform CurrentWeaponsParent { get { if (_currentWeaponsParent == null) _currentWeaponsParent = new GameObject(name + "'s Weapons").transform; return _currentWeaponsParent; } }
 
         void Awake()
         {
             //set vars
             CurrentWeapons = new WeaponBASE[maxWeapons];
-            currentWeaponsParent = new GameObject(name + "'s Weapons").transform;
 
             //get references
             owner = GetComponent<Character>();
@@ -219,7 +219,7 @@ namespace redd096
             if (weapon)
             {
                 weapon.PickWeapon(owner);
-                weapon.transform.SetParent(currentWeaponsParent);
+                weapon.transform.SetParent(CurrentWeaponsParent);
                 foreach (Collider2D col in weapon.GetComponentsInChildren<Collider2D>()) col.enabled = false;   //deactive colliders (necessary to not pick again when press interact)
 
                 //if not equipped, deactive
