@@ -220,6 +220,7 @@ namespace redd096
             {
                 weapon.PickWeapon(owner);
                 weapon.transform.SetParent(currentWeaponsParent);
+                foreach (Collider2D col in weapon.GetComponentsInChildren<Collider2D>()) col.enabled = false;   //deactive colliders (necessary to not pick again when press interact)
 
                 //if not equipped, deactive
                 if (index != indexEquippedWeapon) weapon.gameObject.SetActive(false);
@@ -266,6 +267,7 @@ namespace redd096
             {
                 CurrentWeapons[index].DropWeapon();
                 CurrentWeapons[index].transform.SetParent(null);
+                foreach (Collider2D col in CurrentWeapons[index].GetComponentsInChildren<Collider2D>()) col.enabled = true;   //reactive colliders
 
                 //if not equipped, reactive
                 if (index != indexEquippedWeapon) CurrentWeapons[index].gameObject.SetActive(true);
