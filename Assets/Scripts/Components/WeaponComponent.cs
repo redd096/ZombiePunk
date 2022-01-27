@@ -29,7 +29,7 @@ namespace redd096
         //events
         public System.Action onPickWeapon { get; set; }         //called at every pick
         public System.Action onDropWeapon { get; set; }         //called at every drop
-        public System.Action onSwitchWeapon { get; set; }       //called when use Switch Weapon
+        public System.Action onSwitchWeapon { get; set; }       //called when call Switch Weapon
         public System.Action onChangeWeapon { get; set; }       //called at every pick and every drop. Also when switch weapon
 
         Character owner;

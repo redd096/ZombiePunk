@@ -7,7 +7,7 @@ public class Ammo : MonoBehaviour
     [Header("Ammo")]
     [SerializeField] string ammoType = "GunAmmo";
     [SerializeField] int quantity = 1;
-    [SerializeField] bool canPickAlsoIfFull = false;
+    [Tooltip("Can pick when full of this type of ammo? If true, this object will be destroyed, but no ammo will be added")] [SerializeField] bool canPickAlsoIfFull = false;
 
     [Header("Destroy when instantiated - 0 = no destroy")]
     [SerializeField] float timeBeforeDestroy = 0;
