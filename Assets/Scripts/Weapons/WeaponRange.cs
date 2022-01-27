@@ -24,6 +24,7 @@ namespace redd096
 
         [Header("Ammo")]
         public bool hasAmmo = true;
+        [Dropdown("GetAllAmmosTypes")] [EnableIf("hasAmmo")] public string TypeAmmo = "GunAmmo";
         [OnValueChanged("ChangedMaxAmmo")] [EnableIf("hasAmmo")] [Min(0)] public int maxAmmo = 32;
         [ReadOnly] public int currentAmmo = 32;
         [EnableIf("hasAmmo")] public float delayReload = 1;
@@ -58,12 +59,46 @@ namespace redd096
         public System.Action onStartReload { get; set; }
         public System.Action onEndReload { get; set; }
         public System.Action onAbortReload { get; set; }
+        public System.Action onNoAmmoToReload { get; set; }
 
-
+#if UNITY_EDITOR
         void ChangedMaxAmmo()
         {
             //when change max ammo, reset current ammo (used by editor)
             currentAmmo = maxAmmo;
+        }
+
+        string[] GetAllAmmosTypes()
+        {
+            //get guid to every ammo in project
+            string[] guids = UnityEditor.AssetDatabase.FindAssets("t:Ammo");
+            string[] values = new string[guids.Length + 1];
+
+            //default is no type of ammo
+            values[0] = "NONE";
+            
+            //return array with loaded assets
+            for (int i = 0; i < guids.Length; i++)
+            {
+                values[i + 1] = UnityEditor.AssetDatabase.LoadAssetAtPath<Object>(UnityEditor.AssetDatabase.GUIDToAssetPath(guids[i])).name;
+            }
+
+            return values;
+        }
+#endif
+
+        void OnDisable()
+        {
+            //be sure to stop reload when disable weapon
+            AbortReload();
+        }
+
+        public override void DropWeapon()
+        {
+            base.DropWeapon();
+
+            //be sure to stop reload when dropped
+            AbortReload();
         }
 
         public override void PressAttack()
@@ -222,6 +257,10 @@ namespace redd096
                 }
 
                 yield return null;
+
+                //if finished ammo, wait reloading
+                if (reloadCoroutine != null)
+                    yield return new WaitUntil(() => reloadCoroutine == null);
             }
         }
 
