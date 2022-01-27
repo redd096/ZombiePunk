@@ -13,6 +13,10 @@ public class Ammo : MonoBehaviour
 
     public string AmmoType => ammoType;
 
+    //events
+    public System.Action onPickAmmo { get; set; }
+    public System.Action onFailPickAmmo { get; set; }
+
     Character whoHit;
     AdvancedWeaponComponent whoHitWeaponComponent;
     bool alreadyUsed;
@@ -40,12 +44,23 @@ public class Ammo : MonoBehaviour
             whoHitWeaponComponent = whoHit.GetSavedComponent<AdvancedWeaponComponent>();
             if (whoHitWeaponComponent)
             {
-                //add quantity
-                whoHitWeaponComponent.AddAmmo(ammoType, quantity);
+                //if full of ammo, can't pick, call fail event
+                if (whoHitWeaponComponent.IsFullOfAmmo(ammoType))
+                {
+                    onFailPickAmmo?.Invoke();
+                }
+                //else, pick and add quantity
+                else
+                {
+                    whoHitWeaponComponent.AddAmmo(ammoType, quantity);
 
-                //destroy this gameObject
-                alreadyUsed = true;
-                Destroy(gameObject);
+                    //call event
+                    onPickAmmo?.Invoke();
+
+                    //destroy this gameObject
+                    alreadyUsed = true;
+                    Destroy(gameObject);
+                }
             }
         }
     }

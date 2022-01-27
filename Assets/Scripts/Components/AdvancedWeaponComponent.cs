@@ -214,5 +214,18 @@ public class AdvancedWeaponComponent : WeaponComponent
 #endif
     }
 
+    /// <summary>
+    /// Get limit for this type of ammo
+    /// </summary>
+    /// <param name="ammoType"></param>
+    /// <returns></returns>
+    public int GetCurrentLimitAmmo(string ammoType)
+    {
+        if (currentLimitAmmos.ContainsKey(ammoType))
+            return currentLimitAmmos[ammoType];
+
+        return 0;
+    }
+
     #endregion
 }
