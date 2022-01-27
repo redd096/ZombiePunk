@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1679298214608976014}
   - component: {fileID: 6756547324650557166}
   - component: {fileID: 6833780260954007610}
+  - component: {fileID: 7577106351040362770}
   - component: {fileID: 3062211758472486148}
   - component: {fileID: 7120763324073849737}
   m_Layer: 10
@@ -86,7 +87,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TaskName: '[ACTION] Attack'
-  component: {fileID: 1188341792263175973}
+  component: {fileID: 2710214134928471105}
   playerInput: {fileID: 1427099914}
   inputName: Attack
 --- !u!114 &6756547324650557166
@@ -118,9 +119,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TaskName: '[ACTION] Reload'
-  component: {fileID: 1188341792263175973}
+  component: {fileID: 2710214134928471105}
   playerInput: {fileID: 1427099914}
   inputName: Reload
+--- !u!114 &7577106351040362770
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162182017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2b448c037a1adbe41aa0eda8669c7328, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TaskName: '[ACTION] Switch Weapon'
+  weaponComponent: {fileID: 2710214134928471105}
+  playerInput: {fileID: 1427099914}
+  inputName: Switch Weapon
+  canSwitchWithMouseScroll: 1
 --- !u!114 &3062211758472486148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -358,7 +376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 833092decd8c79f4a8be411893216a16, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponComponent: {fileID: 1188341792263175973}
+  weaponComponent: {fileID: 2710214134928471105}
   rateOfFireImage: {fileID: 1855430005837403921}
   reloadImage: {fileID: 1813339823329800406}
   showRateOfFireAlsoOnAutomatic: 0
@@ -431,9 +449,8 @@ GameObject:
   - component: {fileID: 8714289106783076041}
   - component: {fileID: 4204542304424851587}
   - component: {fileID: 1499721902347103055}
-  - component: {fileID: 1188341792263175973}
+  - component: {fileID: 2710214134928471105}
   - component: {fileID: 1427099914}
-  - component: {fileID: 9198233218816060441}
   - component: {fileID: 3264032009245514301}
   m_Layer: 10
   m_Name: Player
@@ -485,7 +502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82478a5c24b4a4d409856fb238f53755, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateMode: 2
+  updateMode: 1
   timeCoroutine: 0.1
   numberOfHorizontalRays: 4
   numberOfVerticalRays: 4
@@ -493,8 +510,7 @@ MonoBehaviour:
   layersToIgnore:
     serializedVersion: 2
     m_Bits: 512
-  ignoreTriggers: 1
-  boxCollider: {fileID: 1395402417110845485}
+  selfCollider: {fileID: 0}
   drawDebugInPlay: 0
 --- !u!114 &9212065468761235124
 MonoBehaviour:
@@ -591,7 +607,7 @@ MonoBehaviour:
   MaxHealth: 100
   percentageDamageWhenHitFromFriend: 0.25
   CurrentHealth: 100
---- !u!114 &1188341792263175973
+--- !u!114 &2710214134928471105
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -600,15 +616,16 @@ MonoBehaviour:
   m_GameObject: {fileID: 1395402416665274895}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ecebc7d509e0d074c9c76c66e3ada814, type: 3}
+  m_Script: {fileID: 11500000, guid: a2188814a10fce940a14e4caffbc10ae, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  weaponPrefab: {fileID: 1116660933973906824, guid: 4d8c57ce056c6cf4a87a09749c6b9674,
-    type: 3}
-  dropWeaponOnDeath: 1
-  destroyWeaponOnDeath: 1
+  weaponsPrefabs:
+  - {fileID: 1116660933973906824, guid: 4d8c57ce056c6cf4a87a09749c6b9674, type: 3}
+  maxWeapons: 2
+  dropWeaponOnDeath: 0
+  destroyWeaponOnDeath: 2
   healthComponent: {fileID: 1499721902347103055}
-  CurrentWeapon: {fileID: 0}
+  CurrentWeapons: []
 --- !u!114 &1427099914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -640,27 +657,6 @@ MonoBehaviour:
   m_DefaultActionMap: Gameplay
   m_SplitScreenIndex: -1
   m_Camera: {fileID: 0}
---- !u!50 &9198233218816060441
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1395402416665274895}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 7
 --- !u!114 &3264032009245514301
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1082,6 +1078,7 @@ MonoBehaviour:
     - {fileID: 1679298214608976014}
     - {fileID: 6756547324650557166}
     - {fileID: 6833780260954007610}
+    - {fileID: 7577106351040362770}
     Transitions:
     - StateDestination: 1
       TransitionCheck: 1

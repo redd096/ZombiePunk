@@ -118,7 +118,7 @@ public class LevelManager : MonoBehaviour
         if (GameManager.instance)
         {
             GameManager.instance.ClearCustomizations();
-            GameManager.instance.ClearWeapon();
+            GameManager.instance.ClearWeapons();
         }
 
         //show end menu (and show cursor)

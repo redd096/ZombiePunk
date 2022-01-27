@@ -31,11 +31,10 @@ public class WeaponBarsFeedback : MonoBehaviour
         //add events
         if (weaponComponent)
         {
-            weaponComponent.onPickWeapon += OnPickWeapon;
-            weaponComponent.onDropWeapon += OnDropWeapon;
+            weaponComponent.onChangeWeapon += OnChangeWeapon;
 
             //add events if has weapon
-            OnPickWeapon();
+            OnChangeWeapon();
         }
     }
 
@@ -44,23 +43,22 @@ public class WeaponBarsFeedback : MonoBehaviour
         //remove events
         if (weaponComponent)
         {
-            weaponComponent.onPickWeapon -= OnPickWeapon;
-            weaponComponent.onDropWeapon -= OnDropWeapon;
+            weaponComponent.onChangeWeapon -= OnChangeWeapon;
 
             //remove events if has weapon
-            OnDropWeapon();
+            DropWeapon();
         }
     }
 
     #region private API
 
-    void OnPickWeapon()
+    void OnChangeWeapon()
     {
         //add events if has weapon
         if (weaponComponent && weaponComponent.CurrentWeapon && weaponComponent.CurrentWeapon is WeaponRange)
         {
             //be sure to remove old weapon
-            OnDropWeapon();
+            DropWeapon();
 
             //save ref
             weaponRange = weaponComponent.CurrentWeapon as WeaponRange;
@@ -71,7 +69,7 @@ public class WeaponBarsFeedback : MonoBehaviour
         }
     }
 
-    void OnDropWeapon()
+    void DropWeapon()
     {
         //remove events if has weapon
         if (weaponRange)
@@ -156,6 +154,7 @@ public class WeaponBarsFeedback : MonoBehaviour
             float delta = 0;
             while (delta < 1)
             {
+
                 delta += Time.deltaTime / weaponRange.delayReload;
                 reloadImage.fillAmount = 1 - delta;
 

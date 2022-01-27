@@ -5,6 +5,9 @@ using redd096;
 [AddComponentMenu("redd096/Tasks FSM/Action/Attack/Damage On Hit")]
 public class DamageOnHit : ActionTask
 {
+    [Header("Necessary Components - default get from parent")]
+    [SerializeField] CollisionComponent collisionComponent = default;
+
     [Header("Damage")]
     [SerializeField] List<Character.ECharacterType> charactersToHit = new List<Character.ECharacterType>() { Character.ECharacterType.Player };
     [SerializeField] bool hitAlsoNotCharacters = true;
@@ -17,11 +20,36 @@ public class DamageOnHit : ActionTask
 
     Redd096Main self;
     Character selfCharacter;
-    NotifyCollisions notifyCollisions;
     DamageCharacterOnHit damageCharacterOnHit;
     Dictionary<Redd096Main, float> hits = new Dictionary<Redd096Main, float>();
     bool isActive;
     Redd096Main hitMain;
+
+    void OnEnable()
+    {
+        //get references
+        if (collisionComponent == null)
+            collisionComponent = GetStateMachineComponent<CollisionComponent>();
+
+        //add events
+        if (collisionComponent)
+        {
+            collisionComponent.onCollisionEnter += OnOwnerCollisionEnter2D;
+            collisionComponent.onCollisionStay += OnOwnerCollisionStay2D;
+            collisionComponent.onCollisionExit += OnOwnerCollisionExit2D;
+        }
+    }
+
+    void OnDisable()
+    {
+        //remove events
+        if (collisionComponent)
+        {
+            collisionComponent.onCollisionEnter -= OnOwnerCollisionEnter2D;
+            collisionComponent.onCollisionStay -= OnOwnerCollisionStay2D;
+            collisionComponent.onCollisionExit -= OnOwnerCollisionExit2D;
+        }
+    }
 
     protected override void OnInitTask()
     {
@@ -30,27 +58,7 @@ public class DamageOnHit : ActionTask
         //get references
         self = GetStateMachineComponent<Redd096Main>();
         selfCharacter = self ? self as Character : null;
-        notifyCollisions = GetStateMachineComponent<NotifyCollisions>();
         damageCharacterOnHit = GetStateMachineComponent<DamageCharacterOnHit>();
-
-        //add events
-        if (notifyCollisions)
-        {
-            notifyCollisions.onCollisionEnter += OnOwnerCollisionEnter2D;
-            notifyCollisions.onCollisionStay += OnOwnerCollisionStay2D;
-            notifyCollisions.onCollisionExit += OnOwnerCollisionExit2D;
-        }
-    }
-
-    void OnDestroy()
-    {
-        //remove events when this statemachine is destroyed
-        if (notifyCollisions)
-        {
-            notifyCollisions.onCollisionEnter -= OnOwnerCollisionEnter2D;
-            notifyCollisions.onCollisionStay -= OnOwnerCollisionStay2D;
-            notifyCollisions.onCollisionExit -= OnOwnerCollisionExit2D;
-        }
     }
 
     public override void OnEnterTask()
@@ -81,10 +89,10 @@ public class DamageOnHit : ActionTask
         }
     }
 
-    void OnOwnerCollisionEnter2D(Collision2D collision)
+    void OnOwnerCollisionEnter2D(RaycastHit2D collision)
     {
         //check if hit and is not already in the list
-        hitMain = collision.gameObject.GetComponentInParent<Redd096Main>();
+        hitMain = collision.transform.GetComponentInParent<Redd096Main>();
         if (hitMain && hits.ContainsKey(hitMain) == false)
         {
             //be sure to not hit self
@@ -103,10 +111,10 @@ public class DamageOnHit : ActionTask
         }
     }
 
-    void OnOwnerCollisionStay2D(Collision2D collision)
+    void OnOwnerCollisionStay2D(RaycastHit2D collision)
     {
         //check if hit and is in the list
-        hitMain = collision.gameObject.GetComponentInParent<Redd096Main>();
+        hitMain = collision.transform.GetComponentInParent<Redd096Main>();
         if (hitMain && hits.ContainsKey(hitMain))
         {
             //damage after delay
@@ -118,10 +126,10 @@ public class DamageOnHit : ActionTask
         }
     }
 
-    void OnOwnerCollisionExit2D(Collision2D collision)
+    void OnOwnerCollisionExit2D(Collider2D collision)
     {
         //check if exit hit and is in the list
-        hitMain = collision.gameObject.GetComponentInParent<Redd096Main>();
+        hitMain = collision.transform.GetComponentInParent<Redd096Main>();
         if (hitMain && hits.ContainsKey(hitMain))
         {
             //remove from the list
@@ -129,7 +137,7 @@ public class DamageOnHit : ActionTask
         }
     }
 
-    void OnHit(Collision2D collision, Redd096Main hit)
+    void OnHit(RaycastHit2D collision, Redd096Main hit)
     {
         if (isActive == false)
             return;
@@ -146,9 +154,9 @@ public class DamageOnHit : ActionTask
 
         //do damage and push back
         if (hit.GetSavedComponent<HealthComponent>())
-            hit.GetSavedComponent<HealthComponent>().GetDamage(damage, selfCharacter, collision.GetContact(0).point);
+            hit.GetSavedComponent<HealthComponent>().GetDamage(damage, selfCharacter, collision.point);
 
         if (hit && hit.GetSavedComponent<MovementComponent>())
-            hit.GetSavedComponent<MovementComponent>().PushInDirection(((Vector2)hit.transform.position - collision.GetContact(0).point).normalized, pushForce);
+            hit.GetSavedComponent<MovementComponent>().PushInDirection(((Vector2)hit.transform.position - collision.point).normalized, pushForce);
     }
 }

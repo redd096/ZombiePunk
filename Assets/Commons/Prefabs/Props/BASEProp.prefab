@@ -15,7 +15,6 @@ GameObject:
   - component: {fileID: 6346302796936980952}
   - component: {fileID: 6346302796936980953}
   - component: {fileID: 6958065299560609163}
-  - component: {fileID: 5508545904737132308}
   m_Layer: 0
   m_Name: BASEProp
   m_TagString: Untagged
@@ -57,12 +56,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6346302796936980954}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 82478a5c24b4a4d409856fb238f53755, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateMode: 2
+  updateMode: 1
   timeCoroutine: 0.1
   numberOfHorizontalRays: 4
   numberOfVerticalRays: 4
@@ -70,8 +69,7 @@ MonoBehaviour:
   layersToIgnore:
     serializedVersion: 2
     m_Bits: 512
-  ignoreTriggers: 1
-  boxCollider: {fileID: 0}
+  selfCollider: {fileID: 6346302797664103646}
   drawDebugInPlay: 0
 --- !u!114 &6346302796936980951
 MonoBehaviour:
@@ -129,6 +127,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActive: 1
+  collisionComponent: {fileID: 6346302796936980950}
   charactersToHit: 00000000
   damage: 10
   pushForce: 10
@@ -150,27 +149,6 @@ MonoBehaviour:
   sizeCollider: {x: 1, y: 1}
   radiusCollider: 1
   drawDebug: 0
---- !u!50 &5508545904737132308
-Rigidbody2D:
-  serializedVersion: 4
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6346302796936980954}
-  m_BodyType: 0
-  m_Simulated: 1
-  m_UseFullKinematicContacts: 0
-  m_UseAutoMass: 0
-  m_Mass: 1
-  m_LinearDrag: 0
-  m_AngularDrag: 0.05
-  m_GravityScale: 1
-  m_Material: {fileID: 0}
-  m_Interpolate: 0
-  m_SleepingMode: 1
-  m_CollisionDetection: 0
-  m_Constraints: 7
 --- !u!1 &6346302797664103648
 GameObject:
   m_ObjectHideFlags: 0

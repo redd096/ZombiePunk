@@ -23,7 +23,13 @@ public class SelectWeapon : MonoBehaviour
     {
         //save in game manager
         if (GameManager.instance)
-            GameManager.instance.SetWeapon(weapon);
+        {
+            WeaponBASE[] weapons = GameManager.instance.GetWeapons();
+            if (weapons != null && weapons.Length > 0) weapons[0] = weapon;     //set element 0
+            else weapons = new WeaponBASE[1] { weapon };                        //or recreate array
+
+            GameManager.instance.SetWeapons(weapons);
+        }
         else
             Debug.LogWarning("There is no Game Manager in scene");
 
