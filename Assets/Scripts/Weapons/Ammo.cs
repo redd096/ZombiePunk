@@ -7,6 +7,7 @@ public class Ammo : MonoBehaviour
     [Header("Ammo")]
     [SerializeField] string ammoType = "GunAmmo";
     [SerializeField] int quantity = 1;
+    [SerializeField] bool canPickAlsoIfFull = false;
 
     [Header("Destroy when instantiated - 0 = no destroy")]
     [SerializeField] float timeBeforeDestroy = 0;
@@ -45,7 +46,7 @@ public class Ammo : MonoBehaviour
             if (whoHitWeaponComponent)
             {
                 //if full of ammo, can't pick, call fail event
-                if (whoHitWeaponComponent.IsFullOfAmmo(ammoType))
+                if (whoHitWeaponComponent.IsFullOfAmmo(ammoType) && canPickAlsoIfFull == false)
                 {
                     onFailPickAmmo?.Invoke();
                 }
