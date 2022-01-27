@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using NaughtyAttributes;
 
 namespace redd096
@@ -22,13 +21,10 @@ namespace redd096
 
         [Header("DEBUG")]
         [ReadOnly] public WeaponBASE[] CurrentWeapons = default;    //it will be always the same size of Max Weapons
-        [ShowNonSerializedField] int indexEquippedWeapon = 0;       //it will be always the correct index, or zero
+        [ReadOnly] [SerializeField] int indexEquippedWeapon = 0;    //it will be always the correct index, or zero
 
         //the equipped weapon
         public WeaponBASE CurrentWeapon => CurrentWeapons != null && indexEquippedWeapon < CurrentWeapons.Length ? CurrentWeapons[indexEquippedWeapon] : null;
-
-        //ammos - type, number
-        public Dictionary<string, int> Ammos = new Dictionary<string, int>();
 
         //events
         public System.Action onPickWeapon { get; set; }         //called at every pick
@@ -40,7 +36,7 @@ namespace redd096
         Transform _currentWeaponsParent;
         Transform CurrentWeaponsParent { get { if (_currentWeaponsParent == null) _currentWeaponsParent = new GameObject(name + "'s Weapons").transform; return _currentWeaponsParent; } }
 
-        void Awake()
+        protected virtual void Awake()
         {
             //set vars
             CurrentWeapons = new WeaponBASE[maxWeapons];
@@ -52,7 +48,7 @@ namespace redd096
             SetDefaultWeapons();
         }
 
-        void OnEnable()
+        protected virtual void OnEnable()
         {
             //get references
             if (healthComponent == null) 
@@ -65,7 +61,7 @@ namespace redd096
             }
         }
 
-        void OnDisable()
+        protected virtual void OnDisable()
         {
             //remove events
             if (healthComponent)
@@ -184,6 +180,7 @@ namespace redd096
                         //active it
                         CurrentWeapons[indexEquippedWeapon].transform.position = transform.position;
                         CurrentWeapons[indexEquippedWeapon].gameObject.SetActive(true);
+                        CurrentWeapons[indexEquippedWeapon].EquipWeapon();
 
                         //return is changing weapon
                         return true;
@@ -224,8 +221,9 @@ namespace redd096
                 weapon.transform.SetParent(CurrentWeaponsParent);
                 foreach (Collider2D col in weapon.GetComponentsInChildren<Collider2D>()) col.enabled = false;   //deactive colliders (necessary to not pick again when press interact)
 
-                //if not equipped, deactive
+                //if not equipped, deactive, else call is equipped on weapon
                 if (index != indexEquippedWeapon) weapon.gameObject.SetActive(false);
+                else weapon.EquipWeapon();
             }
 
             //set index equipped weapon
@@ -271,8 +269,9 @@ namespace redd096
                 CurrentWeapons[index].transform.SetParent(null);
                 foreach (Collider2D col in CurrentWeapons[index].GetComponentsInChildren<Collider2D>()) col.enabled = true;   //reactive colliders
 
-                //if not equipped, reactive
+                //if not equipped, reactive, else call that now is not equipped on weapon
                 if (index != indexEquippedWeapon) CurrentWeapons[index].gameObject.SetActive(true);
+                else CurrentWeapons[index].UnequipWeapon();
             }
 
             //drop weapon
@@ -354,11 +353,15 @@ namespace redd096
                     {
                         //deactive previous weapon
                         if (indexEquippedWeapon < CurrentWeapons.Length && CurrentWeapons[indexEquippedWeapon])
+                        {
                             CurrentWeapons[indexEquippedWeapon].gameObject.SetActive(false);
+                            CurrentWeapons[indexEquippedWeapon].UnequipWeapon();
+                        }
 
                         //and active new one
                         CurrentWeapons[newIndex].transform.position = transform.position;
                         CurrentWeapons[newIndex].gameObject.SetActive(true);
+                        CurrentWeapons[newIndex].EquipWeapon();
 
                         indexEquippedWeapon = newIndex;
 

@@ -1,21 +1,60 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using redd096;
 
 public class Ammo : MonoBehaviour
 {
     [Header("Ammo")]
-    [SerializeField] string typeOfAmmo = "GunAmmo";
+    [SerializeField] string ammoType = "GunAmmo";
     [SerializeField] int quantity = 1;
 
-    [Header("Destroy when instantiated")]
-    [Tooltip("0 = never destroy")] [SerializeField] [Min(0)] float timeBeforeDestroy = 0;
+    [Header("Destroy when instantiated - 0 = no destroy")]
+    [SerializeField] float timeBeforeDestroy = 0;
 
-    public void Interact(InteractComponent whoInteract)
+    public string AmmoType => ammoType;
+
+    Character whoHit;
+    AdvancedWeaponComponent whoHitWeaponComponent;
+    bool alreadyUsed;
+
+    void OnEnable()
     {
-        WeaponComponent weaponComponent = whoInteract.GetComponent<WeaponComponent>();
-        if (weaponComponent)
-        {
+        //reset vars
+        alreadyUsed = false;
 
+        //if there, start auto destruction timer
+        if (timeBeforeDestroy > 0)
+            StartCoroutine(AutoDestruction());
+    }
+
+    void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (alreadyUsed)
+            return;
+
+        //if hitted by player
+        whoHit = collision.gameObject.GetComponentInParent<Character>();
+        if (whoHit && whoHit.CharacterType == Character.ECharacterType.Player)
+        {
+            //and player has weapon component
+            whoHitWeaponComponent = whoHit.GetSavedComponent<AdvancedWeaponComponent>();
+            if (whoHitWeaponComponent)
+            {
+                //add quantity
+                whoHitWeaponComponent.AddAmmo(ammoType, quantity);
+
+                //destroy this gameObject
+                alreadyUsed = true;
+                Destroy(gameObject);
+            }
         }
+    }
+
+    IEnumerator AutoDestruction()
+    {
+        //wait, then destroy
+        yield return new WaitForSeconds(timeBeforeDestroy);
+        alreadyUsed = true;
+        Destroy(gameObject);
     }
 }
