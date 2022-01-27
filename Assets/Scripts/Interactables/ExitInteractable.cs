@@ -19,9 +19,7 @@ namespace redd096
         [ReadOnly] [ShowNonSerializedField] bool isOpen;
         public bool IsOpen => isOpen;
 
-        public Vector2 position => transform.position;  //interface
-
-        [Button("ForceExit", EButtonEnableMode.Playmode)] public void ForceExit() { ChangeExitState(); }
+        [Button("ForceExit", EButtonEnableMode.Playmode)] public void ForceExit() => ChangeExitState();
 
         //events
         public System.Action onOpen { get; set; }

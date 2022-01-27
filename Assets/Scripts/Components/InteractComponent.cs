@@ -27,7 +27,7 @@ namespace redd096
 		Coroutine updateCoroutine;
 
 		//interactables
-		List<IInteractable> possibleInteractables = new List<IInteractable>();
+		Dictionary<Collider2D, IInteractable> possibleInteractables = new Dictionary<Collider2D, IInteractable>();
 		IInteractable nearestInteractable;
 		IInteractable previousNearestInteractable;
 
@@ -94,12 +94,12 @@ namespace redd096
 				return;
 
 			//find nearest
-			foreach(IInteractable interactable in possibleInteractables)
+			foreach(Collider2D col in possibleInteractables.Keys)
             {
-				if(Vector2.Distance(interactable.position, transform.position) < distance)
+				if(col && Vector2.Distance(col.transform.position, transform.position) < distance)
                 {
-					distance = Vector2.Distance(interactable.position, transform.position);
-					nearest = interactable;
+					distance = Vector2.Distance(col.transform.position, transform.position);
+					nearest = possibleInteractables[col];
 				}
             }
         }
@@ -121,7 +121,7 @@ namespace redd096
 				interactable = col.GetComponentInParent<IInteractable>();
 				if(interactable != null)
                 {
-					possibleInteractables.Add(interactable);
+					possibleInteractables.Add(col, interactable);
                 }
             }
 
@@ -175,7 +175,18 @@ namespace redd096
 		/// <returns></returns>
 		public IInteractable[] GetEveryPossibleInteractable()
         {
-			return possibleInteractables.ToArray();
+			IInteractable[] tempPossibleInteractables = new IInteractable[possibleInteractables.Count];
+			int i = 0;
+
+			//add every value of dictionary to array
+			foreach (IInteractable interactable in possibleInteractables.Values)
+            {
+				tempPossibleInteractables[i] = interactable;
+				i++;
+            }
+
+			//return array
+			return tempPossibleInteractables;
         }
 
 		#endregion
