@@ -11,7 +11,7 @@ layer fisici:
 - NotNavigableWithPathFinding, usato dal PathFinding come layer not walkable, usato anche dai nemici come muri che ostruiscono la vista
 (settato su Tilemap con collider)
 - CharactersIgnoreCollisionWithThis, usato dal CollisionComponent dei Character per sapere quale layer ignorare, lo ignorano anche i bullets e i props
-(settato sul prefab dei proiettili e degli interagibili)
+(settato sul prefab dei proiettili, degli interagibili e delle ammo da raccogliere)
 - Player, usato dai nemici per trovare un target 
 (settato sul prefab del Player)
 - Enemy, usato dal CollisionComponent dei Nemici per ignorarsi tra di loro e non scontrarsi 

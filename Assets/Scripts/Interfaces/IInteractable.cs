@@ -2,12 +2,12 @@
 
 namespace redd096
 {
-    public abstract class InteractableBASE : MonoBehaviour
+    public interface IInteractable
     {
         /// <summary>
         /// When someone interact with this object
         /// </summary>
         /// <param name="whoInteract"></param>
-        public abstract void Interact(InteractComponent whoInteract);
+        void Interact(InteractComponent whoInteract);
     }
 }

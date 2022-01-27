@@ -3,7 +3,7 @@ using NaughtyAttributes;
 
 namespace redd096
 {
-    public abstract class WeaponBASE : MonoBehaviour
+    public abstract class WeaponBASE : MonoBehaviour, IInteractable
     {
         [Header("Weapon BASE")]
         public string WeaponName = "Weapon Name";
@@ -11,20 +11,22 @@ namespace redd096
         [ShowAssetPreview] public Sprite WeaponSprite = default;
 
         [Header("DEBUG")]
-        [SerializeField] bool destroyWeaponOnDrop = true;
+        [SerializeField] bool destroyWeaponOnDrop = false;
         [ReadOnly] public Character Owner;
 
         //events
         public System.Action onPickWeapon { get; set; }
         public System.Action onDropWeapon { get; set; }
+        public System.Action onEquipWeapon { get; set; }
+        public System.Action onUnequipWeapon { get; set; }
 
         #region public API
 
         /// <summary>
-        /// Set owner to look at
+        /// Set owner
         /// </summary>
         /// <param name="owner"></param>
-        public void PickWeapon(Character owner)
+        public virtual void PickWeapon(Character owner)
         {
             Owner = owner;
 
@@ -35,7 +37,7 @@ namespace redd096
         /// <summary>
         /// Remove owner
         /// </summary>
-        public void DropWeapon()
+        public virtual void DropWeapon()
         {
             Owner = null;
 
@@ -48,6 +50,34 @@ namespace redd096
             //destroy weapon, if setted
             if (destroyWeaponOnDrop)
                 Destroy(gameObject);
+        }
+
+        /// <summary>
+        /// Call when equip weapon
+        /// </summary>
+        public void EquipWeapon()
+        {
+            onEquipWeapon?.Invoke();
+        }
+
+        /// <summary>
+        /// Call when unequip weapon
+        /// </summary>
+        public void UnequipWeapon()
+        {
+            onUnequipWeapon?.Invoke();
+        }
+
+        /// <summary>
+        /// Interact to pick this weapon
+        /// </summary>
+        /// <param name="whoInteract"></param>
+        public void Interact(InteractComponent whoInteract)
+        {
+            //if has weapon component, call pick weapon
+            WeaponComponent weaponComponent = whoInteract.GetComponent<WeaponComponent>();
+            if (weaponComponent)
+                weaponComponent.PickWeapon(this);
         }
 
         #endregion

@@ -114,10 +114,14 @@ public class LevelManager : MonoBehaviour
         foreach (Character player in Players)
             player.GetComponentInChildren<StateMachineRedd096>().SetState(-1);
 
-        //remove customizations
-        if(GameManager.instance) GameManager.instance.ClearCustomizations();
+        //remove customizations and weapons
+        if (GameManager.instance)
+        {
+            GameManager.instance.ClearCustomizations();
+            GameManager.instance.ClearWeapons();
+        }
 
-        //and show end menu (and show cursor)
+        //show end menu (and show cursor)
         if(GameManager.instance) GameManager.instance.uiManager.EndMenu(true);
         if(SceneLoader.instance) SceneLoader.instance.LockMouse(CursorLockMode.None);
     }

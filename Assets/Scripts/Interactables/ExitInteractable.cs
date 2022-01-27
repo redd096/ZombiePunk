@@ -5,7 +5,7 @@ using NaughtyAttributes;
 namespace redd096
 {
     [AddComponentMenu("redd096/Interactables/Exit Interactable")]
-    public class ExitInteractable : InteractableBASE
+    public class ExitInteractable : MonoBehaviour, IInteractable
     {
         [Header("Rules to Open")]
         [Tooltip("Check there are no enemies in scene")] [SerializeField] bool checkNoEnemiesInScene = true;
@@ -19,7 +19,7 @@ namespace redd096
         [ReadOnly] [ShowNonSerializedField] bool isOpen;
         public bool IsOpen => isOpen;
 
-        [Button("ForceExit", EButtonEnableMode.Playmode)] public void ForceExit() { ChangeExitState(); }
+        [Button("ForceExit", EButtonEnableMode.Playmode)] public void ForceExit() => ChangeExitState();
 
         //events
         public System.Action onOpen { get; set; }
@@ -106,7 +106,7 @@ namespace redd096
         /// When someone interact with this object
         /// </summary>
         /// <param name="whoInteract"></param>
-        public override void Interact(InteractComponent whoInteract)
+        public void Interact(InteractComponent whoInteract)
         {
             //only if is open
             if (isOpen == false)

@@ -9,7 +9,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5727192707231015915}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Barrel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -45,7 +45,7 @@ MonoBehaviour:
   WeaponName: Weapon Name
   WeaponPrice: 10
   WeaponSprite: {fileID: 0}
-  destroyWeaponOnDrop: 1
+  destroyWeaponOnDrop: 0
   Owner: {fileID: 0}
   Automatic: 1
   RateOfFire: 0.2
@@ -169,8 +169,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   weaponBASE: {fileID: 7737347699123493500}
-  spritesToFlip: []
   objectPivot: {fileID: 1934563571220182779}
+  defaultLookRight: 1
 --- !u!1001 &5328415497119654829
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -182,6 +182,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: BASERangeWeapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521585890205697767, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521585890205697767, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521585890205697767, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.x
+      value: 0.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521585890205697767, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.y
+      value: 0.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521585890205697767, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 0.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521585890205697767, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 0.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521585890205697767, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.adaptiveTilingThreshold
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6789241873964382935, guid: 1a39af266be7e774aa6fa19eb3935adb,
         type: 3}

@@ -12,7 +12,7 @@ public class GameManager : Singleton<GameManager>
     //nel menu customizzazione si aggiunge uno script ai prefab per passare il PointerEventData al click, per sapere l'ID di chi ha cliccato
     [Header("DEBUG")]
     [SerializeField] CustomizeData[] currentCustomizations = default;
-    [SerializeField] WeaponBASE currentWeapon = default;
+    [SerializeField] WeaponBASE[] currentWeaponsPrefabs = default;
 
     public UIManager uiManager { get; private set; }
     public LevelManager levelManager { get; private set; }
@@ -84,29 +84,38 @@ public class GameManager : Singleton<GameManager>
     #region weapons API
 
     /// <summary>
-    /// Set weapon for next scene
+    /// Set weapons for next scene
     /// </summary>
-    /// <param name="weapon"></param>
-    public void SetWeapon(WeaponBASE weapon)
+    /// <param name="weaponsPrefabs"></param>
+    public void SetWeapons(WeaponBASE[] weaponsPrefabs)
     {
-        currentWeapon = weapon;
+        currentWeaponsPrefabs = weaponsPrefabs;
     }
 
     /// <summary>
-    /// Return current weapon
+    /// Return current weapons
     /// </summary>
     /// <returns></returns>
-    public WeaponBASE GetWeapon()
+    public WeaponBASE[] GetWeapons()
     {
-        return currentWeapon;
+        return currentWeaponsPrefabs;
     }
 
     /// <summary>
-    /// Reset weapon
+    /// Return if there are weapons saved
     /// </summary>
-    public void ClearWeapon()
+    /// <returns></returns>
+    public bool HasWeaponsSaved()
     {
-        currentWeapon = null;
+        return currentWeaponsPrefabs != null && currentWeaponsPrefabs.Length > 0;
+    }
+
+    /// <summary>
+    /// Reset weapons
+    /// </summary>
+    public void ClearWeapons()
+    {
+        currentWeaponsPrefabs = null;
     }
 
     #endregion
