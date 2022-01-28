@@ -628,6 +628,11 @@ MonoBehaviour:
   destroyWeaponOnDeath: 2
   healthComponent: {fileID: 1499721902347103055}
   CurrentWeapons: []
+  indexEquippedWeapon: 0
+  defaultLimitAmmos: []
+  defaultAmmos: []
+  CurrentLimitAmmosDebug: []
+  CurrentAmmosDebug: []
 --- !u!114 &1427099914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -792,7 +797,7 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.06048666, y: -0.33019757}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -803,7 +808,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 0.3678009, y: 0.29960483}
+  m_Size: {x: 0.3, y: 0.3}
   m_EdgeRadius: 0
 --- !u!95 &3901220146294768956
 Animator:
@@ -1192,7 +1197,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: -1
   m_Sprite: {fileID: -5913509589131374359, guid: fd9371908a3e95344bc25efad4e38378,
     type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
