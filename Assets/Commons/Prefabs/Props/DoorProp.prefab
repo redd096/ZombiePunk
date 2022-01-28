@@ -166,12 +166,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6165737267958403190}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 82478a5c24b4a4d409856fb238f53755, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateMode: 2
+  updateMode: 3
   timeCoroutine: 0.1
   numberOfHorizontalRays: 4
   numberOfVerticalRays: 4
@@ -179,8 +179,7 @@ MonoBehaviour:
   layersToIgnore:
     serializedVersion: 2
     m_Bits: 512
-  ignoreTriggers: 1
-  boxCollider: {fileID: 0}
+  selfCollider: {fileID: 0}
   drawDebugInPlay: 0
 --- !u!114 &6165737267958403195
 MonoBehaviour:
@@ -238,6 +237,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActive: 1
+  collisionComponent: {fileID: 0}
   charactersToHit: 00000000
   damage: 10
   pushForce: 10
@@ -271,6 +271,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e0121427caecb5f46bf7b33167bc56db, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  door: {fileID: 0}
 --- !u!50 &4751800037044479672
 Rigidbody2D:
   serializedVersion: 4

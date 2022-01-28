@@ -8,7 +8,7 @@ namespace redd096
 	[AddComponentMenu("redd096/Components/Collision Component")]
 	public class CollisionComponent : MonoBehaviour
 	{
-		enum EUpdateModes { Update, FixedUpdate, Coroutine }
+		public enum EUpdateModes { Update, FixedUpdate, Coroutine, None }
 		public enum EDirectionEnum { up, right, left, down }
 		public enum ECollisionResponse { Collision, Trigger, Ignore }
 
@@ -20,7 +20,7 @@ namespace redd096
 		[Tooltip("A small value to accomodate for edge cases")] [SerializeField] float offsetRays = 0.01f;
 		[Tooltip("Layers that raycasts ignore")] [SerializeField] LayerMask layersToIgnore = default;
 
-		[Header("Necessary Components (by default get in children) ONLY BOX AND CIRCLE")]
+		[Header("ONLY BOX AND CIRCLE - Necessary Components (by default get in children)")]
 		[SerializeField] Collider2D selfCollider = default;
 
 		[Header("DEBUG")]
@@ -29,6 +29,8 @@ namespace redd096
 		[ShowNativeProperty] bool IsHittingLeft => leftHits.Count > 0;
 		[ShowNativeProperty] bool IsHittingUp => upHits.Count > 0;
 		[ShowNativeProperty] bool IsHittingDown => downHits.Count > 0;
+
+		public EUpdateModes UpdateMode { get => updateMode; set => updateMode = value; }
 
 		//events
 		public System.Action<RaycastHit2D> onCollisionEnter { get; set; }
@@ -45,19 +47,19 @@ namespace redd096
 		List<RaycastHit2D> downHits = new List<RaycastHit2D>();
 
 		//bounds
+		BoxCollider2D boxCollider = default;
+		CircleCollider2D circleCollider = default;
 		Vector2 centerBounds;
 		float horizontalExtents;
 		float verticalExtents;
-
-		//circle bounds
-		CircleCollider2D selfCircleCollider;
+		bool usingCircleCollider;
 		float radiusSelfCollider;
 
 		//bounds limits
-		float upBounds;
-		float downBounds;
 		float rightBounds;
 		float leftBounds;
+		float upBounds;
+		float downBounds;
 
 		//used for events
 		Dictionary<Collider2D, RaycastHit2D> currentCollisions = new Dictionary<Collider2D, RaycastHit2D>();
@@ -69,10 +71,29 @@ namespace redd096
 		//update mode
 		Coroutine updateCoroutine;
 
-        void OnEnable()
-        {
+		//vars for checks - to not fill garbage collector
+		Vector2 raycastOriginFirst;
+		Vector2 raycastOriginSecond;
+		float raycastLength;
+		Vector2 raycastOriginPoint;
+		RaycastHit2D firstHit;
+		RaycastHit2D secondHit;
+		float bounds;
+		int numberOfRays;
+		Vector2 raycastDirection;
+		List<Collider2D> hitsForCollisionEvent = new List<Collider2D>();
+
+		void OnEnable()
+		{
+			//reset vars, for pooling
+			ResetVars();
+
+			//stop to call Update and FixedUpdate
+			if (updateMode == EUpdateModes.None)
+				enabled = false;
+
 			//start coroutine
-			if(updateMode == EUpdateModes.Coroutine)
+			if (updateMode == EUpdateModes.Coroutine)
 				updateCoroutine = StartCoroutine(UpdateCoroutine());
         }
 
@@ -132,22 +153,34 @@ namespace redd096
 
 		bool CheckComponents()
 		{
-			//be sure to have a collider
-			if (selfCollider == null)
-			{
+			//get references
+			if (selfCollider == null) 
 				selfCollider = GetComponentInChildren<Collider2D>();
 
-				if (selfCollider == null)
-				{
-					Debug.LogWarning("Miss Collider on " + name);
-					return false;
-				}
+			//warning
+			if (selfCollider == null)
+			{
+				Debug.LogWarning("Miss Collider on " + name);
+				return false;
+			}
 
-				//set if is a circle collider
-				if (selfCollider is CircleCollider2D)
-                {
-					selfCircleCollider = selfCollider as CircleCollider2D;
-				}
+			//save if box 
+			if (selfCollider is BoxCollider2D)
+			{
+				boxCollider = selfCollider as BoxCollider2D;
+				usingCircleCollider = false;
+			}
+			//or circle collider
+			else if (selfCollider is CircleCollider2D)
+			{
+				circleCollider = selfCollider as CircleCollider2D;
+				usingCircleCollider = true;
+			}
+			//else warning
+			else
+			{
+				Debug.LogWarning("Collider on " + name + " can be only BoxCollider2D or CircleCollider2D");
+				return false;
 			}
 
 			return true;
@@ -156,33 +189,30 @@ namespace redd096
 		void CheckCollisionsHorizontal()
 		{
 			//horizontal raycast vars
-			Vector2 horizontalRaycastOriginBottom = new Vector2(centerBounds.x, downBounds + offsetRays);
-			Vector2 horizontalRaycastOriginTop = new Vector2(centerBounds.x, upBounds - offsetRays);
-			float raycastHorizontalLength = (rightBounds - leftBounds) * 0.5f;
+			raycastOriginFirst = new Vector2(centerBounds.x, downBounds + offsetRays);
+			raycastOriginSecond = new Vector2(centerBounds.x, upBounds - offsetRays);
+			raycastLength = (rightBounds - leftBounds) * 0.5f;
 			rightHits.Clear();
 			leftHits.Clear();
 
-			Vector2 raycastOriginPoint;
-			RaycastHit2D rightHit;
-			RaycastHit2D leftHit;
 			for (int i = 0; i < numberOfHorizontalRays; i++)
 			{
 				//from bottom to top
-				raycastOriginPoint = Vector2.Lerp(horizontalRaycastOriginBottom, horizontalRaycastOriginTop, (float)i / (numberOfHorizontalRays - 1));
+				raycastOriginPoint = Vector2.Lerp(raycastOriginFirst, raycastOriginSecond, (float)i / (numberOfHorizontalRays - 1));
 
 				//raycast right and left
-				rightHit = RayCastHitSomething(raycastOriginPoint, Vector2.right, raycastHorizontalLength);
-				leftHit = RayCastHitSomething(raycastOriginPoint, Vector2.left, raycastHorizontalLength);
+				RayCastHitSomething(raycastOriginPoint, Vector2.right, raycastLength, out firstHit, hitsForCollisionEvent);
+				RayCastHitSomething(raycastOriginPoint, Vector2.left, raycastLength, out secondHit, hitsForCollisionEvent);
 
 				//save hits
-				if (rightHit) rightHits.Add(rightHit);
-				if (leftHit) leftHits.Add(leftHit);
+				if (firstHit) rightHits.Add(firstHit);
+				if (secondHit) leftHits.Add(secondHit);
 
 				//debug raycasts
 				if (drawDebugInPlay)
 				{
-					DebugRaycast(raycastOriginPoint, Vector2.right, raycastHorizontalLength, rightHit ? Color.red : Color.cyan);
-					DebugRaycast(raycastOriginPoint, Vector2.left, raycastHorizontalLength, leftHit ? Color.red : Color.cyan);
+					DebugRaycast(raycastOriginPoint, Vector2.right, raycastLength, firstHit ? Color.red : Color.cyan);
+					DebugRaycast(raycastOriginPoint, Vector2.left, raycastLength, secondHit ? Color.red : Color.cyan);
 				}
 			}
 		}
@@ -190,68 +220,65 @@ namespace redd096
 		void CheckCollisionsVertical()
 		{
 			//vertical raycast vars
-			Vector2 verticalRaycastOriginLeft = new Vector2(leftBounds + offsetRays, centerBounds.y);
-			Vector2 verticalRaycastOriginRight = new Vector2(rightBounds - offsetRays, centerBounds.y);
-			float raycastVerticalLength = (upBounds - downBounds) * 0.5f;
+			raycastOriginFirst = new Vector2(leftBounds + offsetRays, centerBounds.y);
+			raycastOriginSecond = new Vector2(rightBounds - offsetRays, centerBounds.y);
+			raycastLength = (upBounds - downBounds) * 0.5f;
 			upHits.Clear();
 			downHits.Clear();
 
-			Vector2 raycastOriginPoint;
-			RaycastHit2D upHit;
-			RaycastHit2D downHit;
 			for (int i = 0; i < numberOfVerticalRays; i++)
 			{
 				//from left to right
-				raycastOriginPoint = Vector2.Lerp(verticalRaycastOriginLeft, verticalRaycastOriginRight, (float)i / (numberOfVerticalRays - 1));
+				raycastOriginPoint = Vector2.Lerp(raycastOriginFirst, raycastOriginSecond, (float)i / (numberOfVerticalRays - 1));
 
 				//raycasts up and down
-				upHit = RayCastHitSomething(raycastOriginPoint, Vector2.up, raycastVerticalLength);
-				downHit = RayCastHitSomething(raycastOriginPoint, Vector2.down, raycastVerticalLength);
+				RayCastHitSomething(raycastOriginPoint, Vector2.up, raycastLength, out firstHit, hitsForCollisionEvent);
+				RayCastHitSomething(raycastOriginPoint, Vector2.down, raycastLength, out secondHit, hitsForCollisionEvent);
 
 				//save hits
-				if (upHit) upHits.Add(upHit);
-				if (downHit) downHits.Add(downHit);
+				if (firstHit) upHits.Add(firstHit);
+				if (secondHit) downHits.Add(secondHit);
 
 				//debug raycasts
 				if (drawDebugInPlay)
 				{
-					DebugRaycast(raycastOriginPoint, Vector2.up, raycastVerticalLength, upHit ? Color.red : Color.blue);
-					DebugRaycast(raycastOriginPoint, Vector2.down, raycastVerticalLength, downHit ? Color.red : Color.blue);
+					DebugRaycast(raycastOriginPoint, Vector2.up, raycastLength, firstHit ? Color.red : Color.blue);
+					DebugRaycast(raycastOriginPoint, Vector2.down, raycastLength, secondHit ? Color.red : Color.blue);
 				}
 			}
 		}
 
-		RaycastHit2D RayCastHitSomething(Vector2 originPoint, Vector2 direction, float distance)
+		void RayCastHitSomething(Vector2 originPoint, Vector2 direction, float distance, out RaycastHit2D nearestHit, List<Collider2D> savedHitsForEvent, bool saveCollisionForEvents = true)
 		{
-			float distanceToNearest = Mathf.Infinity;
-			RaycastHit2D nearest = default;
+			nearestHit = default;
+			savedHitsForEvent.Clear();
 
-			foreach (RaycastHit2D hit in Physics2D.RaycastAll(originPoint, direction, distance, ~layersToIgnore))
+			foreach (RaycastHit2D hit in Physics2D.LinecastAll(originPoint, originPoint + direction * distance, ~layersToIgnore))//Physics2D.RaycastAll(originPoint, direction, distance, ~layersToIgnore))
 			{
 				//for every hit, be sure to not hit self
 				if (hit && hit.collider != selfCollider)
 				{
 					//save for events
-					if (currentCollisions.ContainsKey(hit.collider) == false)
+					if (saveCollisionForEvents && currentCollisions.ContainsKey(hit.collider) == false)
+					{
 						currentCollisions.Add(hit.collider, hit);
+						savedHitsForEvent.Add(hit.collider);    //save in a list, so we know which colliders hits with this function
+					}
 
 					//calculate nearest hit, only if self collider is not trigger and doesn't hit trigger collider
 					if (selfCollider.isTrigger == false && hit.collider.isTrigger == false)
 					{
-						if (hit.distance < distanceToNearest)
+						if (nearestHit == false || hit.distance < nearestHit.distance)
 						{
 							//if using circle collider, be sure is inside radius
-							if (selfCircleCollider == null || Vector2.Distance(hit.point, centerBounds) < radiusSelfCollider)
+							if (usingCircleCollider == false || Vector2.Distance(hit.point, centerBounds) < radiusSelfCollider)
 							{
-								distanceToNearest = hit.distance;
-								nearest = hit;
+								nearestHit = hit;
 							}
 						}
 					}
 				}
 			}
-
-			return nearest;
 		}
 
 		void DebugRaycast(Vector2 originPoint, Vector2 direction, float distance, Color color)
@@ -297,6 +324,50 @@ namespace redd096
             }
 		}
 
+		void CheckCollisionEvents(Collider2D col)
+		{
+			if (col == null)
+				return;
+
+			//call Enter or Stay
+			if (currentCollisions.ContainsKey(col))
+			{
+				if (previousCollisions.Contains(col) == false)
+				{
+					if (col.isTrigger || selfCollider.isTrigger)
+						onTriggerEnter?.Invoke(currentCollisions[col]);     //trigger enter
+					else
+						onCollisionEnter?.Invoke(currentCollisions[col]);   //collision enter
+				}
+				else
+				{
+					if (col.isTrigger || selfCollider.isTrigger)
+						onTriggerStay?.Invoke(currentCollisions[col]);      //trigger stay
+					else
+						onCollisionStay?.Invoke(currentCollisions[col]);    //collision stay
+				}
+			}
+			//call Exit
+			else if (previousCollisions.Contains(col))
+			{
+				if (col.isTrigger || selfCollider.isTrigger)
+					onTriggerExit?.Invoke(col);                         //trigger exit
+				else
+					onCollisionExit?.Invoke(col);                       //collision exit
+			}
+		}
+
+		void ResetVars()
+        {
+			//reset vars
+			rightHits.Clear();
+			leftHits.Clear();
+			upHits.Clear();
+			downHits.Clear();
+			currentCollisions.Clear();
+			previousCollisions.Clear();
+		}
+
 		#endregion
 
 		#region public API
@@ -322,7 +393,8 @@ namespace redd096
 			CheckCollisionEvents();
 
 			//copy collisions in another list for next frame checks
-			previousCollisions = new List<Collider2D>(currentCollisions.Keys);
+			previousCollisions.Clear();
+			previousCollisions.AddRange(currentCollisions.Keys);
 		}
 
 		/// <summary>
@@ -335,15 +407,10 @@ namespace redd096
 				return;
 
 			//update bounds
-			centerBounds = selfCollider.bounds.center;
-			verticalExtents = selfCollider.bounds.extents.y;
-			horizontalExtents = selfCollider.bounds.extents.x;
-
-			//if circle, get radius
-			if (selfCircleCollider)
-            {
-				radiusSelfCollider = selfCircleCollider.radius;
-            }
+			centerBounds = (Vector2)transform.position + (selfCollider.offset * transform.lossyScale);
+			horizontalExtents = usingCircleCollider ? circleCollider.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.y) : boxCollider.size.x * transform.lossyScale.x * 0.5f;
+			verticalExtents = usingCircleCollider ? circleCollider.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.y) : boxCollider.size.y * transform.lossyScale.y * 0.5f;
+			radiusSelfCollider = horizontalExtents;	//is used only with circle collider, and horizontal and vertical is the same for circle collider
 
 			//bounds limits
 			upBounds = centerBounds.y + verticalExtents;
@@ -357,19 +424,17 @@ namespace redd096
 		/// </summary>
 		/// <param name="direction"></param>
 		/// <param name="desiredPosition"></param>
+		/// <param name="addCollisionIfHitSomething">if hit something, add to hits and call collision event</param>
 		/// <returns></returns>
-		public Vector2 CalculateReachablePosition(EDirectionEnum direction, Vector2 desiredPosition)
+		public Vector2 CalculateReachablePosition(EDirectionEnum direction, Vector2 desiredPosition, bool addCollisionIfHitSomething = true)
 		{
 			//raycast vars
 			UpdateBounds();
-			float bounds = GetBounds(direction);
-			int numberOfRays = direction == EDirectionEnum.right || direction == EDirectionEnum.left ? numberOfHorizontalRays : numberOfVerticalRays;
-			Vector2 raycastOriginFirst = direction == EDirectionEnum.right || direction == EDirectionEnum.left ? new Vector2(centerBounds.x, downBounds + offsetRays) : new Vector2(leftBounds + offsetRays, centerBounds.y);
-			Vector2 raycastOriginSecond = direction == EDirectionEnum.right || direction == EDirectionEnum.left ? new Vector2(centerBounds.x, upBounds - offsetRays) : new Vector2(rightBounds - offsetRays, centerBounds.y);
-			float raycastLength = direction == EDirectionEnum.right || direction == EDirectionEnum.left ? horizontalExtents + Mathf.Abs(desiredPosition.x - transform.position.x) : verticalExtents + Mathf.Abs(desiredPosition.y - transform.position.y);
-			Vector2 raycastDirection;
-			Vector2 raycastOriginPoint;
-			RaycastHit2D hit;
+			bounds = GetBounds(direction);
+			numberOfRays = direction == EDirectionEnum.right || direction == EDirectionEnum.left ? numberOfHorizontalRays : numberOfVerticalRays;
+			raycastOriginFirst = direction == EDirectionEnum.right || direction == EDirectionEnum.left ? new Vector2(centerBounds.x, downBounds + offsetRays) : new Vector2(leftBounds + offsetRays, centerBounds.y);
+			raycastOriginSecond = direction == EDirectionEnum.right || direction == EDirectionEnum.left ? new Vector2(centerBounds.x, upBounds - offsetRays) : new Vector2(rightBounds - offsetRays, centerBounds.y);
+			raycastLength = direction == EDirectionEnum.right || direction == EDirectionEnum.left ? horizontalExtents + Mathf.Abs(desiredPosition.x - transform.position.x) : verticalExtents + Mathf.Abs(desiredPosition.y - transform.position.y);
 
 			//direction
 			if (direction == EDirectionEnum.right || direction == EDirectionEnum.left)
@@ -382,25 +447,49 @@ namespace redd096
 			{
 				//from bottom to top, raycast right or left
 				raycastOriginPoint = Vector2.Lerp(raycastOriginFirst, raycastOriginSecond, (float)i / (numberOfRays - 1));
-				hit = RayCastHitSomething(raycastOriginPoint, raycastDirection, raycastLength);
+				RayCastHitSomething(raycastOriginPoint, raycastDirection, raycastLength, out firstHit, hitsForCollisionEvent, addCollisionIfHitSomething);
 
 				//adjust position
-				if (hit)
+				if (firstHit)
 				{
 					if (direction == EDirectionEnum.right || direction == EDirectionEnum.left)
 					{
-						desiredPosition.x = hit.point.x - (bounds - transform.position.x);
+						desiredPosition.x = firstHit.point.x - (bounds - transform.position.x);
 					}
 					else if (direction == EDirectionEnum.up || direction == EDirectionEnum.down)
 					{
-						desiredPosition.y = hit.point.y - (bounds - transform.position.y);
+						desiredPosition.y = firstHit.point.y - (bounds - transform.position.y);
 					}
 
-					////add to hits, to save hitting this way
-					//if (direction == EDirectionEnum.right) rightHits.Add(hit);
-					//else if (direction == EDirectionEnum.left) leftHits.Add(hit);
-					//else if (direction == EDirectionEnum.up) upHits.Add(hit);
-					//else if (direction == EDirectionEnum.down) downHits.Add(hit);
+					//add to hits, to save hitting this way (only if update mode is not None, otherwise will be never reset)
+					if (addCollisionIfHitSomething && updateMode != EUpdateModes.None)
+					{
+						if (direction == EDirectionEnum.right) rightHits.Add(firstHit);
+						else if (direction == EDirectionEnum.left) leftHits.Add(firstHit);
+						else if (direction == EDirectionEnum.up) upHits.Add(firstHit);
+						else if (direction == EDirectionEnum.down) downHits.Add(firstHit);
+					}
+				}
+
+				//call event
+				//(NB is called also when update mode is None. It is thought for example for bullets, that will call only collision enter and never collision stay or exit)
+				//call ClearCollisionEvents() to reset
+				if (addCollisionIfHitSomething)
+                {
+					foreach (Collider2D col in hitsForCollisionEvent)
+					{
+						//check collision enter (no collision stay because will be called on update collisions)
+						if (currentCollisions.ContainsKey(col) && previousCollisions.Contains(col) == false)
+						{
+							if (col.isTrigger || selfCollider.isTrigger)
+								onTriggerEnter?.Invoke(currentCollisions[col]);     //trigger enter
+							else
+								onCollisionEnter?.Invoke(currentCollisions[col]);   //collision enter
+
+							//add to previous collisions, to not call again collision enter when update collisions
+							previousCollisions.Add(col);
+						}
+					}
 				}
 			}
 
@@ -508,9 +597,18 @@ namespace redd096
 		/// Return every collision event received in this frame. This return both collision and trigger events
 		/// </summary>
 		/// <returns></returns>
-		public RaycastHit2D[] GetCurrentCollisions()
+		public RaycastHit2D[] GetCurrentCollisionEvents()
         {
 			return new List<RaycastHit2D>(currentCollisions.Values).ToArray();
+        }
+
+		/// <summary>
+		/// Clear every collision event (this can cause to call again collision enter instead of collision stay)
+		/// </summary>
+		public void ClearCollisionEvents()
+        {
+			currentCollisions.Clear();
+			previousCollisions.Clear();
         }
 
 		/// <summary>

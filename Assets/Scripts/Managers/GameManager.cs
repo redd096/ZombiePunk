@@ -27,6 +27,12 @@ public class GameManager : Singleton<GameManager>
         Application.targetFrameRate = lock60Fps ? 60 : -1;
     }
 
+    void OnValidate()
+    {
+        //lock 60 fps or free
+        Application.targetFrameRate = lock60Fps ? 60 : -1;
+    }
+
     #region customizations API
 
     /// <summary>

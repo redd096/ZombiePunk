@@ -4,6 +4,9 @@ using redd096;
 
 public class Ammo : MonoBehaviour
 {
+    [Header("Necessary Components - default get from this gameObject")]
+    [SerializeField] CollisionComponent collisionComponent = default;
+
     [Header("Ammo")]
     [SerializeField] string ammoType = "GunAmmo";
     [SerializeField] int quantity = 1;
@@ -30,15 +33,35 @@ public class Ammo : MonoBehaviour
         //if there, start auto destruction timer
         if (timeBeforeDestroy > 0)
             StartCoroutine(AutoDestruction());
+
+        //get references
+        if (collisionComponent == null) collisionComponent = GetComponent<CollisionComponent>();
+
+        //add events
+        if (collisionComponent)
+        {
+            collisionComponent.onCollisionEnter += OnRDCollisionEvent;
+            collisionComponent.onTriggerEnter += OnRDCollisionEvent;
+        }
     }
 
-    void OnCollisionEnter2D(Collision2D collision)
+    void OnDisable()
+    {
+        //remove events
+        if (collisionComponent)
+        {
+            collisionComponent.onCollisionEnter -= OnRDCollisionEvent;
+            collisionComponent.onTriggerEnter -= OnRDCollisionEvent;
+        }
+    }
+
+    void OnRDCollisionEvent(RaycastHit2D collision)
     {
         if (alreadyUsed)
             return;
 
         //if hitted by player
-        whoHit = collision.gameObject.GetComponentInParent<Character>();
+        whoHit = collision.transform.GetComponentInParent<Character>();
         if (whoHit && whoHit.CharacterType == Character.ECharacterType.Player)
         {
             //and player has weapon component

@@ -47,6 +47,13 @@ public class CheatMode : MonoBehaviour
             foreach (ExitInteractable exit in FindObjectsOfType<ExitInteractable>())
                 exit.ForceExit();
         }
+#if UNITY_EDITOR
+        //F10 to pause editor
+        else if (Keyboard.current.f10Key.wasPressedThisFrame)
+        {
+            UnityEditor.EditorApplication.isPaused = true;
+        }
+#endif
     }
 
     void OnGUI()

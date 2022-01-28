@@ -502,7 +502,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 82478a5c24b4a4d409856fb238f53755, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateMode: 1
+  updateMode: 3
   timeCoroutine: 0.1
   numberOfHorizontalRays: 4
   numberOfVerticalRays: 4
@@ -510,7 +510,7 @@ MonoBehaviour:
   layersToIgnore:
     serializedVersion: 2
     m_Bits: 512
-  selfCollider: {fileID: 0}
+  selfCollider: {fileID: 1395402417110845485}
   drawDebugInPlay: 0
 --- !u!114 &9212065468761235124
 MonoBehaviour:
@@ -626,6 +626,11 @@ MonoBehaviour:
   destroyWeaponOnDeath: 2
   healthComponent: {fileID: 1499721902347103055}
   CurrentWeapons: []
+  indexEquippedWeapon: 0
+  defaultLimitAmmos: []
+  defaultAmmos: []
+  CurrentLimitAmmosDebug: []
+  CurrentAmmosDebug: []
 --- !u!114 &1427099914
 MonoBehaviour:
   m_ObjectHideFlags: 0
