@@ -29,7 +29,7 @@ namespace redd096
 		[ShowNativeProperty] bool IsHittingLeft => leftHits.Count > 0;
 		[ShowNativeProperty] bool IsHittingUp => upHits.Count > 0;
 		[ShowNativeProperty] bool IsHittingDown => downHits.Count > 0;
-
+		
 		public EUpdateModes UpdateMode { get => updateMode; set => updateMode = value; }
 
 		//events
@@ -39,6 +39,9 @@ namespace redd096
 		public System.Action<RaycastHit2D> onTriggerEnter { get; set; }
 		public System.Action<RaycastHit2D> onTriggerStay { get; set; }
 		public System.Action<Collider2D> onTriggerExit { get; set; }
+
+		//colliders to ignore (like Physics2D.IgnoreCollision(col, otherCol))
+		List<Collider2D> collidersToIgnore = new List<Collider2D>();
 
 		//hits
 		List<RaycastHit2D> rightHits = new List<RaycastHit2D>();
@@ -105,6 +108,9 @@ namespace redd096
 				StopCoroutine(updateCoroutine);
 				updateCoroutine = null;
 			}
+
+			//clear colliders to ignore
+			collidersToIgnore.Clear();
 		}
 
         void Update()
@@ -255,8 +261,8 @@ namespace redd096
 
 			foreach (RaycastHit2D hit in Physics2D.LinecastAll(originPoint, originPoint + direction * distance, ~layersToIgnore))//Physics2D.RaycastAll(originPoint, direction, distance, ~layersToIgnore))
 			{
-				//for every hit, be sure to not hit self
-				if (hit && hit.collider != selfCollider)
+				//for every hit, be sure to not hit self and be sure to not hit colliders to ignore
+				if (hit && hit.collider != selfCollider && collidersToIgnore.Contains(hit.collider) == false)
 				{
 					//save for events
 					if (saveCollisionForEvents && currentCollisions.ContainsKey(hit.collider) == false)
@@ -283,11 +289,17 @@ namespace redd096
 
 		void DebugRaycast(Vector2 originPoint, Vector2 direction, float distance, Color color)
 		{
+			////debug
+			//if (drawDebugDuration > 0)
+			//	Debug.DrawRay(originPoint, direction * distance, color, drawDebugDuration);					//when called by press the button, visualize for few seconds
+			//else
+			//	Debug.DrawRay(originPoint, direction * distance, color);									//else show at every update
+
 			//debug
 			if (drawDebugDuration > 0)
-				Debug.DrawRay(originPoint, direction * distance, color, drawDebugDuration);     //when called by press the button, visualizare for few seconds
+				Debug.DrawLine(originPoint, originPoint + direction * distance, color, drawDebugDuration);  //when called by press the button, visualize for few seconds
 			else
-				Debug.DrawRay(originPoint, direction * distance, color);                        //else show at every update
+				Debug.DrawLine(originPoint, originPoint + direction * distance, color);                     //else show at every update
 		}
 
 		void CheckCollisionEvents()
@@ -366,6 +378,7 @@ namespace redd096
 			downHits.Clear();
 			currentCollisions.Clear();
 			previousCollisions.Clear();
+			collidersToIgnore.Clear();
 		}
 
 		#endregion
@@ -407,10 +420,14 @@ namespace redd096
 				return;
 
 			//update bounds
-			centerBounds = (Vector2)transform.position + (selfCollider.offset * transform.lossyScale);
-			horizontalExtents = usingCircleCollider ? circleCollider.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.y) : boxCollider.size.x * transform.lossyScale.x * 0.5f;
-			verticalExtents = usingCircleCollider ? circleCollider.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.y) : boxCollider.size.y * transform.lossyScale.y * 0.5f;
-			radiusSelfCollider = horizontalExtents;	//is used only with circle collider, and horizontal and vertical is the same for circle collider
+			centerBounds = selfCollider.bounds.center;
+			verticalExtents = selfCollider.bounds.extents.y;
+			horizontalExtents = selfCollider.bounds.extents.x;
+			radiusSelfCollider = circleCollider ? circleCollider.radius : 0;
+			//centerBounds = (Vector2)transform.position + (selfCollider.offset * transform.lossyScale);
+			//horizontalExtents = usingCircleCollider ? circleCollider.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.y) : boxCollider.size.x * transform.lossyScale.x * 0.5f;
+			//verticalExtents = usingCircleCollider ? circleCollider.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.y) : boxCollider.size.y * transform.lossyScale.y * 0.5f;
+			//radiusSelfCollider = horizontalExtents;	//is used only with circle collider, and horizontal and vertical is the same for circle collider
 
 			//bounds limits
 			upBounds = centerBounds.y + verticalExtents;
@@ -448,6 +465,8 @@ namespace redd096
 				//from bottom to top, raycast right or left
 				raycastOriginPoint = Vector2.Lerp(raycastOriginFirst, raycastOriginSecond, (float)i / (numberOfRays - 1));
 				RayCastHitSomething(raycastOriginPoint, raycastDirection, raycastLength, out firstHit, hitsForCollisionEvent, addCollisionIfHitSomething);
+
+				DebugRaycast(raycastOriginPoint, raycastDirection, raycastLength, direction == EDirectionEnum.right || direction == EDirectionEnum.left ? Color.red : Color.blue);
 
 				//adjust position
 				if (firstHit)
@@ -618,8 +637,8 @@ namespace redd096
 		/// <returns></returns>
 		public ECollisionResponse CanHit(Collider2D col)
         {
-			//ignore if collider is null or is self collider
-			if (col == null || selfCollider == null || col == selfCollider)
+			//ignore if collider is null or is self collider, or is in list of colliders to ignore
+			if (col == null || selfCollider == null || col == selfCollider || collidersToIgnore.Contains(col))
 				return ECollisionResponse.Ignore;
 
 			//ignore if in layer to ignore
@@ -633,6 +652,27 @@ namespace redd096
 			//else return collision
 			return ECollisionResponse.Collision;
 		}
+
+		/// <summary>
+		/// Ignore collisions with this collider. Will be reset when this object is disabled
+		/// </summary>
+		/// <param name="col"></param>
+		/// <param name="ignore">Ignore collision with this collider or not</param>
+		public void IgnoreCollision(Collider2D col, bool ignore = true)
+        {
+			//add to ignore list
+			if (ignore)
+			{
+				if (collidersToIgnore.Contains(col) == false)
+					collidersToIgnore.Add(col);
+			}
+			//remove from ignore list
+			else
+            {
+				if (collidersToIgnore.Contains(col))
+					collidersToIgnore.Remove(col);
+            }
+        }
 
 		#endregion
 	}

@@ -142,19 +142,19 @@ namespace redd096
             ownerType = Owner ? (int)Owner.CharacterType : -1;  //if is not a character, set type to -1
 
             //ignore every collision with owner
-            if (Owner)
+            if (Owner && collisionComponent)
             {
                 foreach (Collider2D ownerCol in Owner.GetComponentsInChildren<Collider2D>())
                     foreach (Collider2D bulletCol in GetComponentsInChildren<Collider2D>())
-                        Physics2D.IgnoreCollision(bulletCol, ownerCol);
+                        collisionComponent.IgnoreCollision(bulletCol, ownerCol);
             }
 
             //ignore every collision with weapon
-            if (weapon)
+            if (weapon && collisionComponent)
             {
                 foreach (Collider2D weaponCol in weapon.GetComponentsInChildren<Collider2D>())
                     foreach (Collider2D bulletCol in GetComponentsInChildren<Collider2D>())
-                        Physics2D.IgnoreCollision(bulletCol, weaponCol);
+                        collisionComponent.IgnoreCollision(bulletCol, weaponCol);
             }
 
             //if passed autodestruction is greater then 0, use it. Else keep bullet delay
