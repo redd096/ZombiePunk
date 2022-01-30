@@ -234,38 +234,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TaskName: '[CONDITION] Wait Timer Chase'
   timer: 0.9
---- !u!114 &324701590739961021
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5017728265048648176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5d420a2a14f74345899897d27a272c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 6757414115337315533}
-  stateMachine: {fileID: 5017728266096039248}
-  attackStateName: Ranged Attack State
-  triggerOnAttack: Ranged Attack
---- !u!114 &4260081970339191854
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5017728265048648176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5d420a2a14f74345899897d27a272c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 6757414115337315533}
-  stateMachine: {fileID: 5017728266096039248}
-  attackStateName: Melee Attack State
-  triggerOnAttack: Melee Attack
 --- !u!1 &5046580184900396351
 GameObject:
   m_ObjectHideFlags: 0
@@ -372,6 +340,38 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TaskName: '[CONDITION] Wait Timer Melee'
   timer: 0.9
+--- !u!114 &324701590739961021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017728265048648176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5d420a2a14f74345899897d27a272c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 6757414115337315533}
+  stateMachine: {fileID: 5017728266096039248}
+  attackStateName: Ranged Attack State
+  triggerOnAttack: Ranged Attack
+--- !u!114 &4260081970339191854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017728265048648176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5d420a2a14f74345899897d27a272c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 6757414115337315533}
+  stateMachine: {fileID: 5017728266096039248}
+  attackStateName: Melee Attack State
+  triggerOnAttack: Melee Attack
 --- !u!1001 &8109891673206357625
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -398,6 +398,106 @@ PrefabInstance:
         type: 3}
       propertyPath: takeNodeAlsoIfNotTotallyInside
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_Mesh
+      value: 
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_InstanceId
+      value: -556300
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_ShapePathHash
+      value: -1685867281
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_ShapePath.Array.size
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_ShapePath.Array.data[0].x
+      value: -0.3149335
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_ShapePath.Array.data[0].y
+      value: -0.8060805
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_ShapePath.Array.data[1].x
+      value: 0.37474674
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_ShapePath.Array.data[1].y
+      value: -0.8046539
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_ShapePath.Array.data[2].x
+      value: 0.49721384
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_ShapePath.Array.data[2].y
+      value: -0.7478094
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_ShapePath.Array.data[3].x
+      value: 0.49621767
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_ShapePath.Array.data[3].y
+      value: -0.6792852
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_ShapePath.Array.data[4].x
+      value: 0.37545636
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_ShapePath.Array.data[4].y
+      value: -0.62003565
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_ShapePath.Array.data[5].x
+      value: -0.31611925
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_ShapePath.Array.data[5].y
+      value: -0.6256447
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_ShapePath.Array.data[6].x
+      value: -0.4391989
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_ShapePath.Array.data[6].y
+      value: -0.6766316
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_ShapePath.Array.data[7].x
+      value: -0.4396206
+      objectReference: {fileID: 0}
+    - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_ShapePath.Array.data[7].y
+      value: -0.74771965
       objectReference: {fileID: 0}
     - target: {fileID: 3263763755086437044, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
