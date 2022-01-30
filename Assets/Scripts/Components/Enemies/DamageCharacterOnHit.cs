@@ -40,13 +40,10 @@ namespace redd096
             if (collisionComponent == null)
                 collisionComponent = GetComponent<CollisionComponent>();
 
-            //if collision component is not enabled, enable it
-            if (isActive && collisionComponent && (collisionComponent.enabled == false || collisionComponent.UpdateMode == CollisionComponent.EUpdateModes.None))
+            //if collision component has update mode to None, set to Coroutine
+            if (isActive && collisionComponent && collisionComponent.UpdateMode == CollisionComponent.EUpdateModes.None)
             {
-                if (collisionComponent.UpdateMode == CollisionComponent.EUpdateModes.None)
-                    collisionComponent.UpdateMode = CollisionComponent.EUpdateModes.Coroutine;
-
-                collisionComponent.enabled = true;
+                collisionComponent.UpdateMode = CollisionComponent.EUpdateModes.Coroutine;
             }
 
             //add events

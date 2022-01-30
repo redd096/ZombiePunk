@@ -91,10 +91,6 @@ namespace redd096
 			//reset vars, for pooling
 			ResetVars();
 
-			//stop to call Update and FixedUpdate
-			if (updateMode == EUpdateModes.None)
-				enabled = false;
-
 			//start coroutine
 			if (updateMode == EUpdateModes.Coroutine)
 				updateCoroutine = StartCoroutine(UpdateCoroutine());
@@ -108,9 +104,6 @@ namespace redd096
 				StopCoroutine(updateCoroutine);
 				updateCoroutine = null;
 			}
-
-			//clear colliders to ignore
-			collidersToIgnore.Clear();
 		}
 
         void Update()
@@ -132,9 +125,9 @@ namespace redd096
 			//do only if update mode is Coroutine
 			while(updateMode == EUpdateModes.Coroutine)
             {
+				yield return new WaitForSeconds(timeCoroutine);	//wait then update, otherwise update is called OnEnable and other scripts can't register to events for trigger enter
 				UpdateCollisions();
-				yield return new WaitForSeconds(timeCoroutine);
-            }
+			}
         }
 
 		[Button]
@@ -376,8 +369,10 @@ namespace redd096
 			leftHits.Clear();
 			upHits.Clear();
 			downHits.Clear();
+
 			currentCollisions.Clear();
 			previousCollisions.Clear();
+
 			collidersToIgnore.Clear();
 		}
 
@@ -466,8 +461,6 @@ namespace redd096
 				raycastOriginPoint = Vector2.Lerp(raycastOriginFirst, raycastOriginSecond, (float)i / (numberOfRays - 1));
 				RayCastHitSomething(raycastOriginPoint, raycastDirection, raycastLength, out firstHit, hitsForCollisionEvent, addCollisionIfHitSomething);
 
-				DebugRaycast(raycastOriginPoint, raycastDirection, raycastLength, direction == EDirectionEnum.right || direction == EDirectionEnum.left ? Color.red : Color.blue);
-
 				//adjust position
 				if (firstHit)
 				{
@@ -480,8 +473,8 @@ namespace redd096
 						desiredPosition.y = firstHit.point.y - (bounds - transform.position.y);
 					}
 
-					//add to hits, to save hitting this way (only if update mode is not None, otherwise will be never reset)
-					if (addCollisionIfHitSomething && updateMode != EUpdateModes.None)
+					//add to hits, to save hitting this way
+					if (addCollisionIfHitSomething)
 					{
 						if (direction == EDirectionEnum.right) rightHits.Add(firstHit);
 						else if (direction == EDirectionEnum.left) leftHits.Add(firstHit);
@@ -490,9 +483,7 @@ namespace redd096
 					}
 				}
 
-				//call event
-				//(NB is called also when update mode is None. It is thought for example for bullets, that will call only collision enter and never collision stay or exit)
-				//call ClearCollisionEvents() to reset
+				//call collision enter event (to not wait until update collisions)
 				if (addCollisionIfHitSomething)
                 {
 					foreach (Collider2D col in hitsForCollisionEvent)
@@ -654,7 +645,7 @@ namespace redd096
 		}
 
 		/// <summary>
-		/// Ignore collisions with this collider. Will be reset when this object is disabled
+		/// Ignore collisions with this collider. Will be reset when this object is disabled and re-enabled
 		/// </summary>
 		/// <param name="col"></param>
 		/// <param name="ignore">Ignore collision with this collider or not</param>
