@@ -59,6 +59,7 @@ MonoBehaviour:
   Damage: 50
   BulletSpeed: 3
   hasAmmo: 0
+  AmmoType: GunAmmo
   maxAmmo: 8
   currentAmmo: 8
   delayReload: 0.6
@@ -146,7 +147,7 @@ MonoBehaviour:
     audioClip: {fileID: 0}
     volume: 1
     is3D: 0
-  updateAmmoOnPick: 1
+  updateAmmoOnEquip: 1
   updateAmmoOnShoot: 1
   updateAmmoOnReload: 1
   gameObjectOnReload:
@@ -183,6 +184,41 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: EnemyBASEWeapon
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521585890205697767, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521585890205697767, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.pivot.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521585890205697767, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.x
+      value: 0.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521585890205697767, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.newSize.y
+      value: 0.48
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521585890205697767, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.x
+      value: 1.45
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521585890205697767, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.oldSize.y
+      value: 0.7
+      objectReference: {fileID: 0}
+    - target: {fileID: 1521585890205697767, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_SpriteTilingProperty.adaptiveTilingThreshold
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 6789241873964382935, guid: 1a39af266be7e774aa6fa19eb3935adb,
         type: 3}

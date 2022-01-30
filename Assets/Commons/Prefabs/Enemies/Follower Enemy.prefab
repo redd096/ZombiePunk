@@ -169,6 +169,22 @@ MonoBehaviour:
   drawDebug: 0
   equalsCheckThreshold: 0.05
   ifTargetIsNullReturnTrue: 0
+--- !u!114 &4260081970339191854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017728265048648176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5d420a2a14f74345899897d27a272c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 6757414115337315533}
+  stateMachine: {fileID: 5017728266096039248}
+  attackStateName: Attack State
+  triggerOnAttack: Melee Attack
 --- !u!1 &7367816136740611222
 GameObject:
   m_ObjectHideFlags: 0
@@ -245,22 +261,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TaskName: '[CONDITION] Wait Timer'
   timer: 0.9
---- !u!114 &4260081970339191854
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5017728265048648176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5d420a2a14f74345899897d27a272c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 6757414115337315533}
-  stateMachine: {fileID: 5017728266096039248}
-  attackStateName: Attack State
-  triggerOnAttack: Melee Attack
 --- !u!1001 &8109891673206357625
 PrefabInstance:
   m_ObjectHideFlags: 0
