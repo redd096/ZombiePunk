@@ -13,7 +13,8 @@ namespace redd096
 		public enum ECollisionResponse { Collision, Trigger, Ignore }
 
 		[Header("Check Raycasts")]
-		[Tooltip("Check collisions on Update or FixedUpdate? If setted to None don't check collisions, but can use CalculateReachablePosition to check if hit something when moving")] [SerializeField] EUpdateModes updateMode = EUpdateModes.Coroutine;
+		[Tooltip("Check collisions on Update or FixedUpdate? If setted to None don't check collisions, but can use CalculateReachablePosition to check if hit something when moving, used for example for bullets")] 
+		[SerializeField] EUpdateModes updateMode = EUpdateModes.Coroutine;
 		[Tooltip("Delay between updates using Coroutine method")] [EnableIf("updateMode", EUpdateModes.Coroutine)] [SerializeField] float timeCoroutine = 0.1f;
 		[Tooltip("Number of rays cast for every side horizontally")] [SerializeField] int numberOfHorizontalRays = 4;
 		[Tooltip("Number of rays cast for every side vertically")] [SerializeField] int numberOfVerticalRays = 4;
@@ -55,7 +56,6 @@ namespace redd096
 		Vector2 centerBounds;
 		float horizontalExtents;
 		float verticalExtents;
-		bool usingCircleCollider;
 		float radiusSelfCollider;
 
 		//bounds limits
@@ -167,13 +167,11 @@ namespace redd096
 			if (selfCollider is BoxCollider2D)
 			{
 				boxCollider = selfCollider as BoxCollider2D;
-				usingCircleCollider = false;
 			}
 			//or circle collider
 			else if (selfCollider is CircleCollider2D)
 			{
 				circleCollider = selfCollider as CircleCollider2D;
-				usingCircleCollider = true;
 			}
 			//else warning
 			else
@@ -252,7 +250,8 @@ namespace redd096
 			nearestHit = default;
 			savedHitsForEvent.Clear();
 
-			foreach (RaycastHit2D hit in Physics2D.LinecastAll(originPoint, originPoint + direction * distance, ~layersToIgnore))//Physics2D.RaycastAll(originPoint, direction, distance, ~layersToIgnore))
+			//foreach (RaycastHit2D hit in Physics2D.RaycastAll(originPoint, direction, distance, ~layersToIgnore))
+			foreach (RaycastHit2D hit in Physics2D.LinecastAll(originPoint, originPoint + direction * distance, ~layersToIgnore))
 			{
 				//for every hit, be sure to not hit self and be sure to not hit colliders to ignore
 				if (hit && hit.collider != selfCollider && collidersToIgnore.Contains(hit.collider) == false)
@@ -270,7 +269,7 @@ namespace redd096
 						if (nearestHit == false || hit.distance < nearestHit.distance)
 						{
 							//if using circle collider, be sure is inside radius
-							if (usingCircleCollider == false || Vector2.Distance(hit.point, centerBounds) < radiusSelfCollider)
+							if (circleCollider == null || Vector2.Distance(hit.point, centerBounds) < radiusSelfCollider)
 							{
 								nearestHit = hit;
 							}
@@ -420,8 +419,8 @@ namespace redd096
 			horizontalExtents = selfCollider.bounds.extents.x;
 			radiusSelfCollider = circleCollider ? circleCollider.radius : 0;
 			//centerBounds = (Vector2)transform.position + (selfCollider.offset * transform.lossyScale);
-			//horizontalExtents = usingCircleCollider ? circleCollider.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.y) : boxCollider.size.x * transform.lossyScale.x * 0.5f;
-			//verticalExtents = usingCircleCollider ? circleCollider.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.y) : boxCollider.size.y * transform.lossyScale.y * 0.5f;
+			//horizontalExtents = circleCollider ? circleCollider.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.y) : boxCollider.size.x * transform.lossyScale.x * 0.5f;
+			//verticalExtents = circleCollider ? circleCollider.radius * Mathf.Max(transform.lossyScale.x, transform.lossyScale.y) : boxCollider.size.y * transform.lossyScale.y * 0.5f;
 			//radiusSelfCollider = horizontalExtents;	//is used only with circle collider, and horizontal and vertical is the same for circle collider
 
 			//bounds limits
