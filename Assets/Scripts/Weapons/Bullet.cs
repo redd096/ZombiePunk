@@ -9,7 +9,7 @@ namespace redd096
     public class Bullet : MonoBehaviour
     {
         [Header("Necessary Components - default get from this gameObject")]
-        [Tooltip("Set drag to 0 to not stop bullet")] [SerializeField] MovementComponent movementComponent = default;
+        [SerializeField] MovementComponent movementComponent = default;
         [SerializeField] CollisionComponent collisionComponent = default;
 
         [Header("Layer Penetrable")]
@@ -41,7 +41,7 @@ namespace redd096
         [HideInInspector] public Character Owner;
         WeaponRange weapon;
         int ownerType;
-        bool alreadyDead = true;
+        bool alreadyDead;
         List<Redd096Main> alreadyHit = new List<Redd096Main>();
         List<Redd096Main> alreadyHitsDamageInArea = new List<Redd096Main>();
 
@@ -56,11 +56,12 @@ namespace redd096
         private void Awake()
         {
             //get references
-            if(movementComponent == null)
-                movementComponent = GetComponent<MovementComponent>();
+            if (movementComponent == null) movementComponent = GetComponent<MovementComponent>();
+            if (collisionComponent == null) collisionComponent = GetComponent<CollisionComponent>();
 
-            if (movementComponent == null)
-                Debug.LogWarning("Missing MovementComponent on " + name);
+            //warnings
+            if (movementComponent == null) Debug.LogWarning("Missing MovementComponent on " + name);
+            if (collisionComponent == null) Debug.LogWarning("Missing CollisionComponent on " + name);
         }
 
         void OnDrawGizmos()

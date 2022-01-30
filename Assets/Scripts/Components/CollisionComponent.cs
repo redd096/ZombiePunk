@@ -13,7 +13,7 @@ namespace redd096
 		public enum ECollisionResponse { Collision, Trigger, Ignore }
 
 		[Header("Check Raycasts")]
-		[Tooltip("Check collisions on Update or FixedUpdate? If setted to None don't check collisions, but can use CalculateReachablePosition to check if hit something when moving, used for example for bullets")] 
+		[Tooltip("Check collisions on Update or FixedUpdate? If setted to None don't check collisions, but can use CalculateReachablePosition to check if hit something when moving, used for example for bullets")]
 		[SerializeField] EUpdateModes updateMode = EUpdateModes.Coroutine;
 		[Tooltip("Delay between updates using Coroutine method")] [EnableIf("updateMode", EUpdateModes.Coroutine)] [SerializeField] float timeCoroutine = 0.1f;
 		[Tooltip("Number of rays cast for every side horizontally")] [SerializeField] int numberOfHorizontalRays = 4;
@@ -94,9 +94,9 @@ namespace redd096
 			//start coroutine
 			if (updateMode == EUpdateModes.Coroutine)
 				updateCoroutine = StartCoroutine(UpdateCoroutine());
-        }
+		}
 
-        void OnDisable()
+		void OnDisable()
 		{
 			//be sure to stop coroutine
 			if (updateCoroutine != null)
@@ -106,7 +106,7 @@ namespace redd096
 			}
 		}
 
-        void Update()
+		void Update()
 		{
 			//do only if update mode is Update
 			if (updateMode == EUpdateModes.Update)
@@ -121,14 +121,14 @@ namespace redd096
 		}
 
 		IEnumerator UpdateCoroutine()
-        {
+		{
 			//do only if update mode is Coroutine
-			while(updateMode == EUpdateModes.Coroutine)
-            {
-				yield return new WaitForSeconds(timeCoroutine);	//wait then update, otherwise update is called OnEnable and other scripts can't register to events for trigger enter
+			while (updateMode == EUpdateModes.Coroutine)
+			{
+				yield return new WaitForSeconds(timeCoroutine); //wait then update, otherwise update is called OnEnable and other scripts can't register to events for trigger enter
 				UpdateCollisions();
 			}
-        }
+		}
 
 		[Button]
 		void DrawCollisions()
@@ -153,7 +153,7 @@ namespace redd096
 		bool CheckComponents()
 		{
 			//get references
-			if (selfCollider == null) 
+			if (selfCollider == null)
 				selfCollider = GetComponentInChildren<Collider2D>();
 
 			//warning
@@ -295,37 +295,37 @@ namespace redd096
 		}
 
 		void CheckCollisionEvents()
-        {
+		{
 			//call Enter or Stay
 			foreach (Collider2D col in currentCollisions.Keys)
-            {
+			{
 				if (previousCollisions.Contains(col) == false)
-                {
+				{
 					if (col.isTrigger || selfCollider.isTrigger)
-						onTriggerEnter?.Invoke(currentCollisions[col]);		//trigger enter
+						onTriggerEnter?.Invoke(currentCollisions[col]);     //trigger enter
 					else
-						onCollisionEnter?.Invoke(currentCollisions[col]);	//collision enter
-                }
+						onCollisionEnter?.Invoke(currentCollisions[col]);   //collision enter
+				}
 				else
 				{
 					if (col.isTrigger || selfCollider.isTrigger)
-						onTriggerStay?.Invoke(currentCollisions[col]);		//trigger stay
+						onTriggerStay?.Invoke(currentCollisions[col]);      //trigger stay
 					else
-						onCollisionStay?.Invoke(currentCollisions[col]);	//collision stay
+						onCollisionStay?.Invoke(currentCollisions[col]);    //collision stay
 				}
-            }
+			}
 
 			//call Exit
-			foreach(Collider2D col in previousCollisions)
-            {
+			foreach (Collider2D col in previousCollisions)
+			{
 				if (col && currentCollisions.ContainsKey(col) == false)
 				{
 					if (col.isTrigger || selfCollider.isTrigger)
-						onTriggerExit?.Invoke(col);							//trigger exit
+						onTriggerExit?.Invoke(col);                         //trigger exit
 					else
-						onCollisionExit?.Invoke(col);						//collision exit
+						onCollisionExit?.Invoke(col);                       //collision exit
 				}
-            }
+			}
 		}
 
 		void CheckCollisionEvents(Collider2D col)
@@ -362,7 +362,7 @@ namespace redd096
 		}
 
 		void ResetVars()
-        {
+		{
 			//reset vars
 			rightHits.Clear();
 			leftHits.Clear();
@@ -482,9 +482,9 @@ namespace redd096
 					}
 				}
 
-				//call collision enter event (to not wait until update collisions) - NB that is update mode is setted to None, will be never reset, so neither collision stay or collision exit will be called)
+				//call collision enter event (to not wait until update collisions) - NB that if update mode is setted to None, will be never reset, so neither collision stay or collision exit will be called)
 				if (addCollisionIfHitSomething)
-                {
+				{
 					foreach (Collider2D col in hitsForCollisionEvent)
 					{
 						//check collision enter (no collision stay because will be called on update collisions)
@@ -618,18 +618,18 @@ namespace redd096
 		/// </summary>
 		/// <returns></returns>
 		public RaycastHit2D[] GetCurrentCollisionEvents()
-        {
+		{
 			return new List<RaycastHit2D>(currentCollisions.Values).ToArray();
-        }
+		}
 
 		/// <summary>
 		/// Clear every collision event (this can cause to call again collision enter instead of collision stay)
 		/// </summary>
 		public void ClearCollisionEvents()
-        {
+		{
 			currentCollisions.Clear();
 			previousCollisions.Clear();
-        }
+		}
 
 		/// <summary>
 		/// Get if can hit this collider. Return will be "Ignore" if can't hit, "Trigger" if can call a trigger event, "Collision" if can call a collision event
@@ -637,7 +637,7 @@ namespace redd096
 		/// <param name="col"></param>
 		/// <returns></returns>
 		public ECollisionResponse CanHit(Collider2D col)
-        {
+		{
 			//ignore if collider is null or is self collider, or is in list of colliders to ignore
 			if (col == null || selfCollider == null || col == selfCollider || collidersToIgnore.Contains(col))
 				return ECollisionResponse.Ignore;
@@ -660,7 +660,7 @@ namespace redd096
 		/// <param name="col"></param>
 		/// <param name="ignore">Ignore collision with this collider or not</param>
 		public void IgnoreCollision(Collider2D col, bool ignore = true)
-        {
+		{
 			//add to ignore list
 			if (ignore)
 			{
@@ -669,19 +669,19 @@ namespace redd096
 			}
 			//remove from ignore list
 			else
-            {
+			{
 				if (collidersToIgnore.Contains(col))
 					collidersToIgnore.Remove(col);
-            }
-        }
+			}
+		}
 
 		/// <summary>
 		/// Clear every IgnoreCollision
 		/// </summary>
 		public void ClearIgnoreCollisions()
-        {
+		{
 			collidersToIgnore.Clear();
-        }
+		}
 
 		#endregion
 	}

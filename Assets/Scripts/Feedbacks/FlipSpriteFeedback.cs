@@ -60,8 +60,10 @@ namespace redd096
                     sprite.flipX = (defaultLookRight && isLookingRight == false) || (defaultLookRight == false && isLookingRight);
         }
 
+        //TEMP - is used from enemies because now they receive path after few frames and can have rotation problems
         IEnumerator FlipSpriteCoroutine()
         {
+            //wait a bit before rotate
             yield return new WaitForSeconds(0.1f);
 
             //flip right or left

@@ -1,99 +1,102 @@
 ﻿using System.Collections;
 using UnityEngine;
-using redd096;
 
-public class Ammo : MonoBehaviour
+namespace redd096
 {
-    [Header("Necessary Components - default get from this gameObject")]
-    [SerializeField] CollisionComponent collisionComponent = default;
-
-    [Header("Ammo")]
-    [SerializeField] string ammoType = "GunAmmo";
-    [SerializeField] int quantity = 1;
-    [Tooltip("Can pick when full of this type of ammo? If true, this object will be destroyed, but no ammo will be added")] [SerializeField] bool canPickAlsoIfFull = false;
-
-    [Header("Destroy when instantiated - 0 = no destroy")]
-    [SerializeField] float timeBeforeDestroy = 0;
-
-    public string AmmoType => ammoType;
-
-    //events
-    public System.Action onPickAmmo { get; set; }
-    public System.Action onFailPickAmmo { get; set; }
-
-    Character whoHit;
-    AdvancedWeaponComponent whoHitWeaponComponent;
-    bool alreadyUsed;
-
-    void OnEnable()
+    [AddComponentMenu("redd096/Weapons/Ammo")]
+    public class Ammo : MonoBehaviour
     {
-        //reset vars
-        alreadyUsed = false;
+        [Header("Necessary Components - default get from this gameObject")]
+        [SerializeField] CollisionComponent collisionComponent = default;
 
-        //if there, start auto destruction timer
-        if (timeBeforeDestroy > 0)
-            StartCoroutine(AutoDestruction());
+        [Header("Ammo")]
+        [SerializeField] string ammoType = "GunAmmo";
+        [SerializeField] int quantity = 1;
+        [Tooltip("Can pick when full of this type of ammo? If true, this object will be destroyed, but no ammo will be added")] [SerializeField] bool canPickAlsoIfFull = false;
 
-        //get references
-        if (collisionComponent == null) collisionComponent = GetComponent<CollisionComponent>();
+        [Header("Destroy when instantiated - 0 = no destroy")]
+        [SerializeField] float timeBeforeDestroy = 0;
 
-        //add events
-        if (collisionComponent)
+        public string AmmoType => ammoType;
+
+        //events
+        public System.Action onPickAmmo { get; set; }
+        public System.Action onFailPickAmmo { get; set; }
+
+        Character whoHit;
+        AdvancedWeaponComponent whoHitWeaponComponent;
+        bool alreadyUsed;
+
+        void OnEnable()
         {
-            collisionComponent.onCollisionEnter += OnRDCollisionEvent;
-            collisionComponent.onTriggerEnter += OnRDCollisionEvent;
-        }
-    }
+            //reset vars
+            alreadyUsed = false;
 
-    void OnDisable()
-    {
-        //remove events
-        if (collisionComponent)
-        {
-            collisionComponent.onCollisionEnter -= OnRDCollisionEvent;
-            collisionComponent.onTriggerEnter -= OnRDCollisionEvent;
-        }
-    }
+            //if there is, start auto destruction timer
+            if (timeBeforeDestroy > 0)
+                StartCoroutine(AutoDestruction());
 
-    void OnRDCollisionEvent(RaycastHit2D collision)
-    {
-        if (alreadyUsed)
-            return;
+            //get references
+            if (collisionComponent == null) collisionComponent = GetComponent<CollisionComponent>();
 
-        //if hitted by player
-        whoHit = collision.transform.GetComponentInParent<Character>();
-        if (whoHit && whoHit.CharacterType == Character.ECharacterType.Player)
-        {
-            //and player has weapon component
-            whoHitWeaponComponent = whoHit.GetSavedComponent<AdvancedWeaponComponent>();
-            if (whoHitWeaponComponent)
+            //add events
+            if (collisionComponent)
             {
-                //if full of ammo, can't pick, call fail event
-                if (whoHitWeaponComponent.IsFullOfAmmo(ammoType) && canPickAlsoIfFull == false)
-                {
-                    onFailPickAmmo?.Invoke();
-                }
-                //else, pick and add quantity
-                else
-                {
-                    whoHitWeaponComponent.AddAmmo(ammoType, quantity);
+                collisionComponent.onCollisionEnter += OnRDCollisionEvent;
+                collisionComponent.onTriggerEnter += OnRDCollisionEvent;
+            }
+        }
 
-                    //call event
-                    onPickAmmo?.Invoke();
+        void OnDisable()
+        {
+            //remove events
+            if (collisionComponent)
+            {
+                collisionComponent.onCollisionEnter -= OnRDCollisionEvent;
+                collisionComponent.onTriggerEnter -= OnRDCollisionEvent;
+            }
+        }
 
-                    //destroy this gameObject
-                    alreadyUsed = true;
-                    Destroy(gameObject);
+        void OnRDCollisionEvent(RaycastHit2D collision)
+        {
+            if (alreadyUsed)
+                return;
+
+            //if hitted by player
+            whoHit = collision.transform.GetComponentInParent<Character>();
+            if (whoHit && whoHit.CharacterType == Character.ECharacterType.Player)
+            {
+                //and player has weapon component
+                whoHitWeaponComponent = whoHit.GetSavedComponent<AdvancedWeaponComponent>();
+                if (whoHitWeaponComponent)
+                {
+                    //if full of ammo, can't pick, call fail event
+                    if (whoHitWeaponComponent.IsFullOfAmmo(ammoType) && canPickAlsoIfFull == false)
+                    {
+                        onFailPickAmmo?.Invoke();
+                    }
+                    //else, pick and add quantity
+                    else
+                    {
+                        whoHitWeaponComponent.AddAmmo(ammoType, quantity);
+
+                        //call event
+                        onPickAmmo?.Invoke();
+
+                        //destroy this gameObject
+                        alreadyUsed = true;
+                        Destroy(gameObject);
+                    }
                 }
             }
         }
-    }
 
-    IEnumerator AutoDestruction()
-    {
-        //wait, then destroy
-        yield return new WaitForSeconds(timeBeforeDestroy);
-        alreadyUsed = true;
-        Destroy(gameObject);
+        IEnumerator AutoDestruction()
+        {
+            //wait, then destroy
+            yield return new WaitForSeconds(timeBeforeDestroy);
+            alreadyUsed = true;
+            Destroy(gameObject);
+        }
     }
 }

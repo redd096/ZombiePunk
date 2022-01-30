@@ -80,7 +80,7 @@ namespace redd096
         }
 #endif
 
-        void OnDisable()
+        protected virtual void OnDisable()
         {
             //be sure to stop reload when disable weapon
             AbortReload();
@@ -139,6 +139,11 @@ namespace redd096
 
                     //start reload coroutine
                     reloadCoroutine = StartCoroutine(ReloadCoroutine());
+                }
+                //if type is not NONE and there aren't ammo to reload, call event
+                else if (AmmoType != "NONE")
+                {
+                    onNoAmmoToReload?.Invoke();
                 }
             }
         }
@@ -254,10 +259,6 @@ namespace redd096
                 }
 
                 yield return null;
-
-                //if finished ammo, wait reloading
-                if (reloadCoroutine != null)
-                    yield return new WaitUntil(() => reloadCoroutine == null);
             }
         }
 
