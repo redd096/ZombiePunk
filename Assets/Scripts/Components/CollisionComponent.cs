@@ -473,8 +473,8 @@ namespace redd096
 						desiredPosition.y = firstHit.point.y - (bounds - transform.position.y);
 					}
 
-					//add to hits, to save hitting this way
-					if (addCollisionIfHitSomething)
+					//add to hits, to save hitting this way (only if update mode is not None, otherwise will be never reset)
+					if (addCollisionIfHitSomething && updateMode != EUpdateModes.None)
 					{
 						if (direction == EDirectionEnum.right) rightHits.Add(firstHit);
 						else if (direction == EDirectionEnum.left) leftHits.Add(firstHit);
@@ -483,7 +483,7 @@ namespace redd096
 					}
 				}
 
-				//call collision enter event (to not wait until update collisions)
+				//call collision enter event (to not wait until update collisions) - NB that is update mode is setted to None, will be never reset, so neither collision stay or collision exit will be called)
 				if (addCollisionIfHitSomething)
                 {
 					foreach (Collider2D col in hitsForCollisionEvent)
