@@ -15,6 +15,7 @@ public class CheckHitSomething : ConditionTask
     [SerializeField] float timeBeforeStartCheck = 0.2f;
 
     float timerBeforeCheck;
+    bool collisionComponentWasSettedToNone;
 
     protected override void OnInitTask()
     {
@@ -31,6 +32,13 @@ public class CheckHitSomething : ConditionTask
 
         //set timer before start check
         timerBeforeCheck = Time.time + timeBeforeStartCheck;
+
+        //if collision component has update mode to None, set to Coroutine
+        if (component && component.UpdateMode == CollisionComponent.EUpdateModes.None)
+        {
+            collisionComponentWasSettedToNone = true;                           //save before was setted to None
+            component.UpdateMode = CollisionComponent.EUpdateModes.Coroutine;
+        }
     }
 
     public override bool OnCheckTask()
@@ -41,6 +49,19 @@ public class CheckHitSomething : ConditionTask
 
         //check hit something
         return checkMovementDirection ? CheckOnlyMovementDirection() : CheckEveryHit();
+    }
+
+    public override void OnExitTask()
+    {
+        base.OnExitTask();
+
+        //if collision component had update mode to None, set it
+        if (collisionComponentWasSettedToNone && component && component.UpdateMode != CollisionComponent.EUpdateModes.None)
+        {
+            collisionComponentWasSettedToNone = false;
+            component.UpdateMode = CollisionComponent.EUpdateModes.None;
+            component.ClearHits();                                              //clear every hit registered during this task
+        }
     }
 
     #region private API
@@ -61,18 +82,17 @@ public class CheckHitSomething : ConditionTask
     {
         if(component && movementComponent)
         {
-            bool hitHorizontal = false;
-            bool hitVertical = false;
-
             //check hit right or left
             if (Mathf.Abs(movementComponent.MoveDirectionInput.x) > Mathf.Epsilon)
-                hitHorizontal = component.IsHitting(movementComponent.MoveDirectionInput.x > 0 ? CollisionComponent.EDirectionEnum.right : CollisionComponent.EDirectionEnum.left);
+                if (component.IsHitting(movementComponent.MoveDirectionInput.x > 0 ? CollisionComponent.EDirectionEnum.right : CollisionComponent.EDirectionEnum.left))
+                    return true;
 
             //check hit up or down
             if (Mathf.Abs(movementComponent.MoveDirectionInput.y) > Mathf.Epsilon)
-                hitVertical = component.IsHitting(movementComponent.MoveDirectionInput.y > 0 ? CollisionComponent.EDirectionEnum.up : CollisionComponent.EDirectionEnum.down);
+                if (component.IsHitting(movementComponent.MoveDirectionInput.y > 0 ? CollisionComponent.EDirectionEnum.up : CollisionComponent.EDirectionEnum.down))
+                    return true;
 
-            return hitHorizontal || hitVertical;
+            return false;
         }
 
         return true;

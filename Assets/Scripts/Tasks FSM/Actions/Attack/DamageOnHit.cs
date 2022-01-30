@@ -31,6 +31,12 @@ public class DamageOnHit : ActionTask
         if (collisionComponent == null)
             collisionComponent = GetStateMachineComponent<CollisionComponent>();
 
+        //if collision component has update mode to None, set to Coroutine
+        if (collisionComponent && collisionComponent.UpdateMode == CollisionComponent.EUpdateModes.None)
+        {
+            collisionComponent.UpdateMode = CollisionComponent.EUpdateModes.Coroutine;
+        }
+
         //add events
         if (collisionComponent)
         {

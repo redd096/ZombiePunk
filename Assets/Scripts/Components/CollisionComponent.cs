@@ -13,7 +13,7 @@ namespace redd096
 		public enum ECollisionResponse { Collision, Trigger, Ignore }
 
 		[Header("Check Raycasts")]
-		[Tooltip("Check collisions on Update or FixedUpdate?")] [SerializeField] EUpdateModes updateMode = EUpdateModes.Coroutine;
+		[Tooltip("Check collisions on Update or FixedUpdate? If setted to None don't check collisions, but can use CalculateReachablePosition to check if hit something when moving")] [SerializeField] EUpdateModes updateMode = EUpdateModes.Coroutine;
 		[Tooltip("Delay between updates using Coroutine method")] [EnableIf("updateMode", EUpdateModes.Coroutine)] [SerializeField] float timeCoroutine = 0.1f;
 		[Tooltip("Number of rays cast for every side horizontally")] [SerializeField] int numberOfHorizontalRays = 4;
 		[Tooltip("Number of rays cast for every side vertically")] [SerializeField] int numberOfVerticalRays = 4;
@@ -551,6 +551,17 @@ namespace redd096
 		}
 
 		/// <summary>
+		/// Clear every hit
+		/// </summary>
+		public void ClearHits()
+		{
+			rightHits.Clear();
+			leftHits.Clear();
+			upHits.Clear();
+			downHits.Clear();
+		}
+
+		/// <summary>
 		/// Return last center of the bounds (call UpdateBounds to have updated informations)
 		/// </summary>
 		/// <returns></returns>
@@ -663,6 +674,14 @@ namespace redd096
 				if (collidersToIgnore.Contains(col))
 					collidersToIgnore.Remove(col);
             }
+        }
+
+		/// <summary>
+		/// Clear every IgnoreCollision
+		/// </summary>
+		public void ClearIgnoreCollisions()
+        {
+			collidersToIgnore.Clear();
         }
 
 		#endregion
