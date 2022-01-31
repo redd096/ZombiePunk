@@ -14,7 +14,6 @@ public class CarMovement : MonoBehaviour
     void Start()
     {
         ogPos = new Vector3(gameObject.transform.position.x, gameObject.transform.position.y, gameObject.transform.position.z);
-        print(ogPos);
     }
 
     // Update is called once per frame
@@ -24,7 +23,6 @@ public class CarMovement : MonoBehaviour
 
         if (gameObject.transform.position.x <= final)
         {
-            print(ogPos);
             gameObject.transform.position = ogPos;
         }
     }
