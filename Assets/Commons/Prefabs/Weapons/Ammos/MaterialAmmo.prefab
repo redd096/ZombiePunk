@@ -11,9 +11,9 @@ GameObject:
   - component: {fileID: 7659776846337629610}
   - component: {fileID: 4008220108725001078}
   - component: {fileID: 5217361359594811681}
-  - component: {fileID: 4552773104498818861}
+  - component: {fileID: 2981902560973153160}
   m_Layer: 9
-  m_Name: GunAmmo
+  m_Name: MaterialAmmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -47,8 +47,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   collisionComponent: {fileID: 5217361359594811681}
-  ammoType: GunAmmo
-  quantity: 25
+  ammoType: MaterialAmmo
+  quantity: 5
   canPickAlsoIfFull: 0
   timeBeforeDestroy: 0
 --- !u!114 &5217361359594811681
@@ -73,7 +73,7 @@ MonoBehaviour:
     m_Bits: 0
   selfCollider: {fileID: 8992388946924360880}
   drawDebugInPlay: 0
---- !u!114 &4552773104498818861
+--- !u!114 &2981902560973153160
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -157,7 +157,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: d9032fef9b5838f41a2b21cbebf0a523, type: 3}
+  m_Sprite: {fileID: 21300000, guid: eadd0d39a67e1254f995917671733ffc, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -185,7 +185,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 0.32, y: 0.32}
+    oldSize: {x: 0.65, y: 0.65}
     newSize: {x: 1, y: 1}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -203,7 +203,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3635360939350925968}
-  - component: {fileID: 6177558572577798042}
   m_Layer: 9
   m_Name: Graphics
   m_TagString: Untagged
@@ -226,16 +225,3 @@ Transform:
   m_Father: {fileID: 7659776846337629610}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6177558572577798042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6850933882625406036}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e6eda73f29bca24e99a310746da3a8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 0
