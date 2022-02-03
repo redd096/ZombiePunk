@@ -4,25 +4,26 @@ using UnityEngine;
 
 public class TriggerWave : MonoBehaviour
 {
-    public GameObject Player;
+    public GameObject player;
+    public GameObject spawns;
+    public GameObject deactive;
+    public GameObject block;
 
-    public GameObject Spawns;
+    private void Start()
+    {
+        player = GameObject.Find("Player");
+    }
 
-    public GameObject Deactive;
-
-    public GameObject Block;
-    
     void OnTriggerEnter2D(Collider2D other)
     {
-        Spawns.SetActive(true);
-
-        Destroy(Deactive);
+        spawns.SetActive(true);
+        Destroy(deactive);
 
     }
 
     void OnTriggerExit2D(Collider2D other)
     {
-        Block.SetActive(true);
+        block.SetActive(true);
     }
 
 
