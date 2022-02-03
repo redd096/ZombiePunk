@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FroggerLevelTrigger : MonoBehaviour
 {
-    public GameObject levelEnter, levelPlay;
+    public GameObject levelEnter, levelPlay, game;
 
     private GameObject player;
 
@@ -17,14 +17,14 @@ public class FroggerLevelTrigger : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        
-    }
 
-   //private void OnTriggerEnter2D(Collider2D collision)
-   //{
-   //        levelPlay.SetActive(true);
-   //        levelEnter.SetActive(false);
-   //}
+    }
+  
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        game.SetActive(true);
+        print("DioMadonna");
+    }
 
     private void OnTriggerExit2D(Collider2D collision)
     {
