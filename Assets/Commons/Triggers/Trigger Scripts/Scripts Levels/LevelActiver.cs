@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LevelActiver : MonoBehaviour
 {
-    public GameObject Player;
+    public GameObject Trigger;
     public GameObject TilesOn;
 
     void OnTriggerEnter2D(Collider2D other)
@@ -12,5 +12,11 @@ public class LevelActiver : MonoBehaviour
         TilesOn.SetActive(true);
     }
 
-        
+    void OnTriggerExit2D(Collider2D other)
+    {
+        Trigger.SetActive(false);
+    }
+
+
+
 }
