@@ -26,7 +26,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2877685488117199882}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 2.151, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5051355881944137720}
@@ -74,7 +74,7 @@ MonoBehaviour:
   layersToIgnore:
     serializedVersion: 2
     m_Bits: 0
-  selfCollider: {fileID: 3491264349879141275}
+  selfCollider: {fileID: 0}
   drawDebugInPlay: 0
 --- !u!1 &3240873467862073219
 GameObject:
@@ -117,7 +117,7 @@ GameObject:
   m_Component:
   - component: {fileID: 6960506651452112895}
   - component: {fileID: 2156728821010756823}
-  - component: {fileID: 3491264349879141275}
+  - component: {fileID: 8612106901300645946}
   m_Layer: 9
   m_Name: New Sprite
   m_TagString: Untagged
@@ -134,7 +134,7 @@ Transform:
   m_GameObject: {fileID: 3634397140274371864}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 3, y: 3, z: 1}
   m_Children: []
   m_Father: {fileID: 5051355881944137720}
   m_RootOrder: 0
@@ -178,8 +178,8 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: -2
-  m_Sprite: {fileID: 21300000, guid: f5130abc4b5636749a9fe73ab75545ea, type: 3}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 2babdecdee0dc934ab8ae6386f7ec891, type: 3}
+  m_Color: {r: 0.5349559, g: 0.7075472, b: 0, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -189,7 +189,7 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
---- !u!58 &3491264349879141275
+--- !u!58 &8612106901300645946
 CircleCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -202,6 +202,6 @@ CircleCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: -0.114614725}
+  m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 0.8071263
+  m_Radius: 0.325
