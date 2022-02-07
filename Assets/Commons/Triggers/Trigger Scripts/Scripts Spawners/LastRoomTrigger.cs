@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class LastRoomTrigger : MonoBehaviour
 {
-    public GameObject Player;
+    
 
     public GameObject Spawns;
 

@@ -4,7 +4,6 @@ using UnityEngine;
 
 public class StartTrigger : MonoBehaviour
 {
-    public GameObject Player;
 
     public GameObject Spawns;
 
