@@ -11,12 +11,12 @@ namespace redd096
 
         [Header("Update camera position to follow this object")]
         [SerializeField] bool updatePosition = true;
-        [Tooltip("Use LateUpdate or Update to move the camera?")] [SerializeField] bool useLateUpdate = true;
+        [Tooltip("Use LateUpdate or Update to move the camera?")] [EnableIf("updatePosition")] [SerializeField] bool useLateUpdate = true;
         [EnableIf("updatePosition")] [SerializeField] Vector3 offsetPosition = new Vector3(0, 0, -10);
 
         [Header("Clamp camera position to pixelsPerUnit")]
         [SerializeField] bool usePixelClamp = false;
-        [SerializeField] float pixelsPerUnit = 16;
+        [EnableIf("usePixelClamp")] [SerializeField] float pixelsPerUnit = 16;
 
         [Header("Drop Camera On Death (necessary HealthComponent - default get from this gameObject)")]
         [SerializeField] bool dropCameraOnDeath = true;
@@ -59,10 +59,10 @@ namespace redd096
 
         void Update()
         {
-            if (useLateUpdate == false)
+            //update camera position if necessary
+            if (updatePosition && useLateUpdate == false)
             {
-                //update camera position if necessary
-                if (updatePosition && cameraParent)
+                if (cameraParent)
                 {
                     MoveCamera();
                 }
@@ -71,10 +71,10 @@ namespace redd096
 
         void LateUpdate()
         {
-            if (useLateUpdate)
+            //update camera position if necessary
+            if (updatePosition && useLateUpdate)
             {
-                //update camera position if necessary
-                if (updatePosition && cameraParent)
+                if (cameraParent)
                 {
                     MoveCamera();
                 }
@@ -102,7 +102,7 @@ namespace redd096
 
         void MoveCamera()
         {
-            //move camera clamping to pixelPerUnit
+            //move camera clamped to pixelPerUnit
             if (usePixelClamp)
             {
                 movement = (transform.position + offsetPosition) - cameraParent.position;   //calculate movement
