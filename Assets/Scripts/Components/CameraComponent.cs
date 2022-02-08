@@ -13,11 +13,17 @@ namespace redd096
         [SerializeField] bool updatePosition = true;
         [EnableIf("updatePosition")] [SerializeField] Vector3 offsetPosition = new Vector3(0, 0, -10);
 
+        [Header("Pixel Clamp")]
+        [SerializeField] bool usePixelClamp = false;
+        [SerializeField] float pixelsPerUnit = 16;
+
         [Header("Drop Camera On Death (necessary HealthComponent - default get from this gameObject)")]
         [SerializeField] bool dropCameraOnDeath = true;
         [EnableIf("dropCameraOnDeath")] [SerializeField] HealthComponent healthComponent = default;
 
         Transform cameraParent;
+        Vector3 movement;
+        Vector3 oldPosition;
 
         void OnEnable()
         {
@@ -54,7 +60,9 @@ namespace redd096
         {
             //update camera position if necessary
             if (updatePosition && cameraParent)
-                cameraParent.position = transform.position + offsetPosition;
+            {
+                MoveCamera();
+            }
         }
 
         void OnDie(HealthComponent whoDied)
@@ -73,5 +81,33 @@ namespace redd096
                 }
             }
         }
+
+        #region private API
+
+        void MoveCamera()
+        {
+            //move camera clamping to pixelPerUnit
+            if (usePixelClamp)
+            {
+                movement = (transform.position + offsetPosition) - cameraParent.position;   //calculate movement
+                movement = PixelClamp(movement);                                            //clamp movement to pixelPerUnit
+                oldPosition = PixelClamp(cameraParent.position);                            //clamp old position to pixelsPerUnit
+
+                cameraParent.position = oldPosition + movement;                             //set new position using clamped values
+            }
+            //just move camera to position + offset
+            else
+            {
+                cameraParent.position = transform.position + offsetPosition;
+            }
+        }
+
+        Vector3 PixelClamp(Vector3 position)
+        {
+            //round position * pixelsPerUnit, then divide by pixelsPerUnit
+            return new Vector3(Mathf.RoundToInt(position.x * pixelsPerUnit), Mathf.RoundToInt(position.y * pixelsPerUnit), Mathf.RoundToInt(position.z * pixelsPerUnit)) / pixelsPerUnit;
+        }
+
+        #endregion
     }
 }
