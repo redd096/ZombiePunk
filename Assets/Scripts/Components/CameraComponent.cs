@@ -11,9 +11,10 @@ namespace redd096
 
         [Header("Update camera position to follow this object")]
         [SerializeField] bool updatePosition = true;
+        [Tooltip("Use LateUpdate or Update to move the camera?")] [SerializeField] bool useLateUpdate = true;
         [EnableIf("updatePosition")] [SerializeField] Vector3 offsetPosition = new Vector3(0, 0, -10);
 
-        [Header("Pixel Clamp")]
+        [Header("Clamp camera position to pixelsPerUnit")]
         [SerializeField] bool usePixelClamp = false;
         [SerializeField] float pixelsPerUnit = 16;
 
@@ -56,12 +57,27 @@ namespace redd096
             }
         }
 
+        void Update()
+        {
+            if (useLateUpdate == false)
+            {
+                //update camera position if necessary
+                if (updatePosition && cameraParent)
+                {
+                    MoveCamera();
+                }
+            }
+        }
+
         void LateUpdate()
         {
-            //update camera position if necessary
-            if (updatePosition && cameraParent)
+            if (useLateUpdate)
             {
-                MoveCamera();
+                //update camera position if necessary
+                if (updatePosition && cameraParent)
+                {
+                    MoveCamera();
+                }
             }
         }
 
