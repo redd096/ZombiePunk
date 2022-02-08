@@ -56,7 +56,7 @@ namespace redd096
             }
         }
 
-        void Update()
+        void LateUpdate()
         {
             //update camera position if necessary
             if (updatePosition && cameraParent)
