@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-using NaughtyAttributes;
+//using NaughtyAttributes;
 
 namespace redd096
 {
@@ -19,9 +19,9 @@ namespace redd096
         [SerializeField] EWeaponOnDeath destroyWeaponOnDeath = EWeaponOnDeath.EveryWeapon;
         [SerializeField] HealthComponent healthComponent = default;
 
-        [Header("DEBUG")]
-        [ReadOnly] public WeaponBASE[] CurrentWeapons = default;    //it will be always the same size of Max Weapons
-        [ReadOnly] [SerializeField] int indexEquippedWeapon = 0;    //it will be always the correct index, or zero
+        //[Header("DEBUG")]
+        /*[ReadOnly]*/ public WeaponBASE[] CurrentWeapons = default;    //it will be always the same size of Max Weapons
+        /*[ReadOnly]*/ [SerializeField] int indexEquippedWeapon = 0;    //it will be always the correct index, or zero
 
         //the equipped weapon
         public WeaponBASE CurrentWeapon => CurrentWeapons != null && indexEquippedWeapon < CurrentWeapons.Length ? CurrentWeapons[indexEquippedWeapon] : null;

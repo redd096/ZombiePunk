@@ -58,8 +58,8 @@ namespace redd096
         [Header("Ammo Limits and Default Ammos")]
         [OnValueChanged("SetDefaultLimitAmmosFromEditorToDictionary")] [SerializeField] AmmoStruct[] defaultLimitAmmos = default;
         [SerializeField] List<AmmoStruct> defaultAmmos = new List<AmmoStruct>();
-        [ReadOnly] [SerializeField] List<DebugAmmoStruct> CurrentLimitAmmosDebug = new List<DebugAmmoStruct>();
-        [ReadOnly] [SerializeField] List<DebugAmmoStruct> CurrentAmmosDebug = new List<DebugAmmoStruct>();
+        /*[ReadOnly] [SerializeField]*/ List<DebugAmmoStruct> CurrentLimitAmmosDebug = new List<DebugAmmoStruct>();
+        /*[ReadOnly] [SerializeField]*/ List<DebugAmmoStruct> CurrentAmmosDebug = new List<DebugAmmoStruct>();
 
         //ammos - type, number
         Dictionary<string, int> currentLimitAmmos = new Dictionary<string, int>();

@@ -12,8 +12,8 @@ public class SpawnManager : MonoBehaviour
     [ReorderableList] [SerializeField] SpawnStruct[] spawnsList = default;
 
     [Header("DEBUG")]
-    [ReadOnly] [SerializeField] List<Spawn> spawnsActive = new List<Spawn>();
-    [ShowNonSerializedField] int index = 0;
+    /*[ReadOnly] [SerializeField]*/ List<Spawn> spawnsActive = new List<Spawn>();
+    /*[ShowNonSerializedField]*/ int index = 0;
 
     //events
     public System.Action<Spawn[]> onActiveList { get; set; }                //called when active a list of spawns

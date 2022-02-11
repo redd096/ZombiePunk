@@ -1,16 +1,16 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using redd096;
-using NaughtyAttributes;
+//using NaughtyAttributes;
 
 [DefaultExecutionOrder(-5)]
 public class LevelManager : MonoBehaviour
 {
-    [Header("Elements in scene by default")]
-    [ReadOnly] public HashSet<Character> Players = new HashSet<Character>();
-    [ReadOnly] public HashSet<Character> Enemies = new HashSet<Character>();
-    [ReadOnly] public HashSet<SpawnManager> SpawnManagers = new HashSet<SpawnManager>();
-    [ReadOnly] public HashSet<ExitInteractable> Exits = new HashSet<ExitInteractable>();
+    //[Header("Elements in scene by default")]
+    /*[ReadOnly]*/ public HashSet<Character> Players = new HashSet<Character>();
+    /*[ReadOnly]*/ public HashSet<Character> Enemies = new HashSet<Character>();
+    /*[ReadOnly]*/ public HashSet<SpawnManager> SpawnManagers = new HashSet<SpawnManager>();
+    /*[ReadOnly]*/ public HashSet<ExitInteractable> Exits = new HashSet<ExitInteractable>();
 
     void Awake()
     {

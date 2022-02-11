@@ -26,10 +26,10 @@ namespace redd096
 
 		[Header("DEBUG")]
 		[SerializeField] bool drawDebugInPlay = false;
-		[ShowNativeProperty] bool IsHittingRight => rightHits.Count > 0;
-		[ShowNativeProperty] bool IsHittingLeft => leftHits.Count > 0;
-		[ShowNativeProperty] bool IsHittingUp => upHits.Count > 0;
-		[ShowNativeProperty] bool IsHittingDown => downHits.Count > 0;
+		//[ShowNativeProperty] bool IsHittingRight => rightHits.Count > 0;
+		//[ShowNativeProperty] bool IsHittingLeft => leftHits.Count > 0;
+		//[ShowNativeProperty] bool IsHittingUp => upHits.Count > 0;
+		//[ShowNativeProperty] bool IsHittingDown => downHits.Count > 0;
 		
 		public EUpdateModes UpdateMode { get => updateMode; set => updateMode = value; }
 

@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
-using NaughtyAttributes;
+//using NaughtyAttributes;
 using redd096;
 
 public class Spawn : MonoBehaviour
@@ -11,8 +11,8 @@ public class Spawn : MonoBehaviour
     [SerializeField] GameObject[] prefabsToSpawn = default;
 
     [Header("DEBUG")]
-    [ReadOnly] [SerializeField] List<HealthComponent> spawnedAlives = new List<HealthComponent>();
-    [ShowNonSerializedField] int index = 0;
+    /*[ReadOnly] [SerializeField]*/ List<HealthComponent> spawnedAlives = new List<HealthComponent>();
+    /*[ShowNonSerializedField]*/ int index = 0;
 
     //events
     public System.Action<GameObject> onSpawn { get; set; }              //called when spawn an object

@@ -15,7 +15,7 @@ namespace redd096
 
         [Header("DEBUG")]
         [ProgressBar("Health", "MaxHealth", EColor.Red)] public float CurrentHealth = 100;
-        [ReadOnly] [ShowNonSerializedField] bool alreadyDead = false;
+        /*[ReadOnly] [ShowNonSerializedField]*/ bool alreadyDead = false;
 
         //events
         public System.Action onGetDamage { get; set; }

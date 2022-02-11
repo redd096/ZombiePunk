@@ -16,7 +16,7 @@ namespace redd096
         [SerializeField] [Scene] string sceneToLoad = default;
 
         [Header("DEBUG")]
-        [ReadOnly] [ShowNonSerializedField] bool isOpen;
+        /*[ReadOnly] [ShowNonSerializedField]*/ bool isOpen;
         public bool IsOpen => isOpen;
 
         [Button("ForceExit", EButtonEnableMode.Playmode)] public void ForceExit() => ChangeExitState();

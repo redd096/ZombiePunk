@@ -34,9 +34,9 @@ namespace redd096
 
         [Header("DEBUG")]
         [SerializeField] bool drawDebug = false;
-        [ReadOnly] [SerializeField] Vector2 direction = Vector2.zero;
-        [ReadOnly] [SerializeField] float damage = 0;
-        [ReadOnly] [SerializeField] float bulletSpeed = 0;
+        /*[ReadOnly] [SerializeField]*/ Vector2 direction = Vector2.zero;
+        /*[ReadOnly] [SerializeField]*/ float damage = 0;
+        /*[ReadOnly] [SerializeField]*/ float bulletSpeed = 0;
 
         [HideInInspector] public Character Owner;
         WeaponRange weapon;
