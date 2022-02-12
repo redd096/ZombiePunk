@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using redd096;
+using redd096.PathFinding2D;
 
 [AddComponentMenu("redd096/Tasks FSM/Action/PathFinding/Patrol With Path Finding")]
 public class PatrolWithPathFinding : ActionTask

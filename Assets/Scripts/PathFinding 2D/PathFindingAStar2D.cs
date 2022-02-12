@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 
-namespace redd096
+namespace redd096.PathFinding2D
 {
     /// <summary>
     /// Call this to calculate a path using pathfinding or to update the grid

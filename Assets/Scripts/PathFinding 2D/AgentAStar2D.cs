@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using NaughtyAttributes;
 
-namespace redd096
+namespace redd096.PathFinding2D
 {
     /// <summary>
     /// Used to know size of the agent. When call PathFinding you can pass it as parameter

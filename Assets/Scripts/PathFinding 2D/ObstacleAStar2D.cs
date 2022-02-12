@@ -2,7 +2,7 @@
 using UnityEngine;
 using NaughtyAttributes;
 
-namespace redd096
+namespace redd096.PathFinding2D
 {
     /// <summary>
     /// Used to create dynamic NotWalkable nodes on the grid

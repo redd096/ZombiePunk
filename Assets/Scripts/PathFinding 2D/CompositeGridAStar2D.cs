@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace redd096
+namespace redd096.PathFinding2D
 {
     /// <summary>
     /// Used to create a single grid using every grid in the scene
@@ -25,12 +25,12 @@ namespace redd096
         //return setted position
         public override Vector2 GridWorldPosition => gridWorldPosition;
 
-        protected override void SetGridSize()
+        protected override void SetGrid()
         {
             //get every grid in scene and update composite grid
             GetGridsAndUpdateCompositeGrid();
 
-            base.SetGridSize();
+            base.SetGrid();
         }
 
         protected override bool IsWalkable(Vector2 worldPosition, out bool agentCanMoveThrough)
