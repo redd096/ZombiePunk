@@ -24,7 +24,7 @@ public class PatrolWithPathFinding : ActionTask
     float timerBeforeNextUpdatePath;
     Vector2 startPosition;
     float waitTimer;
-    List<Node2D> path;
+    List<Vector2> path;
     bool isProcessingPath;
 
     void OnDrawGizmos()
@@ -43,7 +43,7 @@ public class PatrolWithPathFinding : ActionTask
                 for (int i = 0; i < path.Count; i++)
                 {
                     if (i + 1 < path.Count)
-                        Gizmos.DrawLine(path[i].worldPosition, path[i + 1].worldPosition);
+                        Gizmos.DrawLine(path[i], path[i + 1]);
                 }
                 Gizmos.color = Color.white;
             }
@@ -58,12 +58,6 @@ public class PatrolWithPathFinding : ActionTask
         if (component == null) component = GetStateMachineComponent<MovementComponent>();
         if (aimComponent == null) aimComponent = GetStateMachineComponent<AimComponent>();
         if (agentAStar == null) agentAStar = GetStateMachineComponent<AgentAStar2D>();
-
-        //show warnings if not found
-        if (GameManager.instance == null)
-            Debug.LogWarning("Miss GameManager in scene");
-        else if (PathFindingAStar2D.instance == null)
-            Debug.LogWarning("Miss PathFinding in scene");
 
         //save start position
         startPosition = transformTask.position;
@@ -117,15 +111,15 @@ public class PatrolWithPathFinding : ActionTask
             Vector3 randomPoint = startPosition + Random.insideUnitCircle * radiusPatrol;
 
             //get path
-            if (PathFindingAStar2D.instance && isProcessingPath == false)
+            if (agentAStar && isProcessingPath == false)
             {
                 isProcessingPath = true;
-                PathFindingAStar2D.instance.FindPath(transformTask.position, randomPoint, OnFindPath, agentAStar);
+                agentAStar.FindPath(transformTask.position, randomPoint, OnFindPath);
             }
         }
     }
 
-    void OnFindPath(List<Node2D> path)
+    void OnFindPath(List<Vector2> path)
     {
         //set path
         this.path = path;
@@ -136,17 +130,17 @@ public class PatrolWithPathFinding : ActionTask
     {
         //move to node
         if(component)
-            component.MoveInDirection((path[0].worldPosition - (Vector2)transformTask.position).normalized, speedPatrol);
+            component.MoveTo(path[0], speedPatrol);
 
         //aim at next node of the path
         if (aimComponent)
-            aimComponent.AimAt(path[0].worldPosition);
+            aimComponent.AimAt(path[0]);
     }
 
     void CheckReachNode()
     {
         //if reach node, remove from list
-        if (Vector2.Distance(transformTask.position, path[0].worldPosition) <= approxReachNode)
+        if (Vector2.Distance(transformTask.position, path[0]) <= approxReachNode)
         {
             path.RemoveAt(0);
         }

@@ -22,7 +22,7 @@ public class ChaseWithPathFinding : ActionTask
 
     float timerBeforeNextUpdatePath;
     Transform target;
-    List<Node2D> path;
+    List<Vector2> path;
     bool isPathProcessing;
     //Node2D lastWalkableNode;
 
@@ -38,7 +38,7 @@ public class ChaseWithPathFinding : ActionTask
                 for (int i = 0; i < path.Count; i++)
                 {
                     if (i + 1 < path.Count)
-                        Gizmos.DrawLine(path[i].worldPosition, path[i + 1].worldPosition);
+                        Gizmos.DrawLine(path[i], path[i + 1]);
                 }
                 Gizmos.color = Color.white;
             }
@@ -53,12 +53,6 @@ public class ChaseWithPathFinding : ActionTask
         if (component == null) component = GetStateMachineComponent<MovementComponent>();
         if (aimComponent == null) aimComponent = GetStateMachineComponent<AimComponent>();
         if (agentAStar == null) agentAStar = GetStateMachineComponent<AgentAStar2D>();
-
-        //show warnings if not found
-        if (GameManager.instance == null)
-            Debug.LogWarning("Miss GameManager in scene");
-        else if (PathFindingAStar2D.instance == null)
-            Debug.LogWarning("Miss PathFinding in scene");
     }
 
     public override void OnEnterTask()
@@ -92,7 +86,7 @@ public class ChaseWithPathFinding : ActionTask
             //    lastWalkableNode = currentNode;
 
             //move and aim to next node
-            MoveAndAim(path[0].worldPosition);
+            MoveAndAim();
             CheckReachNode();
         }
         ////if there is no path, move straight to target (only if last walkable node is setted)
@@ -123,36 +117,36 @@ public class ChaseWithPathFinding : ActionTask
             timerBeforeNextUpdatePath = Time.time + delayRecalculatePath;
 
             //get path
-            if (PathFindingAStar2D.instance && isPathProcessing == false)
+            if (agentAStar && isPathProcessing == false)
             {
                 isPathProcessing = true;
-                PathFindingAStar2D.instance.FindPath(transformTask.position, target.position, OnFindPath, agentAStar);
+                agentAStar.FindPath(transformTask.position, target.position, OnFindPath);
             }
         }
     }
 
-    void OnFindPath(List<Node2D> path)
+    void OnFindPath(List<Vector2> path)
     {
         //set path
         this.path = path;
         isPathProcessing = false;
     }
 
-    void MoveAndAim(Vector3 destination)
+    void MoveAndAim()
     {
         //move to destination
-        if(component)
-            component.MoveInDirection((destination - transformTask.position).normalized, speedChase);
+        if (component)
+            component.MoveTo(path[0], speedChase);
 
         //aim at destination
         if (aimComponent)
-            aimComponent.AimAt(destination);
+            aimComponent.AimAt(path[0]);
     }
 
     void CheckReachNode()
     {
         //if reach node, remove from list
-        if (Vector2.Distance(transformTask.position, path[0].worldPosition) <= approxReachNode)
+        if (Vector2.Distance(transformTask.position, path[0]) <= approxReachNode)
         {
             path.RemoveAt(0);
         }
