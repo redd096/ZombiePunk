@@ -216,7 +216,7 @@ MonoBehaviour:
   offsetRays: 0.01
   layersToIgnore:
     serializedVersion: 2
-    m_Bits: 2560
+    m_Bits: 512
   selfCollider: {fileID: 3832161720222177754}
   drawDebugInPlay: 0
 --- !u!114 &3832161719942337416
@@ -331,6 +331,9 @@ MonoBehaviour:
   typeCollider: 1
   sizeCollider: {x: 1, y: 1}
   radiusCollider: 1
+  setUnwalkable: 0
+  addPenalty: 1
+  penalty: 1000
   drawDebug: 0
 --- !u!114 &3832161719942337412
 MonoBehaviour:
@@ -553,7 +556,7 @@ MonoBehaviour:
   - {x: -0.3, y: -0.5, z: 0}
   m_ShapePathHash: 1800385341
   m_Mesh: {fileID: 0}
-  m_InstanceId: 29680
+  m_InstanceId: 258290
 --- !u!1 &8590413540878556233
 GameObject:
   m_ObjectHideFlags: 0

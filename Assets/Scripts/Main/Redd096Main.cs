@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace redd096
 {
+    [SelectionBase]
     [AddComponentMenu("redd096/Main/redd096Main")]
     public class Redd096Main : MonoBehaviour
     {

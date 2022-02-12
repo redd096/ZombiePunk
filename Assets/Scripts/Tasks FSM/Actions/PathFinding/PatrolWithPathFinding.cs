@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using redd096;
 using redd096.PathFinding2D;
 
 [AddComponentMenu("redd096/Tasks FSM/Action/PathFinding/Patrol With Path Finding")]
 public class PatrolWithPathFinding : ActionTask
 {
-    [Header("Necessary Components - default get in parent or GameManager")]
+    [Header("Necessary Components - default get in parent")]
     [SerializeField] MovementComponent component;
     [SerializeField] AimComponent aimComponent;
     [SerializeField] AgentAStar2D agentAStar;
@@ -19,13 +18,12 @@ public class PatrolWithPathFinding : ActionTask
     [Header("DEBUG")]
     [SerializeField] bool drawDebug = false;
     [Range(0f, 0.5f)] [SerializeField] float approxReachNode = 0.05f;
-    [SerializeField] float delayRecalculatePath = 0.2f;
+    [SerializeField] float delayRecalculatePath = 0.5f;
 
     float timerBeforeNextUpdatePath;
     Vector2 startPosition;
     float waitTimer;
-    List<Vector2> path;
-    bool isProcessingPath;
+    Path path;
 
     void OnDrawGizmos()
     {
@@ -37,13 +35,13 @@ public class PatrolWithPathFinding : ActionTask
             Gizmos.color = Color.white;
 
             //draw path
-            if (path != null && path.Count > 0)
+            if (path != null && path.vectorPath != null && path.vectorPath.Count > 0)
             {
                 Gizmos.color = Color.cyan;
-                for (int i = 0; i < path.Count; i++)
+                for (int i = 0; i < path.vectorPath.Count; i++)
                 {
-                    if (i + 1 < path.Count)
-                        Gizmos.DrawLine(path[i], path[i + 1]);
+                    if (i + 1 < path.vectorPath.Count)
+                        Gizmos.DrawLine(path.vectorPath[i], path.vectorPath[i + 1]);
                 }
                 Gizmos.color = Color.white;
             }
@@ -67,9 +65,13 @@ public class PatrolWithPathFinding : ActionTask
     {
         base.OnEnterTask();
 
+        //stop previous path request
+        if (agentAStar && agentAStar.IsDone() == false)
+            agentAStar.CancelLastPathRequest();
+
         //remove previous path
         if (path != null)
-            path.Clear();
+            path = null;
     }
 
     public override void OnUpdateTask()
@@ -77,13 +79,13 @@ public class PatrolWithPathFinding : ActionTask
         base.OnUpdateTask();
 
         //if there is no path, find new one (at start or when reach destination)
-        if (path == null || path.Count <= 0)
+        if (path == null || path.vectorPath == null || path.vectorPath.Count <= 0)
         {
             FindNewPath();
             return;
         }
 
-        //wait
+        //wait when reached destination, before start moving again
         if (waitTimer > Time.time)
         {
             return;
@@ -101,8 +103,8 @@ public class PatrolWithPathFinding : ActionTask
 
     void FindNewPath()
     {
-        //delay between every update of the path
-        if (Time.time > timerBeforeNextUpdatePath)
+        //delay between every update of the path (every few seconds, only if already calculated previous path)
+        if (Time.time > timerBeforeNextUpdatePath && agentAStar && agentAStar.IsDone())
         {
             //reset timer
             timerBeforeNextUpdatePath = Time.time + delayRecalculatePath;
@@ -111,45 +113,40 @@ public class PatrolWithPathFinding : ActionTask
             Vector3 randomPoint = startPosition + Random.insideUnitCircle * radiusPatrol;
 
             //get path
-            if (agentAStar && isProcessingPath == false)
-            {
-                isProcessingPath = true;
-                agentAStar.FindPath(transformTask.position, randomPoint, OnFindPath);
-            }
+            agentAStar.FindPath(transformTask.position, randomPoint, OnPathComplete);
         }
     }
 
-    void OnFindPath(List<Vector2> path)
+    void OnPathComplete(Path path)
     {
         //set path
         this.path = path;
-        isProcessingPath = false;
     }
 
     void MoveAndAimToNextNode()
     {
         //move to node
         if(component)
-            component.MoveTo(path[0], speedPatrol);
+            component.MoveTo(path.vectorPath[0], speedPatrol);
 
         //aim at next node of the path
         if (aimComponent)
-            aimComponent.AimAt(path[0]);
+            aimComponent.AimAt(path.vectorPath[0]);
     }
 
     void CheckReachNode()
     {
         //if reach node, remove from list
-        if (Vector2.Distance(transformTask.position, path[0]) <= approxReachNode)
+        if (Vector2.Distance(transformTask.position, path.vectorPath[0]) <= approxReachNode)
         {
-            path.RemoveAt(0);
+            path.vectorPath.RemoveAt(0);
         }
     }
 
     void CheckReachEndPath()
     {
         //when reach destination, set wait timer
-        if (path == null || path.Count <= 0)
+        if (path == null || path.vectorPath == null || path.vectorPath.Count <= 0)
         {
             waitTimer = Time.time + timeToWaitWhenReach;
         }
