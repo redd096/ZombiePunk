@@ -238,7 +238,6 @@ MonoBehaviour:
   drag: 5
   removePushForceWhenHit: 1
   collisionComponent: {fileID: 3832161719942337419}
-  tempFixCollisionComponent: 1
   rb: {fileID: 0}
   IsMovingRight: 1
   MoveDirectionInput: {x: 0, y: 0}
@@ -311,10 +310,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 0}
   typeCollider: 1
-  sizeCollider: {x: 1, y: 1}
+  sizeCollider: {x: 0.5, y: 0.5}
   radiusCollider: 1
   obstacleAStar: {fileID: 2909709813193156785}
-  drawDebug: 0
+  drawDebug: 1
 --- !u!114 &2909709813193156785
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -329,10 +328,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   offset: {x: 0, y: 0}
   typeCollider: 1
-  sizeCollider: {x: 1, y: 1}
+  sizeCollider: {x: 0.5, y: 0.5}
   radiusCollider: 1
-  setUnwalkable: 0
-  addPenalty: 1
+  setUnwalkable: 1
+  addPenalty: 0
   penalty: 1000
   drawDebug: 0
 --- !u!114 &3832161719942337412
@@ -556,7 +555,7 @@ MonoBehaviour:
   - {x: -0.3, y: -0.5, z: 0}
   m_ShapePathHash: 1800385341
   m_Mesh: {fileID: 0}
-  m_InstanceId: 258290
+  m_InstanceId: 362998
 --- !u!1 &8590413540878556233
 GameObject:
   m_ObjectHideFlags: 0
