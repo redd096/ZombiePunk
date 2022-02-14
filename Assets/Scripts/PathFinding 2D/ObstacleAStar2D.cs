@@ -203,7 +203,7 @@ namespace redd096.PathFinding2D
         void SetNodesUsingColliders()
         {
             //foreach collider
-            foreach (Collider2D col in GetComponentsInChildren<Collider2D>())
+            foreach (Collider2D col in colliders)
             {
                 if (col == null)
                     continue;
