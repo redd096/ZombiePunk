@@ -53,6 +53,12 @@ public class CheatMode : MonoBehaviour
         {
             UnityEditor.EditorApplication.isPaused = true;
         }
+        //F11 disable every canvas
+        else if (Keyboard.current.f11Key.wasPressedThisFrame)
+        {
+            foreach (Canvas canvas in FindObjectsOfType<Canvas>())
+                canvas.gameObject.SetActive(!canvas.gameObject.activeInHierarchy);
+        }
 #endif
     }
 

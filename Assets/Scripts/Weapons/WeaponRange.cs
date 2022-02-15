@@ -22,12 +22,9 @@ namespace redd096
         public float Damage = 10;
         public float BulletSpeed = 10;
 
-        [Header("Ammo")]
-        public bool hasAmmo = true;
-        [Dropdown("GetAllAmmoTypes")] [EnableIf("hasAmmo")] public string AmmoType = "GunAmmo";
-        [OnValueChanged("ChangedMaxAmmo")] [EnableIf("hasAmmo")] [Min(0)] public int maxAmmo = 32;
-        [ReadOnly] public int currentAmmo = 32;
-        [EnableIf("hasAmmo")] public float delayReload = 1;
+        [Header("Ammo - NONE = always full")]
+        [Dropdown("GetAllAmmoTypes")] public string AmmoType = "NONE";
+        [Tooltip("When pick this weapon for the first time, pick also ammo")] public int AmmoOnPick = 12;
 
         [Header("DEBUG")]
         [SerializeField] bool drawDebug = false;
@@ -35,7 +32,6 @@ namespace redd096
         //private
         float timeForNextShot;
         Coroutine automaticShootCoroutine;
-        Coroutine reloadCoroutine;
 
         //bullets
         Pooling<Bullet> bulletsPooling = new Pooling<Bullet>();
@@ -45,19 +41,11 @@ namespace redd096
         //events
         public System.Action<Transform> onInstantiateBullet { get; set; }
         public System.Action onShoot { get; set; }
+        public System.Action onFailShoot { get; set; }
         public System.Action onPressAttack { get; set; }
         public System.Action onReleaseAttack { get; set; }
-        public System.Action onStartReload { get; set; }
-        public System.Action onEndReload { get; set; }
-        public System.Action onAbortReload { get; set; }
-        public System.Action onNoAmmoToReload { get; set; }
 
 #if UNITY_EDITOR
-        void ChangedMaxAmmo()
-        {
-            //when change max ammo, reset current ammo (used by editor)
-            currentAmmo = maxAmmo;
-        }
 
         string[] GetAllAmmoTypes()
         {
@@ -78,21 +66,8 @@ namespace redd096
 
             return values.ToArray();
         }
+
 #endif
-
-        protected virtual void OnDisable()
-        {
-            //be sure to stop reload when disable weapon
-            AbortReload();
-        }
-
-        public override void DropWeapon()
-        {
-            base.DropWeapon();
-
-            //be sure to stop reload when dropped
-            AbortReload();
-        }
 
         public override void PressAttack()
         {
@@ -126,41 +101,6 @@ namespace redd096
             onReleaseAttack?.Invoke();
         }
 
-        public void Reload()
-        {
-            //do only if this weapon has ammo, and is not full (and is not already reloading)
-            if (hasAmmo && currentAmmo < maxAmmo && reloadCoroutine == null)
-            {
-                //only if type NONE (so not use real ammos) or owner has ammo of this type
-                if (AmmoType == "NONE" || (Owner && Owner.GetSavedComponent<AdvancedWeaponComponent>() && Owner.GetSavedComponent<AdvancedWeaponComponent>().GetCurrentAmmo(AmmoType) > 0))
-                {
-                    //call event
-                    onStartReload?.Invoke();
-
-                    //start reload coroutine
-                    reloadCoroutine = StartCoroutine(ReloadCoroutine());
-                }
-                //if type is not NONE and there aren't ammo to reload, call event
-                else if (AmmoType != "NONE")
-                {
-                    onNoAmmoToReload?.Invoke();
-                }
-            }
-        }
-
-        public void AbortReload()
-        {
-            //stop reload coroutine if running
-            if (reloadCoroutine != null)
-            {
-                StopCoroutine(reloadCoroutine);
-                reloadCoroutine = null;
-
-                //call event
-                onAbortReload?.Invoke();
-            }
-        }
-
         #region private API
 
         /// <summary>
@@ -168,20 +108,19 @@ namespace redd096
         /// </summary>
         void Shoot()
         {
-            //if this weapon has ammo
-            if (hasAmmo)
+            //if this weapon need ammos
+            if (AmmoType != "NONE" && Owner && Owner.GetSavedComponent<AdvancedWeaponComponent>())
             {
-                //if there are not enough ammos, start reload instead of shoot
-                if (currentAmmo <= 0)
+                //if there are not enough ammos, fail shoot
+                if (Owner.GetSavedComponent<AdvancedWeaponComponent>().GetCurrentAmmo(AmmoType) <= 0)
                 {
-                    Reload();
+                    onFailShoot?.Invoke();
                     return;
                 }
                 //else remove ammos
                 else
                 {
-                    currentAmmo--;
-                    AbortReload();  //be sure is not reloading
+                    Owner.GetSavedComponent<AdvancedWeaponComponent>().AddAmmo(AmmoType, -1);
                 }
             }
 
@@ -260,34 +199,6 @@ namespace redd096
 
                 yield return null;
             }
-        }
-
-        IEnumerator ReloadCoroutine()
-        {
-            //wait
-            yield return new WaitForSeconds(delayReload);
-
-            //then reload all ammos if type is NONE
-            if (AmmoType == "NONE")
-            {
-                currentAmmo = maxAmmo;
-            }
-            //or reload using owner ammos
-            else if(Owner && Owner.GetSavedComponent<AdvancedWeaponComponent>())
-            {
-                int necessaryAmmo = maxAmmo - currentAmmo;
-
-                //max ammo or owner ammo if not reach max
-                currentAmmo = Mathf.Min(currentAmmo + Owner.GetSavedComponent<AdvancedWeaponComponent>().GetCurrentAmmo(AmmoType), maxAmmo);
-
-                //remove ammo from owner (if owner has not total ammo, will be set to 0)
-                Owner.GetSavedComponent<AdvancedWeaponComponent>().AddAmmo(AmmoType, -necessaryAmmo);
-            }
-
-            //call event
-            onEndReload?.Invoke();
-
-            reloadCoroutine = null;
         }
 
         #endregion

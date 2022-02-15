@@ -43,18 +43,6 @@ public class CustomizeData : ScriptableObject
     public bool SetBulletSpeed = false;
     [EnableIf("SetBulletSpeed")] public ECustomizationType CustomizationTypeBulletSpeed = ECustomizationType.Add;
     [EnableIf("SetBulletSpeed")] public float BulletSpeed = 10;
-    
-    [Header("Ammo Customization")]
-    public bool SetHasAmmo = false;
-    [EnableIf("SetHasAmmo")] public bool HasAmmo = true;
-    [Space]
-    public bool SetMaxAmmo = false;
-    [EnableIf("SetMaxAmmo")] public ECustomizationType CustomizationTypeMaxAmmo = ECustomizationType.Add;
-    [EnableIf("SetMaxAmmo")] [Min(0)] public int MaxAmmo = 32;
-    [Space]
-    public bool SetDelayReload = false;
-    [EnableIf("SetDelayReload")] public ECustomizationType CustomizationTypeDelayReload = ECustomizationType.Reduce;
-    [EnableIf("SetDelayReload")] public float DelayReload = 1;
 
     /// <summary>
     /// Add this customization to weapon
@@ -92,16 +80,6 @@ public class CustomizeData : ScriptableObject
 
         if (SetBulletSpeed)
             weaponRange.BulletSpeed += CustomizationTypeBulletSpeed == ECustomizationType.Add ? BulletSpeed : -BulletSpeed;
-
-        //add ammo customizations
-        if (SetHasAmmo)
-            weaponRange.hasAmmo = HasAmmo;
-
-        if (SetMaxAmmo)
-            weaponRange.maxAmmo += CustomizationTypeMaxAmmo == ECustomizationType.Add ? MaxAmmo : -MaxAmmo;
-
-        if (SetDelayReload)
-            weaponRange.delayReload += CustomizationTypeDelayReload == ECustomizationType.Add ? DelayReload : -DelayReload;
 
         return weaponRange;
     }

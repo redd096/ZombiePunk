@@ -202,7 +202,7 @@ namespace redd096
         /// </summary>
         /// <param name="weapon"></param>
         /// <param name="index"></param>
-        public void PickWeapon(WeaponBASE weapon, int index)
+        public virtual void PickWeapon(WeaponBASE weapon, int index)
         {
             if (CurrentWeapons == null || CurrentWeapons.Length <= 0)
                 return;
@@ -257,7 +257,7 @@ namespace redd096
         /// <summary>
         /// Drop Weapon at index
         /// </summary>
-        public void DropWeapon(int index, bool updateIndexEquippedWeapon = true)
+        public virtual void DropWeapon(int index, bool updateIndexEquippedWeapon = true)
         {
             if (CurrentWeapons == null || index >= CurrentWeapons.Length)
                 return;
@@ -281,7 +281,7 @@ namespace redd096
             if (updateIndexEquippedWeapon)
                 UpdateIndexEquippedWeapon();
 
-            //call event
+            //call events
             onDropWeapon?.Invoke();
             onChangeWeapon?.Invoke();
         }
@@ -365,7 +365,8 @@ namespace redd096
 
                         indexEquippedWeapon = newIndex;
 
-                        //call event
+                        //call events
+                        onSwitchWeapon?.Invoke();
                         onChangeWeapon?.Invoke();
                         break;
                     }

@@ -41,15 +41,11 @@ namespace redd096
         [SerializeField] ParticleSystem particlesOnPress = default;
         [SerializeField] AudioClass audioOnPress = default;
 
-        [Header("Ammo")]
-        [SerializeField] bool updateAmmoOnEquip = true;
-        [SerializeField] bool updateAmmoOnShoot = true;
-        [SerializeField] bool updateAmmoOnReload = true;
-
-        [Header("On Reload")]
-        [SerializeField] InstantiatedGameObjectStruct gameObjectOnReload = default;
-        [SerializeField] ParticleSystem particlesOnReload = default;
-        [SerializeField] AudioClass audioOnReload = default;
+        [Header("On Fail Shoot - main barrel by default is transform")]
+        [SerializeField] Transform mainBarrelFailShoot = default;
+        [SerializeField] InstantiatedGameObjectStruct gameObjectOnFailShoot = default;
+        [SerializeField] ParticleSystem particlesOnFailShoot = default;
+        [SerializeField] AudioClass audioOnFailShoot = default;
 
         //deactive on release attack
         GameObject instantiatedGameObjectOnPress;
@@ -62,17 +58,16 @@ namespace redd096
             if (weaponRange == null) weaponRange = GetComponentInParent<WeaponRange>();
             if (mainBarrel == null) mainBarrel = transform;
             if (barrelOnPress == null) barrelOnPress = transform;
+            if (mainBarrelFailShoot == null) mainBarrelFailShoot = transform;
 
             //add events
             if (weaponRange)
             {
-                weaponRange.onEquipWeapon += OnEquipWeapon;
                 weaponRange.onInstantiateBullet += OnInstantiateBullet;
                 weaponRange.onShoot += OnShoot;
                 weaponRange.onPressAttack += OnPressAttack;
                 weaponRange.onReleaseAttack += OnReleaseAttack;
-                weaponRange.onStartReload += OnStartReload;
-                weaponRange.onEndReload += OnEndReload;
+                weaponRange.onFailShoot += OnFailShoot;
             }
         }
 
@@ -81,27 +76,15 @@ namespace redd096
             //remove events
             if (weaponRange)
             {
-                weaponRange.onEquipWeapon -= OnEquipWeapon;
                 weaponRange.onInstantiateBullet -= OnInstantiateBullet;
                 weaponRange.onShoot -= OnShoot;
                 weaponRange.onPressAttack -= OnPressAttack;
                 weaponRange.onReleaseAttack -= OnReleaseAttack;
-                weaponRange.onStartReload -= OnStartReload;
-                weaponRange.onEndReload -= OnEndReload;
+                weaponRange.onFailShoot -= OnFailShoot;
             }
         }
 
         #region private API
-
-        void OnEquipWeapon()
-        {
-            //update ammo UI
-            if (updateAmmoOnEquip)
-            {
-                if (weaponRange && weaponRange.Owner && weaponRange.Owner.CharacterType == Character.ECharacterType.Player)
-                    GameManager.instance.uiManager.SetAmmoText(weaponRange.currentAmmo);
-            }
-        }
 
         void OnInstantiateBullet(Transform barrel)
         {
@@ -154,13 +137,6 @@ namespace redd096
                         GamepadVibration.instance.StartVibration();
                 }
             }
-
-            //update ammo UI
-            if (updateAmmoOnShoot)
-            {
-                if (weaponRange && weaponRange.Owner && weaponRange.Owner.CharacterType == Character.ECharacterType.Player)
-                    GameManager.instance.uiManager.SetAmmoText(weaponRange.currentAmmo);
-            }
         }
 
         void OnPressAttack()
@@ -190,22 +166,18 @@ namespace redd096
                 Pooling.Destroy(instantiatedAudioOnPress.gameObject);
         }
 
-        void OnStartReload()
+        void OnFailShoot()
         {
             //instantiate vfx and sfx
-            InstantiateGameObjectManager.instance.Play(gameObjectOnReload, transform.position, transform.rotation);
-            ParticlesManager.instance.Play(particlesOnReload, transform.position, transform.rotation);
-            SoundManager.instance.Play(audioOnReload, transform.position);
-        }
+            GameObject instantiatedGameObject = InstantiateGameObjectManager.instance.Play(gameObjectOnFailShoot, mainBarrelFailShoot.position, mainBarrelFailShoot.rotation);
+            ParticleSystem instantiatedParticles = ParticlesManager.instance.Play(particlesOnFailShoot, mainBarrelFailShoot.position, mainBarrelFailShoot.rotation);
+            SoundManager.instance.Play(audioOnFailShoot, mainBarrelFailShoot.position);
 
-        void OnEndReload()
-        {
-            //update ammo UI
-            if (updateAmmoOnReload)
-            {
-                if (weaponRange && weaponRange.Owner && weaponRange.Owner.CharacterType == Character.ECharacterType.Player)
-                    GameManager.instance.uiManager.SetAmmoText(weaponRange.currentAmmo);
-            }
+            //set parent to vfx
+            if (instantiatedGameObject)
+                instantiatedGameObject.transform.SetParent(mainBarrelFailShoot);
+            if (instantiatedParticles)
+                instantiatedParticles.transform.SetParent(mainBarrelFailShoot);
         }
 
         #endregion

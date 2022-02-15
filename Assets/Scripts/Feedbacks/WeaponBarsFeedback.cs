@@ -11,12 +11,9 @@ public class WeaponBarsFeedback : MonoBehaviour
 
     [Header("Bars (already in scene/prefab)")]
     [SerializeField] Image rateOfFireImage = default;
-    [SerializeField] Image reloadImage = default;
     [SerializeField] bool showRateOfFireAlsoOnAutomatic = false;
 
     Coroutine rateOfFireCoroutine;
-    Coroutine reloadCoroutine;
-
     WeaponRange weaponRange;
 
     void OnEnable()
@@ -26,7 +23,6 @@ public class WeaponBarsFeedback : MonoBehaviour
 
         //by default disable bars
         if (rateOfFireImage) rateOfFireImage.gameObject.SetActive(false);
-        if (reloadImage) reloadImage.gameObject.SetActive(false);
 
         //add events
         if (weaponComponent)
@@ -64,8 +60,6 @@ public class WeaponBarsFeedback : MonoBehaviour
             weaponRange = weaponComponent.CurrentWeapon as WeaponRange;
 
             weaponRange.onShoot += OnShoot;
-            weaponRange.onStartReload += OnStartReload;
-            weaponRange.onAbortReload += OnAbortReload;
         }
     }
 
@@ -75,17 +69,13 @@ public class WeaponBarsFeedback : MonoBehaviour
         if (weaponRange)
         {
             weaponRange.onShoot -= OnShoot;
-            weaponRange.onStartReload -= OnStartReload;
-            weaponRange.onAbortReload -= OnAbortReload;
         }
 
         //be sure to stop coroutines
         if (rateOfFireCoroutine != null) StopCoroutine(rateOfFireCoroutine);
-        if (reloadCoroutine != null) StopCoroutine(reloadCoroutine);
 
         //be sure to disable bars
         if (rateOfFireImage) rateOfFireImage.gameObject.SetActive(false);
-        if (reloadImage) reloadImage.gameObject.SetActive(false);
     }
 
     void OnShoot()
@@ -95,24 +85,6 @@ public class WeaponBarsFeedback : MonoBehaviour
             StopCoroutine(rateOfFireCoroutine);
 
         rateOfFireCoroutine = StartCoroutine(RateOfFireCoroutine());
-    }
-
-    void OnStartReload()
-    {
-        //start reload coroutine
-        if (reloadCoroutine != null)
-            StopCoroutine(reloadCoroutine);
-
-        reloadCoroutine = StartCoroutine(ReloadCoroutine());
-    }
-
-    void OnAbortReload()
-    {
-        if (reloadCoroutine != null)
-            StopCoroutine(reloadCoroutine);
-
-        //disable bar
-        if(reloadImage) reloadImage.gameObject.SetActive(false);
     }
 
     IEnumerator RateOfFireCoroutine()
@@ -139,30 +111,6 @@ public class WeaponBarsFeedback : MonoBehaviour
                 //disable bar
                 rateOfFireImage.gameObject.SetActive(false);
             }
-        }
-    }
-
-    IEnumerator ReloadCoroutine()
-    {
-        if (weaponRange && reloadImage)
-        {
-            //enable bar
-            reloadImage.fillAmount = 1;
-            reloadImage.gameObject.SetActive(true);
-
-            //update bar
-            float delta = 0;
-            while (delta < 1)
-            {
-
-                delta += Time.deltaTime / weaponRange.delayReload;
-                reloadImage.fillAmount = 1 - delta;
-
-                yield return null;
-            }
-
-            //disable bar
-            reloadImage.gameObject.SetActive(false);
         }
     }
 

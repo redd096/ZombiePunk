@@ -13,7 +13,6 @@ GameObject:
   - component: {fileID: 500905860386566410}
   - component: {fileID: 1679298214608976014}
   - component: {fileID: 6756547324650557166}
-  - component: {fileID: 6833780260954007610}
   - component: {fileID: 7577106351040362770}
   - component: {fileID: 3062211758472486148}
   - component: {fileID: 7120763324073849737}
@@ -106,22 +105,6 @@ MonoBehaviour:
   component: {fileID: 8714289106783076041}
   playerInput: {fileID: 1427099914}
   inputName: Interact
---- !u!114 &6833780260954007610
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1162182017}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4c06b3f86f8a5e84da38c95b1038ff3c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TaskName: '[ACTION] Reload'
-  component: {fileID: 2710214134928471105}
-  playerInput: {fileID: 1427099914}
-  inputName: Reload
 --- !u!114 &7577106351040362770
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -342,6 +325,7 @@ GameObject:
   - component: {fileID: 4293602916014893294}
   - component: {fileID: 648923787466061354}
   - component: {fileID: 2019953577073926415}
+  - component: {fileID: 7360414587550285190}
   m_Layer: 10
   m_Name: Graphics
   m_TagString: Untagged
@@ -452,7 +436,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponComponent: {fileID: 2710214134928471105}
   rateOfFireImage: {fileID: 1855430005837403921}
-  reloadImage: {fileID: 1813339823329800406}
   showRateOfFireAlsoOnAutomatic: 0
 --- !u!114 &4293602916014893294
 MonoBehaviour:
@@ -507,6 +490,21 @@ MonoBehaviour:
   defaultAtLeftOfCharacter: 1
   rotateBasedOnMovement: 0
   rotateBasedOnAim: 1
+--- !u!114 &7360414587550285190
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395402416062982212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 13ee6ae533929d947982a168900f7355, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  advancedWeaponComponent: {fileID: 2710214134928471105}
+  updateAmmoOnEquip: 1
+  updateAmmoOnShoot: 1
 --- !u!1 &1395402416665274895
 GameObject:
   m_ObjectHideFlags: 0
@@ -606,7 +604,6 @@ MonoBehaviour:
   drag: 5
   removePushForceWhenHit: 1
   collisionComponent: {fileID: 8030054746575277773}
-  tempFixCollisionComponent: 1
   rb: {fileID: 0}
   IsMovingRight: 1
   MoveDirectionInput: {x: 0, y: 0}
@@ -918,7 +915,7 @@ MonoBehaviour:
   - {x: -0.24947326, y: -0.75090253, z: 0}
   m_ShapePathHash: -1904993288
   m_Mesh: {fileID: 0}
-  m_InstanceId: 109276
+  m_InstanceId: 92140
 --- !u!1 &1623205665777261636
 GameObject:
   m_ObjectHideFlags: 0
@@ -1295,7 +1292,6 @@ MonoBehaviour:
     - {fileID: 500905860386566410}
     - {fileID: 1679298214608976014}
     - {fileID: 6756547324650557166}
-    - {fileID: 6833780260954007610}
     - {fileID: 7577106351040362770}
     Transitions:
     - StateDestination: 1
@@ -1310,7 +1306,6 @@ MonoBehaviour:
     - StateDestination: 0
       TransitionCheck: 1
       Conditions:
-      - {fileID: 0}
       - {fileID: 6312129766404596600}
   CurrentState:
     StateName: 
