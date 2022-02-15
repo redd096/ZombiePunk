@@ -2,6 +2,7 @@
 
 namespace redd096
 {
+    [AddComponentMenu("redd096/Feedbacks/Advanced Weapon Component Feedback")]
     public class AdvancedWeaponComponentFeedback : MonoBehaviour
     {
         [Header("Necessary Components - default get in parent")]
