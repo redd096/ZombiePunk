@@ -5,7 +5,7 @@ using redd096.PathFinding2D;
 [AddComponentMenu("redd096/Tasks FSM/Action/PathFinding/Chase With Path Finding")]
 public class ChaseWithPathFinding : ActionTask
 {
-    [Header("Necessary Components - default get in parent or GameManager")]
+    [Header("Necessary Components - default get in parent")]
     [SerializeField] MovementComponent component;
     [SerializeField] AimComponent aimComponent;
     [SerializeField] AgentAStar2D agentAStar;
