@@ -20,12 +20,16 @@ public class Spawn : MonoBehaviour
     public System.Action<Spawn> onEveryObjectIsDead { get; set; }       //called when finish to spawn and every object with health component is dead (if there aren't, is called when finish to spawn)
 
     //used in spawn object
+    SpawnFeedback spawnFeedback;
     Coroutine instantiateCoroutine;
     Coroutine spawnCoroutine;
     List<GameObject> instantiatedObjectsToSpawn = new List<GameObject>();
 
     void Start()
     {
+        //get references
+        spawnFeedback = GetComponent<SpawnFeedback>();
+
         //at start instantiate every prefab and deactive
         instantiateCoroutine = StartCoroutine(InstantiateEveryPrefab());
     }
@@ -116,7 +120,8 @@ public class Spawn : MonoBehaviour
         if (objectToSpawn)
         {
             //spawn
-            objectToSpawn.SetActive(true);
+            if (spawnFeedback == false)
+                objectToSpawn.SetActive(true);  //set active only if there is not spawn feedback, else will be the spawn feedback to activate the object
 
             //if has health, register to events and add to list
             HealthComponent healthInstantiatedObject = objectToSpawn.GetComponent<HealthComponent>();
