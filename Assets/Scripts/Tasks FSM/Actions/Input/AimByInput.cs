@@ -36,6 +36,12 @@ public class AimByInput : ActionTask
             Debug.LogWarning("Miss Camera for " + stateMachine);
     }
 
+    void OnEnable()
+    {
+        //check again for camera if deactive and reactive
+        if (cam == null) cam = Camera.main;
+    }
+
     public override void OnUpdateTask()
     {
         base.OnUpdateTask();

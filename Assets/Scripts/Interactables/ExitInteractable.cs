@@ -18,13 +18,14 @@ namespace redd096
         [Header("DEBUG")]
         /*[ReadOnly] [ShowNonSerializedField]*/ bool isOpen;
         public bool IsOpen => isOpen;
+        public string SceneToLoad => sceneToLoad;
 
         [Button("ForceExit", EButtonEnableMode.Playmode)] public void ForceExit() => ChangeExitState();
 
         //events
         public System.Action onOpen { get; set; }
         public System.Action onClose { get; set; }
-        public System.Action onInteract { get; set; }
+        public System.Action<ExitInteractable> onInteract { get; set; }
 
         //necessary for checks
         List<Character> enemies = new List<Character>();
@@ -117,10 +118,7 @@ namespace redd096
             isOpen = false;     //can't interact anymore
 
             //call event
-            onInteract?.Invoke();
-
-            //change scene
-            SceneLoader.instance.LoadScene(sceneToLoad);
+            onInteract?.Invoke(this);
         }
 
         #endregion

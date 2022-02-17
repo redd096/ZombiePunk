@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using UnityEngine.SceneManagement;
+using System.Collections.Generic;
+using UnityEngine;
 using redd096;
 
 [AddComponentMenu("redd096/Singletons/Game Manager")]
@@ -17,6 +19,8 @@ public class GameManager : Singleton<GameManager>
     public UIManager uiManager { get; private set; }
     public LevelManager levelManager { get; private set; }
 
+    List<Character> playersFromPreviousScene;
+
     protected override void SetDefaults()
     {
         //get references
@@ -25,6 +29,9 @@ public class GameManager : Singleton<GameManager>
 
         //lock 60 fps or free
         Application.targetFrameRate = lock60Fps ? 60 : -1;
+
+        //remove players already in scene, if we have moved some player from previous scene to this one
+        RemovePlayersAlreadyInScene();
     }
 
     void OnValidate()
@@ -33,7 +40,74 @@ public class GameManager : Singleton<GameManager>
         Application.targetFrameRate = lock60Fps ? 60 : -1;
     }
 
-    #region customizations API
+    #region move players between scenes
+
+    public void MovePlayersToNextScene(Character[] players)
+    {
+        //save players list
+        playersFromPreviousScene = new List<Character>(players);
+
+        //set every player to DontDestroyOnLoad
+        foreach (Character player in playersFromPreviousScene)
+        {
+            DontDestroyOnLoad(player);
+            player.gameObject.SetActive(false);
+
+            //set also equipped weapons to DontDestroyOnLoad
+            if (player.GetSavedComponent<WeaponComponent>())
+            {
+                DontDestroyOnLoad(player.GetSavedComponent<WeaponComponent>().WeaponsParent.gameObject);
+                player.GetSavedComponent<WeaponComponent>().WeaponsParent.gameObject.SetActive(false);
+            }
+        }
+    }
+
+    public void RemovePlayersAlreadyInScene()
+    {
+        //do only if already moved someone from previous scene
+        if (playersFromPreviousScene == null)
+            return;
+
+        List<Vector2> positionsPlayers = new List<Vector2>();
+
+        foreach (Character player in FindObjectsOfType<Character>())
+        {
+            //foreach player in scene
+            if (player.CharacterType == Character.ECharacterType.Player)
+            {
+                //if not in the list, destroy, because is a player already in scene (put in editor)
+                if (playersFromPreviousScene.Contains(player) == false)
+                {
+                    positionsPlayers.Add(player.transform.position);    //but save position
+                    player.gameObject.SetActive(false);                 //and avoid this to call Awake and create for example its default weapon
+                    Destroy(player.gameObject);
+                }
+            }
+        }
+
+        //foreach player in the list
+        foreach (Character player in playersFromPreviousScene)
+        {
+            //remove DontDestroyOnLoad and set position
+            SceneManager.MoveGameObjectToScene(player.gameObject, SceneManager.GetActiveScene());
+            player.transform.position = positionsPlayers[Random.Range(0, positionsPlayers.Count)];
+            player.gameObject.SetActive(true);
+
+            //remove DontDestroyOnLoad also from equipped weapons
+            if (player.GetSavedComponent<WeaponComponent>())
+            {
+                SceneManager.MoveGameObjectToScene(player.GetSavedComponent<WeaponComponent>().WeaponsParent.gameObject, SceneManager.GetActiveScene());
+                player.GetSavedComponent<WeaponComponent>().WeaponsParent.gameObject.SetActive(true);
+            }
+        }
+
+        //reset var, so will be saved only if moving again from this scene to another one
+        playersFromPreviousScene = null;
+    }
+
+    #endregion
+
+    #region OLD customizations API
 
     /// <summary>
     /// Set customizations for next scene

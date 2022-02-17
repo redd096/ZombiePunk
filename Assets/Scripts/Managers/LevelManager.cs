@@ -7,10 +7,10 @@ using redd096;
 public class LevelManager : MonoBehaviour
 {
     //[Header("Elements in scene by default")]
-    /*[ReadOnly]*/ public HashSet<Character> Players = new HashSet<Character>();
-    /*[ReadOnly]*/ public HashSet<Character> Enemies = new HashSet<Character>();
-    /*[ReadOnly]*/ public HashSet<SpawnManager> SpawnManagers = new HashSet<SpawnManager>();
-    /*[ReadOnly]*/ public HashSet<ExitInteractable> Exits = new HashSet<ExitInteractable>();
+    /*[ReadOnly]*/ public List<Character> Players = new List<Character>();
+    /*[ReadOnly]*/ public List<Character> Enemies = new List<Character>();
+    /*[ReadOnly]*/ public List<SpawnManager> SpawnManagers = new List<SpawnManager>();
+    /*[ReadOnly]*/ public List<ExitInteractable> Exits = new List<ExitInteractable>();
 
     void Awake()
     {
@@ -88,9 +88,10 @@ public class LevelManager : MonoBehaviour
 
     void AddExit(ExitInteractable exit)
     {
-        //active it
+        //active it and register to events
         if (Exits.Contains(exit) == false)
         {
+            exit.onInteract += OnInteractExit;
             exit.ActiveExit();
 
             //add to list
@@ -100,6 +101,9 @@ public class LevelManager : MonoBehaviour
 
     void RemoveExit(ExitInteractable exit)
     {
+        //unregister from events
+        exit.onInteract -= OnInteractExit;
+
         //deactivate it
         exit.DeactiveExit();
     }
@@ -124,6 +128,15 @@ public class LevelManager : MonoBehaviour
         //show end menu (and show cursor)
         if(GameManager.instance) GameManager.instance.uiManager.EndMenu(true);
         if(SceneLoader.instance) SceneLoader.instance.LockMouse(CursorLockMode.None);
+    }
+
+    void OnInteractExit(ExitInteractable exit)
+    {
+        //move players to next scene
+        GameManager.instance.MovePlayersToNextScene(Players.ToArray());
+
+        //load next scene
+        SceneLoader.instance.LoadScene(exit.SceneToLoad);
     }
 
     #endregion

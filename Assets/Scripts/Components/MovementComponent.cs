@@ -24,12 +24,12 @@ namespace redd096
         [ShowIf("movementMode", EMovementModes.Rigidbody)] [SerializeField] Rigidbody2D rb = default;
 
         //[Header("DEBUG")]
-        /*[ReadOnly]*/ public bool IsMovingRight = true;            //check if moving right
-        /*[ReadOnly]*/ public Vector2 MoveDirectionInput;           //when moves, set it with only input direction (used to know last movement direction)
-        /*[ReadOnly]*/ public Vector2 LastDesiredVelocity;          //when moves, set it as input direction * speed
-        /*[ReadOnly]*/ public Vector2 DesiredPushForce;             //used to push this object (push by recoil, knockback, dash, etc...), will be decreased by drag in every frame
-        /*[ReadOnly]*/ public Vector2 CurrentVelocity;              //velocity calculate for this frame
-        /*[ReadOnly]*/ public float CurrentSpeed;                   //CurrentVelocity.magnitude
+        /*[ReadOnly]*/ [HideInInspector] public bool IsMovingRight = true;            //check if moving right
+        /*[ReadOnly]*/ [HideInInspector] public Vector2 MoveDirectionInput;           //when moves, set it with only input direction (used to know last movement direction)
+        /*[ReadOnly]*/ [HideInInspector] public Vector2 LastDesiredVelocity;          //when moves, set it as input direction * speed
+        /*[ReadOnly]*/ [HideInInspector] public Vector2 DesiredPushForce;             //used to push this object (push by recoil, knockback, dash, etc...), will be decreased by drag in every frame
+        /*[ReadOnly]*/ [HideInInspector] public Vector2 CurrentVelocity;              //velocity calculate for this frame
+        /*[ReadOnly]*/ [HideInInspector] public float CurrentSpeed;                   //CurrentVelocity.magnitude
 
         //events
         public System.Action<bool> onChangeMovementDirection { get; set; }
