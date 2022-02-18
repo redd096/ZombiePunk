@@ -2,7 +2,7 @@
 using redd096;
 
 [RequireComponent(typeof(CollisionComponent))]
-public class MonoBehaviourRD : MonoBehaviour
+public abstract class MonoBehaviourRD : MonoBehaviour
 {
     CollisionComponent collisionComponent;
 
