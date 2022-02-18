@@ -44,9 +44,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f18ad0a40500e9044b8c62ec968630a3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeBeforeFirstSpawn: 1
-  timeBetweenSpawns: 5
-  prefabsToSpawn: []
+  timeBeforeFirstSpawn: 15
+  timeBetweenSpawns: 15
+  prefabsToSpawn:
+  - {fileID: 5017728266285329908, guid: 6307245d6b140674ebb00d298bd3d5b4, type: 3}
 --- !u!114 &2867701358555151816
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -59,3 +60,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f8f316d029a114742a3c373c72ad60ad, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  vfxToInstantiateBeforeSpawn:
+    instantiatedGameObject: {fileID: 193165414755606500, guid: 0763a48fe17e26e4f94bcb12bfcbb60b,
+      type: 3}
+    timeAutodestruction: 0.5
+  spawnObjectAfter: 0.5
