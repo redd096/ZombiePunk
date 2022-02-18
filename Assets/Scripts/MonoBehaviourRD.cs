@@ -1,80 +1,84 @@
 ﻿using UnityEngine;
-using redd096;
 
-[RequireComponent(typeof(CollisionComponent))]
-public abstract class MonoBehaviourRD : MonoBehaviour
+namespace redd096
 {
-    CollisionComponent collisionComponent;
-
-    void Awake()
+    [RequireComponent(typeof(CollisionComponent))]
+    public abstract class MonoBehaviourRD : MonoBehaviour
     {
-        //get references
-        if (collisionComponent == null) collisionComponent = GetComponent<CollisionComponent>();
+        CollisionComponent collisionComponent;
 
-        //warnings
-        if (collisionComponent == null) Debug.LogWarning("Miss CollisionComponent on " + name);
-    }
-
-    void OnEnable()
-    {
-        //get references
-        if (collisionComponent == null) collisionComponent = GetComponent<CollisionComponent>();
-
-        //add events
-        if (collisionComponent)
+        void Awake()
         {
-            collisionComponent.onCollisionEnter += OnCollisionEnterRD;
-            collisionComponent.onCollisionStay += OnCollisionStayRD;
-            collisionComponent.onCollisionExit += OnCollisionExitRD;
+            //get references
+            if (collisionComponent == null)
+                collisionComponent = GetComponent<CollisionComponent>();
 
-            collisionComponent.onTriggerEnter += OnTriggerEnterRD;
-            collisionComponent.onTriggerStay += OnTriggerStayRD;
-            collisionComponent.onTriggerExit += OnTriggerExitRD;
+            //warnings
+            if (collisionComponent == null) 
+                Debug.LogWarning("Miss CollisionComponent on " + name);
         }
-    }
 
-    void OnDisable()
-    {
-        //remove events
-        if (collisionComponent)
+        void OnEnable()
         {
-            collisionComponent.onCollisionEnter -= OnCollisionEnterRD;
-            collisionComponent.onCollisionStay -= OnCollisionStayRD;
-            collisionComponent.onCollisionExit -= OnCollisionExitRD;
+            //get references
+            if (collisionComponent == null) collisionComponent = GetComponent<CollisionComponent>();
 
-            collisionComponent.onTriggerEnter -= OnTriggerEnterRD;
-            collisionComponent.onTriggerStay -= OnTriggerStayRD;
-            collisionComponent.onTriggerExit -= OnTriggerExitRD;
+            //add events
+            if (collisionComponent)
+            {
+                collisionComponent.onCollisionEnter += OnCollisionEnterRD;
+                collisionComponent.onCollisionStay += OnCollisionStayRD;
+                collisionComponent.onCollisionExit += OnCollisionExitRD;
+
+                collisionComponent.onTriggerEnter += OnTriggerEnterRD;
+                collisionComponent.onTriggerStay += OnTriggerStayRD;
+                collisionComponent.onTriggerExit += OnTriggerExitRD;
+            }
         }
-    }
 
-    protected virtual void OnCollisionEnterRD(RaycastHit2D collision)
-    {
+        void OnDisable()
+        {
+            //remove events
+            if (collisionComponent)
+            {
+                collisionComponent.onCollisionEnter -= OnCollisionEnterRD;
+                collisionComponent.onCollisionStay -= OnCollisionStayRD;
+                collisionComponent.onCollisionExit -= OnCollisionExitRD;
 
-    }
+                collisionComponent.onTriggerEnter -= OnTriggerEnterRD;
+                collisionComponent.onTriggerStay -= OnTriggerStayRD;
+                collisionComponent.onTriggerExit -= OnTriggerExitRD;
+            }
+        }
 
-    protected virtual void OnCollisionStayRD(RaycastHit2D collision)
-    {
+        protected virtual void OnCollisionEnterRD(RaycastHit2D collision)
+        {
 
-    }
+        }
 
-    protected virtual void OnCollisionExitRD(Collider2D collision)
-    {
+        protected virtual void OnCollisionStayRD(RaycastHit2D collision)
+        {
 
-    }
+        }
 
-    protected virtual void OnTriggerEnterRD(RaycastHit2D collision)
-    {
+        protected virtual void OnCollisionExitRD(Collider2D collision)
+        {
 
-    }
+        }
 
-    protected virtual void OnTriggerStayRD(RaycastHit2D collision)
-    {
+        protected virtual void OnTriggerEnterRD(RaycastHit2D collision)
+        {
 
-    }
+        }
 
-    protected virtual void OnTriggerExitRD(Collider2D collision)
-    {
+        protected virtual void OnTriggerStayRD(RaycastHit2D collision)
+        {
 
+        }
+
+        protected virtual void OnTriggerExitRD(Collider2D collision)
+        {
+
+        }
     }
 }

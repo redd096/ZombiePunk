@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace redd096
 {
-    [AddComponentMenu("redd096/Interactables/Pick Up BASE")]
+    [AddComponentMenu("redd096/Pickables/Pick Up BASE")]
     public abstract class PickUpBASE : MonoBehaviour, IPickable
     {
         [Header("Necessary Components - default get from this gameObject")]

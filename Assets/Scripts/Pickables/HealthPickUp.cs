@@ -2,7 +2,7 @@
 
 namespace redd096
 {
-    [AddComponentMenu("redd096/Interactables/Health Pick Up")]
+    [AddComponentMenu("redd096/Pickables/Health Pick Up")]
     public class HealthPickUp : PickUpBASE
     {
         [Header("Health")]
