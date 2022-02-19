@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FroggerLevelTrigger : MonoBehaviour
 {
-    public GameObject levelEnter, levelPlay, game;
+    public GameObject levelEnter, levelPlay, game , exit;
 
     private GameObject player;
 
@@ -28,6 +28,7 @@ public class FroggerLevelTrigger : MonoBehaviour
 
     private void OnTriggerExit2D(Collider2D collision)
     {
+        exit.SetActive(true);
         levelPlay.SetActive(true);
         levelEnter.SetActive(false);
         Destroy(gameObject);
