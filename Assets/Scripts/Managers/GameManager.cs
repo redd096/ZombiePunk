@@ -1,11 +1,12 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using redd096;
+using UnityEngine.SceneManagement;
 
 public class SavesBetweenScenes
 {
     public float CurrentHealth;
-    public WeaponBASE[] WeaponPrefabs;
+    public Transform WeaponsParentInstance;
     public Dictionary<string, int> CurrentAmmos;
 }
 
@@ -43,9 +44,12 @@ public class GameManager : Singleton<GameManager>
             LoadStats();
         }
         //reset when move to a level without LevelManager
-        else
+        else if (savedStats != null)
         {
-            savedStats = null;
+            if (savedStats.WeaponsParentInstance) 
+                Destroy(savedStats.WeaponsParentInstance.gameObject);   //destroy weapons' parent (cause is setted DontDestroyOnLoad)
+
+            savedStats = null;                                          //remove saved stats
         }
     }
 
@@ -67,15 +71,12 @@ public class GameManager : Singleton<GameManager>
             if (player.GetSavedComponent<HealthComponent>()) savedStats.CurrentHealth = player.GetSavedComponent<HealthComponent>().CurrentHealth;
             if (player.GetSavedComponent<AdvancedWeaponComponent>()) savedStats.CurrentAmmos = new Dictionary<string, int>(player.GetSavedComponent<AdvancedWeaponComponent>().CurrentAmmos_NotSafe);
 
-            //for every weapon, save only the prefab
+            //save weapons' parent and set DontDestroyOnload
             if (player.GetSavedComponent<WeaponComponent>())
             {
-                savedStats.WeaponPrefabs = new WeaponBASE[player.GetSavedComponent<WeaponComponent>().CurrentWeapons.Length];
-                for (int i = 0; i < savedStats.WeaponPrefabs.Length; i++)
-                {
-                    if (player.GetSavedComponent<WeaponComponent>().CurrentWeapons[i])
-                        savedStats.WeaponPrefabs[i] = player.GetSavedComponent<WeaponComponent>().CurrentWeapons[i].PrefabReference;
-                }
+                //set DontDestroyOnLoad
+                savedStats.WeaponsParentInstance = player.GetSavedComponent<WeaponComponent>().WeaponsParent;
+                DontDestroyOnLoad(savedStats.WeaponsParentInstance);
             }
         }
     }
@@ -94,7 +95,9 @@ public class GameManager : Singleton<GameManager>
                 if (player.GetSavedComponent<HealthComponent>()) player.GetSavedComponent<HealthComponent>().CurrentHealth = savedStats.CurrentHealth;
                 if (player.GetSavedComponent<AdvancedWeaponComponent>()) player.GetSavedComponent<AdvancedWeaponComponent>().CurrentAmmos_NotSafe = savedStats.CurrentAmmos;
 
-                //weapons will be loaded automatically from WeaponComponent
+                //weapons will be loaded automatically from WeaponComponent, but remove DontDestroyOnLoad from weapons' parent
+                if (player.GetSavedComponent<WeaponComponent>())
+                    SceneManager.MoveGameObjectToScene(savedStats.WeaponsParentInstance.gameObject, SceneManager.GetActiveScene());
             }
         }
     }

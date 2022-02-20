@@ -13,31 +13,12 @@ namespace redd096
         [Header("DEBUG")]
         [SerializeField] bool destroyWeaponOnDrop = false;
         [ReadOnly] public Character Owner;
-        [ReadOnly] public WeaponBASE PrefabReference = default;
 
         //events
         public System.Action onPickWeapon { get; set; }
         public System.Action onDropWeapon { get; set; }
         public System.Action onEquipWeapon { get; set; }
         public System.Action onUnequipWeapon { get; set; }
-
-        protected virtual void OnValidate()
-        {
-#if UNITY_EDITOR
-
-            //only if there isn't already a reference (when create variant, this is setted to null by unity)
-            if (PrefabReference == null)
-            {
-                //if there is asset path (editing in project), then load asset at path
-                if (string.IsNullOrEmpty(UnityEditor.AssetDatabase.GetAssetPath(this)) == false)
-                {
-                    PrefabReference = UnityEditor.AssetDatabase.LoadAssetAtPath<WeaponBASE>(UnityEditor.AssetDatabase.GetAssetPath(this));
-                    UnityEditor.Undo.RecordObject(this, "registered Prefab Reference");
-                }
-            }
-
-#endif
-        }
 
         #region public API
 

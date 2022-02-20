@@ -103,12 +103,13 @@ namespace redd096
         void LoadSavedWeapons()
         {
             SavesBetweenScenes savedStats = GameManager.instance.GetSavedStats();
+            WeaponBASE[] weapons = savedStats.WeaponsParentInstance ? savedStats.WeaponsParentInstance.GetComponentsInChildren<WeaponBASE>() : new WeaponBASE[0];
             for (int i = 0; i < CurrentWeapons.Length; i++)
             {
-                if (i < savedStats.WeaponPrefabs.Length)
+                if (i < weapons.Length)
                 {
-                    if (savedStats.WeaponPrefabs[i])
-                        PickWeapon(Instantiate(savedStats.WeaponPrefabs[i]));
+                    if (weapons[i])
+                        PickWeapon(weapons[i]);
                 }
                 else
                     break;
