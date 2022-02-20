@@ -126,7 +126,7 @@ public class MoveToPosition : ActionTask
 
             //if different direction, then we have sorpassed position to reach
             if (Vector2.Distance(((useBlackboard ? positionFromBlackboard : positionToReach) - (Vector2)transformTask.position).normalized, direction) > 0.1f)
-                transformTask.position = (useBlackboard ? positionFromBlackboard : positionToReach);
+                movementComponent.transform.position = (useBlackboard ? positionFromBlackboard : positionToReach);
         }
     }
 
