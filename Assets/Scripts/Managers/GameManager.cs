@@ -1,7 +1,13 @@
-﻿using UnityEngine.SceneManagement;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using redd096;
+
+public class SavesBetweenScenes
+{
+    public float CurrentHealth;
+    public WeaponBASE[] WeaponPrefabs;
+    public Dictionary<string, int> CurrentAmmos;
+}
 
 [AddComponentMenu("redd096/Singletons/Game Manager")]
 [DefaultExecutionOrder(-100)]
@@ -19,7 +25,8 @@ public class GameManager : Singleton<GameManager>
     public UIManager uiManager { get; private set; }
     public LevelManager levelManager { get; private set; }
 
-    List<Character> playersFromPreviousScene;
+    //List<Character> playersFromPreviousScene;
+    SavesBetweenScenes savedStats;
 
     protected override void SetDefaults()
     {
@@ -30,8 +37,16 @@ public class GameManager : Singleton<GameManager>
         //lock 60 fps or free
         Application.targetFrameRate = lock60Fps ? 60 : -1;
 
-        //remove players already in scene, if we have moved some player from previous scene to this one
-        RemovePlayersAlreadyInScene();
+        //load stats to players
+        if (levelManager)
+        {
+            LoadStats();
+        }
+        //reset when move to a level without LevelManager
+        else
+        {
+            savedStats = null;
+        }
     }
 
     void OnValidate()
@@ -42,67 +57,56 @@ public class GameManager : Singleton<GameManager>
 
     #region move players between scenes
 
-    public void MovePlayersToNextScene(Character[] players)
+    public void SaveStats(Character[] players)
     {
-        //save players list
-        playersFromPreviousScene = new List<Character>(players);
-
-        //set every player to DontDestroyOnLoad
-        foreach (Character player in playersFromPreviousScene)
+        //save stats for players
+        foreach (Character player in players)
         {
-            DontDestroyOnLoad(player);
-            player.gameObject.SetActive(false);
+            //health and ammos
+            savedStats = new SavesBetweenScenes();
+            if (player.GetSavedComponent<HealthComponent>()) savedStats.CurrentHealth = player.GetSavedComponent<HealthComponent>().CurrentHealth;
+            if (player.GetSavedComponent<AdvancedWeaponComponent>()) savedStats.CurrentAmmos = new Dictionary<string, int>(player.GetSavedComponent<AdvancedWeaponComponent>().CurrentAmmos_NotSafe);
 
-            //set also equipped weapons to DontDestroyOnLoad
+            //for every weapon, save only the prefab
             if (player.GetSavedComponent<WeaponComponent>())
             {
-                DontDestroyOnLoad(player.GetSavedComponent<WeaponComponent>().WeaponsParent.gameObject);
-                player.GetSavedComponent<WeaponComponent>().WeaponsParent.gameObject.SetActive(false);
+                savedStats.WeaponPrefabs = new WeaponBASE[player.GetSavedComponent<WeaponComponent>().CurrentWeapons.Length];
+                for (int i = 0; i < savedStats.WeaponPrefabs.Length; i++)
+                {
+                    if (player.GetSavedComponent<WeaponComponent>().CurrentWeapons[i])
+                        savedStats.WeaponPrefabs[i] = player.GetSavedComponent<WeaponComponent>().CurrentWeapons[i].PrefabReference;
+                }
             }
         }
     }
 
-    public void RemovePlayersAlreadyInScene()
+    void LoadStats()
     {
-        //do only if already moved someone from previous scene
-        if (playersFromPreviousScene == null)
+        if (savedStats == null)
             return;
-
-        List<Vector2> positionsPlayers = new List<Vector2>();
 
         foreach (Character player in FindObjectsOfType<Character>())
         {
-            //foreach player in scene
+            //foreach player, load stats
             if (player.CharacterType == Character.ECharacterType.Player)
             {
-                //if not in the list, destroy, because is a player already in scene (put in editor)
-                if (playersFromPreviousScene.Contains(player) == false)
-                {
-                    positionsPlayers.Add(player.transform.position);    //but save position
-                    player.gameObject.SetActive(false);                 //and avoid this to call Awake and create for example its default weapon
-                    Destroy(player.gameObject);
-                }
+                //health and ammos
+                if (player.GetSavedComponent<HealthComponent>()) player.GetSavedComponent<HealthComponent>().CurrentHealth = savedStats.CurrentHealth;
+                if (player.GetSavedComponent<AdvancedWeaponComponent>()) player.GetSavedComponent<AdvancedWeaponComponent>().CurrentAmmos_NotSafe = savedStats.CurrentAmmos;
+
+                //weapons will be loaded automatically from WeaponComponent
             }
         }
+    }
 
-        //foreach player in the list
-        foreach (Character player in playersFromPreviousScene)
-        {
-            //remove DontDestroyOnLoad and set position
-            SceneManager.MoveGameObjectToScene(player.gameObject, SceneManager.GetActiveScene());
-            player.transform.position = positionsPlayers[Random.Range(0, positionsPlayers.Count)];
-            player.gameObject.SetActive(true);
+    public SavesBetweenScenes GetSavedStats()
+    {
+        return savedStats;
+    }
 
-            //remove DontDestroyOnLoad also from equipped weapons
-            if (player.GetSavedComponent<WeaponComponent>())
-            {
-                SceneManager.MoveGameObjectToScene(player.GetSavedComponent<WeaponComponent>().WeaponsParent.gameObject, SceneManager.GetActiveScene());
-                player.GetSavedComponent<WeaponComponent>().WeaponsParent.gameObject.SetActive(true);
-            }
-        }
-
-        //reset var, so will be saved only if moving again from this scene to another one
-        playersFromPreviousScene = null;
+    public bool HasSavedStats()
+    {
+        return savedStats != null;
     }
 
     #endregion
@@ -161,7 +165,7 @@ public class GameManager : Singleton<GameManager>
 
     #endregion
 
-    #region weapons API
+    #region OLD weapons API
 
     /// <summary>
     /// Set weapons for next scene
