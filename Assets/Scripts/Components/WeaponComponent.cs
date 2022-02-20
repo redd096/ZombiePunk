@@ -81,12 +81,17 @@ namespace redd096
             //instantiate and equip default weapons
             if (weaponsPrefabs != null && weaponsPrefabs.Length > 0)
             {
+                WeaponBASE instantiatedWeapon;
                 for (int i = 0; i < CurrentWeapons.Length; i++)
                 {
                     if (i < weaponsPrefabs.Length)
                     {
                         if (weaponsPrefabs[i])
-                            PickWeapon(Instantiate(weaponsPrefabs[i]));
+                        {
+                            instantiatedWeapon = Instantiate(weaponsPrefabs[i]);
+                            instantiatedWeapon.WeaponPrefab = weaponsPrefabs[i];
+                            PickWeapon(instantiatedWeapon);
+                        }
                     }
                     else
                         break;
@@ -102,17 +107,30 @@ namespace redd096
 
         void LoadSavedWeapons()
         {
+            //instantiate and equip saved weapons
             SavesBetweenScenes savedStats = GameManager.instance.GetSavedStats();
-            WeaponBASE[] weapons = savedStats.WeaponsParentInstance ? savedStats.WeaponsParentInstance.GetComponentsInChildren<WeaponBASE>() : new WeaponBASE[0];
-            for (int i = 0; i < CurrentWeapons.Length; i++)
+            if (savedStats.WeaponsPrefabs != null)
             {
-                if (i < weapons.Length)
+                WeaponBASE instantiatedWeapon;
+                for (int i = 0; i < CurrentWeapons.Length; i++)
                 {
-                    if (weapons[i])
-                        PickWeapon(weapons[i]);
+                    if (i < savedStats.WeaponsPrefabs.Length)
+                    {
+                        if (savedStats.WeaponsPrefabs[i])
+                        {
+                            instantiatedWeapon = Instantiate(savedStats.WeaponsPrefabs[i]);
+                            instantiatedWeapon.WeaponPrefab = savedStats.WeaponsPrefabs[i];
+
+                            //set 0 ammo on pick, because we have already its ammo (we are transporting this weapon from previous scene)
+                            if (instantiatedWeapon is WeaponRange rangeWeapon)
+                                rangeWeapon.AmmoOnPick = 0;
+
+                            PickWeapon(instantiatedWeapon);
+                        }
+                    }
+                    else
+                        break;
                 }
-                else
-                    break;
             }
         }
 

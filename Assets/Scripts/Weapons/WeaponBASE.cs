@@ -13,6 +13,7 @@ namespace redd096
         [Header("DEBUG")]
         [SerializeField] bool destroyWeaponOnDrop = false;
         [ReadOnly] public Character Owner;
+        [HideInInspector] public WeaponBASE WeaponPrefab = default;
 
         //events
         public System.Action onPickWeapon { get; set; }
