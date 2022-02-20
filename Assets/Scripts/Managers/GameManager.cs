@@ -38,7 +38,15 @@ public class GameManager : Singleton<GameManager>
         Application.targetFrameRate = lock60Fps ? 60 : -1;
 
         //load stats to players
-        LoadStats();
+        if (levelManager)
+        {
+            LoadStats();
+        }
+        //reset when move to a level without LevelManager
+        else
+        {
+            savedStats = null;
+        }
     }
 
     void OnValidate()
