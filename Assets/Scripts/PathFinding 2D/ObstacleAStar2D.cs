@@ -92,7 +92,8 @@ namespace redd096.PathFinding2D
         /// <param name="grid"></param>
         public void UpdatePositionOnGrid(GridAStar2D grid)
         {
-            if (grid == null)
+            //only if active in scene
+            if (gameObject.activeInHierarchy == false || grid == null)
                 return;
 
             //set vars
