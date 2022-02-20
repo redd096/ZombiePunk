@@ -132,8 +132,8 @@ public class LevelManager : MonoBehaviour
 
     void OnInteractExit(ExitInteractable exit)
     {
-        //move players to next scene
-        GameManager.instance.MovePlayersToNextScene(Players.ToArray());
+        //save stats for next scene
+        GameManager.instance.SaveStats(Players.ToArray());
 
         //load next scene
         SceneLoader.instance.LoadScene(exit.SceneToLoad);
