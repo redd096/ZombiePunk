@@ -1,5 +1,5 @@
 ﻿using UnityEngine;
-//using NaughtyAttributes;
+using NaughtyAttributes;
 
 namespace redd096
 {
@@ -19,9 +19,9 @@ namespace redd096
         [SerializeField] EWeaponOnDeath destroyWeaponOnDeath = EWeaponOnDeath.EveryWeapon;
         [SerializeField] HealthComponent healthComponent = default;
 
-        //[Header("DEBUG")]
-        /*[ReadOnly]*/ [HideInInspector] public WeaponBASE[] CurrentWeapons = default;      //it will be always the same size of Max Weapons
-        /*[ReadOnly] [SerializeField]*/ int indexEquippedWeapon = 0;                        //it will be always the correct index, or zero
+        [Header("DEBUG")]
+        [ReadOnly] [HideInInspector] public WeaponBASE[] CurrentWeapons = default;      //it will be always the same size of Max Weapons
+        [ReadOnly] [SerializeField] int indexEquippedWeapon = 0;                        //it will be always the correct index, or zero
 
         //the equipped weapon
         public WeaponBASE CurrentWeapon => CurrentWeapons != null && indexEquippedWeapon < CurrentWeapons.Length ? CurrentWeapons[indexEquippedWeapon] : null;
@@ -32,7 +32,7 @@ namespace redd096
         public System.Action onSwitchWeapon { get; set; }       //called when call Switch Weapon
         public System.Action onChangeWeapon { get; set; }       //called at every pick and every drop. Also when switch weapon
 
-        Character owner;
+        protected Character owner;
         Transform _currentWeaponsParent;
         Transform CurrentWeaponsParent { get { if (_currentWeaponsParent == null) _currentWeaponsParent = new GameObject(name + "'s Weapons").transform; return _currentWeaponsParent; } }
         public Transform WeaponsParent => CurrentWeaponsParent;
@@ -45,8 +45,11 @@ namespace redd096
             //get references
             owner = GetComponent<Character>();
 
-            //instantiate default weapons
-            SetDefaultWeapons();
+            //instantiate default weapons, only if this is not a Player or weapons are not saved in game manager
+            if (owner == null || owner.CharacterType != Character.ECharacterType.Player || GameManager.instance == null || GameManager.instance.HasSavedStats() == false)
+                SetDefaultWeapons();
+            else
+                LoadSavedWeapons();
         }
 
         protected virtual void OnEnable()
@@ -75,23 +78,8 @@ namespace redd096
 
         void SetDefaultWeapons()
         {
-            //if player, try get weapon saved in game manager
-            if (owner && owner.CharacterType == Character.ECharacterType.Player && GameManager.instance && GameManager.instance.HasWeaponsSaved())
-            {
-                WeaponBASE[] weapons = GameManager.instance.GetWeapons();
-                for (int i = 0; i < CurrentWeapons.Length; i++)
-                {
-                    if (i < weapons.Length)
-                    {
-                        if (weapons[i])
-                            PickWeapon(Instantiate(weapons[i]));
-                    }
-                    else
-                        break;
-                }
-            }
-            //else (if not player or there is no weapon in game manager), instantiate and equip default weapons
-            else if (weaponsPrefabs != null && weaponsPrefabs.Length > 0)
+            //instantiate and equip default weapons
+            if (weaponsPrefabs != null && weaponsPrefabs.Length > 0)
             {
                 for (int i = 0; i < CurrentWeapons.Length; i++)
                 {
@@ -110,6 +98,21 @@ namespace redd096
             //{
             //    GameManager.instance.AddCustomizationsToWeapon(EquippedWeapon);
             //}
+        }
+
+        void LoadSavedWeapons()
+        {
+            SavesBetweenScenes savedStats = GameManager.instance.GetSavedStats();
+            for (int i = 0; i < CurrentWeapons.Length; i++)
+            {
+                if (i < savedStats.WeaponPrefabs.Length)
+                {
+                    if (savedStats.WeaponPrefabs[i])
+                        PickWeapon(Instantiate(savedStats.WeaponPrefabs[i]));
+                }
+                else
+                    break;
+            }
         }
 
         void OnDie(HealthComponent whoDied)
