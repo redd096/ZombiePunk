@@ -67,7 +67,7 @@ namespace redd096.PathFinding2D
         void Awake()
         {
             //get references
-            if (colliders == null || colliders.Length <= 0) 
+            if (colliders == null || colliders.Length <= 0)
                 colliders = GetComponentsInChildren<Collider2D>();
         }
 
@@ -92,8 +92,7 @@ namespace redd096.PathFinding2D
         /// <param name="grid"></param>
         public void UpdatePositionOnGrid(GridAStar2D grid)
         {
-            //only if active in scene
-            if (gameObject.activeInHierarchy == false || grid == null)
+            if (grid == null)
                 return;
 
             //set vars
@@ -125,7 +124,8 @@ namespace redd096.PathFinding2D
         /// </summary>
         public void SetNewNodes()
         {
-            if (grid == null)
+            //only if active in scene
+            if (gameObject.activeInHierarchy == false || grid == null)
                 return;
 
             //set nodes using box or circle
@@ -208,26 +208,26 @@ namespace redd096.PathFinding2D
             {
                 if (col == null)
                     continue;
-        
+
                 //calculate nodes
                 //use an offset to check if node is inside also if collider not reach center of the node (add grid.NodeRadius in the half size)
                 centerNode = grid.GetNodeFromWorldPosition(col.bounds.center);
                 grid.GetNodesExtremesOfABox(centerNode, col.bounds.center, (Vector2)col.bounds.extents + (Vector2.one * grid.NodeRadius), out leftNode, out rightNode, out downNode, out upNode);
-        
+
                 //check every node
                 for (int x = leftNode.gridPosition.x; x <= rightNode.gridPosition.x; x++)
                 {
                     for (int y = downNode.gridPosition.y; y <= upNode.gridPosition.y; y++)
                     {
                         nodeToCheck = grid.GetNodeByCoordinates(x, y);
-        
+
                         //if node is inside collider (+ node radius offset)
                         if (Vector2.Distance(col.ClosestPoint(nodeToCheck.worldPosition), nodeToCheck.worldPosition) < Mathf.Epsilon + grid.NodeRadius)
                         {
                             //set it
                             if (nodeToCheck != null)
                                 nodeToCheck.AddObstacle(this);
-        
+
                             //and add to the list
                             if (nodesPosition.Contains(nodeToCheck) == false)
                                 nodesPosition.Add(nodeToCheck);

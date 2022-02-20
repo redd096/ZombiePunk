@@ -41,7 +41,8 @@ public class Spawn : MonoBehaviour
             StopCoroutine(spawnCoroutine);
 
         //start coroutine
-        spawnCoroutine = StartCoroutine(SpawnCoroutine());
+        if (gameObject.activeInHierarchy)
+            spawnCoroutine = StartCoroutine(SpawnCoroutine());
     }
 
     IEnumerator SpawnCoroutine()
