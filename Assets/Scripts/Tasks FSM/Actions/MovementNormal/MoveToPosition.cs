@@ -12,7 +12,7 @@ public class MoveToPosition : ActionTask
     [Header("Movement")]
     [SerializeField] bool useBlackboard = true;
     [EnableIf("useBlackboard")] [SerializeField] string positionBlackboardName = "Last Target Position";
-    [EnableIf("notUseBlackboard")] [SerializeField] Vector2 positionToReach = Vector2.one;
+    [DisableIf("useBlackboard")] [SerializeField] Vector2 positionToReach = Vector2.one;
     [SerializeField] float speedMovement = 5;
     [SerializeField] bool ignoreCollisions = true;
 
@@ -32,9 +32,9 @@ public class MoveToPosition : ActionTask
     [SerializeField] bool drawDebug = false;
     [Range(0f, 0.5f)] [SerializeField] float approxReachNode = 0.05f;
 
-    bool notUseBlackboard => !useBlackboard;
     Vector2 positionFromBlackboard;
     bool reachedPosition;
+    Vector2 direction;
 
     void OnDrawGizmos()
     {
@@ -110,17 +110,23 @@ public class MoveToPosition : ActionTask
     {
         if (movementComponent)
         {
+            //calculate direction
+            direction = ((useBlackboard ? positionFromBlackboard : positionToReach) - (Vector2)transformTask.position).normalized;
+
             //force transform position movement, to ignore collisions
             if (ignoreCollisions)
             {
-                movementComponent.transform.position = (Vector2)movementComponent.transform.position 
-                    + ((useBlackboard ? positionFromBlackboard : positionToReach) - (Vector2)movementComponent.transform.position).normalized * speedMovement * Time.deltaTime;
+                movementComponent.transform.position = (Vector2)movementComponent.transform.position + direction * speedMovement * Time.deltaTime;
             }
             //else use movement component normally
             else
             {
-                movementComponent.MoveTo(useBlackboard ? positionFromBlackboard : positionToReach, speedMovement);
+                movementComponent.MoveInDirection(direction, speedMovement);
             }
+
+            //if different direction, then we have sorpassed position to reach
+            if (Vector2.Distance(((useBlackboard ? positionFromBlackboard : positionToReach) - (Vector2)transformTask.position).normalized, direction) > 0.1f)
+                transformTask.position = (useBlackboard ? positionFromBlackboard : positionToReach);
         }
     }
 
