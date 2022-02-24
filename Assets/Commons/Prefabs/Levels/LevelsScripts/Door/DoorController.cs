@@ -5,6 +5,7 @@ using UnityEngine;
 public class DoorController : MonoBehaviour
 {
     public int objectsNumber;
+    public GameObject turnOn, turnOff;
 
     // Start is called before the first frame update
     void Start()
@@ -17,7 +18,8 @@ public class DoorController : MonoBehaviour
     {
         if (objectsNumber <= 0)
         {
-            Destroy(gameObject);
+            turnOn.SetActive(true);
+            turnOff.SetActive(false);
         }
     }
 }
