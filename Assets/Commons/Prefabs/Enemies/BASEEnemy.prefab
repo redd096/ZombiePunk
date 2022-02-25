@@ -295,6 +295,7 @@ MonoBehaviour:
   destroyWeaponOnDeath: 2
   healthComponent: {fileID: 3832161719942337422}
   CurrentWeapons: []
+  indexEquippedWeapon: 0
 --- !u!114 &8314279716461989256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -311,7 +312,7 @@ MonoBehaviour:
   colliders: []
   offset: {x: 0, y: 0}
   typeCollider: 1
-  sizeCollider: {x: 1, y: 1}
+  sizeCollider: {x: 0.5, y: 1}
   radiusCollider: 1
   obstacleAStar: {fileID: 2909709813193156785}
   drawDebug: 1
@@ -331,7 +332,7 @@ MonoBehaviour:
   colliders: []
   offset: {x: 0, y: 0}
   typeCollider: 1
-  sizeCollider: {x: 1, y: 1}
+  sizeCollider: {x: 0.5, y: 1}
   radiusCollider: 1
   setUnwalkable: 0
   addPenalty: 0
@@ -512,7 +513,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.5, y: 1}
   m_EdgeRadius: 0
 --- !u!95 &3263763755086437044
 Animator:
@@ -558,7 +559,7 @@ MonoBehaviour:
   - {x: -0.3, y: -0.5, z: 0}
   m_ShapePathHash: 1800385341
   m_Mesh: {fileID: 0}
-  m_InstanceId: 335296
+  m_InstanceId: 212106
 --- !u!1 &8590413540878556233
 GameObject:
   m_ObjectHideFlags: 0

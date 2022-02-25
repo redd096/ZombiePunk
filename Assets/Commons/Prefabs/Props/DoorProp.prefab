@@ -284,12 +284,11 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   updateMode: 0
   movementMode: 0
-  maxSpeed: 50
+  maxSpeed: 0
   dragBasedOnVelocity: 1
   drag: 5
   removePushForceWhenHit: 1
   collisionComponent: {fileID: 0}
-  tempFixCollisionComponent: 1
   rb: {fileID: 0}
   IsMovingRight: 1
   MoveDirectionInput: {x: 0, y: 0}
@@ -309,7 +308,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 78c3912747fe8384ab5be50c4b45379e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isActive: 1
+  isActive: 0
   collisionComponent: {fileID: 0}
   charactersToHit: 00000000
   damage: 10
@@ -327,10 +326,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07e9770e1bad0824d8627ae9cf102c23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useCustomCollider: 1
+  colliders: []
   offset: {x: 0, y: 0}
   typeCollider: 1
   sizeCollider: {x: 1, y: 1}
   radiusCollider: 1
+  setUnwalkable: 0
+  addPenalty: 1
+  penalty: 1
   drawDebug: 0
 --- !u!114 &2928734266541548023
 MonoBehaviour:
