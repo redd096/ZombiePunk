@@ -22,7 +22,11 @@ public class PayloadMovement : MonoBehaviour
 
     private void OnTriggerStay2D(Collider2D collision)
     {
-        gameObject.transform.Translate(Vector3.left * speed * Time.deltaTime);
+        if (collision.CompareTag("Player"))
+        {
+            gameObject.transform.Translate(Vector3.left * speed * Time.deltaTime);
+        }
+
         //rb.velocity = transform.right  * speed * Time.deltaTime;
     }
 }
