@@ -34,7 +34,7 @@ public class SpawnManager : MonoBehaviour
         if(spawnsActive.Contains(spawn))
         {
             spawnsActive.Remove(spawn);
-            spawn.onEveryObjectIsDead -= OnKilledEverySpawnedObject;
+            spawn.onEveryObjectIsDeactivated -= OnKilledEverySpawnedObject;
         }
 
         //check if finish to spawn this list
@@ -73,7 +73,7 @@ public class SpawnManager : MonoBehaviour
             if (spawn == null)
                 continue;
 
-            spawn.onEveryObjectIsDead += OnKilledEverySpawnedObject;
+            spawn.onEveryObjectIsDeactivated += OnKilledEverySpawnedObject;
             spawn.StartSpawn();
 
             //add to list, to know when every spawn of this list has finished
