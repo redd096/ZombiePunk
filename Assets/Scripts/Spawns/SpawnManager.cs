@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using NaughtyAttributes;
+using redd096;
 
 [DefaultExecutionOrder(-1)]
 public class SpawnManager : MonoBehaviour
@@ -25,7 +26,14 @@ public class SpawnManager : MonoBehaviour
     public System.Action<SpawnManager> onRestart { get; set; }              //called when finish all the lists and restart from the first
     public System.Action<SpawnManager> onFinishToSpawn { get; set; }        //called when finish all the lists and stops
 
-    void Awake()
+    void OnEnable()
+    {
+        //if this game manager is not active in editor, but will be activated during gameplay, be sure to add to the list to check
+        foreach (ExitInteractable exit in GameManager.instance.levelManager.Exits)
+            exit.AddSpawnManager(this);
+    }
+
+    void Start()
     {
         //register to every spawn event
         foreach (SpawnStruct spawnStruct in spawnsList)
