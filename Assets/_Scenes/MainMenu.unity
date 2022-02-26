@@ -98,7 +98,7 @@ LightmapSettings:
     m_TrainingDataDestination: TrainingData
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 0}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1070,8 +1070,8 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2118532011}
-  - component: {fileID: 2118532010}
   - component: {fileID: 2118532009}
+  - component: {fileID: 2118532010}
   m_Layer: 0
   m_Name: EventSystem
   m_TagString: Untagged
@@ -1126,12 +1126,17 @@ MonoBehaviour:
   m_GameObject: {fileID: 2118532008}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c392e42b5098c458856cdf6ecaaaa1, type: 3}
+  m_Script: {fileID: 11500000, guid: a37de233caf8ef84aa499300c561a85b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_FirstSelected: {fileID: 0}
   m_sendNavigationEvents: 1
   m_DragThreshold: 10
+  startMenu: {fileID: 0}
+  firstSelectedGameObjects:
+  - {fileID: 1319828656}
+  overrideObjects: []
+  notNavigables: []
 --- !u!4 &2118532011
 Transform:
   m_ObjectHideFlags: 0
