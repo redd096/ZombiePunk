@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class FroggerLevelTrigger : MonoBehaviour
 {
-    public GameObject levelEnter, levelPlay, game , exit;
+    public GameObject levelEnter, levelPlay, game , exit, Spawn;
 
     // Start is called before the first frame update
     void Start()
@@ -31,9 +31,13 @@ public class FroggerLevelTrigger : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            exit.SetActive(true);
+            
+            Destroy(Spawn);
+            
             levelPlay.SetActive(true);
+
             levelEnter.SetActive(false);
+            exit.SetActive(true);
             Destroy(gameObject);
         }
     }
