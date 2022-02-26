@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PayloadCheckpoint : MonoBehaviour
 {
-    public GameObject toTurnOn1,toTurnOn2, toTurnOff;
+    public GameObject toTurnOn, toTurnOff;
 
     private GameObject payload;
 
@@ -19,8 +19,7 @@ public class PayloadCheckpoint : MonoBehaviour
     {
         if (gameObject.transform.position.x <= payload.transform.position.x)
         {
-            toTurnOn1.SetActive(true);
-            toTurnOn2.SetActive(true);
+            toTurnOn.SetActive(true);
             Destroy(toTurnOff);
         }
     }
