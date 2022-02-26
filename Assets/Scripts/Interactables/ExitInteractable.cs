@@ -9,7 +9,7 @@ namespace redd096
     {
         [Header("Rules to Open")]
         [Tooltip("Check there are no enemies in scene")] [SerializeField] bool checkNoEnemiesInScene = true;
-        [Tooltip("If there are spawn managers in scene, check when every spawn has finished and every enemy is killed")] [SerializeField] bool checkEverySpawnManager = true;
+        [Tooltip("If there are spawn managers in scene, check when every spawn has finished to spawn (spawns with RestartWhenFinish will not be checked)")] [SerializeField] bool checkEverySpawnManager = true;
         [Tooltip("Check every player has weapon")] [SerializeField] bool checkEveryPlayerHasWeapon = true;
 
         [Header("On Interact")]
@@ -28,7 +28,7 @@ namespace redd096
         public System.Action<ExitInteractable> onInteract { get; set; }
 
         //necessary for checks
-        List<Character> enemies = new List<Character>();
+        List<SpawnableObject> enemies = new List<SpawnableObject>();
         List<Character> players = new List<Character>();
         List<SpawnManager> spawnManagers = new List<SpawnManager>();
 
@@ -40,12 +40,14 @@ namespace redd096
         public void ActiveExit()
         {
             //register to every enemy death
+            SpawnableObject spawnableObject;
             foreach (Character enemy in GameManager.instance.levelManager.Enemies)
             {
-                if (enemy && enemy.GetSavedComponent<HealthComponent>())
+                if (enemy)
                 {
-                    enemy.GetSavedComponent<HealthComponent>().onDie += OnEnemyDie;
-                    enemies.Add(enemy);             //and add to the list
+                    spawnableObject = enemy.gameObject.AddComponent<SpawnableObject>();
+                    spawnableObject.onDeactiveObject += OnEnemyDie;
+                    enemies.Add(spawnableObject);   //and add to the list
                 }
             }
 
@@ -59,13 +61,19 @@ namespace redd096
                 }
             }
 
-            //register to every spawn manager finish spawn
+            //register to every spawn manager finish spawn (only if not restart when finish)
             foreach (SpawnManager spawnManager in GameManager.instance.levelManager.SpawnManagers)
             {
                 if (spawnManager)
                 {
-                    spawnManager.onFinishToSpawn += OnFinishToSpawn;
-                    spawnManagers.Add(spawnManager);    //and add to the list
+                    if (spawnManager.RestartWhenFinish == false)
+                    {
+                        spawnManager.onFinishToSpawn += OnFinishToSpawn;
+                        spawnManagers.Add(spawnManager);    //and add to the list
+                    }
+
+                    //add also every enemy spawned
+                    spawnManager.onEverySpawn += OnEverySpawn;
                 }
             }
 
@@ -79,10 +87,10 @@ namespace redd096
         public void DeactiveExit()
         {
             //unregister from every enemy
-            foreach (Character enemy in enemies)
+            foreach (SpawnableObject enemy in enemies)
             {
-                if (enemy && enemy.GetSavedComponent<HealthComponent>())
-                    enemy.GetSavedComponent<HealthComponent>().onDie -= OnEnemyDie;
+                if (enemy)
+                    enemy.onDeactiveObject -= OnEnemyDie;
             }
             enemies.Clear();
 
@@ -94,11 +102,14 @@ namespace redd096
             }
             players.Clear();
 
-            //unregister from every spawm manager
+            //unregister from every spawn manager
             foreach (SpawnManager spawnManager in spawnManagers)
             {
                 if (spawnManager)
+                {
                     spawnManager.onFinishToSpawn -= OnFinishToSpawn;
+                    spawnManager.onEverySpawn -= OnEverySpawn;
+                }
             }
             spawnManagers.Clear();
         }
@@ -110,29 +121,28 @@ namespace redd096
         public void Interact(InteractComponent whoInteract)
         {
             //only if is open
-            if (isOpen == false)
-                return;
+            if (isOpen)
+            {
+                //stop this script
+                DeactiveExit();     //stop check open/close
+                isOpen = false;     //can't interact anymore
 
-            //stop this script
-            DeactiveExit();     //stop check open/close
-            isOpen = false;     //can't interact anymore
-
-            //call event
-            onInteract?.Invoke(this);
+                //call event
+                onInteract?.Invoke(this);
+            }
         }
 
         #endregion
 
         #region events
 
-        void OnEnemyDie(HealthComponent enemy)
+        void OnEnemyDie(SpawnableObject enemy)
         {
-            //when an enemy died, remove from the list
-            Character enemyCharacter = enemy.GetComponent<Character>();
-            if (enemyCharacter)
+            //when an enemy die, remove from the list
+            if (enemy)
             {
-                if (enemies.Contains(enemyCharacter))
-                    enemies.Remove(enemyCharacter);
+                if (enemies.Contains(enemy))
+                    enemies.Remove(enemy);
             }
 
             //do checks
@@ -150,6 +160,24 @@ namespace redd096
             //remove spawn manager from the list
             if (spawnManagers.Contains(spawnManager))
                 spawnManagers.Remove(spawnManager);
+
+            //do checks
+            DoCheck();
+        }
+
+        void OnEverySpawn(GameObject spawnedObject)
+        {
+            if (spawnedObject == null)
+                return;
+
+            //if some spawn, spawn an enemy, register also to its enemy death
+            Character character = spawnedObject.GetComponent<Character>();
+            if (character && character.CharacterType == Character.ECharacterType.AI)
+            {
+                SpawnableObject spawnableObject = spawnedObject.AddComponent<SpawnableObject>();
+                spawnableObject.onDeactiveObject += OnEnemyDie;
+                enemies.Add(spawnableObject);   //and add to the list
+            }
 
             //do checks
             DoCheck();

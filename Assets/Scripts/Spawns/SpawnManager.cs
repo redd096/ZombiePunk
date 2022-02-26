@@ -15,15 +15,28 @@ public class SpawnManager : MonoBehaviour
     /*[ReadOnly] [SerializeField]*/ List<Spawn> spawnsActive = new List<Spawn>();
     /*[ShowNonSerializedField]*/ int index = 0;
 
+    public bool RestartWhenFinish => restartWhenFinish;
+
     //events
     public System.Action<Spawn[]> onActiveList { get; set; }                //called when active a list of spawns
     public System.Action<Spawn[]> onFinishList { get; set; }                //called when finish a list of spawns
+    public System.Action<GameObject> onEverySpawn { get; set; }             //called when one Spawn spawn an object
     public System.Action<SpawnManager> onFinishEveryList { get; set; }      //called when finish all the lists
     public System.Action<SpawnManager> onRestart { get; set; }              //called when finish all the lists and restart from the first
     public System.Action<SpawnManager> onFinishToSpawn { get; set; }        //called when finish all the lists and stops
 
     void Awake()
     {
+        //register to every spawn event
+        foreach (SpawnStruct spawnStruct in spawnsList)
+        {
+            foreach (Spawn spawn in spawnStruct.Spawns)
+            {
+                if (spawn)
+                    spawn.onSpawn += OnEverySpawn;
+            }
+        }
+
         //active first list
         ActiveList();
     }
@@ -102,6 +115,12 @@ public class SpawnManager : MonoBehaviour
         {
             onFinishToSpawn?.Invoke(this);
         }
+    }
+
+    void OnEverySpawn(GameObject spawnedObject)
+    {
+        //call event for each spawned object
+        onEverySpawn?.Invoke(spawnedObject);
     }
 
     #endregion
