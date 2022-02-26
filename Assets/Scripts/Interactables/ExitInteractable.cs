@@ -64,7 +64,7 @@ namespace redd096
             //register to every spawn manager finish spawn (only if not restart when finish)
             foreach (SpawnManager spawnManager in GameManager.instance.levelManager.SpawnManagers)
             {
-                if (spawnManager)
+                if (spawnManager && spawnManagers.Contains(spawnManager) == false)
                 {
                     if (spawnManager.RestartWhenFinish == false)
                     {
@@ -129,6 +129,26 @@ namespace redd096
 
                 //call event
                 onInteract?.Invoke(this);
+            }
+        }
+
+        /// <summary>
+        /// Call this when active a spawn manager that by default is deactivated. To add to the list of spawn managers to check
+        /// </summary>
+        /// <param name="spawnManager"></param>
+        public void AddSpawnManager(SpawnManager spawnManager)
+        {
+            //if not already in the list
+            if (spawnManager && spawnManagers.Contains(spawnManager) == false)
+            {
+                if (spawnManager.RestartWhenFinish == false)
+                {
+                    spawnManager.onFinishToSpawn += OnFinishToSpawn;
+                    spawnManagers.Add(spawnManager);    //and add to the list
+                }
+
+                //add also every enemy spawned
+                spawnManager.onEverySpawn += OnEverySpawn;
             }
         }
 
