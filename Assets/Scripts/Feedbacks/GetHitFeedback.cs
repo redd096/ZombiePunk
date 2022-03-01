@@ -1,15 +1,16 @@
 ﻿using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
-using NaughtyAttributes;
+//using NaughtyAttributes;
+using redd096.Attributes;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Feedbacks/Get Hit Feedback")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Feedbacks/Get Hit Feedback")]
     public class GetHitFeedback : MonoBehaviour
     {
         [Header("Necessary Components - default get in parent")]
-        [SerializeField] HealthComponent component;
+        [SerializeField] HealthComponent healthComponent;
 
         [Header("Blink - Default get component in children")]
         [SerializeField] bool blinkOnGetDamage = true;
@@ -25,9 +26,9 @@ namespace redd096
         [Header("On Get Damage Gamepad Vibration")]
         [SerializeField] bool gamepadVibration = false;
         [EnableIf("gamepadVibration")] [SerializeField] bool customVibration = false;
-        [EnableIf(EConditionOperator.And, "gamepadVibration", "customVibration")] [SerializeField] float vibrationDuration = 0.1f;
-        [EnableIf(EConditionOperator.And, "gamepadVibration", "customVibration")] [SerializeField] float lowFrequency = 0.5f;
-        [EnableIf(EConditionOperator.And, "gamepadVibration", "customVibration")] [SerializeField] float highFrequency = 0.8f;
+        [EnableIf("gamepadVibration", "customVibration")] [SerializeField] float vibrationDuration = 0.1f;
+        [EnableIf("gamepadVibration", "customVibration")] [SerializeField] float lowFrequency = 0.5f;
+        [EnableIf("gamepadVibration", "customVibration")] [SerializeField] float highFrequency = 0.8f;
 
         [Header("On Die (instantiate every element in array)")]
         [SerializeField] InstantiatedGameObjectStruct[] gameObjectsOnDie = default;
@@ -49,25 +50,25 @@ namespace redd096
         void OnEnable()
         {
             //get references
-            if(component == null) component = GetComponentInParent<HealthComponent>();
+            if (healthComponent == null) healthComponent = GetComponentInParent<HealthComponent>();
             if (spritesToUse == null || spritesToUse.Length <= 0) spritesToUse = GetComponentsInChildren<SpriteRenderer>();
             if (selfCharacter == null) selfCharacter = GetComponentInParent<Character>();
 
             //add events
-            if (component)
+            if (healthComponent)
             {
-                component.onGetDamage += OnGetDamage;
-                component.onDie += OnDie;
+                healthComponent.onGetDamage += OnGetDamage;
+                healthComponent.onDie += OnDie;
             }
         }
 
         void OnDisable()
         {
             //remove events
-            if (component)
+            if (healthComponent)
             {
-                component.onGetDamage -= OnGetDamage;
-                component.onDie -= OnDie;
+                healthComponent.onGetDamage -= OnGetDamage;
+                healthComponent.onDie -= OnDie;
             }
         }
 
@@ -125,7 +126,7 @@ namespace redd096
             foreach (InstantiatedGameObjectStruct go in gameObjectsOnDie)
                 InstantiateGameObjectManager.instance.Play(go, transform.position, transform.rotation);         //instantiate every element in array
 
-            foreach(ParticleSystem particle in particlesOnDie)
+            foreach (ParticleSystem particle in particlesOnDie)
                 ParticlesManager.instance.Play(particle, transform.position, transform.rotation);               //instantiate every element in array
 
             foreach (AudioClass audio in audiosOnDie)

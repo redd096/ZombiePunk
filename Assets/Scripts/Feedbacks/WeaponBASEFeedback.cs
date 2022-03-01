@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using NaughtyAttributes;
+using redd096.Attributes;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Feedbacks/Weapon BASE Feedback")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Feedbacks/Weapon BASE Feedback")]
     public class WeaponBASEFeedback : MonoBehaviour
     {
         [Header("Necessary Components - default get in parent")]
@@ -17,8 +17,8 @@ namespace redd096
         [Header("On Pick Camera Shake")]
         [SerializeField] bool cameraShakeOnPick = true;
         [EnableIf("cameraShakeOnPick")] [SerializeField] bool customShakeOnPick = false;
-        [EnableIf(EConditionOperator.And, "cameraShakeOnPick", "customShakeOnPick")] [SerializeField] float shakeDurationOnPick = 1;
-        [EnableIf(EConditionOperator.And, "cameraShakeOnPick", "customShakeOnPick")] [SerializeField] float shakeAmountOnPick = 0.7f;
+        [EnableIf("cameraShakeOnPick", "customShakeOnPick")] [SerializeField] float shakeDurationOnPick = 1;
+        [EnableIf("cameraShakeOnPick", "customShakeOnPick")] [SerializeField] float shakeAmountOnPick = 0.7f;
 
         [Header("On Drop")]
         [SerializeField] InstantiatedGameObjectStruct gameObjectOnDrop = default;
@@ -28,13 +28,23 @@ namespace redd096
         [Header("On Drop Camera Shake")]
         [SerializeField] bool cameraShakeOnDrop = true;
         [EnableIf("cameraShakeOnDrop")] [SerializeField] bool customShakeOnDrop = false;
-        [EnableIf(EConditionOperator.And, "cameraShakeOnDrop", "customShakeOnDrop")] [SerializeField] float shakeDurationOnDrop = 1;
-        [EnableIf(EConditionOperator.And, "cameraShakeOnDrop", "customShakeOnDrop")] [SerializeField] float shakeAmountOnDrop = 0.7f;
+        [EnableIf("cameraShakeOnDrop", "customShakeOnDrop")] [SerializeField] float shakeDurationOnDrop = 1;
+        [EnableIf("cameraShakeOnDrop", "customShakeOnDrop")] [SerializeField] float shakeAmountOnDrop = 0.7f;
+
+        [Header("On Equip")]
+        [SerializeField] InstantiatedGameObjectStruct gameObjectOnEquip = default;
+        [SerializeField] ParticleSystem particlesOnEquip = default;
+        [SerializeField] AudioClass audioOnEquip = default;
+
+        [Header("On Unequip")]
+        [SerializeField] InstantiatedGameObjectStruct gameObjectOnUnequip = default;
+        [SerializeField] ParticleSystem particlesOnUnequip = default;
+        [SerializeField] AudioClass audioOnUnequip = default;
 
         void OnEnable()
         {
             //get references
-            if(weaponBASE == null)
+            if (weaponBASE == null)
                 weaponBASE = GetComponentInParent<WeaponBASE>();
 
             //add events
@@ -42,6 +52,8 @@ namespace redd096
             {
                 weaponBASE.onPickWeapon += OnPickWeapon;
                 weaponBASE.onDropWeapon += OnDropWeapon;
+                weaponBASE.onEquipWeapon += OnEquipWeapon;
+                weaponBASE.onUnequipWeapon += OnUnequipWeapon;
             }
         }
 
@@ -52,6 +64,8 @@ namespace redd096
             {
                 weaponBASE.onPickWeapon -= OnPickWeapon;
                 weaponBASE.onDropWeapon -= OnDropWeapon;
+                weaponBASE.onEquipWeapon -= OnEquipWeapon;
+                weaponBASE.onUnequipWeapon -= OnUnequipWeapon;
             }
         }
 
@@ -91,6 +105,22 @@ namespace redd096
                 else
                     CameraShake.instance.StartShake();
             }
+        }
+
+        void OnEquipWeapon()
+        {
+            //instantiate vfx and sfx
+            InstantiateGameObjectManager.instance.Play(gameObjectOnEquip, transform.position, transform.rotation);
+            ParticlesManager.instance.Play(particlesOnEquip, transform.position, transform.rotation);
+            SoundManager.instance.Play(audioOnEquip, transform.position);
+        }
+
+        void OnUnequipWeapon()
+        {
+            //instantiate vfx and sfx
+            InstantiateGameObjectManager.instance.Play(gameObjectOnUnequip, transform.position, transform.rotation);
+            ParticlesManager.instance.Play(particlesOnUnequip, transform.position, transform.rotation);
+            SoundManager.instance.Play(audioOnUnequip, transform.position);
         }
 
         #endregion

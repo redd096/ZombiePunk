@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Feedbacks/Advanced Weapon Component Feedback")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Feedbacks/Advanced Weapon Component Feedback")]
     public class AdvancedWeaponComponentFeedback : MonoBehaviour
     {
         [Header("Necessary Components - default get in parent")]

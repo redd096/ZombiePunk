@@ -1,6 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
-using redd096;
+using redd096.GameTopDown2D;
 using UnityEngine.UI;
 
 [AddComponentMenu("redd096/Feedbacks/Weapon Bars Feedback")]

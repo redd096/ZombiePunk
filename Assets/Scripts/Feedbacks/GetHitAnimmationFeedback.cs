@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Feedbacks/Get Hit Animation Feedback")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Feedbacks/Get Hit Animation Feedback")]
     public class GetHitAnimmationFeedback : MonoBehaviour
     {
         [Header("Necessary Components - default get in child and parent")]

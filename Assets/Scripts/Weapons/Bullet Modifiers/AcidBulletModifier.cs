@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using redd096;
+using redd096.GameTopDown2D;
 
 [AddComponentMenu("redd096/Weapons/Bullet Modifiers/Acid Bullet Modifier")]
 public class AcidBulletModifier : MonoBehaviour

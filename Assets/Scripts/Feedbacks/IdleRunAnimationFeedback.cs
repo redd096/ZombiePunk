@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Feedbacks/Idle Run Animation Feedback")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Feedbacks/Idle Run Animation Feedback")]
     public class IdleRunAnimationFeedback : MonoBehaviour
     {
         [Header("Necessary Components - default get in child and parent")]
@@ -25,10 +25,10 @@ namespace redd096
 
         void Update()
         {
-            if(anim && movementComponent)
+            if (anim && movementComponent)
             {
                 //start run
-                if(movementComponent.CurrentSpeed > valueToRun && isRunning == false)
+                if (movementComponent.CurrentSpeed > valueToRun && isRunning == false)
                 {
                     isRunning = true;
 
@@ -36,7 +36,7 @@ namespace redd096
                     anim.SetBool(boolName, true);
                 }
                 //back to idle
-                else if(movementComponent.CurrentSpeed <= valueToRun && isRunning)
+                else if (movementComponent.CurrentSpeed <= valueToRun && isRunning)
                 {
                     isRunning = false;
 

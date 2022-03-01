@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Feedbacks/Exit Feedback")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Feedbacks/Exit Feedback")]
     public class ExitFeedbacks : MonoBehaviour
     {
         [Header("Necessary Components - default get in parent")]

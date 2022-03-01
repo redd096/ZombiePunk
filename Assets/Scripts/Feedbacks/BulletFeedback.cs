@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using NaughtyAttributes;
+using redd096.Attributes;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Feedbacks/Bullet Feedback")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Feedbacks/Bullet Feedback")]
     public class BulletFeedback : MonoBehaviour
     {
         [Header("Necessary Components - default get in parent")]
@@ -34,14 +34,14 @@ namespace redd096
         [SerializeField] bool cameraShakeOnHitSomethingThatDestroyBullet = false;
         [SerializeField] bool cameraShakeOnAutoDestruction = false;
         [SerializeField] bool cameraShakeOnDestroy = false;
-        [EnableIf(EConditionOperator.Or, "cameraShakeOnHit", "cameraShakeOnHitSomethingThatDestroyBullet", "cameraShakeOnAutoDestruction", "cameraShakeOnDestroy")] [SerializeField] bool customShake = false;
-        [EnableIf(EConditionOperator.Or, "cameraShakeOnHit", "cameraShakeOnHitSomethingThatDestroyBullet", "cameraShakeOnAutoDestruction", "cameraShakeOnDestroy")] [SerializeField] float shakeDuration = 1;
-        [EnableIf(EConditionOperator.Or, "cameraShakeOnHit", "cameraShakeOnHitSomethingThatDestroyBullet", "cameraShakeOnAutoDestruction", "cameraShakeOnDestroy")] [SerializeField] float shakeAmount = 0.7f;
+        [EnableIf(EnableIfAttribute.EConditionOperator.OR, "cameraShakeOnHit", "cameraShakeOnHitSomethingThatDestroyBullet", "cameraShakeOnAutoDestruction", "cameraShakeOnDestroy")] [SerializeField] bool customShake = false;
+        [EnableIf(EnableIfAttribute.EConditionOperator.OR, "cameraShakeOnHit", "cameraShakeOnHitSomethingThatDestroyBullet", "cameraShakeOnAutoDestruction", "cameraShakeOnDestroy")] [SerializeField] float shakeDuration = 1;
+        [EnableIf(EnableIfAttribute.EConditionOperator.OR, "cameraShakeOnHit", "cameraShakeOnHitSomethingThatDestroyBullet", "cameraShakeOnAutoDestruction", "cameraShakeOnDestroy")] [SerializeField] float shakeAmount = 0.7f;
 
         void OnEnable()
         {
             //get references
-            if(bullet == null)
+            if (bullet == null)
                 bullet = GetComponentInParent<Bullet>();
 
             //add events

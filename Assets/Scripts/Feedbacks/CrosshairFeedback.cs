@@ -1,10 +1,11 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
-using NaughtyAttributes;
+//using NaughtyAttributes;
+using redd096.Attributes;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Feedbacks/Crosshair Feedback")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Feedbacks/Crosshair Feedback")]
     public class CrosshairFeedback : MonoBehaviour
     {
         [Header("Necessary Components - default get in parent")]

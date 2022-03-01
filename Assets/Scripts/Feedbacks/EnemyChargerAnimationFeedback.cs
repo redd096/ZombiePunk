@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using redd096;
+using redd096.GameTopDown2D;
 
 [AddComponentMenu("redd096/Feedbacks/Enemy Charger Animation Feedback")]
 public class EnemyChargerAnimationFeedback : MonoBehaviour

@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using NaughtyAttributes;
+using redd096.Attributes;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Feedbacks/Weapon Range Feedback")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Feedbacks/Weapon Range Feedback")]
     public class WeaponRangeFeedback : MonoBehaviour
     {
         [Header("Necessary Components - default get in parent")]
@@ -25,15 +25,15 @@ namespace redd096
         [Header("On Shoot Camera Shake")]
         [SerializeField] bool cameraShake = true;
         [EnableIf("cameraShake")] [SerializeField] bool customShake = false;
-        [EnableIf(EConditionOperator.And, "cameraShake", "customShake")] [SerializeField] float shakeDuration = 1;
-        [EnableIf(EConditionOperator.And, "cameraShake", "customShake")] [SerializeField] float shakeAmount = 0.7f;
+        [EnableIf("cameraShake", "customShake")] [SerializeField] float shakeDuration = 1;
+        [EnableIf("cameraShake", "customShake")] [SerializeField] float shakeAmount = 0.7f;
 
         [Header("On Shoot Gamepad Vibration")]
         [SerializeField] bool gamepadVibration = false;
         [EnableIf("gamepadVibration")] [SerializeField] bool customVibration = false;
-        [EnableIf(EConditionOperator.And, "gamepadVibration", "customVibration")] [SerializeField] float vibrationDuration = 0.1f;
-        [EnableIf(EConditionOperator.And, "gamepadVibration", "customVibration")] [SerializeField] float lowFrequency = 0.5f;
-        [EnableIf(EConditionOperator.And, "gamepadVibration", "customVibration")] [SerializeField] float highFrequency = 0.8f;
+        [EnableIf("gamepadVibration", "customVibration")] [SerializeField] float vibrationDuration = 0.1f;
+        [EnableIf("gamepadVibration", "customVibration")] [SerializeField] float lowFrequency = 0.5f;
+        [EnableIf("gamepadVibration", "customVibration")] [SerializeField] float highFrequency = 0.8f;
 
         [Header("On Press Attack - barrel by default is transform")]
         [SerializeField] Transform barrelOnPress = default;

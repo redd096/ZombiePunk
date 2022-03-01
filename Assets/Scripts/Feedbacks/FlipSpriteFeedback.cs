@@ -1,13 +1,13 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Feedbacks/Flip Sprite Feedback")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Feedbacks/Flip Sprite Feedback")]
     public class FlipSpriteFeedback : MonoBehaviour
     {
         [Header("Necessary Components - default get in parent")]
-        [SerializeField] AimComponent component;
+        [SerializeField] AimComponent aimComponent;
 
         [Header("Default get component in children")]
         [Tooltip("By default these sprites are looking to the right?")] [SerializeField] bool defaultLookRight = true;
@@ -23,28 +23,28 @@ namespace redd096
             selfCharacter = GetComponentInParent<Character>();
 
             //get references
-            if(component == null) component = GetComponentInParent<AimComponent>();
+            if (aimComponent == null) aimComponent = GetComponentInParent<AimComponent>();
             if (spritesToFlip == null || spritesToFlip.Length <= 0) spritesToFlip = GetComponentsInChildren<SpriteRenderer>();
 
             //add events
-            if (component)
+            if (aimComponent)
             {
-                component.onChangeAimDirection += OnChangeAimDirection;
-                OnChangeAimDirection(component.IsLookingRight);     //set default rotation
+                aimComponent.onChangeAimDirection += OnChangeAimDirection;
+                OnChangeAimDirection(aimComponent.IsLookingRight);      //set default rotation
             }
         }
 
         void OnDisable()
         {
             //remove events
-            if (component)
-                component.onChangeAimDirection -= OnChangeAimDirection;
+            if (aimComponent)
+                aimComponent.onChangeAimDirection -= OnChangeAimDirection;
         }
 
         void OnChangeAimDirection(bool isLookingRight)
         {
             //TEMP for enemies use a coroutine
-            if(selfCharacter && selfCharacter.CharacterType == Character.ECharacterType.AI)
+            if (selfCharacter && selfCharacter.CharacterType == Character.ECharacterType.AI)
             {
                 //restart coroutine
                 if (flipSpriteCoroutine != null)
@@ -67,10 +67,10 @@ namespace redd096
             yield return new WaitForSeconds(0.1f);
 
             //flip right or left
-            if (component)
+            if (aimComponent)
                 foreach (SpriteRenderer sprite in spritesToFlip)
                     if (sprite)
-                        sprite.flipX = (defaultLookRight && component.IsLookingRight == false) || (defaultLookRight == false && component.IsLookingRight);
+                        sprite.flipX = (defaultLookRight && aimComponent.IsLookingRight == false) || (defaultLookRight == false && aimComponent.IsLookingRight);
         }
     }
 }

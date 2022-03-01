@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Feedbacks/Rotate Weapon Feedback")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Feedbacks/Rotate Weapon Feedback")]
     public class RotateWeaponFeedback : MonoBehaviour
     {
         [Header("Necessary Components - default get in parent")]
@@ -34,7 +34,7 @@ namespace redd096
                 Quaternion rotation = Quaternion.LookRotation(Vector3.forward, Quaternion.AngleAxis(90, Vector3.forward) * aimDirection);
 
                 //when rotate to opposite direction (from default), rotate 180 updown
-                if((defaultLookRight && aimDirection.x < 0) || (defaultLookRight == false && aimDirection.x > 0))
+                if ((defaultLookRight && aimDirection.x < 0) || (defaultLookRight == false && aimDirection.x > 0))
                 {
                     rotation *= Quaternion.AngleAxis(180, Vector3.right);
                 }

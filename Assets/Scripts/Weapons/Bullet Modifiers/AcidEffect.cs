@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
-using redd096;
+using redd096.GameTopDown2D;
 
 [AddComponentMenu("redd096/Weapons/Bullet Modifiers/Effects/Acid Effect")]
 public class AcidEffect : MonoBehaviour
@@ -164,6 +164,6 @@ public class AcidEffect : MonoBehaviour
         yield return new WaitForSeconds(duration);
 
         //and destroy
-        Pooling.Destroy(gameObject);
+        redd096.Pooling.Destroy(gameObject);
     }
 }

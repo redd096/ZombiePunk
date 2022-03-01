@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Feedbacks/Change Order Weapon On Rotate Feedback")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Feedbacks/Change Order Weapon On Rotate Feedback")]
     public class ChangeOrderWeaponOnRotateFeedback : MonoBehaviour
     {
         [Header("Necessary Components - default get in parent")]
@@ -18,7 +18,7 @@ namespace redd096
         void OnEnable()
         {
             //get referemces
-            if(weaponBASE == null) weaponBASE = GetComponentInParent<WeaponBASE>();
+            if (weaponBASE == null) weaponBASE = GetComponentInParent<WeaponBASE>();
             if (spritesToUse == null || spritesToUse.Length <= 0) spritesToUse = GetComponentsInChildren<SpriteRenderer>();
 
             //add events

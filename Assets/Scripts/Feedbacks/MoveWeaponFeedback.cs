@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Feedbacks/Move Weapon Feedback")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Feedbacks/Move Weapon Feedback")]
     public class MoveWeaponFeedback : MonoBehaviour
     {
         [Header("Necessary Components - default get in parent")]
@@ -15,7 +15,7 @@ namespace redd096
         void OnEnable()
         {
             //get references
-            if(weaponBASE == null) weaponBASE = GetComponentInParent<WeaponBASE>();
+            if (weaponBASE == null) weaponBASE = GetComponentInParent<WeaponBASE>();
             if (objectPivot == null) objectPivot = transform;
         }
 
