@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using redd096;
+using redd096.GameTopDown2D;
 
 [AddComponentMenu("redd096/Tasks FSM/Action/Movement Normal/Move Straight Forward")]
 public class MoveStraightForward : ActionTask

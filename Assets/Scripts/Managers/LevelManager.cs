@@ -1,16 +1,17 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using redd096;
-//using NaughtyAttributes;
+using redd096.GameTopDown2D;
+using redd096.Attributes;
 
 [DefaultExecutionOrder(-5)]
 public class LevelManager : MonoBehaviour
 {
-    //[Header("Elements in scene by default")]
-    /*[ReadOnly]*/ public List<Character> Players = new List<Character>();
-    /*[ReadOnly]*/ public List<Character> Enemies = new List<Character>();
-    /*[ReadOnly]*/ public List<SpawnManager> SpawnManagers = new List<SpawnManager>();
-    /*[ReadOnly]*/ public List<ExitInteractable> Exits = new List<ExitInteractable>();
+    [Header("Elements in scene by default")]
+    [ReadOnly] public List<Character> Players = new List<Character>();
+    [ReadOnly] public List<Character> Enemies = new List<Character>();
+    [ReadOnly] public List<SpawnManager> SpawnManagers = new List<SpawnManager>();
+    [ReadOnly] public List<ExitInteractable> Exits = new List<ExitInteractable>();
 
     void Awake()
     {

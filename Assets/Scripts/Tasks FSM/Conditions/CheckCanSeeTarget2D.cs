@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using redd096;
-using NaughtyAttributes;
+using redd096.Attributes;
 
 [AddComponentMenu("redd096/Tasks FSM/Condition/Check Can See Target 2D")]
 public class CheckCanSeeTarget2D : ConditionTask

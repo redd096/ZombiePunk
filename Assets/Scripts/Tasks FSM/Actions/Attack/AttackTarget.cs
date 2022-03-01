@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using redd096;
+using redd096.GameTopDown2D;
 
 [AddComponentMenu("redd096/Tasks FSM/Action/Attack/Attack Target")]
 public class AttackTarget : ActionTask

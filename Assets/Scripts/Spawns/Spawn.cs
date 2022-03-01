@@ -1,8 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
-//using NaughtyAttributes;
-using redd096;
 
 public class Spawn : MonoBehaviour
 {

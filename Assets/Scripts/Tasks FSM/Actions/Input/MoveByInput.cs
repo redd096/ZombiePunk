@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using redd096;
 using UnityEngine.InputSystem;
+using redd096.GameTopDown2D;
 
 [AddComponentMenu("redd096/Tasks FSM/Action/Input/Move By Input")]
 public class MoveByInput : ActionTask

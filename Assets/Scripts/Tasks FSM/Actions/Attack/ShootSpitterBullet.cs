@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using redd096;
-using NaughtyAttributes;
+using redd096.Attributes;
+using redd096.GameTopDown2D;
 
 [AddComponentMenu("redd096/Tasks FSM/Action/Attack/Shoot Spitter Bullet")]
 public class ShootSpitterBullet : ActionTask

@@ -1,7 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using NaughtyAttributes;
-using redd096;
+using redd096.GameTopDown2D;
 
 [DefaultExecutionOrder(-1)]
 public class SpawnManager : MonoBehaviour
@@ -10,7 +9,7 @@ public class SpawnManager : MonoBehaviour
     [System.Serializable] struct SpawnStruct { public Spawn[] Spawns; }
 
     [SerializeField] bool restartWhenFinish = false;
-    [ReorderableList] [SerializeField] SpawnStruct[] spawnsList = default;
+    [SerializeField] SpawnStruct[] spawnsList = default;
 
     [Header("DEBUG")]
     /*[ReadOnly] [SerializeField]*/ List<Spawn> spawnsActive = new List<Spawn>();

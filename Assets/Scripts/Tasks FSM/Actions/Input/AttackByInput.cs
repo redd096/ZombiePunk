@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using redd096;
 using UnityEngine.InputSystem;
+using redd096.GameTopDown2D;
 
 [AddComponentMenu("redd096/Tasks FSM/Action/Input/Attack By Input")]
 public class AttackByInput : ActionTask

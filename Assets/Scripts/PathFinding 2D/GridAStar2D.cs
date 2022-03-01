@@ -269,7 +269,7 @@ namespace redd096.PathFinding2D
             if (obstacles != null)
             {
                 foreach (ObstacleAStar2D obstacle in obstacles)
-                    if(obstacle)
+                    if (obstacle)
                         obstacle.UpdatePositionOnGrid(this);
             }
         }

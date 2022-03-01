@@ -6,25 +6,25 @@ using UnityEngine.InputSystem;
 
 namespace redd096
 {
-    [AddComponentMenu("redd096/MonoBehaviours/Gamepad Vibration")]
-    public class GamepadVibration : MonoBehaviour
-    {
-        public static GamepadVibration instance;
+	[AddComponentMenu("redd096/MonoBehaviours/Gamepad Vibration")]
+	public class GamepadVibration : MonoBehaviour
+	{
+		public static GamepadVibration instance;
 
-        [Header("Vibration")]
-        [Tooltip("How long should vibrate")] [SerializeField] float vibrationDuration = 0.1f;
-        [Tooltip("Amplitude of the vibration")] [SerializeField] float lowFrequency = 0.5f;
-        [Tooltip("Amplitude of the vibration")] [SerializeField] float highFrequency = 0.8f;
+		[Header("Vibration")]
+		[Tooltip("How long should vibrate")] [SerializeField] float vibrationDuration = 0.1f;
+		[Tooltip("Amplitude of the vibration")] [SerializeField] float lowFrequency = 0.5f;
+		[Tooltip("Amplitude of the vibration")] [SerializeField] float highFrequency = 0.8f;
 
-        [Header("Overwrite - start vibration also if another is running")]
-        [Tooltip("If another vibration is already running, stop it and start new one")] [SerializeField] bool overwriteVibration = true;
+		[Header("Overwrite - start vibration also if another is running")]
+		[Tooltip("If another vibration is already running, stop it and start new one")] [SerializeField] bool overwriteVibration = true;
 
-        Coroutine vibrationCoroutine;
+		Coroutine vibrationCoroutine;
 
-        void Awake()
-        {
-            //set instance to call it without use FindObjectOfType
-            instance = this;
+		void Awake()
+		{
+			//set instance to call it without use FindObjectOfType
+			instance = this;
 		}
 
 		IEnumerator VibrationCoroutine(float duration)

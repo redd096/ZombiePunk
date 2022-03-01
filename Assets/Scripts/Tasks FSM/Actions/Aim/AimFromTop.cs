@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using redd096;
+using redd096.GameTopDown2D;
 
 [AddComponentMenu("redd096/Tasks FSM/Action/Aim/Aim From Top")]
 public class AimFromTop : ActionTask

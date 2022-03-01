@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using NaughtyAttributes;
-using redd096;
+using redd096.GameTopDown2D;
+using redd096.Attributes;
 
 public class ExplodeOnDeath : MonoBehaviour
 {

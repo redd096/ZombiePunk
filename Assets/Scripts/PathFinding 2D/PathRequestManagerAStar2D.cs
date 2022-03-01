@@ -93,7 +93,7 @@ namespace redd096.PathFinding2D
         void TryProcessNext()
         {
             //get next request from queue and start find path
-            if(isProcessingPath == false && pathRequestQueue.Count > 0)
+            if (isProcessingPath == false && pathRequestQueue.Count > 0)
             {
                 currentPathRequest = pathRequestQueue[0];
                 pathRequestQueue.RemoveAt(0);

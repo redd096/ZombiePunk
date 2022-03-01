@@ -33,17 +33,17 @@ namespace redd096
 			}
 
 			//set cam parent
-			if(camTransform)
-            {
+			if (camTransform)
+			{
 				cameraParent = new GameObject("Camera Parent (camera shake)").transform;
-				cameraParent.SetParent(camTransform.parent);				//set same parent (if camera was child of something)
+				cameraParent.SetParent(camTransform.parent);                //set same parent (if camera was child of something)
 				cameraParent.localPosition = Vector3.zero;                  //set start local position
-				camTransform.SetParent(cameraParent);						//set camera parent
-            }
+				camTransform.SetParent(cameraParent);                       //set camera parent
+			}
 			else
-            {
+			{
 				Debug.LogWarning("There is no camera for camera shake");
-            }
+			}
 		}
 
 		IEnumerator ShakeCoroutine(float duration, float amount)
@@ -68,18 +68,18 @@ namespace redd096
 			}
 
 			//then reset to original position
-			if(cameraParent)
+			if (cameraParent)
 				cameraParent.localPosition = Vector3.zero;
 
 			shakeCoroutine = null;
 		}
 
-        #region public API
+		#region public API
 
 		/// <summary>
 		/// Start shake, using variables in inspector
 		/// </summary>
-        public void StartShake()
+		public void StartShake()
 		{
 			StartShake(shakeDuration, shakeAmount);
 		}
@@ -100,6 +100,6 @@ namespace redd096
 			}
 		}
 
-        #endregion
-    }
+		#endregion
+	}
 }

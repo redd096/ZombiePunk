@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using UnityEngine.SceneManagement;
-using NaughtyAttributes;
+using redd096.Attributes;
 
 namespace redd096
 {

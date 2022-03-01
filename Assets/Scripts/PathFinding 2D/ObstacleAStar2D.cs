@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using NaughtyAttributes;
+using redd096.Attributes;
 
 namespace redd096.PathFinding2D
 {

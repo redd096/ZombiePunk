@@ -218,7 +218,7 @@ namespace redd096.PathFinding2D
             }
 
             //if there is no path, return null
-            if(pathSuccess == false)
+            if (pathSuccess == false)
             {
                 OnFinishProcessingPath(null);
             }

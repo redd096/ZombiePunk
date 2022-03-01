@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
-using redd096;
-using NaughtyAttributes;
+using redd096.Attributes;
+using redd096.GameTopDown2D;
 
 [CreateAssetMenu(menuName = "Zombie Punk/CustomizeData")]
 public class CustomizeData : ScriptableObject

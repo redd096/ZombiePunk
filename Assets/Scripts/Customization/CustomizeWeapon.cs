@@ -2,7 +2,7 @@
 using UnityEngine;
 using redd096;
 using UnityEngine.UI;
-using NaughtyAttributes;
+using redd096.Attributes;
 
 #region structs
 
@@ -37,7 +37,7 @@ public class CustomizeWeapon : MonoBehaviour
     [Header("Scene to Load after selected weapon")]
     [SerializeField] [Scene] string sceneToLoad = "SampleScene";
 
-    [Button("Update Clickable Buttons", EButtonEnableMode.Playmode)]
+    [Button("Update Clickable Buttons", ButtonAttribute.EEnableType.PlayMode)]
     void UpdateClickableButtons() { ShowTotalWeight(); SetClickableButtons(); }
 
     /// <summary>

@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using NaughtyAttributes;
+using redd096.Attributes;
 
 namespace redd096
 {
@@ -29,10 +29,11 @@ namespace redd096
     [AddComponentMenu("redd096/StateMachineRedd096/State Machine redd096")]
     public class StateMachineRedd096 : MonoBehaviour
     {
-        [ReorderableList] public State[] States = default;
+        /*[ReorderableList]*/ public State[] States = default;
 
-        [BoxGroup("DEBUG")] [ReadOnly] public State CurrentState = default;
-        [BoxGroup("DEBUG")] [ReadOnly] [SerializeField] List<string> blackboardDebug = new List<string>();
+        [Header("DEBUG")]
+        /*[BoxGroup("DEBUG")]*/ [ReadOnly] public State CurrentState = default;
+        /*[BoxGroup("DEBUG")]*/ [ReadOnly] [SerializeField] List<string> blackboardDebug = new List<string>();
 
         //blackboard to save vars to use in differents tasks
         Dictionary<string, object> blackboard = new Dictionary<string, object>();
@@ -75,7 +76,7 @@ namespace redd096
             CurrentState = nextState >= 0 && States != null && States.Length > nextState ? States[nextState] : null;
 
             //enter in new state
-            if(CurrentState != null)
+            if (CurrentState != null)
             {
                 EnterState();
             }
@@ -104,7 +105,7 @@ namespace redd096
                 if (CurrentState.Transitions[i] != null)
                 {
                     //if conditions return true, set new state
-                    if ( (CurrentState.Transitions[i].TransitionCheck == ETransitionCheck.AllTrueRequired && CheckConditionsEVERY(CurrentState.Transitions[i]))
+                    if ((CurrentState.Transitions[i].TransitionCheck == ETransitionCheck.AllTrueRequired && CheckConditionsEVERY(CurrentState.Transitions[i]))
                         || (CurrentState.Transitions[i].TransitionCheck == ETransitionCheck.AnyTrueSuffice && CheckConditionsANY(CurrentState.Transitions[i])))
                     {
                         SetState(CurrentState.Transitions[i].StateDestination);
@@ -135,9 +136,9 @@ namespace redd096
         bool CheckConditionsANY(Transition transition)
         {
             //return true if ANY condition is true
-            for(int i = 0; i< transition.Conditions.Count; i++)
+            for (int i = 0; i < transition.Conditions.Count; i++)
             {
-                if(transition.Conditions[i] != null)
+                if (transition.Conditions[i] != null)
                 {
                     //if anyone is true, return true
                     if (transition.Conditions[i].OnCheckTask())
@@ -215,7 +216,7 @@ namespace redd096
             }
 
             //in editor, update debug blackboard
-            if(Application.isEditor)
+            if (Application.isEditor)
             {
                 //add value in blackboard
                 if (blackboardDebug.Contains(key) == false)
