@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
-using NaughtyAttributes;
+using redd096.Attributes;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
+    [AddComponentMenu("redd096/.GameTopDown2D/Weapons/Weapon BASE")]
     public abstract class WeaponBASE : MonoBehaviour, IInteractable
     {
         [Header("Weapon BASE")]

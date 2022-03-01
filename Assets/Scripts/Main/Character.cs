@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using NaughtyAttributes;
+using redd096.Attributes;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Main/Character")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Main/Character")]
     public class Character : Redd096Main
     {
         public enum ECharacterType { Player, AI };

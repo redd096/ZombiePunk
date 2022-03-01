@@ -1,9 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Weapons/Ammo")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Weapons/Ammo")]
     public class Ammo : MonoBehaviour
     {
         [Header("Necessary Components - default get from this gameObject")]
@@ -37,7 +37,7 @@ namespace redd096
                 StartCoroutine(AutoDestruction());
 
             //get references
-            if (collisionComponent == null) 
+            if (collisionComponent == null)
                 collisionComponent = GetComponent<CollisionComponent>();
 
             //warnings

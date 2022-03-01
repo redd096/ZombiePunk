@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using NaughtyAttributes;
+using redd096.Attributes;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Components/Weapon Component")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Components/Weapon Component")]
     public class WeaponComponent : MonoBehaviour
     {
         public enum EWeaponOnDeath { None, OnlyEquippedOne, EveryWeapon }
@@ -20,8 +20,8 @@ namespace redd096
         [SerializeField] HealthComponent healthComponent = default;
 
         [Header("DEBUG")]
-        [ReadOnly] [HideInInspector] public WeaponBASE[] CurrentWeapons = default;      //it will be always the same size of Max Weapons
-        [ReadOnly] [SerializeField] int indexEquippedWeapon = 0;                        //it will be always the correct index, or zero
+        [ReadOnly] public WeaponBASE[] CurrentWeapons = default;    //it will be always the same size of Max Weapons
+        [ReadOnly] [SerializeField] int indexEquippedWeapon = 0;    //it will be always the correct index, or zero
 
         //the equipped weapon
         public WeaponBASE CurrentWeapon => CurrentWeapons != null && indexEquippedWeapon < CurrentWeapons.Length ? CurrentWeapons[indexEquippedWeapon] : null;
@@ -55,11 +55,11 @@ namespace redd096
         protected virtual void OnEnable()
         {
             //get references
-            if (healthComponent == null) 
+            if (healthComponent == null)
                 healthComponent = GetComponent<HealthComponent>();
 
             //add events
-            if(healthComponent)
+            if (healthComponent)
             {
                 healthComponent.onDie += OnDie;
             }
@@ -341,7 +341,7 @@ namespace redd096
             CurrentWeapons = weapons;
 
             //set index equipped weapon
-            if(UpdateIndexEquippedWeapon())
+            if (UpdateIndexEquippedWeapon())
             {
                 //if changed weapon, call event
                 onChangeWeapon?.Invoke();

@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using NaughtyAttributes;
+using redd096.Attributes;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Components/Health Component")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Components/Health Component")]
     public class HealthComponent : MonoBehaviour
     {
         [Header("Health")]
@@ -14,8 +14,8 @@ namespace redd096
         [Range(0f, 1f)] [SerializeField] float percentageDamageWhenHitFromFriend = 0.25f;
 
         [Header("DEBUG")]
-        [ProgressBar("Health", "MaxHealth", EColor.Red)] public float CurrentHealth = 100;
-        /*[ReadOnly] [ShowNonSerializedField]*/ bool alreadyDead = false;
+        [ProgressBar("Health", "MaxHealth", ProgressBarAttribute.EColor.SmoothGreen)] public float CurrentHealth = 100;
+        /*[ShowNonSerializedField]*/ [ReadOnly] bool alreadyDead = false;
 
         //events
         public System.Action onGetDamage { get; set; }
@@ -67,7 +67,7 @@ namespace redd096
                 CurrentHealth -= damage;
 
             //call event only if damage is > 0
-            if(damage > Mathf.Epsilon) 
+            if (damage > Mathf.Epsilon)
                 onGetDamage?.Invoke();
 
             //check if dead

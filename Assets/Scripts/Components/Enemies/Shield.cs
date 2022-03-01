@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Components/Enemies/Shield")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Components/Enemies/Shield")]
     public class Shield : MonoBehaviour
     {
         [Header("Necessary Components - default get from this gameObject")]

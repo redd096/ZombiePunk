@@ -1,10 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
-using NaughtyAttributes;
+using redd096.Attributes;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Interactables/Exit Interactable")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Interactables/Exit Interactable")]
     public class ExitInteractable : MonoBehaviour, IInteractable
     {
         [Header("Rules to Open")]
@@ -16,11 +16,13 @@ namespace redd096
         [SerializeField] [Scene] string sceneToLoad = default;
 
         [Header("DEBUG")]
-        /*[ReadOnly] [ShowNonSerializedField]*/ bool isOpen;
+        /*[ShowNonSerializedField]*/
+        [SerializeField] [ReadOnly] bool isOpen;
+
+        [Button("Force Exit", ButtonAttribute.EEnableType.PlayMode)] public void ForceExit() => ChangeExitState();
+
         public bool IsOpen => isOpen;
         public string SceneToLoad => sceneToLoad;
-
-        [Button("ForceExit", EButtonEnableMode.Playmode)] public void ForceExit() => ChangeExitState();
 
         //events
         public System.Action onOpen { get; set; }
@@ -57,7 +59,7 @@ namespace redd096
                 if (player && player.GetSavedComponent<WeaponComponent>())
                 {
                     player.GetSavedComponent<WeaponComponent>().onChangeWeapon += OnPlayerChangeWeapon;
-                    players.Add(player);            //and add to the list
+                    players.Add(player);        //and add to the list
                 }
             }
 

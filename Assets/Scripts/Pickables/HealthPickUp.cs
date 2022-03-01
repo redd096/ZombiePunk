@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Pickables/Health Pick Up")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Pickables/Health Pick Up")]
     public class HealthPickUp : PickUpBASE
     {
         [Header("Health")]

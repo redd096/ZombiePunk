@@ -1,10 +1,10 @@
 ﻿using System.Collections;
 using UnityEngine;
-using NaughtyAttributes;
+using redd096.Attributes;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Weapons/Weapon Range")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Weapons/Weapon Range")]
     public class WeaponRange : WeaponBASE
     {
         [Header("Range Weapon")]

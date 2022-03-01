@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using NaughtyAttributes;
+using redd096.Attributes;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Components/Camera Component")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Components/Camera Component")]
     public class CameraComponent : MonoBehaviour
     {
         [Header("Camera - by default is MainCamera")]
@@ -87,7 +87,7 @@ namespace redd096
             if (dropCameraOnDeath && cameraToControl)
             {
                 //only if child of this gameObject
-                foreach(Camera childCam in GetComponentsInChildren<Camera>())
+                foreach (Camera childCam in GetComponentsInChildren<Camera>())
                 {
                     if (childCam == cameraToControl)
                     {

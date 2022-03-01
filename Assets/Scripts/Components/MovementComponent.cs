@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
-using NaughtyAttributes;
+using redd096.Attributes;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Components/Movement Component")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Components/Movement Component")]
     public class MovementComponent : MonoBehaviour
     {
         enum EUpdateModes { Update, FixedUpdate }
@@ -23,13 +23,13 @@ namespace redd096
         [SerializeField] CollisionComponent collisionComponent = default;
         [ShowIf("movementMode", EMovementModes.Rigidbody)] [SerializeField] Rigidbody2D rb = default;
 
-        //[Header("DEBUG")]
-        /*[ReadOnly]*/ [HideInInspector] public bool IsMovingRight = true;            //check if moving right
-        /*[ReadOnly]*/ [HideInInspector] public Vector2 MoveDirectionInput;           //when moves, set it with only input direction (used to know last movement direction)
-        /*[ReadOnly]*/ [HideInInspector] public Vector2 LastDesiredVelocity;          //when moves, set it as input direction * speed
-        /*[ReadOnly]*/ [HideInInspector] public Vector2 DesiredPushForce;             //used to push this object (push by recoil, knockback, dash, etc...), will be decreased by drag in every frame
-        /*[ReadOnly]*/ [HideInInspector] public Vector2 CurrentVelocity;              //velocity calculate for this frame
-        /*[ReadOnly]*/ [HideInInspector] public float CurrentSpeed;                   //CurrentVelocity.magnitude
+        [Header("DEBUG")]
+        [ReadOnly] public bool IsMovingRight = true;            //check if moving right
+        [ReadOnly] public Vector2 MoveDirectionInput;           //when moves, set it with only input direction (used to know last movement direction)
+        [ReadOnly] public Vector2 LastDesiredVelocity;          //when moves, set it as input direction * speed
+        [ReadOnly] public Vector2 DesiredPushForce;             //used to push this object (push by recoil, knockback, dash, etc...), will be decreased by drag in every frame
+        [ReadOnly] public Vector2 CurrentVelocity;              //velocity calculate for this frame
+        [ReadOnly] public float CurrentSpeed;                   //CurrentVelocity.magnitude
 
         //events
         public System.Action<bool> onChangeMovementDirection { get; set; }

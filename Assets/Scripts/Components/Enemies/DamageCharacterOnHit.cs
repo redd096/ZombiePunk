@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-namespace redd096
+namespace redd096.GameTopDown2D
 {
-    [AddComponentMenu("redd096/Components/Enemies/Damage Character On hit")]
+    [AddComponentMenu("redd096/.GameTopDown2D/Components/Enemies/Damage Character On Hit")]
     public class DamageCharacterOnHit : MonoBehaviour
     {
         [Header("Do Damage On Hit?")]
