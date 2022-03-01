@@ -16,7 +16,7 @@ namespace redd096.Attributes
     [CustomPropertyDrawer(typeof(DropdownAttribute))]
     public class DropdownDrawer : PropertyDrawer
     {
-		UnityEngine.Object targetObject;
+		object targetObject;
 		FieldInfo dropdownField;
 		object valuesObject;
 
@@ -29,12 +29,12 @@ namespace redd096.Attributes
 			EditorGUI.BeginProperty(position, label, property);
 
 			//get target and property field
-			targetObject = property.serializedObject.targetObject;
-			dropdownField = property.GetField();
+			targetObject = property.GetTargetObjectWithProperty();
+			dropdownField = property.GetTargetObjectWithProperty().GetField(property.name);
 
 			//get values as an object
 			DropdownAttribute at = attribute as DropdownAttribute;
-			valuesObject = GetValues(at);
+			valuesObject = GetValues(property, at);
 
 			//check field and values are same type
 			if (dropdownField.FieldType == ReflectionUtility.GetListElementType(valuesObject.GetType()))
@@ -57,7 +57,7 @@ namespace redd096.Attributes
 				object dropdownValue = dropdownField.GetValue(targetObject);
 				if (dropdownValue == null || dropdownValue.Equals(newValue) == false)
 				{
-					Undo.RecordObject(targetObject, "Dropdown");
+					Undo.RecordObject(property.serializedObject.targetObject, "Dropdown");
 
 					// TODO: Problem with structs, because they are value type.
 					// The solution is to make boxing/unboxing but unfortunately I don't know the compile time type of the target object
@@ -72,7 +72,7 @@ namespace redd096.Attributes
 			EditorGUI.EndProperty();
 		}
 
-		object GetValues(DropdownAttribute at)
+		object GetValues(SerializedProperty property, DropdownAttribute at)
 		{
 			//try get values from field
 			FieldInfo fieldValues = targetObject.GetField(at.valuesName);
@@ -99,7 +99,7 @@ namespace redd096.Attributes
 				}
 				else
 				{
-					Debug.LogWarning(at.GetType().Name + " can't invoke '" + methodValues.Name + "'. It can invoke only methods with 0 or optional parameters and return type different from void", targetObject);
+					Debug.LogWarning(at.GetType().Name + " can't invoke '" + methodValues.Name + "'. It can invoke only methods with 0 or optional parameters and return type different from void", property.serializedObject.targetObject);
 				}
 			}
 

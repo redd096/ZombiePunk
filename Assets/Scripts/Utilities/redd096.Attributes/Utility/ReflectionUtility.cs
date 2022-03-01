@@ -1,5 +1,4 @@
-﻿using UnityEngine;
-using System.Reflection;
+﻿using System.Reflection;
 using System.Linq;
 #if UNITY_EDITOR
 using UnityEditor;
@@ -39,7 +38,7 @@ namespace redd096.Attributes
         /// </summary>
         /// <param name="property"></param>
         /// <returns></returns>
-        public static FieldInfo GetField(this Object targetObject, string fieldName)
+        public static FieldInfo GetField(this object targetObject, string fieldName)
 		{
 			foreach (FieldInfo field in targetObject.GetFields())
 				if (field.Name.Equals(fieldName, System.StringComparison.Ordinal))
@@ -53,7 +52,7 @@ namespace redd096.Attributes
 		/// </summary>
 		/// <param name="property"></param>
 		/// <returns></returns>
-		public static MethodInfo GetMethod(this Object targetObject, string methodName)
+		public static MethodInfo GetMethod(this object targetObject, string methodName)
 		{
 			foreach (MethodInfo method in targetObject.GetMethods())
 				if (method.Name.Equals(methodName, System.StringComparison.Ordinal))
@@ -67,7 +66,7 @@ namespace redd096.Attributes
 		/// </summary>
 		/// <param name="property"></param>
 		/// <returns></returns>
-		public static PropertyInfo GetProperty(this Object targetObject, string propertyName)
+		public static PropertyInfo GetProperty(this object targetObject, string propertyName)
 		{
 			foreach (PropertyInfo property in targetObject.GetProperties())
 				if (property.Name.Equals(propertyName, System.StringComparison.Ordinal))
@@ -85,7 +84,7 @@ namespace redd096.Attributes
         /// </summary>
         /// <param name="targetObject"></param>
         /// <returns></returns>
-        public static MethodInfo[] GetMethods(this Object targetObject)
+        public static MethodInfo[] GetMethods(this object targetObject)
         {
 			return targetObject.GetType().GetMethods(BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.DeclaredOnly);
 		}
@@ -95,7 +94,7 @@ namespace redd096.Attributes
 		/// </summary>
 		/// <param name="targetObject"></param>
 		/// <returns></returns>
-		public static FieldInfo[] GetFields(this Object targetObject)
+		public static FieldInfo[] GetFields(this object targetObject)
 		{
 			return targetObject.GetType().GetFields(BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.DeclaredOnly);
 		}
@@ -105,7 +104,7 @@ namespace redd096.Attributes
 		/// </summary>
 		/// <param name="targetObject"></param>
 		/// <returns></returns>
-		public static PropertyInfo[] GetProperties(this Object targetObject)
+		public static PropertyInfo[] GetProperties(this object targetObject)
 		{
 			return targetObject.GetType().GetProperties(BindingFlags.Instance | BindingFlags.Static | BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.DeclaredOnly);
 		}
