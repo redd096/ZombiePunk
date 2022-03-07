@@ -1,8 +1,8 @@
 ﻿using UnityEngine;
 using System.Collections.Generic;
+using System.Collections;
 #if UNITY_EDITOR
 using System;
-using System.Collections;
 using System.Reflection;
 using UnityEditor;
 #endif
@@ -227,12 +227,12 @@ namespace redd096.Attributes
 			return _values.GetEnumerator();
 		}
 
-		IEnumerator IEnumerable.GetEnumerator()
-		{
+        IEnumerator IEnumerable.GetEnumerator()
+        {
 			return GetEnumerator();
-		}
+        }
 
-		public static explicit operator DropdownList<object>(DropdownList<T> target)
+        public static explicit operator DropdownList<object>(DropdownList<T> target)
 		{
 			DropdownList<object> result = new DropdownList<object>();
 			foreach (var kvp in target)
