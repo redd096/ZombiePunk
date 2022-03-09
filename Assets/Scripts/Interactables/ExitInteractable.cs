@@ -14,6 +14,7 @@ namespace redd096.GameTopDown2D
 
         [Header("On Interact")]
         [SerializeField] [Scene] string sceneToLoad = default;
+        [SerializeField] float levelReach;
 
         [Header("DEBUG")]
         /*[ShowNonSerializedField]*/
@@ -125,6 +126,7 @@ namespace redd096.GameTopDown2D
             //only if is open
             if (isOpen)
             {
+                PlayerPrefs.SetFloat("LevelReach", levelReach);
                 //stop this script
                 DeactiveExit();     //stop check open/close
                 isOpen = false;     //can't interact anymore

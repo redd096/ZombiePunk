@@ -17,6 +17,7 @@ namespace redd096
         {
             //hide pause menu
             GameManager.instance.uiManager.PauseMenu(false);
+            GameManager.instance.uiManager.MapMenu(false);
 
             //set timeScale to 1
             Time.timeScale = 1;
@@ -32,6 +33,18 @@ namespace redd096
         {
             //show pause menu
             GameManager.instance.uiManager.PauseMenu(true);
+
+            //stop time
+            Time.timeScale = 0;
+
+            //disable player input and show cursor
+            if (changeCursorLockMode) LockMouse(CursorLockMode.None);
+        }
+
+        public void MapPause()
+        {
+            //show pause menu
+            GameManager.instance.uiManager.MapMenu(true);
 
             //stop time
             Time.timeScale = 0;
