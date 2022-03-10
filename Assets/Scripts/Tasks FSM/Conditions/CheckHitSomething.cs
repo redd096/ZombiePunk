@@ -1,12 +1,13 @@
 ﻿using UnityEngine;
 using redd096;
 using redd096.GameTopDown2D;
+using System.Collections.Generic;
 
 [AddComponentMenu("redd096/Tasks FSM/Condition/Check Hit Something")]
 public class CheckHitSomething : ConditionTask
 {
     [Header("Necessary Components - default get in parent")]
-    [SerializeField] CollisionComponent component;
+    [SerializeField] CollisionEventToChilds collisionEventToChilds = default;
     [SerializeField] MovementComponent movementComponent;
 
     [Header("Check only in movement direction")]
@@ -15,15 +16,38 @@ public class CheckHitSomething : ConditionTask
     [Header("DEBUG")]
     [SerializeField] float timeBeforeStartCheck = 0.2f;
 
+    List<Collision2D> hits = new List<Collision2D>();
     float timerBeforeCheck;
-    bool collisionComponentWasSettedToNone;
+
+    void OnEnable()
+    {
+        //get references
+        if (collisionEventToChilds == null)
+            collisionEventToChilds = GetStateMachineComponent<CollisionEventToChilds>();
+
+        //add events
+        if (collisionEventToChilds)
+        {
+            collisionEventToChilds.onCollisionEnter2D += OnOwnerCollisionEnter2D;
+            collisionEventToChilds.onCollisionExit2D += OnOwnerCollisionExit2D;
+        }
+    }
+
+    void OnDisable()
+    {
+        //remove events
+        if (collisionEventToChilds)
+        {
+            collisionEventToChilds.onCollisionEnter2D -= OnOwnerCollisionEnter2D;
+            collisionEventToChilds.onCollisionExit2D -= OnOwnerCollisionExit2D;
+        }
+    }
 
     protected override void OnInitTask()
     {
         base.OnInitTask();
 
         //get references
-        if (component == null) component = GetStateMachineComponent<CollisionComponent>();
         if (movementComponent == null) movementComponent = GetStateMachineComponent<MovementComponent>();
     }
 
@@ -33,13 +57,6 @@ public class CheckHitSomething : ConditionTask
 
         //set timer before start check
         timerBeforeCheck = Time.time + timeBeforeStartCheck;
-
-        //if collision component has update mode to None, set to Coroutine
-        if (component && component.UpdateMode == CollisionComponent.EUpdateModes.None)
-        {
-            collisionComponentWasSettedToNone = true;                           //save before was setted to None
-            component.UpdateMode = CollisionComponent.EUpdateModes.Coroutine;
-        }
     }
 
     public override bool OnCheckTask()
@@ -52,51 +69,73 @@ public class CheckHitSomething : ConditionTask
         return checkMovementDirection ? CheckOnlyMovementDirection() : CheckEveryHit();
     }
 
-    public override void OnExitTask()
-    {
-        base.OnExitTask();
+    #region events
 
-        //if collision component had update mode to None, set it
-        if (collisionComponentWasSettedToNone && component && component.UpdateMode != CollisionComponent.EUpdateModes.None)
-        {
-            collisionComponentWasSettedToNone = false;
-            component.UpdateMode = CollisionComponent.EUpdateModes.None;
-            component.ClearHits();                                              //clear every hit registered during this task
-        }
+    void OnOwnerCollisionEnter2D(Collision2D collision)
+    {
+        //add to hits
+        if (hits.Contains(collision) == false)
+            hits.Add(collision);
     }
+
+    void OnOwnerCollisionExit2D(Collision2D collision)
+    {
+        //remove from hits
+        if (hits.Contains(collision))
+            hits.Remove(collision);
+    }
+
+    #endregion
 
     #region private API
 
     bool CheckEveryHit()
     {
         //check if hit in some direction
-        if(component)
-        {
-            return component.IsHitting(CollisionComponent.EDirectionEnum.up) || component.IsHitting(CollisionComponent.EDirectionEnum.down)
-                || component.IsHitting(CollisionComponent.EDirectionEnum.right) || component.IsHitting(CollisionComponent.EDirectionEnum.left);
-        }
-
-        return true;
+        return hits.Count > 0;
     }
 
     bool CheckOnlyMovementDirection()
     {
-        if(component && movementComponent)
+        if(movementComponent)
         {
-            //check hit right or left
             if (Mathf.Abs(movementComponent.MoveDirectionInput.x) > Mathf.Epsilon)
-                if (component.IsHitting(movementComponent.MoveDirectionInput.x > 0 ? CollisionComponent.EDirectionEnum.right : CollisionComponent.EDirectionEnum.left))
-                    return true;
-
-            //check hit up or down
+            {
+                //check hit right
+                if (movementComponent.MoveDirectionInput.x > 0)
+                {
+                    foreach (Collision2D col in hits)
+                        if ((col.GetContact(0).point - (Vector2)transform.position).normalized.x > 0)
+                            return true;
+                }
+                //check hits left
+                else
+                {
+                    foreach (Collision2D col in hits)
+                        if ((col.GetContact(0).point - (Vector2)transform.position).normalized.x < 0)
+                            return true;
+                }
+            }
             if (Mathf.Abs(movementComponent.MoveDirectionInput.y) > Mathf.Epsilon)
-                if (component.IsHitting(movementComponent.MoveDirectionInput.y > 0 ? CollisionComponent.EDirectionEnum.up : CollisionComponent.EDirectionEnum.down))
-                    return true;
-
-            return false;
+            {
+                //check hit up
+                if (movementComponent.MoveDirectionInput.y > 0)
+                {
+                    foreach (Collision2D col in hits)
+                        if ((col.GetContact(0).point - (Vector2)transform.position).normalized.y > 0)
+                            return true;
+                }
+                //check hit down
+                else
+                {
+                    foreach (Collision2D col in hits)
+                        if ((col.GetContact(0).point - (Vector2)transform.position).normalized.y < 0)
+                            return true;
+                }
+            }
         }
 
-        return true;
+        return false;
     }
 
     #endregion

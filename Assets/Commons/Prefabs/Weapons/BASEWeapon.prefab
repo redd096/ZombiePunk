@@ -100,6 +100,22 @@ MonoBehaviour:
   customShakeOnDrop: 0
   shakeDurationOnDrop: 1
   shakeAmountOnDrop: 0.7
+  gameObjectOnEquip:
+    instantiatedGameObject: {fileID: 0}
+    timeAutodestruction: 0
+  particlesOnEquip: {fileID: 0}
+  audioOnEquip:
+    audioClip: {fileID: 0}
+    volume: 1
+    is3D: 0
+  gameObjectOnUnequip:
+    instantiatedGameObject: {fileID: 0}
+    timeAutodestruction: 0
+  particlesOnUnequip: {fileID: 0}
+  audioOnUnequip:
+    audioClip: {fileID: 0}
+    volume: 1
+    is3D: 0
 --- !u!1 &5480054079049958507
 GameObject:
   m_ObjectHideFlags: 0
@@ -265,7 +281,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}

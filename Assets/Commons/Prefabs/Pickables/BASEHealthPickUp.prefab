@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3866580409978387592}
   - component: {fileID: 4953269027790457090}
   - component: {fileID: 2156552804076419280}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: New Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -118,8 +118,8 @@ GameObject:
   m_Component:
   - component: {fileID: 2943747815351162753}
   - component: {fileID: 8331508220708953765}
-  - component: {fileID: 6404703504914869733}
-  m_Layer: 0
+  - component: {fileID: 9085213080909160046}
+  m_Layer: 9
   m_Name: BASEHealthPickUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -153,32 +153,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b047bc8ad4af84e48862fdad8130401a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionComponent: {fileID: 6404703504914869733}
   timeBeforeDestroy: 0
   healthToGive: 30
   canPickAlsoIfFull: 0
---- !u!114 &6404703504914869733
-MonoBehaviour:
+--- !u!50 &9085213080909160046
+Rigidbody2D:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 7507555607222921953}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82478a5c24b4a4d409856fb238f53755, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  updateMode: 2
-  timeCoroutine: 0.1
-  numberOfHorizontalRays: 4
-  numberOfVerticalRays: 4
-  offsetRays: 0.01
-  layersToIgnore:
-    serializedVersion: 2
-    m_Bits: 0
-  selfCollider: {fileID: 2156552804076419280}
-  drawDebugInPlay: 0
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &9080829605809242297
 GameObject:
   m_ObjectHideFlags: 0
@@ -188,7 +186,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4623252288132420563}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}

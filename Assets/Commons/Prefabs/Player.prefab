@@ -515,7 +515,6 @@ GameObject:
   m_Component:
   - component: {fileID: 1395402416665274892}
   - component: {fileID: 1264054240556284673}
-  - component: {fileID: 8030054746575277773}
   - component: {fileID: 9212065468761235124}
   - component: {fileID: 1574786710114621755}
   - component: {fileID: 8714289106783076041}
@@ -564,28 +563,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharacterType: 0
   EnemyType: Base Enemy
---- !u!114 &8030054746575277773
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1395402416665274895}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82478a5c24b4a4d409856fb238f53755, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  updateMode: 2
-  timeCoroutine: 0.1
-  numberOfHorizontalRays: 4
-  numberOfVerticalRays: 4
-  offsetRays: 0.01
-  layersToIgnore:
-    serializedVersion: 2
-    m_Bits: 512
-  selfCollider: {fileID: 1395402417110845485}
-  drawDebugInPlay: 0
 --- !u!114 &9212065468761235124
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -598,14 +575,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 491aceafddb93ed41a37e01f8abb4285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateMode: 0
-  movementMode: 0
+  updateMode: 1
+  movementMode: 1
   maxSpeed: 50
   dragBasedOnVelocity: 1
   drag: 5
-  removePushForceWhenHit: 1
-  collisionComponent: {fileID: 8030054746575277773}
-  rb: {fileID: 0}
+  rb: {fileID: 6689069374927739247}
   IsMovingRight: 1
   MoveDirectionInput: {x: 0, y: 0}
   LastDesiredVelocity: {x: 0, y: 0}
@@ -939,7 +914,7 @@ MonoBehaviour:
   - {x: -0.24947326, y: -0.75090253, z: 0}
   m_ShapePathHash: -1904993288
   m_Mesh: {fileID: 0}
-  m_InstanceId: 335002
+  m_InstanceId: 188868
 --- !u!1 &1623205665777261636
 GameObject:
   m_ObjectHideFlags: 0

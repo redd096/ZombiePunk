@@ -10,10 +10,10 @@ namespace redd096.GameTopDown2D
     {
         [Header("Necessary Components - default get from this gameObject")]
         [SerializeField] MovementComponent movementComponent = default;
-        [SerializeField] CollisionComponent collisionComponent = default;
 
         [Header("Layer Penetrable")]
         [Tooltip("Layers to hit but not destroy bullet")] [SerializeField] LayerMask layersPenetrable = default;
+        [Tooltip("Layers to not hit")] [SerializeField] LayerMask layersToIgnore = default;
 
         [Header("Bullet")]
         [Tooltip("When a character shoot, can hit also other characters of same type?")] [SerializeField] bool friendlyFire = true;
@@ -57,11 +57,9 @@ namespace redd096.GameTopDown2D
         {
             //get references
             if (movementComponent == null) movementComponent = GetComponent<MovementComponent>();
-            if (collisionComponent == null) collisionComponent = GetComponent<CollisionComponent>();
 
             //warnings
             if (movementComponent == null) Debug.LogWarning("Missing MovementComponent on " + name);
-            if (collisionComponent == null) Debug.LogWarning("Missing CollisionComponent on " + name);
         }
 
         void OnDrawGizmos()
@@ -74,30 +72,6 @@ namespace redd096.GameTopDown2D
                     Gizmos.color = Color.red;
                     Gizmos.DrawWireSphere(transform.position, radiusAreaDamage);
                 }
-            }
-        }
-
-        void OnEnable()
-        {
-            //get references
-            if (collisionComponent == null)
-                collisionComponent = GetComponent<CollisionComponent>();
-
-            //add events
-            if (collisionComponent)
-            {
-                collisionComponent.onCollisionEnter += OnRDCollisionEnter;
-                collisionComponent.onTriggerEnter += OnRDCollisionEnter;
-            }
-        }
-
-        void OnDisable()
-        {
-            //remove events
-            if (collisionComponent)
-            {
-                collisionComponent.onCollisionEnter -= OnRDCollisionEnter;
-                collisionComponent.onTriggerEnter -= OnRDCollisionEnter;
             }
         }
 
@@ -143,19 +117,19 @@ namespace redd096.GameTopDown2D
             ownerType = Owner ? (int)Owner.CharacterType : -1;  //if is not a character, set type to -1
 
             //ignore every collision with owner
-            if (Owner && collisionComponent)
+            if (Owner)
             {
                 foreach (Collider2D ownerCol in Owner.GetComponentsInChildren<Collider2D>())
                     foreach (Collider2D bulletCol in GetComponentsInChildren<Collider2D>())
-                        collisionComponent.IgnoreCollision(bulletCol, ownerCol);
+                        Physics2D.IgnoreCollision(bulletCol, ownerCol);
             }
 
             //ignore every collision with weapon
-            if (weapon && collisionComponent)
+            if (weapon)
             {
                 foreach (Collider2D weaponCol in weapon.GetComponentsInChildren<Collider2D>())
                     foreach (Collider2D bulletCol in GetComponentsInChildren<Collider2D>())
-                        collisionComponent.IgnoreCollision(bulletCol, weaponCol);
+                        Physics2D.IgnoreCollision(bulletCol, weaponCol);
             }
 
             //if passed autodestruction is greater then 0, use it. Else keep bullet delay
@@ -169,20 +143,24 @@ namespace redd096.GameTopDown2D
             }
         }
 
-        void OnRDCollisionEnter(RaycastHit2D collision)
+        void OnTriggerEnter2D(Collider2D collision)
         {
             OnHit(collision);
         }
 
         #region private API
 
-        void OnHit(RaycastHit2D collision)
+        void OnHit(Collider2D collision)
         {
             if (alreadyDead)
                 return;
 
             //be sure to hit something
             if (collision == false || collision.transform == false)
+                return;
+
+            //be sure is not a layer to ignore
+            if (ContainsLayer(layersToIgnore, collision.gameObject.layer))
                 return;
 
             GameObject hit = collision.transform.gameObject;
@@ -209,7 +187,7 @@ namespace redd096.GameTopDown2D
                 alreadyHit.Add(hitMain);
 
                 //if hit something, do damage and push back
-                if (hitMain.GetSavedComponent<HealthComponent>()) hitMain.GetSavedComponent<HealthComponent>().GetDamage(damage, Owner, collision.point, ignoreShield);
+                if (hitMain.GetSavedComponent<HealthComponent>()) hitMain.GetSavedComponent<HealthComponent>().GetDamage(damage, Owner, collision.ClosestPoint(transform.position), ignoreShield);
                 if (hitMain && hitMain.GetSavedComponent<MovementComponent>()) hitMain.GetSavedComponent<MovementComponent>().PushInDirection(direction, knockBack);
             }
 
@@ -253,8 +231,8 @@ namespace redd096.GameTopDown2D
             {
                 hitMain = col.GetComponentInParent<Redd096Main>();
 
-                if (hitMain != null && alreadyHitsDamageInArea.Contains(hitMain) == false                                       //be sure hit something and is not already hitted
-                    && collisionComponent && collisionComponent.CanHit(col) != CollisionComponent.ECollisionResponse.Ignore)    //be sure can be hit
+                if (hitMain != null && alreadyHitsDamageInArea.Contains(hitMain) == false       //be sure hit something and is not already hitted
+                    && ContainsLayer(layersToIgnore, col.gameObject.layer) == false)            //be sure can be hit
                 {
                     alreadyHitsDamageInArea.Add(hitMain);
 

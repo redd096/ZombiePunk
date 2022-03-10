@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7846101665643855816}
   - component: {fileID: 9109749894584255853}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Point Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -83,7 +83,7 @@ GameObject:
   - component: {fileID: 9155807053921712892}
   - component: {fileID: 9155807053921712867}
   - component: {fileID: 9155807053921712866}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: New Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -191,8 +191,8 @@ GameObject:
   - component: {fileID: 9155807054505577215}
   - component: {fileID: 9155807054505577213}
   - component: {fileID: 9155807054505577212}
-  - component: {fileID: 5513410111896163394}
-  m_Layer: 0
+  - component: {fileID: 5750671006901811968}
+  m_Layer: 9
   m_Name: BASEBullet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -226,14 +226,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 491aceafddb93ed41a37e01f8abb4285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateMode: 0
-  movementMode: 0
+  updateMode: 1
+  movementMode: 1
   maxSpeed: 50
   dragBasedOnVelocity: 1
   drag: 0
-  removePushForceWhenHit: 1
-  collisionComponent: {fileID: 5513410111896163394}
-  rb: {fileID: 0}
+  rb: {fileID: 5750671006901811968}
   IsMovingRight: 1
   MoveDirectionInput: {x: 0, y: 0}
   LastDesiredVelocity: {x: 0, y: 0}
@@ -253,10 +251,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   movementComponent: {fileID: 9155807054505577213}
-  collisionComponent: {fileID: 5513410111896163394}
   layersPenetrable:
     serializedVersion: 2
     m_Bits: 0
+  layersToIgnore:
+    serializedVersion: 2
+    m_Bits: 512
   friendlyFire: 1
   ignoreShield: 0
   knockBack: 1
@@ -273,28 +273,27 @@ MonoBehaviour:
   damage: 0
   bulletSpeed: 0
   Owner: {fileID: 0}
---- !u!114 &5513410111896163394
-MonoBehaviour:
+--- !u!50 &5750671006901811968
+Rigidbody2D:
+  serializedVersion: 4
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9155807054505577186}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82478a5c24b4a4d409856fb238f53755, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  updateMode: 3
-  timeCoroutine: 0.1
-  numberOfHorizontalRays: 4
-  numberOfVerticalRays: 4
-  offsetRays: 0.01
-  layersToIgnore:
-    serializedVersion: 2
-    m_Bits: 512
-  selfCollider: {fileID: 9155807053921712866}
-  drawDebugInPlay: 0
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 0
 --- !u!1 &9155807055333127728
 GameObject:
   m_ObjectHideFlags: 0
@@ -305,7 +304,7 @@ GameObject:
   m_Component:
   - component: {fileID: 9155807055333127729}
   - component: {fileID: 6917846483228957532}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}

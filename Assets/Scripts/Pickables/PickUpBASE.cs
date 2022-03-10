@@ -6,9 +6,6 @@ namespace redd096.GameTopDown2D
     [AddComponentMenu("redd096/.GameTopDown2D/Pickables/Pick Up BASE")]
     public abstract class PickUpBASE : MonoBehaviour, IPickable
     {
-        [Header("Necessary Components - default get from this gameObject")]
-        [SerializeField] CollisionComponent collisionComponent = default;
-
         [Header("Destroy when instantiated - 0 = no destroy")]
         [SerializeField] float timeBeforeDestroy = 0;
 
@@ -27,34 +24,9 @@ namespace redd096.GameTopDown2D
             //if there is, start auto destruction timer
             if (timeBeforeDestroy > 0)
                 StartCoroutine(AutoDestruction());
-
-            //get references
-            if (collisionComponent == null)
-                collisionComponent = GetComponent<CollisionComponent>();
-
-            //warnings
-            if (collisionComponent == null)
-                Debug.LogWarning("Missing CollisionComponent on " + name);
-
-            //add events
-            if (collisionComponent)
-            {
-                collisionComponent.onCollisionEnter += OnRDCollisionEvent;
-                collisionComponent.onTriggerEnter += OnRDCollisionEvent;
-            }
         }
 
-        void OnDisable()
-        {
-            //remove events
-            if (collisionComponent)
-            {
-                collisionComponent.onCollisionEnter -= OnRDCollisionEvent;
-                collisionComponent.onTriggerEnter -= OnRDCollisionEvent;
-            }
-        }
-
-        void OnRDCollisionEvent(RaycastHit2D collision)
+        void OnTriggerEnter2D(Collider2D collision)
         {
             if (alreadyUsed)
                 return;

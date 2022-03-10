@@ -10,9 +10,9 @@ GameObject:
   m_Component:
   - component: {fileID: 7659776846337629610}
   - component: {fileID: 4008220108725001078}
-  - component: {fileID: 5217361359594811681}
   - component: {fileID: 4552773104498818861}
-  m_Layer: 0
+  - component: {fileID: 1282353182127804626}
+  m_Layer: 9
   m_Name: GunAmmo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -46,33 +46,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34c663cfca65e3b4d8b0858ced17cf90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collisionComponent: {fileID: 5217361359594811681}
   ammoType: GunAmmo
   quantity: 25
   canPickAlsoIfFull: 0
   timeBeforeDestroy: 0
---- !u!114 &5217361359594811681
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 268702294321186694}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82478a5c24b4a4d409856fb238f53755, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  updateMode: 2
-  timeCoroutine: 0.1
-  numberOfHorizontalRays: 4
-  numberOfVerticalRays: 4
-  offsetRays: 0.01
-  layersToIgnore:
-    serializedVersion: 2
-    m_Bits: 0
-  selfCollider: {fileID: 8992388946924360880}
-  drawDebugInPlay: 0
 --- !u!114 &4552773104498818861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,6 +63,27 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   speed: 60
+--- !u!50 &1282353182127804626
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268702294321186694}
+  m_BodyType: 1
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 1
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 7
 --- !u!1 &758599177158572932
 GameObject:
   m_ObjectHideFlags: 0
@@ -96,7 +94,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3105176596455197929}
   - component: {fileID: 3354006278326448190}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Point Light 2D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -169,7 +167,7 @@ GameObject:
   - component: {fileID: 2133466319130585681}
   - component: {fileID: 7243618334658471144}
   - component: {fileID: 8992388946924360880}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: New Sprite
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -276,7 +274,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3635360939350925968}
   - component: {fileID: 6177558572577798042}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Graphics
   m_TagString: Untagged
   m_Icon: {fileID: 0}

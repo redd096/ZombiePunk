@@ -49,7 +49,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dee9c37f1eb3954f9950ea2f63910e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  component: {fileID: 3832161719942337417}
+  aimComponent: {fileID: 0}
   defaultLookRight: 1
   spritesToFlip: []
 --- !u!114 &3832161718985136011
@@ -64,7 +64,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3b8da87bc0c26f4e9665721ebd40483, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  component: {fileID: 3832161719942337422}
+  healthComponent: {fileID: 0}
   blinkOnGetDamage: 1
   spritesToUse: []
   blinkMaterial: {fileID: 2100000, guid: 3c9ef4988228c0347b6978f1904fa364, type: 2}
@@ -152,7 +152,6 @@ GameObject:
   m_Component:
   - component: {fileID: 3832161719942337413}
   - component: {fileID: 3832161719942337418}
-  - component: {fileID: 3832161719942337419}
   - component: {fileID: 3832161719942337416}
   - component: {fileID: 3832161719942337417}
   - component: {fileID: 3832161719942337422}
@@ -160,6 +159,7 @@ GameObject:
   - component: {fileID: 8314279716461989256}
   - component: {fileID: 2909709813193156785}
   - component: {fileID: 3832161719942337412}
+  - component: {fileID: 8770160300763963770}
   m_Layer: 11
   m_Name: BASEEnemy
   m_TagString: Untagged
@@ -197,28 +197,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   CharacterType: 1
   EnemyType: Base Enemy
---- !u!114 &3832161719942337419
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3832161719942337421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82478a5c24b4a4d409856fb238f53755, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  updateMode: 2
-  timeCoroutine: 0.1
-  numberOfHorizontalRays: 4
-  numberOfVerticalRays: 4
-  offsetRays: 0.01
-  layersToIgnore:
-    serializedVersion: 2
-    m_Bits: 512
-  selfCollider: {fileID: 3832161720222177754}
-  drawDebugInPlay: 0
 --- !u!114 &3832161719942337416
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -231,14 +209,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 491aceafddb93ed41a37e01f8abb4285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateMode: 0
-  movementMode: 0
+  updateMode: 1
+  movementMode: 1
   maxSpeed: 50
   dragBasedOnVelocity: 1
   drag: 5
-  removePushForceWhenHit: 1
-  collisionComponent: {fileID: 3832161719942337419}
-  rb: {fileID: 0}
+  rb: {fileID: 8770160300763963770}
   IsMovingRight: 1
   MoveDirectionInput: {x: 0, y: 0}
   LastDesiredVelocity: {x: 0, y: 0}
@@ -351,11 +327,31 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActive: 1
-  collisionComponent: {fileID: 3832161719942337419}
   charactersToHit: 00000000
   damage: 10
   pushForce: 10
   delayBetweenAttacks: 1
+--- !u!50 &8770160300763963770
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3832161719942337421}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &3832161720030964527
 GameObject:
   m_ObjectHideFlags: 0
@@ -559,7 +555,7 @@ MonoBehaviour:
   - {x: -0.3, y: -0.5, z: 0}
   m_ShapePathHash: 1800385341
   m_Mesh: {fileID: 0}
-  m_InstanceId: 212106
+  m_InstanceId: 183760
 --- !u!1 &8590413540878556233
 GameObject:
   m_ObjectHideFlags: 0

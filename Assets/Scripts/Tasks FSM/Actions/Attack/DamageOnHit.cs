@@ -7,7 +7,7 @@ using redd096.GameTopDown2D;
 public class DamageOnHit : ActionTask
 {
     [Header("Necessary Components - default get from parent")]
-    [SerializeField] CollisionComponent collisionComponent = default;
+    [SerializeField] CollisionEventToChilds collisionEventToChilds = default;
 
     [Header("Damage")]
     [SerializeField] List<Character.ECharacterType> charactersToHit = new List<Character.ECharacterType>() { Character.ECharacterType.Player };
@@ -29,32 +29,26 @@ public class DamageOnHit : ActionTask
     void OnEnable()
     {
         //get references
-        if (collisionComponent == null)
-            collisionComponent = GetStateMachineComponent<CollisionComponent>();
-
-        //if collision component has update mode to None, set to Coroutine
-        if (collisionComponent && collisionComponent.UpdateMode == CollisionComponent.EUpdateModes.None)
-        {
-            collisionComponent.UpdateMode = CollisionComponent.EUpdateModes.Coroutine;
-        }
+        if (collisionEventToChilds == null)
+            collisionEventToChilds = GetStateMachineComponent<CollisionEventToChilds>();
 
         //add events
-        if (collisionComponent)
+        if (collisionEventToChilds)
         {
-            collisionComponent.onCollisionEnter += OnOwnerCollisionEnter2D;
-            collisionComponent.onCollisionStay += OnOwnerCollisionStay2D;
-            collisionComponent.onCollisionExit += OnOwnerCollisionExit2D;
+            collisionEventToChilds.onCollisionEnter2D += OnOwnerCollisionEnter2D;
+            collisionEventToChilds.onCollisionStay2D += OnOwnerCollisionStay2D;
+            collisionEventToChilds.onCollisionExit2D += OnOwnerCollisionExit2D;
         }
     }
 
     void OnDisable()
     {
         //remove events
-        if (collisionComponent)
+        if (collisionEventToChilds)
         {
-            collisionComponent.onCollisionEnter -= OnOwnerCollisionEnter2D;
-            collisionComponent.onCollisionStay -= OnOwnerCollisionStay2D;
-            collisionComponent.onCollisionExit -= OnOwnerCollisionExit2D;
+            collisionEventToChilds.onCollisionEnter2D -= OnOwnerCollisionEnter2D;
+            collisionEventToChilds.onCollisionStay2D -= OnOwnerCollisionStay2D;
+            collisionEventToChilds.onCollisionExit2D -= OnOwnerCollisionExit2D;
         }
     }
 
@@ -96,7 +90,7 @@ public class DamageOnHit : ActionTask
         }
     }
 
-    void OnOwnerCollisionEnter2D(RaycastHit2D collision)
+    void OnOwnerCollisionEnter2D(Collision2D collision)
     {
         //check if hit and is not already in the list
         hitMain = collision.transform.GetComponentInParent<Redd096Main>();
@@ -118,7 +112,7 @@ public class DamageOnHit : ActionTask
         }
     }
 
-    void OnOwnerCollisionStay2D(RaycastHit2D collision)
+    void OnOwnerCollisionStay2D(Collision2D collision)
     {
         //check if hit and is in the list
         hitMain = collision.transform.GetComponentInParent<Redd096Main>();
@@ -133,7 +127,7 @@ public class DamageOnHit : ActionTask
         }
     }
 
-    void OnOwnerCollisionExit2D(Collider2D collision)
+    void OnOwnerCollisionExit2D(Collision2D collision)
     {
         //check if exit hit and is in the list
         hitMain = collision.transform.GetComponentInParent<Redd096Main>();
@@ -144,7 +138,7 @@ public class DamageOnHit : ActionTask
         }
     }
 
-    void OnHit(RaycastHit2D collision, Redd096Main hit)
+    void OnHit(Collision2D collision, Redd096Main hit)
     {
         if (isActive == false)
             return;
@@ -161,9 +155,9 @@ public class DamageOnHit : ActionTask
 
         //do damage and push back
         if (hit.GetSavedComponent<HealthComponent>())
-            hit.GetSavedComponent<HealthComponent>().GetDamage(damage, selfCharacter, collision.point);
+            hit.GetSavedComponent<HealthComponent>().GetDamage(damage, selfCharacter, collision.GetContact(0).point);
 
         if (hit && hit.GetSavedComponent<MovementComponent>())
-            hit.GetSavedComponent<MovementComponent>().PushInDirection(((Vector2)hit.transform.position - collision.point).normalized, pushForce);
+            hit.GetSavedComponent<MovementComponent>().PushInDirection(((Vector2)hit.transform.position - collision.GetContact(0).point).normalized, pushForce);
     }
 }
