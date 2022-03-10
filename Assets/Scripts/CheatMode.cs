@@ -6,6 +6,7 @@ public class CheatMode : MonoBehaviour
 {
     [SerializeField] float timeLabel = 1.5f;
     [SerializeField] SpriteRenderer[] sprites = default;
+    [SerializeField] WeaponBASE superWeapon = default;
 
     float timerShowLabel;
 
@@ -46,6 +47,12 @@ public class CheatMode : MonoBehaviour
         {
             foreach (ExitInteractable exit in FindObjectsOfType<ExitInteractable>())
                 exit.ForceExit();
+        }
+        //F3 instantiate super weapon
+        else if (Keyboard.current.f3Key.wasPressedThisFrame)
+        {
+            if (superWeapon)
+                Instantiate(superWeapon, transform.position, transform.rotation);
         }
 #if UNITY_EDITOR
         //F10 to pause editor
