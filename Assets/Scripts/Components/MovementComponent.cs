@@ -20,7 +20,7 @@ namespace redd096.GameTopDown2D
         [Tooltip("When player is pushed for example to the right, and hit a wall. Set Push to right at 0?")] [SerializeField] bool removePushForceWhenHit = true;
 
         [Header("Necessary Components (by default get from this gameObject)")]
-        [SerializeField] CollisionComponent collisionComponent = default;
+        [ShowIf("movementMode", EMovementModes.Transform)] [SerializeField] CollisionComponent collisionComponent = default;
         [ShowIf("movementMode", EMovementModes.Rigidbody)] [SerializeField] Rigidbody2D rb = default;
 
         [Header("DEBUG")]

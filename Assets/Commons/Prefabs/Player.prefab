@@ -361,7 +361,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dee9c37f1eb3954f9950ea2f63910e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  component: {fileID: 1574786710114621755}
+  aimComponent: {fileID: 0}
   defaultLookRight: 1
   spritesToFlip: []
 --- !u!114 &1262293034085357450
@@ -376,7 +376,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3b8da87bc0c26f4e9665721ebd40483, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  component: {fileID: 1499721902347103055}
+  healthComponent: {fileID: 0}
   blinkOnGetDamage: 1
   spritesToUse: []
   blinkMaterial: {fileID: 2100000, guid: 3c9ef4988228c0347b6978f1904fa364, type: 2}
@@ -524,6 +524,7 @@ GameObject:
   - component: {fileID: 2710214134928471105}
   - component: {fileID: 1427099914}
   - component: {fileID: 3264032009245514301}
+  - component: {fileID: 6689069374927739247}
   m_Layer: 10
   m_Name: Player
   m_TagString: Untagged
@@ -710,6 +711,8 @@ MonoBehaviour:
   - AmmoType: PowerAmmo
     Quantity: 25
   defaultAmmos: []
+  CurrentLimitAmmosDebug: []
+  CurrentAmmosDebug: []
 --- !u!114 &1427099914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -756,6 +759,27 @@ MonoBehaviour:
   timeLabel: 1.5
   sprites:
   - {fileID: 1395402417110845482}
+--- !u!50 &6689069374927739247
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395402416665274895}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 1
+  m_Constraints: 4
 --- !u!1 &1395402417110845487
 GameObject:
   m_ObjectHideFlags: 0
