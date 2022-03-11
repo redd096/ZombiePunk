@@ -10,6 +10,7 @@ namespace redd096.GameTopDown2D
         [Range(0, 100)] public int PercentageDrop;
     }
 
+    [AddComponentMenu("redd096/.GameTopDown2D/Generic/Drop")]
     public class Drop : MonoBehaviour
     {
         [Header("Drop on Die or when deactivated?")]
