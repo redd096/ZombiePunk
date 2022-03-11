@@ -52,7 +52,14 @@ public class CheatMode : MonoBehaviour
         else if (Keyboard.current.f3Key.wasPressedThisFrame)
         {
             if (superWeapon)
-                Instantiate(superWeapon, transform.position, transform.rotation);
+            {
+                WeaponBASE weapon = Instantiate(superWeapon, transform.position, transform.rotation);
+                weapon.WeaponPrefab = superWeapon;
+
+                //equip as current equipped weapon
+                WeaponComponent weaponComponent = GetComponent<WeaponComponent>();
+                if (weaponComponent) weaponComponent.PickWeapon(weapon, weaponComponent.IndexEquippedWeapon);
+            }
         }
 #if UNITY_EDITOR
         //F10 to pause editor
