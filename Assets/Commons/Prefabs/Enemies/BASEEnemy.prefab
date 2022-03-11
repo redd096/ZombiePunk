@@ -160,6 +160,7 @@ GameObject:
   - component: {fileID: 2909709813193156785}
   - component: {fileID: 3832161719942337412}
   - component: {fileID: 8770160300763963770}
+  - component: {fileID: 7795872236703593632}
   m_Layer: 11
   m_Name: BASEEnemy
   m_TagString: Untagged
@@ -271,7 +272,7 @@ MonoBehaviour:
   destroyWeaponOnDeath: 2
   healthComponent: {fileID: 3832161719942337422}
   CurrentWeapons: []
-  indexEquippedWeapon: 0
+  IndexEquippedWeapon: 0
 --- !u!114 &8314279716461989256
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -352,6 +353,22 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 4
+--- !u!114 &7795872236703593632
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3832161719942337421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8c7997b8b45de7741868bb820f785ef5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dropOnDie: 1
+  dropOnDeactivate: 0
+  totalPercentage: 0
+  drops: []
 --- !u!1 &3832161720030964527
 GameObject:
   m_ObjectHideFlags: 0
@@ -555,7 +572,7 @@ MonoBehaviour:
   - {x: -0.3, y: -0.5, z: 0}
   m_ShapePathHash: 1800385341
   m_Mesh: {fileID: 0}
-  m_InstanceId: 183760
+  m_InstanceId: 68764
 --- !u!1 &8590413540878556233
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,6 +2,7 @@
 
 namespace redd096.GameTopDown2D
 {
+    [AddComponentMenu("redd096/.GameTopDown2D/Components/Collision Event To Childs")]
     public class CollisionEventToChilds : MonoBehaviour
     {
         public System.Action<Collision2D> onCollisionEnter2D { get; set; }

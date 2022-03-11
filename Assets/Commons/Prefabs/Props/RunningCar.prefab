@@ -614,7 +614,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4310203357565768994}
   - component: {fileID: 2797596537972382870}
-  - component: {fileID: 4310203357565768993}
   - component: {fileID: 4310203357565768992}
   - component: {fileID: 4310203357565769007}
   - component: {fileID: 4310203357565769006}
@@ -654,28 +653,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d0ab3dc2f7b151740b8f7b197919b1e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &4310203357565768993
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4310203357565769005}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 82478a5c24b4a4d409856fb238f53755, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  updateMode: 3
-  timeCoroutine: 0.1
-  numberOfHorizontalRays: 4
-  numberOfVerticalRays: 4
-  offsetRays: 0.01
-  layersToIgnore:
-    serializedVersion: 2
-    m_Bits: 512
-  selfCollider: {fileID: 0}
-  drawDebugInPlay: 0
 --- !u!114 &4310203357565768992
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -709,9 +686,6 @@ MonoBehaviour:
   maxSpeed: 0
   dragBasedOnVelocity: 1
   drag: 5
-  removePushForceWhenHit: 1
-  collisionComponent: {fileID: 0}
-  tempFixCollisionComponent: 1
   rb: {fileID: 0}
   IsMovingRight: 1
   MoveDirectionInput: {x: 0, y: 0}
@@ -732,7 +706,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isActive: 1
-  collisionComponent: {fileID: 4310203357565768993}
   charactersToHit: 00000000
   damage: 100
   pushForce: 10
@@ -749,10 +722,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 07e9770e1bad0824d8627ae9cf102c23, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  useCustomCollider: 1
+  colliders: []
   offset: {x: 0, y: -0.35}
   typeCollider: 1
   sizeCollider: {x: 4, y: 1.3}
   radiusCollider: 1
+  setUnwalkable: 0
+  addPenalty: 1
+  penalty: 1
   drawDebug: 0
 --- !u!114 &173522723562897590
 MonoBehaviour:
@@ -812,7 +790,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3b8da87bc0c26f4e9665721ebd40483, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  component: {fileID: 4310203357565768992}
+  healthComponent: {fileID: 0}
   blinkOnGetDamage: 1
   spritesToUse: []
   blinkMaterial: {fileID: 2100000, guid: 3c9ef4988228c0347b6978f1904fa364, type: 2}

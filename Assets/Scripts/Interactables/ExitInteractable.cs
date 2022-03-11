@@ -198,7 +198,7 @@ namespace redd096.GameTopDown2D
             Character character = spawnedObject.GetComponent<Character>();
             if (character && character.CharacterType == Character.ECharacterType.AI)
             {
-                SpawnableObject spawnableObject = spawnedObject.AddComponent<SpawnableObject>();
+                SpawnableObject spawnableObject = spawnedObject.GetComponent<SpawnableObject>();
                 spawnableObject.onDeactiveObject += OnEnemyDie;
                 enemies.Add(spawnableObject);   //and add to the list
             }
