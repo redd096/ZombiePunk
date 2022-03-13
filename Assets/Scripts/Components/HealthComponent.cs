@@ -18,7 +18,7 @@ namespace redd096.GameTopDown2D
         /*[ShowNonSerializedField]*/ [ReadOnly] bool alreadyDead = false;
 
         //events
-        public System.Action onGetDamage { get; set; }
+        public System.Action<Vector2> onGetDamage { get; set; }
         public System.Action<HealthComponent> onDie { get; set; }
         public System.Action onGetHealth { get; set; }
 
@@ -68,7 +68,7 @@ namespace redd096.GameTopDown2D
 
             //call event only if damage is > 0
             if (damage > Mathf.Epsilon)
-                onGetDamage?.Invoke();
+                onGetDamage?.Invoke(hitPoint);
 
             //check if dead
             if (CurrentHealth <= 0)
