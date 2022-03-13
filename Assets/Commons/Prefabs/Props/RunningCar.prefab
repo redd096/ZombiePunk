@@ -619,6 +619,7 @@ GameObject:
   - component: {fileID: 4310203357565769006}
   - component: {fileID: 239377276101216636}
   - component: {fileID: 173522723562897590}
+  - component: {fileID: 7133505388024181772}
   m_Layer: 0
   m_Name: RunningCar
   m_TagString: Untagged
@@ -681,12 +682,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 491aceafddb93ed41a37e01f8abb4285, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  updateMode: 0
-  movementMode: 0
+  updateMode: 1
+  movementMode: 1
   maxSpeed: 0
   dragBasedOnVelocity: 1
   drag: 5
-  rb: {fileID: 0}
+  rb: {fileID: 7133505388024181772}
   IsMovingRight: 1
   MoveDirectionInput: {x: 0, y: 0}
   LastDesiredVelocity: {x: 0, y: 0}
@@ -746,6 +747,27 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 30
   time: 0
+--- !u!50 &7133505388024181772
+Rigidbody2D:
+  serializedVersion: 4
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4310203357565769005}
+  m_BodyType: 0
+  m_Simulated: 1
+  m_UseFullKinematicContacts: 0
+  m_UseAutoMass: 0
+  m_Mass: 1000
+  m_LinearDrag: 0
+  m_AngularDrag: 0.05
+  m_GravityScale: 0
+  m_Material: {fileID: 0}
+  m_Interpolate: 0
+  m_SleepingMode: 1
+  m_CollisionDetection: 0
+  m_Constraints: 4
 --- !u!1 &4310203358685404417
 GameObject:
   m_ObjectHideFlags: 0
