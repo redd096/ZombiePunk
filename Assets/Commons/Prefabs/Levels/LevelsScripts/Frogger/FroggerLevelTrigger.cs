@@ -22,7 +22,7 @@ public class FroggerLevelTrigger : MonoBehaviour
     {
         if (collision.CompareTag("Player"))
         {
-            game.SetActive(true);
+            if (game) game.SetActive(true);
             print("DioMadonna");
         }
     }
@@ -34,10 +34,10 @@ public class FroggerLevelTrigger : MonoBehaviour
             
             Destroy(Spawn);
             
-            levelPlay.SetActive(true);
+            if (levelPlay) levelPlay.SetActive(true);
 
-            levelEnter.SetActive(false);
-            exit.SetActive(true);
+            if (levelEnter) levelEnter.SetActive(false);
+            if (exit) exit.SetActive(true);
             Destroy(gameObject);
         }
     }

@@ -6,9 +6,6 @@ using redd096.GameTopDown2D;
 [AddComponentMenu("redd096/Weapons/Bullet Modifiers/Effects/Acid Effect")]
 public class AcidEffect : MonoBehaviour
 {
-    [Header("Necessary Components - default get from this gameObject")]
-    [SerializeField] CollisionComponent collisionComponent = default;
-
     [Header("Targets")]
     [SerializeField] List<Character.ECharacterType> charactersToHit = new List<Character.ECharacterType>() { Character.ECharacterType.Player };
     [SerializeField] bool hitAlsoNotCharacters = true;
@@ -30,40 +27,6 @@ public class AcidEffect : MonoBehaviour
     Dictionary<Redd096Main, float> hits = new Dictionary<Redd096Main, float>();
     Redd096Main hitMain;
 
-    void OnEnable()
-    {
-        //get references
-        if (collisionComponent == null)
-            collisionComponent = GetComponent<CollisionComponent>();
-
-        //add events
-        if (collisionComponent)
-        {
-            collisionComponent.onCollisionEnter += OnRDCollisionEnter;
-            collisionComponent.onCollisionStay += OnRDCollisionStay;
-            collisionComponent.onCollisionExit += OnRDCollisionExit;
-
-            collisionComponent.onTriggerEnter += OnRDCollisionEnter;
-            collisionComponent.onTriggerStay += OnRDCollisionStay;
-            collisionComponent.onTriggerExit += OnRDCollisionExit;
-        }
-    }
-
-    void OnDisable()
-    {
-        //remove events
-        if (collisionComponent)
-        {
-            collisionComponent.onCollisionEnter -= OnRDCollisionEnter;
-            collisionComponent.onCollisionStay -= OnRDCollisionStay;
-            collisionComponent.onCollisionExit -= OnRDCollisionExit;
-
-            collisionComponent.onTriggerEnter -= OnRDCollisionEnter;
-            collisionComponent.onTriggerStay -= OnRDCollisionStay;
-            collisionComponent.onTriggerExit -= OnRDCollisionExit;
-        }
-    }
-
     /// <summary>
     /// Initialize
     /// </summary>
@@ -79,7 +42,7 @@ public class AcidEffect : MonoBehaviour
         }
     }
 
-    void OnRDCollisionEnter(RaycastHit2D collision)
+    void OnTriggerEnter2D(Collider2D collision)
     {
         //check if hit and is not already in the list
         hitMain = collision.transform.GetComponentInParent<Redd096Main>();
@@ -109,7 +72,7 @@ public class AcidEffect : MonoBehaviour
         }
     }
 
-    void OnRDCollisionStay(RaycastHit2D collision)
+    void OnTriggerStay2D(Collider2D collision)
     {
         //check if hit and is in the list
         hitMain = collision.transform.GetComponentInParent<Redd096Main>();
@@ -124,7 +87,7 @@ public class AcidEffect : MonoBehaviour
         }
     }
 
-    void OnRDCollisionExit(Collider2D collision)
+    void OnTriggerExit2D(Collider2D collision)
     {
         //check if exit hit and is in the list
         hitMain = collision.transform.GetComponentInParent<Redd096Main>();
@@ -135,7 +98,7 @@ public class AcidEffect : MonoBehaviour
         }
     }
 
-    void OnHit(RaycastHit2D collision, Redd096Main hit)
+    void OnHit(Collider2D collision, Redd096Main hit)
     {
         //if there is no hit, do nothing
         if (hit == null)
@@ -152,10 +115,10 @@ public class AcidEffect : MonoBehaviour
 
         //do damage and push back
         if (hit.GetSavedComponent<HealthComponent>())
-            hit.GetSavedComponent<HealthComponent>().GetDamage(damage, owner, collision.point);
+            hit.GetSavedComponent<HealthComponent>().GetDamage(damage, owner, collision.ClosestPoint(transform.position));
 
         if (hit && hit.GetSavedComponent<MovementComponent>())
-            hit.GetSavedComponent<MovementComponent>().PushInDirection(((Vector2)hit.transform.position - collision.point).normalized, pushForce);
+            hit.GetSavedComponent<MovementComponent>().PushInDirection((hit.transform.position - collision.transform.position).normalized, pushForce);
     }
 
     IEnumerator DisappearCoroutine()
