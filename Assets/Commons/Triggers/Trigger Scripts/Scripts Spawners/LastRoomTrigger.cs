@@ -14,19 +14,27 @@ public class LastRoomTrigger : MonoBehaviour
 
     public GameObject Exit;
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        Spawns.SetActive(true);
+        if (collision.CompareTag("Player"))
+        {
+            Spawns.SetActive(true);
 
-        Destroy(Deactive);
+            Destroy(Deactive);
+        }
+           
 
     }
 
-    void OnTriggerExit2D(Collider2D other)
+    void OnTriggerExit2D(Collider2D collision)
     {
-        Block.SetActive(true);
+        if (collision.CompareTag("Player"))
+        {
+            Block.SetActive(true);
 
-        Exit.SetActive(true);
+            Exit.SetActive(true);
+        }
+         
     }
 
 }

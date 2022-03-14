@@ -7,8 +7,12 @@ public class LevelDeactiver : MonoBehaviour
     public GameObject Player;
     public GameObject TilesOff;
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        TilesOff.SetActive(false);
+        if (collision.CompareTag("Player"))
+        {
+            TilesOff.SetActive(false);
+        }
+            
     }
 }

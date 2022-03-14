@@ -4,12 +4,16 @@ using UnityEngine;
 
 public class LevelActiver : MonoBehaviour
 {
-    public GameObject Player;
+    
     public GameObject TilesOn;
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        TilesOn.SetActive(true);
+        if (collision.CompareTag("Player"))
+        {
+            TilesOn.SetActive(true);
+        }
+            
     }
 
         

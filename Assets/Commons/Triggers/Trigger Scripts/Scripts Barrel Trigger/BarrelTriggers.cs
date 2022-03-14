@@ -7,9 +7,13 @@ public class BarrelTriggers : MonoBehaviour
     public GameObject BarrelsOn;
     public GameObject BarrelsOff;
 
-    void OnTriggerEnter2D(Collider2D other)
+    void OnTriggerEnter2D(Collider2D collision)
     {
-        BarrelsOn.SetActive(true);
-        BarrelsOff.SetActive(false);
+        if (collision.CompareTag("Player"))
+        {
+            BarrelsOn.SetActive(true);
+            BarrelsOff.SetActive(false);
+        }
+            
     }
 }
