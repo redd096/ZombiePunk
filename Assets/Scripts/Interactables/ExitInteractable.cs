@@ -25,8 +25,6 @@ namespace redd096.GameTopDown2D
         public bool IsOpen => isOpen;
         public string SceneToLoad => sceneToLoad;
 
-        public GameObject UI;
-
         //events
         public System.Action onOpen { get; set; }
         public System.Action onClose { get; set; }
@@ -263,24 +261,6 @@ namespace redd096.GameTopDown2D
                 onOpen?.Invoke();
             else
                 onClose?.Invoke();
-        }
-
-        private void OnTriggerEnter2D(Collider2D collision)
-        {
-            if (collision.CompareTag("Player"))
-            {
-                isOpen = true;
-                UI.SetActive(true);
-            }
-        }
-
-        private void OnTriggerExit2D(Collider2D collision)
-        {
-            if (collision.CompareTag("Player"))
-            {
-                isOpen = true;
-                UI.SetActive(false);
-            }
         }
 
         #endregion
