@@ -12,6 +12,9 @@ namespace redd096.GameTopDown2D
         [SerializeField] Animator anim = default;
         [SerializeField] string boolParameter = "IsOpen";
 
+        [Header("Command to show when open")]
+        [SerializeField] GameObject objectToShow = default;
+
         void OnEnable()
         {
             //get references
@@ -46,6 +49,10 @@ namespace redd096.GameTopDown2D
             {
                 anim.SetBool(boolParameter, interactable.IsOpen);
             }
+
+            //show object when open and hide when close
+            if (objectToShow)
+                objectToShow.SetActive(interactable.IsOpen);
         }
     }
 }
