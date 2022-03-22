@@ -22,6 +22,8 @@ namespace redd096.GameTopDown2D
 		//events
 		public System.Action<IInteractable> onFoundInteractable { get; set; }
 		public System.Action<IInteractable> onLostInteractable { get; set; }
+		//if interact with something that open a menu, can use a state in statemachine to call this event. Then the menu will register to this event to decide what to do
+		public System.Action inputEventForStateMachines { get; set; }
 
 		//update mode
 		Coroutine updateCoroutine;

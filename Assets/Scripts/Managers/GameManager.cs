@@ -19,15 +19,15 @@ public class GameManager : Singleton<GameManager>
 
     //se si vuole fare multiplayer, si salva un array per ogni ID
     //nel menu customizzazione si aggiunge uno script ai prefab per passare il PointerEventData al click, per sapere l'ID di chi ha cliccato
-    [Header("DEBUG")]
-    [SerializeField] CustomizeData[] currentCustomizations = default;
-    [SerializeField] WeaponBASE[] currentWeaponsPrefabs = default;
+    //OLD
+    CustomizeData[] currentCustomizations = default;
+    WeaponBASE[] currentWeaponsPrefabs = default;
 
     public UIManager uiManager { get; private set; }
     public LevelManager levelManager { get; private set; }
 
-    //List<Character> playersFromPreviousScene;
-    SavesBetweenScenes savedStats;
+    //saves in game
+    SavesBetweenScenes savedStats;          //to move between scenes, so currently equipped
 
     protected override void SetDefaults()
     {
