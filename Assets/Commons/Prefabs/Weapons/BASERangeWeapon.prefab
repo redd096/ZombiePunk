@@ -47,6 +47,7 @@ MonoBehaviour:
   WeaponSprite: {fileID: 0}
   destroyWeaponOnDrop: 0
   Owner: {fileID: 0}
+  WeaponPrefab: {fileID: 0}
   Automatic: 1
   RateOfFire: 0.2
   Recoil: 1
@@ -57,11 +58,8 @@ MonoBehaviour:
   BulletPrefab: {fileID: 0}
   Damage: 10
   BulletSpeed: 10
-  hasAmmo: 1
   AmmoType: GunAmmo
-  maxAmmo: 32
-  currentAmmo: 32
-  delayReload: 1
+  AmmoOnPick: 12
   drawDebug: 0
 --- !u!114 &60239732911824001
 MonoBehaviour:
@@ -146,14 +144,12 @@ MonoBehaviour:
     audioClip: {fileID: 0}
     volume: 1
     is3D: 0
-  updateAmmoOnEquip: 1
-  updateAmmoOnShoot: 1
-  updateAmmoOnReload: 1
-  gameObjectOnReload:
+  mainBarrelFailShoot: {fileID: 0}
+  gameObjectOnFailShoot:
     instantiatedGameObject: {fileID: 0}
     timeAutodestruction: 0
-  particlesOnReload: {fileID: 0}
-  audioOnReload:
+  particlesOnFailShoot: {fileID: 0}
+  audioOnFailShoot:
     audioClip: {fileID: 0}
     volume: 1
     is3D: 0
@@ -239,6 +235,16 @@ PrefabInstance:
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7383766184123219905, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_ApplyToSortingLayers.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7383766184123219905, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_ApplyToSortingLayers.Array.data[2]
+      value: -2001526135
       objectReference: {fileID: 0}
     - target: {fileID: 8180532037753523686, guid: 1a39af266be7e774aa6fa19eb3935adb,
         type: 3}
