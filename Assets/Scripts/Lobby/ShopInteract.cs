@@ -1,7 +1,14 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using redd096.GameTopDown2D;
 using redd096;
 using UnityEngine.UI;
+
+[System.Serializable]
+public class SaveClass
+{
+    public List<WeaponBASE> BoughtWeapons;
+}
 
 public class ShopInteract : MonoBehaviour, IInteractable
 {
@@ -13,13 +20,20 @@ public class ShopInteract : MonoBehaviour, IInteractable
     [SerializeField] WeaponButtonShop[] weaponButtons = default;
     [SerializeField] WeaponBASE[] weaponsToBuy = default;
 
+    const string SAVENAME = "BoughtWeapons";
+
     InteractComponent whoIsInteracting;
+    SaveClass saveClass;
 
     void Start()
     {
+        //load already bought weapons
+        saveClass = SaveLoadJSON.Load<SaveClass>(SAVENAME);
+        List<WeaponBASE> alreadyBoughtWeapons = saveClass != null && saveClass.BoughtWeapons != null ? saveClass.BoughtWeapons : new List<WeaponBASE>();    //never null
+
         for (int i = 0; i < weaponButtons.Length; i++)
         {
-            //if there are no more buttons, stop
+            //if there are no more weapons, stop
             if (i >= weaponsToBuy.Length)
                 break;
 
@@ -37,6 +51,15 @@ public class ShopInteract : MonoBehaviour, IInteractable
                     weaponButtons[i].button.onClick.AddListener(() => OnClickButton(index));
                 }
 
+                //if already bought
+                if (alreadyBoughtWeapons.Contains(weaponsToBuy[i]))
+                {
+                    Color disabledColor = weaponButtons[i].button ? weaponButtons[i].button.colors.disabledColor : Color.grey;
+                    if (weaponButtons[i].button) weaponButtons[i].button.interactable = false;
+                    if (weaponButtons[i].nameText) weaponButtons[i].nameText.color = disabledColor;
+                    if (weaponButtons[i].priceText) weaponButtons[i].priceText.color = disabledColor;
+                }
+
                 //TODO
                 //bisogna disattivare completamente quelli non comprabili perché già presi
                 //bisogna scrivere in rosso il prezzo e disattivare il button di quelli invece troppo costosi
@@ -48,6 +71,21 @@ public class ShopInteract : MonoBehaviour, IInteractable
 
     void OnClickButton(int index)
     {
+        //get saved weapons and add this one
+        List<WeaponBASE> alreadyBoughtWeapons = saveClass != null && saveClass.BoughtWeapons != null ? saveClass.BoughtWeapons : new List<WeaponBASE>();    //never null
+        if (index < weaponsToBuy.Length && weaponsToBuy[index] != null)
+            alreadyBoughtWeapons.Add(weaponsToBuy[index]);
+
+        //be sure to have a class to save
+        if (saveClass == null)
+            saveClass = new SaveClass();
+
+        //set saved weapons updated
+        saveClass.BoughtWeapons = alreadyBoughtWeapons;
+
+        //save in file
+        SaveLoadJSON.Save(SAVENAME, saveClass);
+
         //TODO
         //andranno salvate le armi comprate (player prefs o json?)
         //quelle già comprate non dovranno essere interagili nello shop
