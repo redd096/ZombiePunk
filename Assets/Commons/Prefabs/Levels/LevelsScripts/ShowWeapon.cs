@@ -20,14 +20,10 @@ public class ShowWeapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameObject.GetComponent("WeaponMain"))
+        if (gameObject.name == "WeaponMain")
         {
             current = weapons.IndexEquippedWeapon;
             image.sprite = weapons.CurrentWeapons[current].GetComponent<WeaponRange>().WeaponSprite;
-        }
-        else
-        {
-
         }
     }
 }
