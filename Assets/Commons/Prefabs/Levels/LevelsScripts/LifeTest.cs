@@ -6,13 +6,14 @@ using UnityEngine.UI;
 
 public class LifeTest : MonoBehaviour
 {
-    public HealthComponent life;
+    private HealthComponent life;
     private Image image;
 
     // Start is called before the first frame update
     void Start()
     {
         image = gameObject.GetComponent<Image>();
+        life = GameObject.Find("Player").GetComponent<HealthComponent>();
     }
 
     // Update is called once per frame
