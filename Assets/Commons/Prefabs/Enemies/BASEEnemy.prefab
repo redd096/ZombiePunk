@@ -156,9 +156,8 @@ GameObject:
   - component: {fileID: 3832161719942337417}
   - component: {fileID: 3832161719942337422}
   - component: {fileID: 3832161719942337423}
-  - component: {fileID: 8314279716461989256}
-  - component: {fileID: 2909709813193156785}
   - component: {fileID: 3832161719942337412}
+  - component: {fileID: 342286748697973827}
   - component: {fileID: 8770160300763963770}
   - component: {fileID: 7795872236703593632}
   m_Layer: 11
@@ -273,48 +272,6 @@ MonoBehaviour:
   healthComponent: {fileID: 3832161719942337422}
   CurrentWeapons: []
   IndexEquippedWeapon: 0
---- !u!114 &8314279716461989256
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3832161719942337421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af9e4182897a4614baf83c04ff030ffd, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useCustomCollider: 1
-  colliders: []
-  offset: {x: 0, y: 0}
-  typeCollider: 1
-  sizeCollider: {x: 0.5, y: 1}
-  radiusCollider: 1
-  obstacleAStar: {fileID: 2909709813193156785}
-  drawDebug: 1
---- !u!114 &2909709813193156785
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3832161719942337421}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 07e9770e1bad0824d8627ae9cf102c23, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  useCustomCollider: 1
-  colliders: []
-  offset: {x: 0, y: 0}
-  typeCollider: 1
-  sizeCollider: {x: 0.5, y: 1}
-  radiusCollider: 1
-  setUnwalkable: 0
-  addPenalty: 0
-  penalty: 1000
-  drawDebug: 0
 --- !u!114 &3832161719942337412
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -332,6 +289,34 @@ MonoBehaviour:
   damage: 10
   pushForce: 10
   delayBetweenAttacks: 1
+--- !u!114 &342286748697973827
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3832161719942337421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  version: 1
+  drawGizmos: 1
+  detailedGizmos: 0
+  startEndModifier:
+    addPoints: 0
+    exactStartPoint: 3
+    exactEndPoint: 3
+    useRaycasting: 0
+    mask:
+      serializedVersion: 2
+      m_Bits: 4294967295
+    useGraphRaycasting: 0
+  traversableTags: -1
+  tagPenalties: 0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000
+  graphMask:
+    value: -1
 --- !u!50 &8770160300763963770
 Rigidbody2D:
   serializedVersion: 4
@@ -573,7 +558,7 @@ MonoBehaviour:
   - {x: -0.3, y: -0.5, z: 0}
   m_ShapePathHash: 1800385341
   m_Mesh: {fileID: 0}
-  m_InstanceId: 279562
+  m_InstanceId: 38716
 --- !u!1 &5300601866015653159
 GameObject:
   m_ObjectHideFlags: 0
