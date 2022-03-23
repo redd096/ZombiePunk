@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 7509590392313314039}
   - component: {fileID: 7509590392313314040}
   - component: {fileID: 7509590392313314041}
+  - component: {fileID: 4462056293276858423}
   - component: {fileID: 7509590392313314042}
   m_Layer: 0
   m_Name: GameManager
@@ -48,8 +49,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lock60Fps: 1
-  currentCustomizations: []
-  currentWeaponsPrefabs: []
 --- !u!114 &7509590392313314039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,6 +145,21 @@ MonoBehaviour:
   sound3DPrefab: {fileID: 6268396531015464464, guid: 8260c7ae6d27d8943a3d0318149e3cfa,
     type: 3}
   soundsOnClick: []
+--- !u!114 &4462056293276858423
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7509590392313314043}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 23591cbf3d4f77545b981197af496596, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  saveFolder: 0
+  directoryName: Saves
+  ShowDebug: 0
 --- !u!114 &7509590392313314042
 MonoBehaviour:
   m_ObjectHideFlags: 0
