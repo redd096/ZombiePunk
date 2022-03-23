@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using redd096;
-using redd096.PathFinding2D;
 using redd096.GameTopDown2D;
+using Pathfinding;
 
 [AddComponentMenu("redd096/Tasks FSM/Action/PathFinding/Patrol With Path Finding")]
 public class PatrolWithPathFinding : ActionTask
@@ -9,7 +9,7 @@ public class PatrolWithPathFinding : ActionTask
     [Header("Necessary Components - default get in parent")]
     [SerializeField] MovementComponent component;
     [SerializeField] AimComponent aimComponent;
-    [SerializeField] AgentAStar2D agentAStar;
+    [SerializeField] Seeker seeker;
 
     [Header("Patrol")]
     [SerializeField] float radiusPatrol = 5;
@@ -56,7 +56,7 @@ public class PatrolWithPathFinding : ActionTask
         //get references
         if (component == null) component = GetStateMachineComponent<MovementComponent>();
         if (aimComponent == null) aimComponent = GetStateMachineComponent<AimComponent>();
-        if (agentAStar == null) agentAStar = GetStateMachineComponent<AgentAStar2D>();
+        if (seeker == null) seeker = GetStateMachineComponent<Seeker>();
 
         //save start position
         startPosition = transformTask.position;
@@ -67,8 +67,8 @@ public class PatrolWithPathFinding : ActionTask
         base.OnEnterTask();
 
         //stop previous path request
-        if (agentAStar && agentAStar.IsDone() == false)
-            agentAStar.CancelLastPathRequest();
+        if (seeker && seeker.IsDone() == false)
+            seeker.CancelCurrentPathRequest();
 
         //remove previous path
         if (path != null)
@@ -105,7 +105,7 @@ public class PatrolWithPathFinding : ActionTask
     void FindNewPath()
     {
         //delay between every update of the path (every few seconds, only if already calculated previous path)
-        if (Time.time > timerBeforeNextUpdatePath && agentAStar && agentAStar.IsDone())
+        if (Time.time > timerBeforeNextUpdatePath && seeker && seeker.IsDone())
         {
             //reset timer
             timerBeforeNextUpdatePath = Time.time + delayRecalculatePath;
@@ -114,7 +114,7 @@ public class PatrolWithPathFinding : ActionTask
             Vector3 randomPoint = startPosition + Random.insideUnitCircle * radiusPatrol;
 
             //get path
-            agentAStar.FindPath(transformTask.position, randomPoint, OnPathComplete);
+            seeker.StartPath(transformTask.position, randomPoint, OnPathComplete);
         }
     }
 

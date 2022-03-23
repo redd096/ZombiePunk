@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using redd096;
-using redd096.PathFinding2D;
 using redd096.GameTopDown2D;
+using Pathfinding;
 
 [AddComponentMenu("redd096/Tasks FSM/Action/PathFinding/Chase With Path Finding")]
 public class ChaseWithPathFinding : ActionTask
@@ -9,7 +9,8 @@ public class ChaseWithPathFinding : ActionTask
     [Header("Necessary Components - default get in parent")]
     [SerializeField] MovementComponent component;
     [SerializeField] AimComponent aimComponent;
-    [SerializeField] AgentAStar2D agentAStar;
+    //[SerializeField] AgentAStar2D agentAStar;
+    [SerializeField] Seeker seeker;
 
     [Header("Chase")]
     [SerializeField] string targetBlackboardName = "Target";
@@ -51,7 +52,7 @@ public class ChaseWithPathFinding : ActionTask
         //get references
         if (component == null) component = GetStateMachineComponent<MovementComponent>();
         if (aimComponent == null) aimComponent = GetStateMachineComponent<AimComponent>();
-        if (agentAStar == null) agentAStar = GetStateMachineComponent<AgentAStar2D>();
+        if (seeker == null) seeker = GetStateMachineComponent<Seeker>();
     }
 
     public override void OnEnterTask()
@@ -62,8 +63,8 @@ public class ChaseWithPathFinding : ActionTask
         target = stateMachine.GetBlackboardElement<Transform>(targetBlackboardName);
 
         //stop previous path request
-        if (agentAStar && agentAStar.IsDone() == false)
-            agentAStar.CancelLastPathRequest();
+        if (seeker && seeker.IsDone() == false)
+            seeker.CancelCurrentPathRequest();
 
         //remove previous path
         if (path != null)
@@ -114,13 +115,14 @@ public class ChaseWithPathFinding : ActionTask
     void UpdatePath()
     {
         //delay between every update of the path (every few seconds, only if already calculated previous path)
-        if (Time.time > timerBeforeNextUpdatePath && agentAStar && agentAStar.IsDone())
+        if (Time.time > timerBeforeNextUpdatePath && seeker && seeker.IsDone())
         {
             //reset timer
             timerBeforeNextUpdatePath = Time.time + delayRecalculatePath;
 
             //get path
-            agentAStar.FindPath(transformTask.position, target.position, OnPathComplete);
+            seeker.StartPath(transformTask.position, target.position, OnPathComplete);
+            //agentAStar.FindPath(transformTask.position, target.position, OnPathComplete);
         }
     }
 

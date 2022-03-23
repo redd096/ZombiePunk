@@ -2983,8 +2983,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 7913340268479855512}
-  - component: {fileID: 62355844536710495}
-  - component: {fileID: 4779366767106300251}
+  - component: {fileID: 4287175580367998045}
   m_Layer: 0
   m_Name: PathFinding
   m_TagString: Untagged
@@ -3006,7 +3005,7 @@ Transform:
   m_Father: {fileID: 7913340268312218488}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &62355844536710495
+--- !u!114 &4287175580367998045
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -3015,33 +3014,52 @@ MonoBehaviour:
   m_GameObject: {fileID: 7913340268479855513}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d39d3f77b0ae25044ab57ff78b6d315d, type: 3}
+  m_Script: {fileID: 11500000, guid: 78396926cbbfc4ac3b48fc5fc34a87d1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  unwalkableMask:
-    serializedVersion: 2
-    m_Bits: 256
-  walkableRegions: []
-  updateOnAwake: 1
-  gridWorldSize: {x: 20, y: 10}
-  nodeDiameter: 0.5
-  drawGizmos: 0
-  drawObstacles: 0
-  alphaNodes: 0.5
-  agentCanOverlapNodesOutsideGrids: 1
---- !u!114 &4779366767106300251
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7913340268479855513}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bfd5fc8ba5487b5419d7b8b87674324c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Grid: {fileID: 62355844536710495}
+  version: 1
+  data:
+    dataString: UEsDBBQAAAgIAAAIIexCqP1aXQIAABYFAAALACQAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQF1VMlu2zAQ/RWD57qQ7Cx2b63iOD0kMeIWuehCkyOLMEUKXOIl8L93SEmW6qInjd68mXmzSJ9EKFsDc9osjeDPmgP5NiLBJl9GvfMJDnSr1VqcoOO8C+7KQKKR80ad0IinIczqCpwR7LvaykBOEPRKFNpUC76FTFtnES6otIAuo12IVgh9jsgBH+N5CDmiNbkP1gmteTI6o8lAOTA9tSN2tIblFZO0qoEHyT05TTo6WpGosJ2Wk3y9Dfm1lMK2aog71rHbjNbWYy9I4IJid1HCFF9LENvSBaXD4NeisOBaWYYeH4TBITVZyQ/dTK6idtdo+6DShzqT27uoqkn6/I9/nEZ3YXT11NVtenKlYLs3emTUusFoh/BDLzyNI9pTuaMbCe8lqBe9NNorjk5nfAj1FiYP/eultawEtuvxRuoV6Ov/Lyj0cI7dHzIpqk2c/E0DrKWO847rB4O7+YmC43HYNgWiQcVvC7/odnhFreNRGOvQ1XapgryN9iZQySLOLHTjXaaNggi3omtQVLrjCtO46xVe+QZlrzyPNHwvbfHW130GVyER7vlJcuVa6f1lWbbU+2ew5at3UijoRQfHC84p00o1FzacSRe29qagbBC29YL/fVpkU6SzhN4mBS9mk9l9OmbF/KZI2Xx6s6HsbpqQeHtCYZ9Urhqh7Xhwa6pPrvDOut/IaGloHa+dG7pfilOlByMXqtBrZgDUa5PhIhwMFsHvki+4wAGtwTmh4r7JZ06kZjvg+SVRHjtdHJyheZ8lJ7X40C4gOcnifyMnAb7c8srAh4B9KN4lO5PzH1BLAwQUAAAICAAACCHsguZqim0AAAB4AAAACQAkAG1ldGEuanNvbgoAIAAAAAAAAQAYAACAPtXesZ0BAIA+1d6xnQEAgD7V3rGdAatWKkstKs7Mz1OyUjDRM9IzNNdRUEovSizIKAaKGII4pZkpIHa0UlKaoYVBoqlBWkqahZGFuaFucpqlSZphsqWxSVJispmxgVIsUH1JZUGqX2JuKkRPQGJJRlpmXkpmXrqee1FmijvIaKXYWgBQSwECLQAUAAAICAAACCHsQqj9Wl0CAAAWBQAACwAkAAAAAAAAAAAAAAAAAAAAZ3JhcGgwLmpzb24KACAAAAAAAAEAGAAAgD7V3rGdAQCAPtXesZ0BAIA+1d6xnQFQSwECLQAUAAAICAAACCHsguZqim0AAAB4AAAACQAkAAAAAAAAAAAAAACqAgAAbWV0YS5qc29uCgAgAAAAAAABABgAAIA+1d6xnQEAgD7V3rGdAQCAPtXesZ0BUEsFBgAAAAACAAIAuAAAAGIDAAAAAA==
+    upgradeData: 
+    file_cachedStartup: {fileID: 0}
+    data_cachedStartup: 
+    cacheStartup: 0
+  showNavGraphs: 1
+  showUnwalkableNodes: 1
+  debugMode: 0
+  debugFloor: 0
+  debugRoof: 1
+  manualDebugFloorRoof: 0
+  showSearchTree: 0
+  unwalkableNodeDebugSize: 0.3
+  logPathResults: 1
+  maxNearestNodeDistance: 100
+  scanOnStartup: 1
+  fullGetNearestSearch: 0
+  prioritizeGraphs: 0
+  prioritizeGraphsLimit: 1
+  colorSettings:
+    _SolidColor: {r: 0.11764706, g: 0.4, b: 0.7882353, a: 0.9}
+    _UnwalkableNode: {r: 1, g: 0, b: 0, a: 0.5}
+    _BoundsHandles: {r: 0.29, g: 0.454, b: 0.741, a: 0.9}
+    _ConnectionLowLerp: {r: 0, g: 1, b: 0, a: 0.5}
+    _ConnectionHighLerp: {r: 1, g: 0, b: 0, a: 0.5}
+    _MeshEdgeColor: {r: 0, g: 0, b: 0, a: 0.5}
+    _AreaColors:
+    - {r: 0, g: 0, b: 0, a: 0}
+  tagNames: []
+  heuristic: 2
+  heuristicScale: 1
+  threadCount: 1
+  maxFrameTime: 1
+  batchGraphUpdates: 0
+  graphUpdateBatchingInterval: 0.2
+  euclideanEmbedding:
+    mode: 0
+    seed: 0
+    pivotPointRoot: {fileID: 0}
+    spreadOutCount: 1
+  showGraphs: 1
 --- !u!1 &7913340268533180607
 GameObject:
   m_ObjectHideFlags: 0
