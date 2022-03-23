@@ -47,7 +47,7 @@ MonoBehaviour:
   TaskName: '[ACTION] Patrol'
   component: {fileID: 5017728266285329905}
   aimComponent: {fileID: 5017728266285329904}
-  agentAStar: {fileID: 283268124930683889}
+  seeker: {fileID: 0}
   radiusPatrol: 6
   speedPatrol: 1
   timeToWaitWhenReach: 0
@@ -125,7 +125,7 @@ MonoBehaviour:
   TaskName: '[ACTION] Chase'
   component: {fileID: 5017728266285329905}
   aimComponent: {fileID: 5017728266285329904}
-  agentAStar: {fileID: 283268124930683889}
+  seeker: {fileID: 0}
   targetBlackboardName: Target
   speedChase: 1
   drawDebug: 0
@@ -290,7 +290,7 @@ MonoBehaviour:
   - {x: -13.434052, y: 15.272361, z: 0}
   m_ShapePathHash: -1094489171
   m_Mesh: {fileID: 0}
-  m_InstanceId: 274992
+  m_InstanceId: 1665628
 --- !u!1001 &8109891673206357625
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -767,6 +767,16 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: -0.625
       objectReference: {fileID: 0}
+    - target: {fileID: 4313257025719919124, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_Radius
+      value: 0.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 4313257025719919124, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: -0.2
+      objectReference: {fileID: 0}
     - target: {fileID: 4725095387469918120, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: m_Color.a
@@ -807,18 +817,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b1ff3f8559b35648bb34b56a1796ce1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &283268124930683889 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8314279716461989256, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
-    type: 3}
-  m_PrefabInstance: {fileID: 8109891673206357625}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af9e4182897a4614baf83c04ff030ffd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &5017728266096039255 stripped
