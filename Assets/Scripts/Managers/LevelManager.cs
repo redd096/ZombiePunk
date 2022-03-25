@@ -13,6 +13,9 @@ public class LevelManager : MonoBehaviour
     [ReadOnly] public List<SpawnManager> SpawnManagers = new List<SpawnManager>();
     [ReadOnly] public List<ExitInteractable> Exits = new List<ExitInteractable>();
 
+    [Header("Remove saved weapons on die?")]
+    [SerializeField] bool removeSavedWeaponsOnDie = true;
+
     void Awake()
     {
         //by default call resume game, to lock mouse
@@ -126,9 +129,36 @@ public class LevelManager : MonoBehaviour
             GameManager.instance.ClearWeapons();
         }
 
+        //delete current weapons from saved already bought
+        if (removeSavedWeaponsOnDie)
+        {
+            foreach (Character player in Players)
+            {
+                if (player && player.GetSavedComponent<WeaponComponent>())
+                {
+                    //load already bought weapons
+                    SaveClassBoughtWeapons saveClass = GameManager.instance ? GameManager.instance.Load<SaveClassBoughtWeapons>() : new SaveClassBoughtWeapons();
+                    List<WeaponBASE> alreadyBoughtWeapons = (saveClass != null && saveClass.BoughtWeapons != null) ? saveClass.BoughtWeapons : new List<WeaponBASE>();
+
+                    //remove current weapons
+                    foreach (WeaponBASE weapon in player.GetSavedComponent<WeaponComponent>().CurrentWeapons)
+                    {
+                        if (weapon && alreadyBoughtWeapons.Contains(weapon.WeaponPrefab))
+                        {
+                            alreadyBoughtWeapons.Remove(weapon.WeaponPrefab);
+                        }
+                    }
+
+                    //save
+                    saveClass.BoughtWeapons = alreadyBoughtWeapons;
+                    if (GameManager.instance) GameManager.instance.Save(saveClass);
+                }
+            }
+        }
+
         //show end menu (and show cursor)
-        if(GameManager.instance) GameManager.instance.uiManager.EndMenu(true);
-        if(SceneLoader.instance) SceneLoader.instance.LockMouse(CursorLockMode.None);
+        if (GameManager.instance) GameManager.instance.uiManager.EndMenu(true);
+        if (SceneLoader.instance) SceneLoader.instance.LockMouse(CursorLockMode.None);
     }
 
     void OnInteractExit(ExitInteractable exit)
