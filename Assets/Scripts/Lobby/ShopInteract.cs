@@ -95,10 +95,10 @@ public class ShopInteract : BASELobbyInteract
     public void OnClickButton(WeaponBASE weaponPrefab)
     {
         //be sure there is a weapon
-        if (weaponPrefab != null)
+        if (weaponPrefab != null && mainInteracting)
         {
             //be sure player has enough money, and this weapons is not already bought (teorically is not possible, because the button is deactivated when update UI)
-            int currentMoney = mainInteracting && mainInteracting.GetSavedComponent<WalletComponent>() ? mainInteracting.GetSavedComponent<WalletComponent>().Money : 0;
+            int currentMoney = mainInteracting.GetSavedComponent<WalletComponent>() ? mainInteracting.GetSavedComponent<WalletComponent>().Money : 0;
             if (currentMoney >= weaponPrefab.WeaponPrice && alreadyBoughtWeapons.Contains(weaponPrefab) == false)
             {
                 //add to already bought weapons
@@ -110,11 +110,15 @@ public class ShopInteract : BASELobbyInteract
                 if (GameManager.instance) GameManager.instance.Save(saveClass);
 
                 //remove money
-                if (mainInteracting && mainInteracting.GetSavedComponent<WalletComponent>())
+                if (mainInteracting.GetSavedComponent<WalletComponent>())
                     mainInteracting.GetSavedComponent<WalletComponent>().Money -= weaponPrefab.WeaponPrice;
 
+                //if current weapons are full, destroy current equipped (to not drop it)
+                if (mainInteracting.GetSavedComponent<WeaponComponent>() && mainInteracting.GetSavedComponent<WeaponComponent>().IsFull())
+                    Destroy(mainInteracting.GetSavedComponent<WeaponComponent>().CurrentWeapon.gameObject);
+
                 //pick weapon
-                if (mainInteracting && mainInteracting.GetSavedComponent<WeaponComponent>())
+                if (mainInteracting.GetSavedComponent<WeaponComponent>())
                     mainInteracting.GetSavedComponent<WeaponComponent>().PickWeaponPrefab(weaponPrefab);
 
                 //save stats for next scene
@@ -132,7 +136,7 @@ public class ShopInteract : BASELobbyInteract
         //V MA quelle già comprate dovranno essere disponibili invece in un altro script, per l'inventario
 
         //V bisognerà inserire la currency (sempre salvata in player prefs o json) e dev'essere sottratta al player
-        //- NB andranno creati anche dei prefab pickable per raccogliere currency e aggiungerla al nostro salvataggio
+        //V NB andranno creati anche dei prefab pickable per raccogliere currency e aggiungerla al nostro salvataggio
 
         //V quando il player muore, le armi correntemente equipaggiate, andranno rimosse da quelle salvate.
         //V quindi saranno di nuovo interagibili nello shop e spariranno dall'inventario

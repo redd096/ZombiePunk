@@ -117,10 +117,10 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 2943747815351162753}
-  - component: {fileID: 8331508220708953765}
+  - component: {fileID: 3447297112146130235}
   - component: {fileID: 9085213080909160046}
   m_Layer: 9
-  m_Name: BASEHealthPickUp
+  m_Name: BASECoinPickUp
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -141,7 +141,7 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &8331508220708953765
+--- !u!114 &3447297112146130235
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -150,12 +150,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 7507555607222921953}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b047bc8ad4af84e48862fdad8130401a, type: 3}
+  m_Script: {fileID: 11500000, guid: 0b3c8e000b8e00847bd7f2fbbbbb5916, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   timeBeforeDestroy: 0
-  healthToGive: 30
-  canPickAlsoIfFull: 0
+  coinsToGive: 10
 --- !u!50 &9085213080909160046
 Rigidbody2D:
   serializedVersion: 4

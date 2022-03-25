@@ -7,12 +7,14 @@ public class InventoryInteract : BASELobbyInteract
 {
     [Header("UI")]
     [SerializeField] WeaponButtonShop[] weaponButtons = default;
+    [Tooltip("Weapons to show always, without saves")] [SerializeField] WeaponBASE[] defaultWeapons = default;
 
     protected override void UpdateUI()
     {
         //load already bought weapons
         SaveClassBoughtWeapons saveClass = GameManager.instance ? GameManager.instance.Load<SaveClassBoughtWeapons>() : null;
-        List<WeaponBASE> alreadyBoughtWeapons = (saveClass != null && saveClass.BoughtWeapons != null) ? saveClass.BoughtWeapons : new List<WeaponBASE>();
+        List<WeaponBASE> alreadyBoughtWeapons = new List<WeaponBASE>(defaultWeapons);                                       //add default weapons to show always
+        if (saveClass != null && saveClass.BoughtWeapons != null) alreadyBoughtWeapons.AddRange(saveClass.BoughtWeapons);   //add bought weapons
 
         //check every button
         for (int i = 0; i < weaponButtons.Length; i++)
@@ -72,23 +74,19 @@ public class InventoryInteract : BASELobbyInteract
         //be sure there is a weapon and player has weapon component
         if (weaponPrefab != null && mainInteracting && mainInteracting.GetSavedComponent<WeaponComponent>())
         {
-            //be sure player has not this weapon already equipped (teorically is not possible, because the button is deactivated when update UI)
-            if (new List<WeaponBASE>(mainInteracting.GetSavedComponent<WeaponComponent>().CurrentWeapons).Contains(weaponPrefab) == false)
-            {
-                //if current weapons are full, destroy current equipped (to not drop it)
-                if (mainInteracting.GetSavedComponent<WeaponComponent>().IsFull())
-                    Destroy(mainInteracting.GetSavedComponent<WeaponComponent>().CurrentWeapon.gameObject);
+            //if current weapons are full, destroy current equipped (to not drop it)
+            if (mainInteracting.GetSavedComponent<WeaponComponent>().IsFull())
+                Destroy(mainInteracting.GetSavedComponent<WeaponComponent>().CurrentWeapon.gameObject);
 
-                //pick new weapon
-                mainInteracting.GetSavedComponent<WeaponComponent>().PickWeaponPrefab(weaponPrefab);
+            //pick new weapon
+            mainInteracting.GetSavedComponent<WeaponComponent>().PickWeaponPrefab(weaponPrefab);
 
-                //save stats for next scene
-                if (GameManager.instance && GameManager.instance.levelManager)
-                    GameManager.instance.SaveStats(GameManager.instance.levelManager.Players.ToArray());
+            //save stats for next scene
+            if (GameManager.instance && GameManager.instance.levelManager)
+                GameManager.instance.SaveStats(GameManager.instance.levelManager.Players.ToArray());
 
-                //update UI
-                UpdateUI();
-            }
+            //update UI
+            UpdateUI();
         }
     }
 }
