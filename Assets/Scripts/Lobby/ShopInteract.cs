@@ -1,14 +1,10 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using redd096.GameTopDown2D;
-using redd096;
 using UnityEngine.UI;
 
-public class ShopInteract : MonoBehaviour, IInteractable
+public class ShopInteract : BASELobbyInteract
 {
-    [Header("Canvas to Show")]
-    [SerializeField] GameObject shopMenu = default;
-
     [Header("UI")]
     [SerializeField] Text currencyText = default;
     [SerializeField] string stringCurrency = "MONEY: ";
@@ -16,15 +12,11 @@ public class ShopInteract : MonoBehaviour, IInteractable
     [SerializeField] WeaponButtonShop[] weaponButtons = default;
     [SerializeField] WeaponBASE[] weaponsToBuy = default;
 
-    InteractComponent whoIsInteracting;
-    Redd096Main mainInteracting;
     List<WeaponBASE> alreadyBoughtWeapons = new List<WeaponBASE>();
 
-    void Start()
+    protected override void Start()
     {
-        //deactive menu at start
-        if (shopMenu)
-            shopMenu.SetActive(false);
+        base.Start();
 
         //set every button in shop
         for (int i = 0; i < weaponButtons.Length; i++)
@@ -45,71 +37,14 @@ public class ShopInteract : MonoBehaviour, IInteractable
                 if (weaponButtons[i].button)
                 {
                     weaponButtons[i].button.GetComponent<Image>().sprite = weaponsToBuy[i].WeaponSprite;
-                    int index = i;  //for some reason if use "i" it save every function with weaponsButtons.Length, so we must to create another variable
-                    weaponButtons[i].button.onClick.AddListener(() => OnClickButton(index));
+                    WeaponBASE weaponPrefab = weaponsToBuy[i];
+                    weaponButtons[i].button.onClick.AddListener(() => OnClickButton(weaponPrefab));
                 }
             }
         }
     }
 
-    void OnClickButton(int index)
-    {
-        //be sure there is a weapon at this index
-        if (index < weaponsToBuy.Length && weaponsToBuy[index] != null)
-        {
-            //be sure player has enough money, and this weapons is not already bought (teorically is not possible, because the button is deactivated when update UI)
-            int currentMoney = mainInteracting && mainInteracting.GetSavedComponent<WalletComponent>() ? mainInteracting.GetSavedComponent<WalletComponent>().Money : 0;
-            if (currentMoney >= weaponsToBuy[index].WeaponPrice && alreadyBoughtWeapons.Contains(weaponsToBuy[index]) == false)
-            {
-                //add to already bought weapons
-                alreadyBoughtWeapons.Add(weaponsToBuy[index]);
-
-                //save
-                SaveClassBoughtWeapons saveClass = GameManager.instance && GameManager.instance.Load<SaveClassBoughtWeapons>() != null ? GameManager.instance.Load<SaveClassBoughtWeapons>() : new SaveClassBoughtWeapons();
-                saveClass.BoughtWeapons = alreadyBoughtWeapons;
-                if (GameManager.instance) GameManager.instance.Save(saveClass);
-
-                //remove money
-                if (mainInteracting && mainInteracting.GetSavedComponent<WalletComponent>())
-                    mainInteracting.GetSavedComponent<WalletComponent>().Money -= weaponsToBuy[index].WeaponPrice;
-
-                //pick weapon
-                if (mainInteracting && mainInteracting.GetSavedComponent<WeaponComponent>())
-                    mainInteracting.GetSavedComponent<WeaponComponent>().PickWeaponPrefab(weaponsToBuy[index]);
-
-                //save stats for next scene
-                if (GameManager.instance && GameManager.instance.levelManager)
-                    GameManager.instance.SaveStats(GameManager.instance.levelManager.Players.ToArray());
-
-                //update UI
-                UpdateUIShop();
-            }
-        }
-
-        //TODO
-        //V andranno salvate le armi comprate (player prefs o json?)
-        //V quelle già comprate non dovranno essere interagili nello shop
-        //- MA quelle già comprate dovranno essere disponibili invece in un altro script, per l'inventario
-
-        //V bisognerà inserire la currency (sempre salvata in player prefs o json) e dev'essere sottratta al player
-        //- NB andranno creati anche dei prefab pickable per raccogliere currency e aggiungerla al nostro salvataggio
-
-        //V quando il player muore, le armi correntemente equipaggiate, andranno rimosse da quelle salvate.
-        //V quindi saranno di nuovo interagibili nello shop e spariranno dall'inventario
-        //V NB solo quelle equipaggiate, non le altre nell'inventario
-        //V p.s. mettere magari una booleana per decidere se perdere le armi equipaggiate o no
-
-        //NB PER L'INVENTARIO
-        //- che quindi o si aggiorna ad ogni update del salvataggio, o si genera quando lo si apre e non allo start
-        //- perché se si compra nello shop, poi dev'essere aggiornato
-
-        //- un'altra cosa da fare è fixare il tasto per uscire, perché ora chiude il menu, ma essendo lo stesso per mettere in pausa, si mette in pausa appena torna nel NormalState
-        //forse conviene fare come nel PauseState, che non cambia stato quando preme il tasto, ma quando timeScale torna maggiore di 0, così è già passato il frame.
-        //- NB che se si fa così, bisogna rimuovere la condition dal NormalState che se TimeScale è 0 allora va in pausa.
-        //- e bisogna fixare sta cosa anche per il MapInteract, e smetterla di aprire il menu di pausa
-    }
-
-    void UpdateUIShop()
+    protected override void UpdateUI()
     {
         //check current money
         int currentMoney = mainInteracting && mainInteracting.GetSavedComponent<WalletComponent>() ? mainInteracting.GetSavedComponent<WalletComponent>().Money : 0;
@@ -135,6 +70,9 @@ public class ShopInteract : MonoBehaviour, IInteractable
                 continue;
             }
 
+            //else be sure is active
+            if (weaponButtons[i]) weaponButtons[i].gameObject.SetActive(true);
+
             //if already bought, deactive button
             if (alreadyBoughtWeapons.Contains(weaponsToBuy[i]))
             {
@@ -154,59 +92,61 @@ public class ShopInteract : MonoBehaviour, IInteractable
         }
     }
 
-    public void Interact(InteractComponent whoInteract)
+    public void OnClickButton(WeaponBASE weaponPrefab)
     {
-        //if interact a state machine, set LobbyMenu State
-        StateMachineRedd096 sm = whoInteract.GetComponentInChildren<StateMachineRedd096>();
-        if (sm)
+        //be sure there is a weapon
+        if (weaponPrefab != null)
         {
-            sm.SetState(2);
+            //be sure player has enough money, and this weapons is not already bought (teorically is not possible, because the button is deactivated when update UI)
+            int currentMoney = mainInteracting && mainInteracting.GetSavedComponent<WalletComponent>() ? mainInteracting.GetSavedComponent<WalletComponent>().Money : 0;
+            if (currentMoney >= weaponPrefab.WeaponPrice && alreadyBoughtWeapons.Contains(weaponPrefab) == false)
+            {
+                //add to already bought weapons
+                alreadyBoughtWeapons.Add(weaponPrefab);
+
+                //save
+                SaveClassBoughtWeapons saveClass = GameManager.instance && GameManager.instance.Load<SaveClassBoughtWeapons>() != null ? GameManager.instance.Load<SaveClassBoughtWeapons>() : new SaveClassBoughtWeapons();
+                saveClass.BoughtWeapons = alreadyBoughtWeapons;
+                if (GameManager.instance) GameManager.instance.Save(saveClass);
+
+                //remove money
+                if (mainInteracting && mainInteracting.GetSavedComponent<WalletComponent>())
+                    mainInteracting.GetSavedComponent<WalletComponent>().Money -= weaponPrefab.WeaponPrice;
+
+                //pick weapon
+                if (mainInteracting && mainInteracting.GetSavedComponent<WeaponComponent>())
+                    mainInteracting.GetSavedComponent<WeaponComponent>().PickWeaponPrefab(weaponPrefab);
+
+                //save stats for next scene
+                if (GameManager.instance && GameManager.instance.levelManager)
+                    GameManager.instance.SaveStats(GameManager.instance.levelManager.Players.ToArray());
+
+                //update UI
+                UpdateUI();
+            }
         }
 
-        //save references
-        whoIsInteracting = whoInteract;
-        if (whoIsInteracting) mainInteracting = whoIsInteracting.GetComponent<Redd096Main>();
+        //TODO
+        //V andranno salvate le armi comprate (player prefs o json?)
+        //V quelle già comprate non dovranno essere interagili nello shop
+        //V MA quelle già comprate dovranno essere disponibili invece in un altro script, per l'inventario
 
-        //register to event to know when player press input to close
-        whoInteract.inputEventForStateMachines += OnInputPressToCloseMenu;
+        //V bisognerà inserire la currency (sempre salvata in player prefs o json) e dev'essere sottratta al player
+        //- NB andranno creati anche dei prefab pickable per raccogliere currency e aggiungerla al nostro salvataggio
 
-        //set which buttons are interactable and money text
-        UpdateUIShop();
+        //V quando il player muore, le armi correntemente equipaggiate, andranno rimosse da quelle salvate.
+        //V quindi saranno di nuovo interagibili nello shop e spariranno dall'inventario
+        //V NB solo quelle equipaggiate, non le altre nell'inventario
+        //V p.s. mettere magari una booleana per decidere se perdere le armi equipaggiate o no
 
-        //open shop menu
-        GameManager.instance.uiManager.OpenMenu(shopMenu, true);
+        //NB PER L'INVENTARIO
+        //V che quindi o si aggiorna ad ogni update del salvataggio, o si genera quando lo si apre e non allo start
+        //V perché se si compra nello shop, poi dev'essere aggiornato
 
-        //show cursor
-        SceneLoader.instance.LockMouse(CursorLockMode.None);
-    }
-
-    void OnInputPressToCloseMenu()
-    {
-        //remove event
-        if (whoIsInteracting)
-            whoIsInteracting.inputEventForStateMachines -= OnInputPressToCloseMenu;
-
-        //close shop menu
-        GameManager.instance.uiManager.OpenMenu(shopMenu, false);
-
-        //hide cursor
-        if (SceneLoader.instance.ChangeCursorLockMode)
-            SceneLoader.instance.LockMouse(SceneLoader.instance.LockModeOnResume);
-
-        //if interact a state machine, re-set Normal State
-        StateMachineRedd096 sm = whoIsInteracting.GetComponentInChildren<StateMachineRedd096>();
-        if (sm)
-        {
-            sm.SetState(0);
-        }
-    }
-
-    /// <summary>
-    /// Can call this from button in UI or from another script
-    /// </summary>
-    public void CloseShop()
-    {
-        OnInputPressToCloseMenu();
+        //- un'altra cosa da fare è fixare il tasto per uscire, perché ora chiude il menu, ma essendo lo stesso per mettere in pausa, si mette in pausa appena torna nel NormalState
+        //forse conviene fare come nel PauseState, che non cambia stato quando preme il tasto, ma quando timeScale torna maggiore di 0, così è già passato il frame.
+        //- NB che se si fa così, bisogna rimuovere la condition dal NormalState che se TimeScale è 0 allora va in pausa.
+        //- e bisogna fixare sta cosa anche per il MapInteract, e smetterla di aprire il menu di pausa
     }
 
     /// <summary>
@@ -215,6 +155,6 @@ public class ShopInteract : MonoBehaviour, IInteractable
     public void ClearBoughtWeapons()
     {
         if (GameManager.instance) GameManager.instance.ClearSave<SaveClassBoughtWeapons>();
-        UpdateUIShop();
+        UpdateUI();
     }
 }
