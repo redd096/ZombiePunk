@@ -186,6 +186,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4623252288132420563}
+  - component: {fileID: 5082464134642699713}
   m_Layer: 9
   m_Name: Graphics
   m_TagString: Untagged
@@ -208,3 +209,37 @@ Transform:
   m_Father: {fileID: 2943747815351162753}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5082464134642699713
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 9080829605809242297}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d4468fe848b554e428b4d8aa1e3729f9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pickable: {fileID: 8331508220708953765}
+  gameObjectOnPick:
+    instantiatedGameObject: {fileID: 0}
+    timeAutodestruction: 0
+  particlesOnPick: {fileID: 0}
+  audioOnPick:
+    audioClip: {fileID: 0}
+    volume: 1
+    is3D: 0
+  gameObjectOnFailPick:
+    instantiatedGameObject: {fileID: 0}
+    timeAutodestruction: 0
+  particlesOnFailPick: {fileID: 0}
+  audioOnFailPick:
+    audioClip: {fileID: 0}
+    volume: 1
+    is3D: 0
+  cameraShakeOnPick: 0
+  cameraShakeOnFailPick: 0
+  customShake: 0
+  shakeDuration: 1
+  shakeAmount: 0.7
