@@ -118,7 +118,7 @@ MonoBehaviour:
   TaskName: '[ACTION] Patrol'
   component: {fileID: 5017728266285329905}
   aimComponent: {fileID: 5017728266285329904}
-  agentAStar: {fileID: 283268124930683889}
+  seeker: {fileID: 0}
   radiusPatrol: 6
   speedPatrol: 1
   timeToWaitWhenReach: 0
@@ -214,7 +214,7 @@ MonoBehaviour:
   TaskName: '[ACTION] Chase'
   component: {fileID: 5017728266285329905}
   aimComponent: {fileID: 5017728266285329904}
-  agentAStar: {fileID: 283268124930683889}
+  seeker: {fileID: 0}
   targetBlackboardName: Target
   speedChase: 0.4
   drawDebug: 0
@@ -379,6 +379,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 1051227491089395433, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: m_Mesh
@@ -387,7 +392,7 @@ PrefabInstance:
     - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: m_InstanceId
-      value: -5896
+      value: -296870
       objectReference: {fileID: 0}
     - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
@@ -611,12 +616,12 @@ PrefabInstance:
     - target: {fileID: 3832161719942337422, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: MaxHealth
-      value: 250
+      value: 280
       objectReference: {fileID: 0}
     - target: {fileID: 3832161719942337422, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: CurrentHealth
-      value: 250
+      value: 280
       objectReference: {fileID: 0}
     - target: {fileID: 3832161719942337423, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
@@ -970,18 +975,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5b1ff3f8559b35648bb34b56a1796ce1, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &283268124930683889 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8314279716461989256, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
-    type: 3}
-  m_PrefabInstance: {fileID: 8109891673206357625}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: af9e4182897a4614baf83c04ff030ffd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!4 &5017728266096039255 stripped
