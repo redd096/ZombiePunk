@@ -6,6 +6,8 @@ using redd096.GameTopDown2D;
 
 public class ShowWeapon : MonoBehaviour
 {
+    public Sprite emptyImage;
+
     private Image image;
     private AdvancedWeaponComponent weapons;
     private int current;
@@ -24,6 +26,25 @@ public class ShowWeapon : MonoBehaviour
         {
             current = weapons.IndexEquippedWeapon;
             image.sprite = weapons.CurrentWeapons[current].GetComponent<WeaponRange>().WeaponSprite;
+        }
+
+        if(gameObject.name == "WeaponSec")
+        {
+            current = weapons.IndexEquippedWeapon;
+
+            if (weapons.CurrentWeapons[1] == null)
+            {
+                image.sprite = emptyImage;
+            }
+
+            if(current == 0)
+            {
+                image.sprite = weapons.CurrentWeapons[1].GetComponent<WeaponRange>().WeaponSprite;
+            }
+            else
+            {
+                image.sprite = weapons.CurrentWeapons[0].GetComponent<WeaponRange>().WeaponSprite;
+            }
         }
     }
 }
