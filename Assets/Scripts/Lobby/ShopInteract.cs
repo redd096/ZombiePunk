@@ -210,7 +210,7 @@ public class ShopInteract : MonoBehaviour, IInteractable
     }
 
     /// <summary>
-    /// Delete save Bought Weapons
+    /// Delete saved Bought Weapons
     /// </summary>
     public void ClearBoughtWeapons()
     {
