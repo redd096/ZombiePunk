@@ -1230,8 +1230,9 @@ GameObject:
   - component: {fileID: 2684418842924578735}
   - component: {fileID: 1170372148562119394}
   - component: {fileID: 624199711417293793}
+  - component: {fileID: 1652360646}
   m_Layer: 0
-  m_Name: Weapon 2
+  m_Name: WeaponSec
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1293,6 +1294,19 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1652360646
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2915524654757697039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3e1d39e5463f70442b42813b685e2a27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  emptyImage: {fileID: 21300000, guid: 0d2d1d73c6a1ec044b1eb46861d7e6d3, type: 3}
 --- !u!1 &2944424434437862955
 GameObject:
   m_ObjectHideFlags: 0
@@ -2446,6 +2460,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3e1d39e5463f70442b42813b685e2a27, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  emptyImage: {fileID: 0}
 --- !u!1 &6710373892739753439
 GameObject:
   m_ObjectHideFlags: 0
@@ -4060,6 +4075,7 @@ MonoBehaviour:
   mapMenu: {fileID: 85224660303281658}
   ammoText: {fileID: 8943004275574839912}
   currencyText: {fileID: 2999285770364577247}
+  stringCurrency: 'MONEY: '
   bloodImages:
   - {fileID: 2094351854125659341}
   - {fileID: 8685942798220884002}
