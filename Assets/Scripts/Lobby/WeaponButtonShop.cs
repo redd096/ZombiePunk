@@ -7,12 +7,22 @@ public class WeaponButtonShop : MonoBehaviour
     public Text nameText;
     public Text priceText;
 
+    bool initialized = false;
     Color defaultNameTextColor;
     Color defaultPriceTextColor;
 
-    void Awake()
+    /// <summary>
+    /// Save default text colors (will be saved only first time)
+    /// </summary>
+    public void Init()
     {
-        //save text colors (will be deacivated if not interactable)
+        //do once
+        if (initialized)
+            return;
+
+        initialized = true;
+
+        //save text colors
         if (nameText)
             defaultNameTextColor = nameText.color;
         if (priceText)

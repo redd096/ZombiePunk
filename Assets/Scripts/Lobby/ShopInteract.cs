@@ -4,12 +4,6 @@ using redd096.GameTopDown2D;
 using redd096;
 using UnityEngine.UI;
 
-[System.Serializable]
-public class SaveClassBoughtWeapons
-{
-    public List<WeaponBASE> BoughtWeapons;
-}
-
 public class ShopInteract : MonoBehaviour, IInteractable
 {
     [Header("Canvas to Show")]
@@ -22,9 +16,6 @@ public class ShopInteract : MonoBehaviour, IInteractable
     [SerializeField] WeaponButtonShop[] weaponButtons = default;
     [SerializeField] WeaponBASE[] weaponsToBuy = default;
 
-    //save and load bought weapons
-    const string BOUGHTWEAPONS_SAVENAME = "BoughtWeapons";
-
     InteractComponent whoIsInteracting;
     Redd096Main mainInteracting;
     List<WeaponBASE> alreadyBoughtWeapons = new List<WeaponBASE>();
@@ -34,10 +25,6 @@ public class ShopInteract : MonoBehaviour, IInteractable
         //deactive menu at start
         if (shopMenu)
             shopMenu.SetActive(false);
-
-        //load already bought weapons
-        SaveClassBoughtWeapons saveClass = SaveLoadJSON.Load<SaveClassBoughtWeapons>(BOUGHTWEAPONS_SAVENAME);
-        if (saveClass != null && saveClass.BoughtWeapons != null) alreadyBoughtWeapons = saveClass.BoughtWeapons;
 
         //set every button in shop
         for (int i = 0; i < weaponButtons.Length; i++)
@@ -78,9 +65,9 @@ public class ShopInteract : MonoBehaviour, IInteractable
                 alreadyBoughtWeapons.Add(weaponsToBuy[index]);
 
                 //save
-                SaveClassBoughtWeapons saveClass = new SaveClassBoughtWeapons();
+                SaveClassBoughtWeapons saveClass = GameManager.instance && GameManager.instance.Load<SaveClassBoughtWeapons>() != null ? GameManager.instance.Load<SaveClassBoughtWeapons>() : new SaveClassBoughtWeapons();
                 saveClass.BoughtWeapons = alreadyBoughtWeapons;
-                SaveLoadJSON.Save(BOUGHTWEAPONS_SAVENAME, saveClass);
+                if (GameManager.instance) GameManager.instance.Save(saveClass);
 
                 //remove money
                 if (mainInteracting && mainInteracting.GetSavedComponent<WalletComponent>())
@@ -89,6 +76,10 @@ public class ShopInteract : MonoBehaviour, IInteractable
                 //pick weapon
                 if (mainInteracting && mainInteracting.GetSavedComponent<WeaponComponent>())
                     mainInteracting.GetSavedComponent<WeaponComponent>().PickWeaponPrefab(weaponsToBuy[index]);
+
+                //save stats for next scene
+                if (GameManager.instance && GameManager.instance.levelManager)
+                    GameManager.instance.SaveStats(GameManager.instance.levelManager.Players.ToArray());
 
                 //update UI
                 UpdateUIShop();
@@ -103,10 +94,10 @@ public class ShopInteract : MonoBehaviour, IInteractable
         //V bisognerà inserire la currency (sempre salvata in player prefs o json) e dev'essere sottratta al player
         //- NB andranno creati anche dei prefab pickable per raccogliere currency e aggiungerla al nostro salvataggio
 
-        //- quando il player muore, le armi correntemente equipaggiate, andranno rimosse da quelle salvate.
-        //- quindi saranno di nuovo interagibili nello shop e spariranno dall'inventario
-        //- NB solo quelle equipaggiate, non le altre nell'inventario
-        //- p.s. mettere magari una booleana per decidere se perdere le armi equipaggiate o no
+        //V quando il player muore, le armi correntemente equipaggiate, andranno rimosse da quelle salvate.
+        //V quindi saranno di nuovo interagibili nello shop e spariranno dall'inventario
+        //V NB solo quelle equipaggiate, non le altre nell'inventario
+        //V p.s. mettere magari una booleana per decidere se perdere le armi equipaggiate o no
 
         //NB PER L'INVENTARIO
         //- che quindi o si aggiorna ad ogni update del salvataggio, o si genera quando lo si apre e non allo start
@@ -127,11 +118,18 @@ public class ShopInteract : MonoBehaviour, IInteractable
         if (currencyText)
             currencyText.text = stringCurrency + currentMoney.ToString();
 
+        //load already bought weapons
+        SaveClassBoughtWeapons saveClass = GameManager.instance ? GameManager.instance.Load<SaveClassBoughtWeapons>() : null;
+        alreadyBoughtWeapons = (saveClass != null && saveClass.BoughtWeapons != null) ? saveClass.BoughtWeapons : new List<WeaponBASE>();
+
         //check every button
         for (int i = 0; i < weaponButtons.Length; i++)
         {
-            //if this button has no weapon, do not show it
-            if (i >= weaponsToBuy.Length || weaponsToBuy[i] == null)
+            //initialize to save default text colors (will be saved only first time)
+            if (weaponButtons[i]) weaponButtons[i].Init();
+
+            //if this button has no weapon, do not show it (ignore also if button is not setted)
+            if (i >= weaponsToBuy.Length || weaponsToBuy[i] == null || weaponButtons[i] == null)
             {
                 if (weaponButtons[i]) weaponButtons[i].gameObject.SetActive(false);
                 continue;
@@ -167,7 +165,7 @@ public class ShopInteract : MonoBehaviour, IInteractable
 
         //save references
         whoIsInteracting = whoInteract;
-        if (whoIsInteracting) mainInteracting = whoInteract.GetComponent<Redd096Main>();
+        if (whoIsInteracting) mainInteracting = whoIsInteracting.GetComponent<Redd096Main>();
 
         //register to event to know when player press input to close
         whoInteract.inputEventForStateMachines += OnInputPressToCloseMenu;
@@ -209,5 +207,14 @@ public class ShopInteract : MonoBehaviour, IInteractable
     public void CloseShop()
     {
         OnInputPressToCloseMenu();
+    }
+
+    /// <summary>
+    /// Delete saved Bought Weapons
+    /// </summary>
+    public void ClearBoughtWeapons()
+    {
+        if (GameManager.instance) GameManager.instance.ClearSave<SaveClassBoughtWeapons>();
+        UpdateUIShop();
     }
 }
