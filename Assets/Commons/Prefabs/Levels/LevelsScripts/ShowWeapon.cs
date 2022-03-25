@@ -22,13 +22,13 @@ public class ShowWeapon : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (gameObject.name == "WeaponMain")
+        if (gameObject.name == "WeaponMain" && weapons)
         {
             current = weapons.IndexEquippedWeapon;
-            image.sprite = weapons.CurrentWeapons[current].GetComponent<WeaponRange>().WeaponSprite;
+            if (weapons.CurrentWeapons[current]) image.sprite = weapons.CurrentWeapons[current].GetComponent<WeaponRange>().WeaponSprite;
         }
 
-        if(gameObject.name == "WeaponSec")
+        if(gameObject.name == "WeaponSec" && weapons)
         {
             current = weapons.IndexEquippedWeapon;
 
