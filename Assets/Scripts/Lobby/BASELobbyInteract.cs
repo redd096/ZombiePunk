@@ -51,8 +51,9 @@ public abstract class BASELobbyInteract : MonoBehaviour, IInteractable
         //open shop menu
         GameManager.instance.uiManager.OpenMenu(menu, true);
 
-        //show cursor
+        //show cursor and deactive time
         SceneLoader.instance.LockMouse(CursorLockMode.None);
+        Time.timeScale = 0;
     }
 
     /// <summary>
@@ -71,12 +72,8 @@ public abstract class BASELobbyInteract : MonoBehaviour, IInteractable
         if (SceneLoader.instance.ChangeCursorLockMode)
             SceneLoader.instance.LockMouse(SceneLoader.instance.LockModeOnResume);
 
-        //if interact a state machine, re-set Normal State
-        StateMachineRedd096 sm = whoIsInteracting.GetComponentInChildren<StateMachineRedd096>();
-        if (sm)
-        {
-            sm.SetState(0);
-        }
+        //reset time, so state machine will come back to Normal State
+        Time.timeScale = 1;
     }
 
     protected abstract void UpdateUI();

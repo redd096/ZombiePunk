@@ -1,29 +1,10 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using redd096.Attributes;
+﻿using UnityEngine;
 
-
-namespace redd096.GameTopDown2D
+public class MapInteract : BASELobbyInteract
 {
-    public class MapInteract : MonoBehaviour, IInteractable
+    protected override void UpdateUI()
     {
-        // Start is called before the first frame update
-        void Start()
-        {
-
-        }
-
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
-
-        public void Interact(InteractComponent whoInteract)
-        {
-            SceneLoader.instance.MapPause();
-        }
+        //qui si potrebbero mettere i bottoni da attivarsi/disattivarsi invece che attaccare uno script ad ogni bottone
     }
 }
 

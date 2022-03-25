@@ -13,7 +13,6 @@ namespace redd096
         [Min(0)] [SerializeField] float delayInputWhenOpenMenu = 0.3f;
         [SerializeField] GameObject pauseMenu = default;
         [SerializeField] GameObject endMenu = default;
-        [SerializeField] GameObject mapMenu = default;
 
         [Header("Game")]
         [SerializeField] Text ammoText = default;
@@ -37,7 +36,6 @@ namespace redd096
             //by default, deactive menus
             PauseMenu(false);
             EndMenu(false);
-            MapMenu(false);
 
             //by default deactive blood images and add to list
             foreach (Image image in bloodImages)
@@ -117,21 +115,6 @@ namespace redd096
 
             //active or deactive end menu
             OpenMenu(endMenu, active);
-        }
-
-        public void MapMenu(bool active)
-        {
-            if (mapMenu == null)
-            {
-                return;
-            }
-
-            //be sure to remove pause menu when active end menu
-            if (active)
-                PauseMenu(false);
-
-            //active or deactive map menu
-            OpenMenu(mapMenu, active);
         }
 
         #endregion
