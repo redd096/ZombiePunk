@@ -90,6 +90,22 @@ namespace redd096
             SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
         }
 
+        public void PlayGame(string scene)
+        {
+            //show cursor and set timeScale to 1
+            if (ChangeCursorLockMode) LockMouse(CursorLockMode.None);
+            Time.timeScale = 1;
+
+            if (PlayerPrefs.GetFloat("LevelReach") >= 0)
+            {
+                SceneManager.LoadScene(scene);
+            }
+            else
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
+            }
+        }
+
         /// <summary>
         /// Open url
         /// </summary>
