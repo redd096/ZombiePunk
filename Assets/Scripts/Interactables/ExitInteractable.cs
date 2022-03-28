@@ -126,7 +126,11 @@ namespace redd096.GameTopDown2D
             //only if is open
             if (isOpen)
             {
-                PlayerPrefs.SetFloat("LevelReach", levelReach);
+                if(PlayerPrefs.GetFloat("LevelReach") < levelReach)
+                {
+                    PlayerPrefs.SetFloat("LevelReach", levelReach);
+                }
+
                 //stop this script
                 DeactiveExit();     //stop check open/close
                 isOpen = false;     //can't interact anymore
