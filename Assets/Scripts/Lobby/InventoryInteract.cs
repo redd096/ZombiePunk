@@ -12,7 +12,7 @@ public class InventoryInteract : BASELobbyInteract
     protected override void UpdateUI()
     {
         //load already bought weapons
-        SaveClassBoughtWeapons saveClass = GameManager.instance ? GameManager.instance.Load<SaveClassBoughtWeapons>() : null;
+        SaveClassBoughtWeapons saveClass = SavesManager.instance ? SavesManager.instance.Load<SaveClassBoughtWeapons>() : null;
         List<WeaponBASE> alreadyBoughtWeapons = new List<WeaponBASE>(defaultWeapons);                                       //add default weapons to show always
         if (saveClass != null && saveClass.BoughtWeapons != null) alreadyBoughtWeapons.AddRange(saveClass.BoughtWeapons);   //add bought weapons
 

@@ -10,18 +10,6 @@ public class SavesBetweenScenes
     public Dictionary<string, int> CurrentAmmos;
 }
 
-[System.Serializable]
-public class SaveClassMoney
-{
-    public int Money;
-}
-
-[System.Serializable]
-public class SaveClassBoughtWeapons
-{
-    public List<WeaponBASE> BoughtWeapons;
-}
-
 [AddComponentMenu("redd096/Singletons/Game Manager")]
 [DefaultExecutionOrder(-100)]
 public class GameManager : Singleton<GameManager>
@@ -40,24 +28,6 @@ public class GameManager : Singleton<GameManager>
 
     //saves in game
     SavesBetweenScenes savedStats;          //to move between scenes, so currently equipped
-
-    //save and load in json
-    public const string MONEY_SAVENAME = "Money";
-    public const string BOUGHTWEAPONS_SAVENAME = "BoughtWeapons";
-    SaveClassMoney savedMoney;
-    SaveClassBoughtWeapons savedBoughtWeapons;
-
-    protected override void Awake()
-    {
-        base.Awake();
-
-        //when start game, load files
-        if (instance)
-        {
-            savedMoney = SaveLoadJSON.Load<SaveClassMoney>(MONEY_SAVENAME);
-            savedBoughtWeapons = SaveLoadJSON.Load<SaveClassBoughtWeapons>(BOUGHTWEAPONS_SAVENAME);
-        }
-    }
 
     protected override void SetDefaults()
     {
@@ -140,64 +110,6 @@ public class GameManager : Singleton<GameManager>
     public bool HasSavedStats()
     {
         return savedStats != null;
-    }
-
-    #endregion
-
-    #region save and load json
-
-    public void Save<T>(T classToSave)
-    {
-        //save money class
-        if (typeof(T) == typeof(SaveClassMoney))
-        {
-            SaveLoadJSON.Save(MONEY_SAVENAME, classToSave);
-            savedMoney = classToSave as SaveClassMoney;
-        }
-        //or bought weapons class
-        else
-        {
-            SaveLoadJSON.Save(BOUGHTWEAPONS_SAVENAME, classToSave);
-            savedBoughtWeapons = classToSave as SaveClassBoughtWeapons;
-        }
-    }
-
-    public T Load<T>() where T : class
-    {
-        //return money class
-        if (typeof(T) == typeof(SaveClassMoney))
-        {
-            //if not loaded at start, then return an empty class
-            if (savedMoney == null) 
-                savedMoney = new SaveClassMoney();
-
-            return savedMoney as T;
-        }
-        //or bought weapons class
-        else
-        {
-            //if not loaded at start, then return an empty class
-            if (savedBoughtWeapons == null)
-                savedBoughtWeapons = new SaveClassBoughtWeapons();
-
-            return savedBoughtWeapons as T;
-        }
-    }
-
-    public void ClearSave<T>()
-    {
-        //delete money class
-        if (typeof(T) == typeof(SaveClassMoney))
-        {
-            SaveLoadJSON.DeleteData(MONEY_SAVENAME);
-            savedMoney = new SaveClassMoney();
-        }
-        //or bought weapons class
-        else
-        {
-            SaveLoadJSON.DeleteData(BOUGHTWEAPONS_SAVENAME);
-            savedBoughtWeapons = new SaveClassBoughtWeapons();
-        }
     }
 
     #endregion

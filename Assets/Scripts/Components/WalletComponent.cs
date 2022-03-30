@@ -2,6 +2,7 @@
 
 public class WalletComponent : MonoBehaviour
 {
+    [Header("DEBUG")]
     [SerializeField] int money = 0;
 
     public int Money
@@ -15,9 +16,9 @@ public class WalletComponent : MonoBehaviour
             money = value;
 
             //save
-            SaveClassMoney saveClass = GameManager.instance && GameManager.instance.Load<SaveClassMoney>() != null ? GameManager.instance.Load<SaveClassMoney>() : new SaveClassMoney();
+            SaveClassMoney saveClass = SavesManager.instance && SavesManager.instance.Load<SaveClassMoney>() != null ? SavesManager.instance.Load<SaveClassMoney>() : new SaveClassMoney();
             saveClass.Money = money;
-            if (GameManager.instance) GameManager.instance.Save(saveClass);
+            if (SavesManager.instance) SavesManager.instance.Save(saveClass);
 
             //call event and update UI
             onChangeMoney?.Invoke(money);
@@ -31,7 +32,7 @@ public class WalletComponent : MonoBehaviour
     void Start()
     {
         //load money at start
-        SaveClassMoney saveClass = GameManager.instance ? GameManager.instance.Load<SaveClassMoney>() : null;
+        SaveClassMoney saveClass = SavesManager.instance ? SavesManager.instance.Load<SaveClassMoney>() : null;
         if (saveClass != null)
         {
             money = saveClass.Money;

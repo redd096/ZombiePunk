@@ -54,7 +54,7 @@ public class ShopInteract : BASELobbyInteract
             currencyText.text = stringCurrency + currentMoney.ToString();
 
         //load already bought weapons
-        SaveClassBoughtWeapons saveClass = GameManager.instance ? GameManager.instance.Load<SaveClassBoughtWeapons>() : null;
+        SaveClassBoughtWeapons saveClass = SavesManager.instance ? SavesManager.instance.Load<SaveClassBoughtWeapons>() : null;
         alreadyBoughtWeapons = (saveClass != null && saveClass.BoughtWeapons != null) ? saveClass.BoughtWeapons : new List<WeaponBASE>();
 
         //check every button
@@ -105,9 +105,9 @@ public class ShopInteract : BASELobbyInteract
                 alreadyBoughtWeapons.Add(weaponPrefab);
 
                 //save
-                SaveClassBoughtWeapons saveClass = GameManager.instance && GameManager.instance.Load<SaveClassBoughtWeapons>() != null ? GameManager.instance.Load<SaveClassBoughtWeapons>() : new SaveClassBoughtWeapons();
+                SaveClassBoughtWeapons saveClass = SavesManager.instance && SavesManager.instance.Load<SaveClassBoughtWeapons>() != null ? SavesManager.instance.Load<SaveClassBoughtWeapons>() : new SaveClassBoughtWeapons();
                 saveClass.BoughtWeapons = alreadyBoughtWeapons;
-                if (GameManager.instance) GameManager.instance.Save(saveClass);
+                if (SavesManager.instance) SavesManager.instance.Save(saveClass);
 
                 //remove money
                 if (mainInteracting.GetSavedComponent<WalletComponent>())
@@ -158,7 +158,7 @@ public class ShopInteract : BASELobbyInteract
     /// </summary>
     public void ClearBoughtWeapons()
     {
-        if (GameManager.instance) GameManager.instance.ClearSave<SaveClassBoughtWeapons>();
+        if (SavesManager.instance) SavesManager.instance.ClearSave<SaveClassBoughtWeapons>();
         UpdateUI();
     }
 }
