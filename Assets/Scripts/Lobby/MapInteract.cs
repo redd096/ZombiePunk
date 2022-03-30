@@ -25,5 +25,14 @@ public class MapInteract : BASELobbyInteract
                 level.ObjectToActivate.SetActive(level.LevelToComplete <= reachedLevel);
         }
     }
+
+    /// <summary>
+    /// Delete saved Level Reached
+    /// </summary>
+    public void ClearLevelReached()
+    {
+        if (SavesManager.instance) SavesManager.instance.ClearSave<SaveClassLevelReached>();
+        UpdateUI();
+    }
 }
 
