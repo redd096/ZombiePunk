@@ -12,6 +12,9 @@ public class ShopInteract : BASELobbyInteract
     [SerializeField] WeaponButtonShop[] weaponButtons = default;
     [SerializeField] WeaponBASE[] weaponsToBuy = default;
 
+    [Header("Levels to Unlock")]
+    [SerializeField] LevelStruct[] levelsToUnlock = default;
+
     List<WeaponBASE> alreadyBoughtWeapons = new List<WeaponBASE>();
 
     protected override void Start()
@@ -89,6 +92,24 @@ public class ShopInteract : BASELobbyInteract
                 if (weaponButtons[i].nameText) weaponButtons[i].nameText.color = canBuy ? weaponButtons[i].GetDefaultNameTextColor() : colorWhenTooExpensive;
                 if (weaponButtons[i].priceText) weaponButtons[i].priceText.color = canBuy ? weaponButtons[i].GetDefaultPriceTextColor() : colorWhenTooExpensive;
             }
+        }
+
+        //check if reached level to unlock weapons
+        CheckLockedButtons();
+    }
+
+    void CheckLockedButtons()
+    {
+        //load level reached
+        SaveClassLevelReached saveClassLevels = SavesManager.instance ? SavesManager.instance.Load<SaveClassLevelReached>() : null;
+        int reachedLevel = saveClassLevels != null ? saveClassLevels.LevelReached : 0;
+
+        //check every button if is unlocked
+        foreach (LevelStruct level in levelsToUnlock)
+        {
+            //if not unlocked, don't show button
+            if (level.ObjectToActivate && level.LevelToComplete > reachedLevel)
+                level.ObjectToActivate.SetActive(false);
         }
     }
 

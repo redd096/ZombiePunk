@@ -6030,7 +6030,6 @@ GameObject:
   - component: {fileID: 7978608636658878778}
   - component: {fileID: 683606342581718443}
   - component: {fileID: 2081058768770272787}
-  - component: {fileID: 8183545797963855047}
   m_Layer: 0
   m_Name: LevelButton5
   m_TagString: Untagged
@@ -6149,19 +6148,6 @@ MonoBehaviour:
           m_StringArgument: Scene5
           m_BoolArgument: 1
         m_CallState: 2
---- !u!114 &8183545797963855047
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2842634710851236463}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53c900613b9e3274e870080faff0c44b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  necessaryLevel: 4
 --- !u!1 &2858283761574536289
 GameObject:
   m_ObjectHideFlags: 0
@@ -9388,7 +9374,6 @@ GameObject:
   - component: {fileID: 2735497633295660640}
   - component: {fileID: 8196643245164006595}
   - component: {fileID: 360231526726736675}
-  - component: {fileID: 5250708245804856216}
   m_Layer: 0
   m_Name: LevelButton2
   m_TagString: Untagged
@@ -9507,19 +9492,6 @@ MonoBehaviour:
           m_StringArgument: Scene2
           m_BoolArgument: 1
         m_CallState: 2
---- !u!114 &5250708245804856216
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6684451031595890475}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53c900613b9e3274e870080faff0c44b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  necessaryLevel: 1
 --- !u!1 &6847439078293162777
 GameObject:
   m_ObjectHideFlags: 0
@@ -10205,7 +10177,6 @@ GameObject:
   - component: {fileID: 3988751616427572418}
   - component: {fileID: 7384561411700042266}
   - component: {fileID: 8568403913381429189}
-  - component: {fileID: 195330375634004295}
   m_Layer: 0
   m_Name: LevelButton3
   m_TagString: Untagged
@@ -10324,19 +10295,6 @@ MonoBehaviour:
           m_StringArgument: Scene3
           m_BoolArgument: 1
         m_CallState: 2
---- !u!114 &195330375634004295
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7590945514884179896}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53c900613b9e3274e870080faff0c44b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  necessaryLevel: 2
 --- !u!1 &7807859959915667484
 GameObject:
   m_ObjectHideFlags: 0
@@ -10631,7 +10589,6 @@ GameObject:
   - component: {fileID: 6426150500604823374}
   - component: {fileID: 7076639938095656865}
   - component: {fileID: 1919470947285169413}
-  - component: {fileID: 7589707554739274211}
   m_Layer: 0
   m_Name: LevelButton4
   m_TagString: Untagged
@@ -10750,19 +10707,6 @@ MonoBehaviour:
           m_StringArgument: Scene4
           m_BoolArgument: 1
         m_CallState: 2
---- !u!114 &7589707554739274211
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8029204304959689914}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 53c900613b9e3274e870080faff0c44b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  necessaryLevel: 3
 --- !u!1 &8116428676545023739
 GameObject:
   m_ObjectHideFlags: 0
@@ -14266,6 +14210,51 @@ PrefabInstance:
       propertyPath: menu
       value: 
       objectReference: {fileID: 7070546419617519205}
+    - target: {fileID: 7125301750819180793, guid: 4f33ac6f1f44d1e49a5ba589fa566841,
+        type: 3}
+      propertyPath: levelsToUnlock.Array.size
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7125301750819180793, guid: 4f33ac6f1f44d1e49a5ba589fa566841,
+        type: 3}
+      propertyPath: levelsToUnlock.Array.data[0].LevelToComplete
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7125301750819180793, guid: 4f33ac6f1f44d1e49a5ba589fa566841,
+        type: 3}
+      propertyPath: levelsToUnlock.Array.data[1].LevelToComplete
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 7125301750819180793, guid: 4f33ac6f1f44d1e49a5ba589fa566841,
+        type: 3}
+      propertyPath: levelsToUnlock.Array.data[2].LevelToComplete
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7125301750819180793, guid: 4f33ac6f1f44d1e49a5ba589fa566841,
+        type: 3}
+      propertyPath: levelsToUnlock.Array.data[3].LevelToComplete
+      value: 4
+      objectReference: {fileID: 0}
+    - target: {fileID: 7125301750819180793, guid: 4f33ac6f1f44d1e49a5ba589fa566841,
+        type: 3}
+      propertyPath: levelsToUnlock.Array.data[0].ObjectToActivate
+      value: 
+      objectReference: {fileID: 6684451031595890475}
+    - target: {fileID: 7125301750819180793, guid: 4f33ac6f1f44d1e49a5ba589fa566841,
+        type: 3}
+      propertyPath: levelsToUnlock.Array.data[1].ObjectToActivate
+      value: 
+      objectReference: {fileID: 7590945514884179896}
+    - target: {fileID: 7125301750819180793, guid: 4f33ac6f1f44d1e49a5ba589fa566841,
+        type: 3}
+      propertyPath: levelsToUnlock.Array.data[2].ObjectToActivate
+      value: 
+      objectReference: {fileID: 8029204304959689914}
+    - target: {fileID: 7125301750819180793, guid: 4f33ac6f1f44d1e49a5ba589fa566841,
+        type: 3}
+      propertyPath: levelsToUnlock.Array.data[3].ObjectToActivate
+      value: 
+      objectReference: {fileID: 2842634710851236463}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 4f33ac6f1f44d1e49a5ba589fa566841, type: 3}
 --- !u!114 &1733604484763819600 stripped

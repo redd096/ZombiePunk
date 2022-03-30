@@ -9,7 +9,7 @@ using redd096.GameTopDown2D;
 public class SavesManager : Singleton<SavesManager>
 {
     //save and load in json
-    ISaveClass[] classesToSave = new ISaveClass[3] { new SaveClassMoney(), new SaveClassBoughtWeapons(), new SaveLevelReached() };
+    ISaveClass[] classesToSave = new ISaveClass[3] { new SaveClassMoney(), new SaveClassBoughtWeapons(), new SaveClassLevelReached() };
 
     protected override void Awake()
     {
@@ -113,11 +113,11 @@ public class SaveClassBoughtWeapons : ISaveClass
 }
 
 [System.Serializable]
-public class SaveLevelReached : ISaveClass
+public class SaveClassLevelReached : ISaveClass
 {
     public string key => "LevelReached";
-    public System.Type type => typeof(SaveLevelReached);
-    public ISaveClass GetEmptyClass() => new SaveLevelReached();
+    public System.Type type => typeof(SaveClassLevelReached);
+    public ISaveClass GetEmptyClass() => new SaveClassLevelReached();
 
     //save level reached
     public int LevelReached;

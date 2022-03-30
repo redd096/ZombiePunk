@@ -96,7 +96,11 @@ namespace redd096
             if (ChangeCursorLockMode) LockMouse(CursorLockMode.None);
             Time.timeScale = 1;
 
-            if (PlayerPrefs.GetFloat("LevelReach") >= 0)
+            //load
+            SaveClassLevelReached saveClass = SavesManager.instance ? SavesManager.instance.Load<SaveClassLevelReached>() : null;
+            int levelReached = saveClass != null ? saveClass.LevelReached : 0;
+
+            if (levelReached >= 0)
             {
                 SceneManager.LoadScene(scene);
             }

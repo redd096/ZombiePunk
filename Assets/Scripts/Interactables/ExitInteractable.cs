@@ -14,7 +14,7 @@ namespace redd096.GameTopDown2D
 
         [Header("On Interact")]
         [SerializeField] [Scene] string sceneToLoad = default;
-        [SerializeField] float levelReach;
+        [SerializeField] int levelReach;
 
         [Header("DEBUG")]
         /*[ShowNonSerializedField]*/
@@ -126,9 +126,12 @@ namespace redd096.GameTopDown2D
             //only if is open
             if (isOpen)
             {
-                if(PlayerPrefs.GetFloat("LevelReach") < levelReach)
+                //save
+                SaveClassLevelReached saveClass = SavesManager.instance && SavesManager.instance.Load<SaveClassLevelReached>() != null ? SavesManager.instance.Load<SaveClassLevelReached>() : new SaveClassLevelReached();
+                if (saveClass.LevelReached < levelReach)
                 {
-                    PlayerPrefs.SetFloat("LevelReach", levelReach);
+                    saveClass.LevelReached = levelReach;
+                    if (SavesManager.instance) SavesManager.instance.Save(saveClass);
                 }
 
                 //stop this script

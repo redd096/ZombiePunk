@@ -5,14 +5,15 @@ using UnityEngine;
 public class UnlockWeapons : MonoBehaviour
 {
     public float necessaryLevel;
-    private float levelReach;
 
     // Start is called before the first frame update
     void Start()
     {
-        levelReach = PlayerPrefs.GetFloat("LevelReach");
+        //load
+        SaveClassLevelReached saveClass = SavesManager.instance ? SavesManager.instance.Load<SaveClassLevelReached>() : null;
+        int levelReached = saveClass != null ? saveClass.LevelReached : 0;
 
-        if (necessaryLevel <= levelReach)
+        if (necessaryLevel <= levelReached)
         {
             gameObject.SetActive(true);
         }
