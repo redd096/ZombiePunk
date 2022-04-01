@@ -24,7 +24,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5227326434709692850}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.7, y: 0, z: 0}
+  m_LocalPosition: {x: 0.75, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1934563571220182779}
@@ -42,24 +42,25 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7a36b0d5f15763c44944a34240d69204, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  WeaponName: Weapon Name
-  WeaponPrice: 10
-  WeaponSprite: {fileID: 0}
+  WeaponName: M16
+  WeaponPrice: 200
+  WeaponSprite: {fileID: 21300000, guid: 25bf632ebf1dff54e82c99cd983ed0ca, type: 3}
   destroyWeaponOnDrop: 0
   Owner: {fileID: 0}
   WeaponPrefab: {fileID: 0}
   Automatic: 1
   RateOfFire: 0.2
-  Recoil: 1
-  NoiseAccuracy: 0
+  Recoil: 0.1
+  NoiseAccuracy: 2.5
   Barrels:
   - {fileID: 5727192707231015915}
-  BarrelSimultaneously: 1
-  BulletPrefab: {fileID: 0}
-  Damage: 10
-  BulletSpeed: 10
+  BarrelSimultaneously: 0
+  BulletPrefab: {fileID: 6399300652785083162, guid: 40e41d4182eafe9438c7378ac8e35fa7,
+    type: 3}
+  Damage: 20
+  BulletSpeed: 15
   AmmoType: GunAmmo
-  AmmoOnPick: 12
+  AmmoOnPick: 50
   drawDebug: 0
 --- !u!114 &60239732911824001
 MonoBehaviour:
@@ -106,12 +107,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   weaponRange: {fileID: 7737347699123493500}
   gameObjectOnInstantiateBullet:
-    instantiatedGameObject: {fileID: 0}
+    instantiatedGameObject: {fileID: 3681886766371026488, guid: a19f0535664cfe84fb9289faabbe9e00,
+      type: 3}
     timeAutodestruction: 0.02
   particlesOnInstantiateBullet: {fileID: 0}
   audioOnInstantiateBullet:
-    audioClip: {fileID: 0}
-    volume: 1
+    audioClip: {fileID: 8300000, guid: c7938ee830714324696fea206aba1405, type: 3}
+    volume: 0.2
     is3D: 0
   mainBarrel: {fileID: 0}
   gameObjectOnShoot:
@@ -178,7 +180,7 @@ PrefabInstance:
     - target: {fileID: 221831145993828279, guid: 1a39af266be7e774aa6fa19eb3935adb,
         type: 3}
       propertyPath: m_Name
-      value: BASERangeWeapon
+      value: M16
       objectReference: {fileID: 0}
     - target: {fileID: 1521585890205697767, guid: 1a39af266be7e774aa6fa19eb3935adb,
         type: 3}
@@ -203,17 +205,27 @@ PrefabInstance:
     - target: {fileID: 1521585890205697767, guid: 1a39af266be7e774aa6fa19eb3935adb,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 0.48
+      value: 1.875
       objectReference: {fileID: 0}
     - target: {fileID: 1521585890205697767, guid: 1a39af266be7e774aa6fa19eb3935adb,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 0.48
+      value: 0.625
       objectReference: {fileID: 0}
     - target: {fileID: 1521585890205697767, guid: 1a39af266be7e774aa6fa19eb3935adb,
         type: 3}
       propertyPath: m_SpriteTilingProperty.adaptiveTilingThreshold
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4044551659870801013, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.313
+      objectReference: {fileID: 0}
+    - target: {fileID: 4044551659870801013, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0.063
       objectReference: {fileID: 0}
     - target: {fileID: 6789241873964382935, guid: 1a39af266be7e774aa6fa19eb3935adb,
         type: 3}
@@ -229,12 +241,47 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: ae859c23aac91b4448c86ecee0c39df6,
+      objectReference: {fileID: 21300000, guid: 273129d6edb3b3b46a7f89a93df107e2,
         type: 3}
     - target: {fileID: 6789241873964382935, guid: 1a39af266be7e774aa6fa19eb3935adb,
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6883304974053114084, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.001
+      objectReference: {fileID: 0}
+    - target: {fileID: 7383766184123219905, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_Color.b
+      value: 0.7843138
+      objectReference: {fileID: 0}
+    - target: {fileID: 7383766184123219905, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_Color.g
+      value: 0.909804
+      objectReference: {fileID: 0}
+    - target: {fileID: 7383766184123219905, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_Color.r
+      value: 0.3254902
+      objectReference: {fileID: 0}
+    - target: {fileID: 7383766184123219905, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_FalloffIntensity
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7383766184123219905, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_PointLightInnerRadius
+      value: 0.09
+      objectReference: {fileID: 0}
+    - target: {fileID: 7383766184123219905, guid: 1a39af266be7e774aa6fa19eb3935adb,
+        type: 3}
+      propertyPath: m_PointLightOuterRadius
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7383766184123219905, guid: 1a39af266be7e774aa6fa19eb3935adb,
         type: 3}
