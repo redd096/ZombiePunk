@@ -19,7 +19,7 @@ public class AimByInput : ActionTask
     [SerializeField] bool resetWhenReleaseAnalogInput = false;
 
     Vector2 inputValue;
-    Vector2 lastAnalogSavedValue;
+    Vector2 lastAnalogSavedValue = Vector2.right;
 
     protected override void OnInitTask()
     {
@@ -57,7 +57,7 @@ public class AimByInput : ActionTask
         if (playerInput.currentControlScheme == mouseSchemeName)
         {
             //be sure to have camera setted
-            if (cam && stateMachine)
+            if (cam)
             {
                 component.AimAt(cam.ScreenToWorldPoint(inputValue));
             }
