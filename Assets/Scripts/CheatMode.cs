@@ -4,14 +4,31 @@ using redd096.GameTopDown2D;
 
 public class CheatMode : MonoBehaviour
 {
+    [Header("Necessary Components - default get from this gameObject")]
+    [SerializeField] PlayerInput playerInput = default;
+
+    [Header("Cheat Settings")]
     [SerializeField] float timeLabel = 1.5f;
     [SerializeField] SpriteRenderer[] sprites = default;
     [SerializeField] WeaponBASE superWeapon = default;
+
 
     float timerShowLabel;
 
     void Start()
     {
+        //set references
+        if (playerInput == null) 
+            playerInput = GetComponent<PlayerInput>();
+
+        //show warnings if not found
+        if (playerInput == null)
+            Debug.LogWarning("Miss PlayerInput on " + name);
+        else if (playerInput.actions == null)
+            Debug.LogWarning("Miss Actions on PlayerInput on " + name);
+
+        //settings
+
         //set timer label and get references
         timerShowLabel = Time.time + timeLabel;
         if (sprites == null || sprites.Length <= 0) sprites = GetComponentsInChildren<SpriteRenderer>();
@@ -26,11 +43,8 @@ public class CheatMode : MonoBehaviour
 
     void Update()
     {
-        if (Keyboard.current == null)
-            return;
-
         //F1 enable/disable invincibility on this character
-        if (Keyboard.current.f1Key.wasPressedThisFrame)
+        if (playerInput && playerInput.actions && playerInput.actions.FindAction("CHEAT - Invincible").triggered)
         {
             Character selfCharacter = GetComponent<Character>();
             if (selfCharacter)
@@ -43,13 +57,13 @@ public class CheatMode : MonoBehaviour
             }
         }
         //F2 open/close every exit in this scene
-        else if (Keyboard.current.f2Key.wasPressedThisFrame)
+        else if (playerInput && playerInput.actions && playerInput.actions.FindAction("CHEAT - Exit").triggered)
         {
             foreach (ExitInteractable exit in FindObjectsOfType<ExitInteractable>())
                 exit.ForceExit();
         }
         //F3 instantiate super weapon
-        else if (Keyboard.current.f3Key.wasPressedThisFrame)
+        else if (playerInput && playerInput.actions && playerInput.actions.FindAction("CHEAT - Weapon").triggered)
         {
             if (superWeapon)
             {
@@ -63,12 +77,12 @@ public class CheatMode : MonoBehaviour
         }
 #if UNITY_EDITOR
         //F10 to pause editor
-        else if (Keyboard.current.f10Key.wasPressedThisFrame)
+        else if (Keyboard.current != null && Keyboard.current.f10Key.wasPressedThisFrame)
         {
             UnityEditor.EditorApplication.isPaused = true;
         }
         //F11 disable every canvas
-        else if (Keyboard.current.f11Key.wasPressedThisFrame)
+        else if (Keyboard.current != null && Keyboard.current.f11Key.wasPressedThisFrame)
         {
             foreach (Canvas canvas in FindObjectsOfType<Canvas>())
                 canvas.gameObject.SetActive(!canvas.gameObject.activeInHierarchy);
