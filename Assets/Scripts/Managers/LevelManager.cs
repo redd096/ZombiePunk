@@ -41,7 +41,7 @@ public class LevelManager : MonoBehaviour
         //find every exit in scene
         foreach(ExitInteractable exit in FindObjectsOfType<ExitInteractable>())
         {
-            AddExit(exit);
+            Exits.Add(exit);
         }
     }
 
@@ -61,10 +61,6 @@ public class LevelManager : MonoBehaviour
         SpawnManagers.Clear();
 
         //remove every exit from the list
-        foreach (ExitInteractable exit in Exits)
-        {
-            RemoveExit(exit);
-        }
         Exits.Clear();
     }
 
@@ -90,26 +86,17 @@ public class LevelManager : MonoBehaviour
             character.GetSavedComponent<HealthComponent>().onDie -= OnPlayerDie;
     }
 
-    void AddExit(ExitInteractable exit)
+    #endregion
+
+    #region public API
+
+    public void OnInteractExit(ExitInteractable exit)
     {
-        //active it and register to events
-        if (Exits.Contains(exit) == false)
-        {
-            exit.onInteract += OnInteractExit;
-            exit.ActiveExit();
+        //save stats for next scene
+        GameManager.instance.SaveStats(Players.ToArray());
 
-            //add to list
-            Exits.Add(exit);
-        }
-    }
-
-    void RemoveExit(ExitInteractable exit)
-    {
-        //unregister from events
-        exit.onInteract -= OnInteractExit;
-
-        //deactivate it
-        exit.DeactiveExit();
+        //load next scene
+        SceneLoader.instance.LoadScene(exit.SceneToLoad);
     }
 
     #endregion
@@ -159,15 +146,6 @@ public class LevelManager : MonoBehaviour
         //show end menu (and show cursor)
         if (GameManager.instance) GameManager.instance.uiManager.EndMenu(true);
         if (SceneLoader.instance) SceneLoader.instance.LockMouse(CursorLockMode.None);
-    }
-
-    void OnInteractExit(ExitInteractable exit)
-    {
-        //save stats for next scene
-        GameManager.instance.SaveStats(Players.ToArray());
-
-        //load next scene
-        SceneLoader.instance.LoadScene(exit.SceneToLoad);
     }
 
     #endregion

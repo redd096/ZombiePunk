@@ -35,6 +35,16 @@ namespace redd096.GameTopDown2D
         List<Character> players = new List<Character>();
         List<SpawnManager> spawnManagers = new List<SpawnManager>();
 
+        void OnEnable()
+        {
+            ActiveExit();
+        }
+
+        void OnDisable()
+        {
+            DeactiveExit();
+        }
+
         #region public API
 
         /// <summary>
@@ -140,6 +150,10 @@ namespace redd096.GameTopDown2D
 
                 //call event
                 onInteract?.Invoke(this);
+
+                //change scene
+                if (GameManager.instance && GameManager.instance.levelManager) 
+                    GameManager.instance.levelManager.OnInteractExit(this);
             }
         }
 
