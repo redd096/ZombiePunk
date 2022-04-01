@@ -182,4 +182,42 @@ public class ShopInteract : BASELobbyInteract
         if (SavesManager.instance) SavesManager.instance.ClearSave<SaveClassBoughtWeapons>();
         UpdateUI();
     }
+
+    /// <summary>
+    /// Save every weapon unlocked + every level unlocked
+    /// </summary>
+    public void UnlockAllWeapons()
+    {
+        //load already bought weapons
+        SaveClassBoughtWeapons saveClass = SavesManager.instance && SavesManager.instance.Load<SaveClassBoughtWeapons>() != null ? SavesManager.instance.Load<SaveClassBoughtWeapons>() : new SaveClassBoughtWeapons();
+        alreadyBoughtWeapons = (saveClass.BoughtWeapons != null) ? saveClass.BoughtWeapons : new List<WeaponBASE>();
+
+        //get every weapon
+        foreach (WeaponBASE weapon in weaponsToBuy)
+            alreadyBoughtWeapons.Add(weapon);
+
+        //save
+        saveClass.BoughtWeapons = alreadyBoughtWeapons;
+        if (SavesManager.instance) SavesManager.instance.Save(saveClass);
+
+        //unlock also every level to show every weapon
+
+        //load level reached
+        SaveClassLevelReached levelSaveClass = SavesManager.instance && SavesManager.instance.Load<SaveClassLevelReached>() != null ? SavesManager.instance.Load<SaveClassLevelReached>() : new SaveClassLevelReached();
+        int reachedLevel = levelSaveClass.LevelReached;
+
+        //find last possible level to reach
+        foreach (LevelStruct level in levelsToUnlock)
+        {
+            if (level.LevelToComplete > reachedLevel)
+                reachedLevel = level.LevelToComplete;
+        }
+
+        //save level reached
+        levelSaveClass.LevelReached = reachedLevel;
+        if (SavesManager.instance) SavesManager.instance.Save(levelSaveClass);
+
+        //update UI
+        UpdateUI();
+    }
 }

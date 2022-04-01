@@ -34,5 +34,29 @@ public class MapInteract : BASELobbyInteract
         if (SavesManager.instance) SavesManager.instance.ClearSave<SaveClassLevelReached>();
         UpdateUI();
     }
+
+    /// <summary>
+    /// Save every level unlocked
+    /// </summary>
+    public void UnlockAllLevels()
+    {
+        //load level reached
+        SaveClassLevelReached saveClass = SavesManager.instance && SavesManager.instance.Load<SaveClassLevelReached>() != null ? SavesManager.instance.Load<SaveClassLevelReached>() : new SaveClassLevelReached();
+        int reachedLevel = saveClass.LevelReached;
+
+        //find last possible level to reach
+        foreach (LevelStruct level in levelsToUnlock)
+        {
+            if (level.LevelToComplete > reachedLevel)
+                reachedLevel = level.LevelToComplete;
+        }
+
+        //save level reached
+        saveClass.LevelReached = reachedLevel;
+        if (SavesManager.instance) SavesManager.instance.Save(saveClass);
+
+        //update UI
+        UpdateUI();
+    }
 }
 
