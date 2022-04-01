@@ -16,7 +16,8 @@ namespace redd096
         public void ResumeGame()
         {
             //hide pause menu
-            GameManager.instance.uiManager.PauseMenu(false);
+            if (GameManager.instance && GameManager.instance.uiManager)
+                GameManager.instance.uiManager.PauseMenu(false);
 
             //set timeScale to 1
             Time.timeScale = 1;
@@ -31,7 +32,8 @@ namespace redd096
         public void PauseGame()
         {
             //show pause menu
-            GameManager.instance.uiManager.PauseMenu(true);
+            if (GameManager.instance && GameManager.instance.uiManager)
+                GameManager.instance.uiManager.PauseMenu(true);
 
             //stop time
             Time.timeScale = 0;
