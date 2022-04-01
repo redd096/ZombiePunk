@@ -81,12 +81,16 @@ namespace redd096.GameTopDown2D
                 {
                     if (spawnManager.RestartWhenFinish == false)
                     {
+                        //add also a check if spawn manager is destroyed
+                        spawnableObject = spawnManager.gameObject.AddComponent<SpawnableObject>();
+                        spawnableObject.onDeactiveObject += OnSpawnManagerDestroyed;
+
                         spawnManager.onFinishToSpawn += OnFinishToSpawn;
                         spawnManagers.Add(spawnManager);    //and add to the list
-                    }
 
-                    //add also every enemy spawned
-                    spawnManager.onEverySpawn += OnEverySpawn;
+                        //add also every enemy spawned
+                        spawnManager.onEverySpawn += OnEverySpawn;
+                    }
                 }
             }
 
@@ -120,6 +124,9 @@ namespace redd096.GameTopDown2D
             {
                 if (spawnManager)
                 {
+                    SpawnableObject spawnableObject = spawnManager.GetComponent<SpawnableObject>();
+                    if (spawnableObject) spawnableObject.onDeactiveObject -= OnSpawnManagerDestroyed;
+
                     spawnManager.onFinishToSpawn -= OnFinishToSpawn;
                     spawnManager.onEverySpawn -= OnEverySpawn;
                 }
@@ -184,11 +191,8 @@ namespace redd096.GameTopDown2D
         void OnEnemyDie(SpawnableObject enemy)
         {
             //when an enemy die, remove from the list
-            if (enemy)
-            {
-                if (enemies.Contains(enemy))
-                    enemies.Remove(enemy);
-            }
+            if (enemies.Contains(enemy))
+                enemies.Remove(enemy);
 
             //do checks
             DoCheck();
@@ -197,6 +201,24 @@ namespace redd096.GameTopDown2D
         void OnPlayerChangeWeapon()
         {
             //when a player change weapon, do checks
+            DoCheck();
+        }
+
+        void OnSpawnManagerDestroyed(SpawnableObject spawnableObject)
+        {
+            //when a spawn manager is destroyed
+            if (spawnableObject)
+            {
+                SpawnManager spawnManager = spawnableObject.GetComponent<SpawnManager>();
+                if (spawnManager)
+                {
+                    //remove spawn manager from the list
+                    if (spawnManagers.Contains(spawnManager))
+                        spawnManagers.Remove(spawnManager);
+                }
+            }
+
+            //do checks
             DoCheck();
         }
 
