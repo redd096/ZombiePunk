@@ -27,6 +27,13 @@ public class SpawnManager : MonoBehaviour
 
     void OnEnable()
     {
+        //add to level manager if not already in the list (if spawned at runtime)
+        if (GameManager.instance && GameManager.instance.levelManager)
+        {
+            if (GameManager.instance.levelManager.SpawnManagers.Contains(this) == false)
+                GameManager.instance.levelManager.SpawnManagers.Add(this);
+        }
+
         //if this game manager is not active in editor, but will be activated during gameplay, be sure to add to the list to check
         foreach (ExitInteractable exit in GameManager.instance.levelManager.Exits)
             exit.AddSpawnManager(this);

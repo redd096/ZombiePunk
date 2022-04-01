@@ -29,19 +29,21 @@ public class LevelManager : MonoBehaviour
         foreach(Character character in FindObjectsOfType<Character>())
         {
             if (character.CharacterType == Character.ECharacterType.Player) AddPlayer(character);
-            else Enemies.Add(character);
+            else if (Enemies.Contains(character) == false) Enemies.Add(character);
         }
 
         //find every spawn manager in scene
         foreach(SpawnManager spawnManager in FindObjectsOfType<SpawnManager>())
         {
-            SpawnManagers.Add(spawnManager);
+            if (SpawnManagers.Contains(spawnManager) == false)
+                SpawnManagers.Add(spawnManager);
         }
 
         //find every exit in scene
         foreach(ExitInteractable exit in FindObjectsOfType<ExitInteractable>())
         {
-            Exits.Add(exit);
+            if (Exits.Contains(exit) == false)
+                Exits.Add(exit);
         }
     }
 

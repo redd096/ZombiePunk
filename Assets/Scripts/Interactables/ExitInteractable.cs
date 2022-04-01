@@ -37,6 +37,13 @@ namespace redd096.GameTopDown2D
 
         void OnEnable()
         {
+            //add to level manager if not already in the list (if spawned at runtime)
+            if (GameManager.instance && GameManager.instance.levelManager)
+            {
+                if (GameManager.instance.levelManager.Exits.Contains(this) == false)
+                    GameManager.instance.levelManager.Exits.Add(this);
+            }
+
             ActiveExit();
         }
 
@@ -175,12 +182,17 @@ namespace redd096.GameTopDown2D
             {
                 if (spawnManager.RestartWhenFinish == false)
                 {
+                    //add also a check if spawn manager is destroyed
+                    SpawnableObject spawnableObject = spawnManager.gameObject.AddComponent<SpawnableObject>();
+                    spawnableObject.onDeactiveObject += OnSpawnManagerDestroyed;
+
                     spawnManager.onFinishToSpawn += OnFinishToSpawn;
                     spawnManagers.Add(spawnManager);    //and add to the list
+
+                    //add also every enemy spawned
+                    spawnManager.onEverySpawn += OnEverySpawn;
                 }
 
-                //add also every enemy spawned
-                spawnManager.onEverySpawn += OnEverySpawn;
             }
         }
 
