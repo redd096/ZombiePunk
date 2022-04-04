@@ -37,6 +37,13 @@ using UnityEngine;
 
         public void RemoveEnemy()
         {
-            open -= 1;
+            //open -= 1;
+            StartCoroutine("ActuallyRemoveEnemy");
+        }
+
+        IEnumerator ActuallyRemoveEnemy()
+        {
+             yield return new WaitForSeconds(2.2f);
+             open -= 1; 
         }
     }
