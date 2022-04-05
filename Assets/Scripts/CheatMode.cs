@@ -1,11 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.InputSystem;
 using redd096.GameTopDown2D;
+using redd096;
 
 public class CheatMode : MonoBehaviour
 {
-    [Header("Necessary Components - default get from this gameObject")]
+    [Header("Necessary Components - default get from children")]
     [SerializeField] PlayerInput playerInput = default;
+    [SerializeField] StateMachineRedd096 stateMachine = default;
 
     [Header("Cheat Settings")]
     [SerializeField] float timeLabel = 1.5f;
@@ -18,14 +20,16 @@ public class CheatMode : MonoBehaviour
     void Start()
     {
         //set references
-        if (playerInput == null) 
-            playerInput = GetComponent<PlayerInput>();
+        if (playerInput == null) playerInput = GetComponentInChildren<PlayerInput>();
+        if (stateMachine == null) stateMachine = GetComponentInChildren<StateMachineRedd096>();
 
         //show warnings if not found
         if (playerInput == null)
             Debug.LogWarning("Miss PlayerInput on " + name);
         else if (playerInput.actions == null)
             Debug.LogWarning("Miss Actions on PlayerInput on " + name);
+        if (stateMachine == null)
+            Debug.LogWarning("Miss StateMachine on " + name);
 
         //settings
 
@@ -43,6 +47,9 @@ public class CheatMode : MonoBehaviour
 
     void Update()
     {
+        if (stateMachine && stateMachine.GetCurrentState().Equals("Normal State", System.StringComparison.OrdinalIgnoreCase) == false)
+            return;
+
         //F1 enable/disable invincibility on this character
         if (playerInput && playerInput.actions && playerInput.actions.FindAction("CHEAT - Invincible").triggered)
         {
