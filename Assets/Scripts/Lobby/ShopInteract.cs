@@ -60,7 +60,7 @@ public class ShopInteract : BASELobbyInteract
         //load already bought weapons and perks
         SaveClassBoughtElements saveClass = SavesManager.instance ? SavesManager.instance.Load<SaveClassBoughtElements>() : null;
         alreadyBoughtElements.Clear();
-        if (saveClass != null && saveClass.BoughtElements != null) alreadyBoughtElements = saveClass.BoughtElements;
+        if (saveClass != null) alreadyBoughtElements = saveClass.BoughtElements;
 
         //check every button
         for (int i = 0; i < buttonsShop.Count; i++)
@@ -170,7 +170,7 @@ public class ShopInteract : BASELobbyInteract
                     if (mainInteracting.GetSavedComponent<WeaponComponent>())
                         mainInteracting.GetSavedComponent<WeaponComponent>().PickWeaponPrefab(sellable as WeaponBASE);
                 }
-                else
+                else if (sellable is PerkData)
                 {
                     //else pick perk
                     if (mainInteracting.GetSavedComponent<PerksComponent>())
