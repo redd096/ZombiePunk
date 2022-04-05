@@ -194,7 +194,8 @@ public class ShopInteract : BASELobbyInteract
 
         //get every weapon
         foreach (WeaponBASE weapon in weaponsToBuy)
-            alreadyBoughtWeapons.Add(weapon);
+            if (weapon != null && alreadyBoughtWeapons.Contains(weapon) == false)
+                alreadyBoughtWeapons.Add(weapon);
 
         //save
         saveClass.BoughtWeapons = alreadyBoughtWeapons;
