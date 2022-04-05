@@ -20,13 +20,13 @@ using UnityEngine;
 
             if(open > 0)
             {
-                play.SetActive(true);
-                exit.SetActive(false);
+                if (play != null) play.SetActive(true);
+                if (exit != null) exit.SetActive(false);
             }
             else
             {
-                play.SetActive(false);
-                exit.SetActive(true);
+                if (play != null) play.SetActive(false);
+                if (exit != null) exit.SetActive(true);
             }
         }
 
