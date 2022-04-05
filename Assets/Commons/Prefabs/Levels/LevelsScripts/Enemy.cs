@@ -10,7 +10,8 @@ public class Enemy : MonoBehaviour
     void Start()
     {
         stuff = GameObject.FindObjectOfType<KillAllEnemies>();
-        stuff.AddEnemy();
+        if (stuff != null)
+            stuff.AddEnemy();
     }
 
     // Update is called once per frame
@@ -21,6 +22,7 @@ public class Enemy : MonoBehaviour
 
     private void OnDestroy()
     {
-        stuff.RemoveEnemy();
+        if (stuff != null)
+            stuff.RemoveEnemy();
     }
 }
