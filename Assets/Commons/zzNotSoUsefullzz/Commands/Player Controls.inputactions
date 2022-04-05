@@ -38,6 +38,14 @@
                     "interactions": ""
                 },
                 {
+                    "name": "Use Perk",
+                    "type": "Button",
+                    "id": "72bd8f05-e6bb-4784-a2e6-40b904cebaa6",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
+                },
+                {
                     "name": "Reload",
                     "type": "Button",
                     "id": "30e1c866-3922-4f8e-8431-2d76a39f6c05",
@@ -57,22 +65,6 @@
                     "name": "Resume",
                     "type": "Button",
                     "id": "b167c719-e330-4915-9e20-30598e447797",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Buy Vendor",
-                    "type": "Button",
-                    "id": "8b99ef62-b206-4af8-9bbc-70f3aba1c14d",
-                    "expectedControlType": "Button",
-                    "processors": "",
-                    "interactions": ""
-                },
-                {
-                    "name": "Close Vendor",
-                    "type": "Button",
-                    "id": "cb3ac88d-30a8-4d8a-952c-71c25e735366",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": ""
@@ -322,83 +314,6 @@
                 },
                 {
                     "name": "",
-                    "id": "1515ab08-c392-438c-a23d-37064856a930",
-                    "path": "<Gamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Buy Vendor",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "816ea1e2-867a-4230-a27e-7e759c4b6edf",
-                    "path": "<Keyboard>/space",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardAndMouse",
-                    "action": "Buy Vendor",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "30bd14c4-e89a-4041-b654-d032e10711e4",
-                    "path": "<Keyboard>/enter",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardAndMouse",
-                    "action": "Buy Vendor",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "e792b9ea-b4a7-4640-b679-c282d3642dba",
-                    "path": "<DualShockGamepad>/buttonSouth",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad PS4",
-                    "action": "Buy Vendor",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "7ccfe66d-5199-4e31-af32-60cc7dca2dbf",
-                    "path": "<Gamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad",
-                    "action": "Close Vendor",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "2b64ad0f-c4d3-4039-acd7-6dacb25eafbd",
-                    "path": "<Keyboard>/escape",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "KeyboardAndMouse",
-                    "action": "Close Vendor",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
-                    "id": "48fdb6d4-03ce-41d5-8833-a34a48773649",
-                    "path": "<DualShockGamepad>/buttonEast",
-                    "interactions": "",
-                    "processors": "",
-                    "groups": "Gamepad PS4",
-                    "action": "Close Vendor",
-                    "isComposite": false,
-                    "isPartOfComposite": false
-                },
-                {
-                    "name": "",
                     "id": "1576e009-3a0d-4be8-857d-22154c5b23b2",
                     "path": "<Gamepad>/start",
                     "interactions": "",
@@ -614,6 +529,39 @@
                     "processors": "",
                     "groups": "Gamepad PS4",
                     "action": "CHEAT - Weapon",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "44a63f7f-199d-4792-9fea-f1c325f4a64b",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Use Perk",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "267b3bc4-21f9-429e-b028-ae39c7e6e123",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardAndMouse",
+                    "action": "Use Perk",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "69459031-6829-48b9-a8bb-3f0e1164140b",
+                    "path": "<DualShockGamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad PS4",
+                    "action": "Use Perk",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

@@ -4,7 +4,7 @@ using redd096.Attributes;
 namespace redd096.GameTopDown2D
 {
     [AddComponentMenu("redd096/.GameTopDown2D/Weapons/Weapon BASE")]
-    public abstract class WeaponBASE : MonoBehaviour, IInteractable
+    public abstract class WeaponBASE : MonoBehaviour, IInteractable, ISellable
     {
         [Header("Weapon BASE")]
         public string WeaponName = "Weapon Name";
@@ -15,6 +15,11 @@ namespace redd096.GameTopDown2D
         [SerializeField] bool destroyWeaponOnDrop = false;
         [ReadOnly] public Character Owner;
         [HideInInspector] public WeaponBASE WeaponPrefab = default;
+
+        //ISellable
+        public string SellName => WeaponName;
+        public int SellPrice => WeaponPrice;
+        public Sprite SellSprite => WeaponSprite;
 
         //events
         public System.Action onPickWeapon { get; set; }

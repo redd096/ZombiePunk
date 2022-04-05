@@ -6,8 +6,9 @@ using redd096.GameTopDown2D;
 public class SavesBetweenScenes
 {
     public float CurrentHealth;
-    public WeaponBASE[] WeaponsPrefabs;
     public Dictionary<string, int> CurrentAmmos;
+    public PerkData EquippedPerk;
+    public WeaponBASE[] WeaponsPrefabs;
 }
 
 [AddComponentMenu("redd096/Singletons/Game Manager")]
@@ -67,6 +68,7 @@ public class GameManager : Singleton<GameManager>
             savedStats = new SavesBetweenScenes();
             if (player.GetSavedComponent<HealthComponent>()) savedStats.CurrentHealth = player.GetSavedComponent<HealthComponent>().CurrentHealth;
             if (player.GetSavedComponent<AdvancedWeaponComponent>()) savedStats.CurrentAmmos = new Dictionary<string, int>(player.GetSavedComponent<AdvancedWeaponComponent>().CurrentAmmos_NotSafe);
+            if (player.GetSavedComponent<PerksComponent>()) savedStats.EquippedPerk = player.GetSavedComponent<PerksComponent>().EquippedPerk;
 
             //foreach weapon save prefab
             if (player.GetSavedComponent<WeaponComponent>())
@@ -96,6 +98,7 @@ public class GameManager : Singleton<GameManager>
                 //health and ammos
                 if (player.GetSavedComponent<HealthComponent>()) player.GetSavedComponent<HealthComponent>().CurrentHealth = savedStats.CurrentHealth;
                 if (player.GetSavedComponent<AdvancedWeaponComponent>()) player.GetSavedComponent<AdvancedWeaponComponent>().CurrentAmmos_NotSafe = new Dictionary<string, int>(savedStats.CurrentAmmos);
+                if (player.GetSavedComponent<PerksComponent>()) player.GetSavedComponent<PerksComponent>().EquippedPerk = savedStats.EquippedPerk;
 
                 //weapons will be loaded automatically from WeaponComponent
             }

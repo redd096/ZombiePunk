@@ -126,20 +126,20 @@ public class LevelManager : MonoBehaviour
                 if (player && player.GetSavedComponent<WeaponComponent>())
                 {
                     //load already bought weapons
-                    SaveClassBoughtWeapons saveClass = SavesManager.instance ? SavesManager.instance.Load<SaveClassBoughtWeapons>() : new SaveClassBoughtWeapons();
-                    List<WeaponBASE> alreadyBoughtWeapons = (saveClass != null && saveClass.BoughtWeapons != null) ? saveClass.BoughtWeapons : new List<WeaponBASE>();
+                    SaveClassBoughtElements saveClass = SavesManager.instance ? SavesManager.instance.Load<SaveClassBoughtElements>() : new SaveClassBoughtElements();
+                    List<ISellable> alreadyBoughtElements = (saveClass != null && saveClass.BoughtElements != null) ? saveClass.BoughtElements : new List<ISellable>();
 
                     //remove current weapons
                     foreach (WeaponBASE weapon in player.GetSavedComponent<WeaponComponent>().CurrentWeapons)
                     {
-                        if (weapon && alreadyBoughtWeapons.Contains(weapon.WeaponPrefab))
+                        if (weapon && alreadyBoughtElements.Contains(weapon.WeaponPrefab))
                         {
-                            alreadyBoughtWeapons.Remove(weapon.WeaponPrefab);
+                            alreadyBoughtElements.Remove(weapon.WeaponPrefab);
                         }
                     }
 
                     //save
-                    saveClass.BoughtWeapons = alreadyBoughtWeapons;
+                    saveClass.BoughtElements = alreadyBoughtElements;
                     if (SavesManager.instance) SavesManager.instance.Save(saveClass);
                 }
             }

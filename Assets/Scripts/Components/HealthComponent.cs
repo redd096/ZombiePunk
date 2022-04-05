@@ -24,6 +24,7 @@ namespace redd096.GameTopDown2D
 
         Character ownerCharacter;
         Shield shield;
+        float timeTemporaryInvincible;
 
         void OnChangeMaxHealth()
         {
@@ -63,7 +64,7 @@ namespace redd096.GameTopDown2D
             }
 
             //set health, only if not invincible
-            if (Invincible == false)
+            if (Invincible == false && Time.time > timeTemporaryInvincible)
                 CurrentHealth -= damage;
 
             //call event only if damage is > 0
@@ -113,6 +114,17 @@ namespace redd096.GameTopDown2D
 
             //call event
             onGetHealth?.Invoke();
+        }
+
+        /// <summary>
+        /// Set invincible for few seconds
+        /// </summary>
+        /// <param name="timeInvincible"></param>
+        public void SetTemporaryInvincible(float timeInvincible)
+        {
+            //set only if not already invincible for more time
+            if (Time.time + timeInvincible > timeTemporaryInvincible)
+                timeTemporaryInvincible = Time.time + timeInvincible;
         }
 
         #region private API

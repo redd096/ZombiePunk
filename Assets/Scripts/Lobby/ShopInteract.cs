@@ -9,40 +9,41 @@ public class ShopInteract : BASELobbyInteract
     [SerializeField] Text currencyText = default;
     [SerializeField] string stringCurrency = "MONEY: ";
     [SerializeField] Color colorWhenTooExpensive = Color.red;
+
+    [Header("Weapons")]
     [SerializeField] WeaponButtonShop[] weaponButtons = default;
     [SerializeField] WeaponBASE[] weaponsToBuy = default;
+
+    [Header("Perks")]
+    [SerializeField] WeaponButtonShop[] perkButtons = default;
+    [SerializeField] PerkData[] perksToBuy = default;
 
     [Header("Levels to Unlock")]
     [SerializeField] LevelStruct[] levelsToUnlock = default;
 
-    List<WeaponBASE> alreadyBoughtWeapons = new List<WeaponBASE>();
+    List<WeaponButtonShop> buttonsShop = new List<WeaponButtonShop>();
+    List<ISellable> elementsToBuy = new List<ISellable>();
+    List<ISellable> alreadyBoughtElements = new List<ISellable>();
 
     protected override void Start()
     {
         base.Start();
 
-        //set every button in shop
+        //create lists
+        buttonsShop = new List<WeaponButtonShop>(weaponButtons);
+        buttonsShop.AddRange(perkButtons);                                          //concat weapon and perks
+        elementsToBuy = new List<ISellable>();                                      //add weapons and perks, but keep same length of buttonsShop
         for (int i = 0; i < weaponButtons.Length; i++)
+            elementsToBuy.Add(i < weaponsToBuy.Length ? weaponsToBuy[i] : null);
+        for (int i = 0; i < perksToBuy.Length; i++)
+            elementsToBuy.Add(i < perksToBuy.Length ? perksToBuy[i] : null);
+
+        //set every button in shop
+        for (int i = 0; i < buttonsShop.Count; i++)
         {
-            //if there are no more weapons, stop
-            if (i >= weaponsToBuy.Length)
+            if (buttonsShop[i] && elementsToBuy[i] != null)
             {
-                break;
-            }
-
-            if (weaponButtons[i] && weaponsToBuy[i])
-            {
-                //set name and price text
-                if (weaponButtons[i].nameText) weaponButtons[i].nameText.text = weaponsToBuy[i].WeaponName;
-                if (weaponButtons[i].priceText) weaponButtons[i].priceText.text = weaponsToBuy[i].WeaponPrice.ToString();
-
-                //set button event and image
-                if (weaponButtons[i].button)
-                {
-                    weaponButtons[i].button.GetComponent<Image>().sprite = weaponsToBuy[i].WeaponSprite;
-                    WeaponBASE weaponPrefab = weaponsToBuy[i];
-                    weaponButtons[i].button.onClick.AddListener(() => OnClickButton(weaponPrefab));
-                }
+                SetButton(buttonsShop[i], elementsToBuy[i]);
             }
         }
     }
@@ -56,46 +57,67 @@ public class ShopInteract : BASELobbyInteract
         if (currencyText)
             currencyText.text = stringCurrency + currentMoney.ToString();
 
-        //load already bought weapons
-        SaveClassBoughtWeapons saveClass = SavesManager.instance ? SavesManager.instance.Load<SaveClassBoughtWeapons>() : null;
-        alreadyBoughtWeapons = (saveClass != null && saveClass.BoughtWeapons != null) ? saveClass.BoughtWeapons : new List<WeaponBASE>();
+        //load already bought weapons and perks
+        SaveClassBoughtElements saveClass = SavesManager.instance ? SavesManager.instance.Load<SaveClassBoughtElements>() : null;
+        alreadyBoughtElements.Clear();
+        if (saveClass != null && saveClass.BoughtElements != null) alreadyBoughtElements = saveClass.BoughtElements;
 
         //check every button
-        for (int i = 0; i < weaponButtons.Length; i++)
+        for (int i = 0; i < buttonsShop.Count; i++)
         {
-            //initialize to save default text colors (will be saved only first time)
-            if (weaponButtons[i]) weaponButtons[i].Init();
-
-            //if this button has no weapon, do not show it (ignore also if button is not setted)
-            if (i >= weaponsToBuy.Length || weaponsToBuy[i] == null || weaponButtons[i] == null)
+            //if button or element to buy are not setted, do not show this button
+            if (buttonsShop[i] == null || elementsToBuy[i] == null)
             {
-                if (weaponButtons[i]) weaponButtons[i].gameObject.SetActive(false);
+                if (buttonsShop[i]) buttonsShop[i].gameObject.SetActive(false);
                 continue;
             }
 
             //else be sure is active
-            if (weaponButtons[i]) weaponButtons[i].gameObject.SetActive(true);
+            if (buttonsShop[i]) buttonsShop[i].gameObject.SetActive(true);
 
             //if already bought, deactive button
-            if (alreadyBoughtWeapons.Contains(weaponsToBuy[i]))
+            if (alreadyBoughtElements.Contains(elementsToBuy[i]))
             {
-                Color disabledColor = weaponButtons[i].button ? weaponButtons[i].button.colors.disabledColor : Color.grey;
-                if (weaponButtons[i].button) weaponButtons[i].button.interactable = false;
-                if (weaponButtons[i].nameText) weaponButtons[i].nameText.color = disabledColor;
-                if (weaponButtons[i].priceText) weaponButtons[i].priceText.color = disabledColor;
+                Color disabledColor = buttonsShop[i].button ? buttonsShop[i].button.colors.disabledColor : Color.grey;
+                if (buttonsShop[i].button) buttonsShop[i].button.interactable = false;
+                if (buttonsShop[i].nameText) buttonsShop[i].nameText.color = disabledColor;
+                if (buttonsShop[i].priceText) buttonsShop[i].priceText.color = disabledColor;
             }
             //else check price to set interactable or not
             else
             {
-                bool canBuy = currentMoney >= weaponsToBuy[i].WeaponPrice;
-                if (weaponButtons[i].button) weaponButtons[i].button.interactable = canBuy;
-                if (weaponButtons[i].nameText) weaponButtons[i].nameText.color = canBuy ? weaponButtons[i].GetDefaultNameTextColor() : colorWhenTooExpensive;
-                if (weaponButtons[i].priceText) weaponButtons[i].priceText.color = canBuy ? weaponButtons[i].GetDefaultPriceTextColor() : colorWhenTooExpensive;
+                bool canBuy = currentMoney >= elementsToBuy[i].SellPrice;
+                if (buttonsShop[i].button) buttonsShop[i].button.interactable = canBuy;
+                if (buttonsShop[i].nameText) buttonsShop[i].nameText.color = canBuy ? buttonsShop[i].GetDefaultNameTextColor() : colorWhenTooExpensive;
+                if (buttonsShop[i].priceText) buttonsShop[i].priceText.color = canBuy ? buttonsShop[i].GetDefaultPriceTextColor() : colorWhenTooExpensive;
             }
         }
 
         //check if reached level to unlock weapons
         CheckLockedButtons();
+    }
+
+    #region private API
+
+    void SetButton(WeaponButtonShop buttonShop, ISellable sellable)
+    {
+        //initialize to save default text colors (will be saved only first time)
+        if (buttonShop)
+            buttonShop.Init();
+
+        if (sellable != null)
+        {
+            //set name and price text
+            if (buttonShop.nameText) buttonShop.nameText.text = sellable.SellName;
+            if (buttonShop.priceText) buttonShop.priceText.text = sellable.SellPrice.ToString();
+
+            //set button event and image
+            if (buttonShop.button)
+            {
+                buttonShop.button.GetComponent<Image>().sprite = sellable.SellSprite;
+                buttonShop.button.onClick.AddListener(() => OnClickButton(sellable));
+            }
+        }
     }
 
     void CheckLockedButtons()
@@ -113,34 +135,47 @@ public class ShopInteract : BASELobbyInteract
         }
     }
 
-    public void OnClickButton(WeaponBASE weaponPrefab)
+    #endregion
+
+    #region function for UI Buttons
+
+    public void OnClickButton(ISellable sellable)
     {
         //be sure there is a weapon
-        if (weaponPrefab != null && mainInteracting)
+        if (sellable != null && mainInteracting)
         {
             //be sure player has enough money, and this weapons is not already bought (teorically is not possible, because the button is deactivated when update UI)
             int currentMoney = mainInteracting.GetSavedComponent<WalletComponent>() ? mainInteracting.GetSavedComponent<WalletComponent>().Money : 0;
-            if (currentMoney >= weaponPrefab.WeaponPrice && alreadyBoughtWeapons.Contains(weaponPrefab) == false)
+            if (currentMoney >= sellable.SellPrice && alreadyBoughtElements.Contains(sellable) == false)
             {
                 //add to already bought weapons
-                alreadyBoughtWeapons.Add(weaponPrefab);
+                alreadyBoughtElements.Add(sellable);
 
                 //save
-                SaveClassBoughtWeapons saveClass = SavesManager.instance && SavesManager.instance.Load<SaveClassBoughtWeapons>() != null ? SavesManager.instance.Load<SaveClassBoughtWeapons>() : new SaveClassBoughtWeapons();
-                saveClass.BoughtWeapons = alreadyBoughtWeapons;
+                SaveClassBoughtElements saveClass = SavesManager.instance && SavesManager.instance.Load<SaveClassBoughtElements>() != null ? SavesManager.instance.Load<SaveClassBoughtElements>() : new SaveClassBoughtElements();
+                saveClass.BoughtElements = alreadyBoughtElements;
                 if (SavesManager.instance) SavesManager.instance.Save(saveClass);
 
                 //remove money
                 if (mainInteracting.GetSavedComponent<WalletComponent>())
-                    mainInteracting.GetSavedComponent<WalletComponent>().Money -= weaponPrefab.WeaponPrice;
+                    mainInteracting.GetSavedComponent<WalletComponent>().Money -= sellable.SellPrice;
 
-                //if current weapons are full, destroy current equipped (to not drop it)
-                if (mainInteracting.GetSavedComponent<WeaponComponent>() && mainInteracting.GetSavedComponent<WeaponComponent>().IsFull())
-                    Destroy(mainInteracting.GetSavedComponent<WeaponComponent>().CurrentWeapon.gameObject);
+                if (sellable is WeaponBASE)
+                {
+                    //if current weapons are full, destroy current equipped (to not drop it)
+                    if (mainInteracting.GetSavedComponent<WeaponComponent>() && mainInteracting.GetSavedComponent<WeaponComponent>().IsFull())
+                        Destroy(mainInteracting.GetSavedComponent<WeaponComponent>().CurrentWeapon.gameObject);
 
-                //pick weapon
-                if (mainInteracting.GetSavedComponent<WeaponComponent>())
-                    mainInteracting.GetSavedComponent<WeaponComponent>().PickWeaponPrefab(weaponPrefab);
+                    //pick weapon
+                    if (mainInteracting.GetSavedComponent<WeaponComponent>())
+                        mainInteracting.GetSavedComponent<WeaponComponent>().PickWeaponPrefab(sellable as WeaponBASE);
+                }
+                else
+                {
+                    //else pick perk
+                    if (mainInteracting.GetSavedComponent<PerksComponent>())
+                        mainInteracting.GetSavedComponent<PerksComponent>().AddPerk(sellable as PerkData);
+                }
 
                 //save stats for next scene
                 if (GameManager.instance && GameManager.instance.levelManager)
@@ -150,58 +185,43 @@ public class ShopInteract : BASELobbyInteract
                 UpdateUI();
             }
         }
-
-        //TODO
-        //V andranno salvate le armi comprate (player prefs o json?)
-        //V quelle già comprate non dovranno essere interagili nello shop
-        //V MA quelle già comprate dovranno essere disponibili invece in un altro script, per l'inventario
-
-        //V bisognerà inserire la currency (sempre salvata in player prefs o json) e dev'essere sottratta al player
-        //V NB andranno creati anche dei prefab pickable per raccogliere currency e aggiungerla al nostro salvataggio
-
-        //V quando il player muore, le armi correntemente equipaggiate, andranno rimosse da quelle salvate.
-        //V quindi saranno di nuovo interagibili nello shop e spariranno dall'inventario
-        //V NB solo quelle equipaggiate, non le altre nell'inventario
-        //V p.s. mettere magari una booleana per decidere se perdere le armi equipaggiate o no
-
-        //NB PER L'INVENTARIO
-        //V che quindi o si aggiorna ad ogni update del salvataggio, o si genera quando lo si apre e non allo start
-        //V perché se si compra nello shop, poi dev'essere aggiornato
-
-        //- un'altra cosa da fare è fixare il tasto per uscire, perché ora chiude il menu, ma essendo lo stesso per mettere in pausa, si mette in pausa appena torna nel NormalState
-        //forse conviene fare come nel PauseState, che non cambia stato quando preme il tasto, ma quando timeScale torna maggiore di 0, così è già passato il frame.
-        //- NB che se si fa così, bisogna rimuovere la condition dal NormalState che se TimeScale è 0 allora va in pausa.
-        //- e bisogna fixare sta cosa anche per il MapInteract, e smetterla di aprire il menu di pausa
     }
 
     /// <summary>
-    /// Delete saved Bought Weapons
+    /// Delete saved bought things
     /// </summary>
-    public void ClearBoughtWeapons()
+    public void ClearAllSaves()
     {
-        if (SavesManager.instance) SavesManager.instance.ClearSave<SaveClassBoughtWeapons>();
+        //clear weapons and perks
+        if (SavesManager.instance)
+        {
+            SavesManager.instance.ClearSave<SaveClassBoughtElements>();
+            SavesManager.instance.ClearSave<SaveClassLevelReached>();
+        }
+
+        //update UI
         UpdateUI();
     }
 
     /// <summary>
-    /// Save every weapon unlocked + every level unlocked
+    /// Save every thing unlocked
     /// </summary>
-    public void UnlockAllWeapons()
+    public void UnlockAllSaves()
     {
         //load already bought weapons
-        SaveClassBoughtWeapons saveClass = SavesManager.instance && SavesManager.instance.Load<SaveClassBoughtWeapons>() != null ? SavesManager.instance.Load<SaveClassBoughtWeapons>() : new SaveClassBoughtWeapons();
-        alreadyBoughtWeapons = (saveClass.BoughtWeapons != null) ? saveClass.BoughtWeapons : new List<WeaponBASE>();
+        SaveClassBoughtElements saveClass = SavesManager.instance && SavesManager.instance.Load<SaveClassBoughtElements>() != null ? SavesManager.instance.Load<SaveClassBoughtElements>() : new SaveClassBoughtElements();
+        alreadyBoughtElements = (saveClass.BoughtElements != null) ? saveClass.BoughtElements : new List<ISellable>();
 
-        //get every weapon
-        foreach (WeaponBASE weapon in weaponsToBuy)
-            if (weapon != null && alreadyBoughtWeapons.Contains(weapon) == false)
-                alreadyBoughtWeapons.Add(weapon);
+        //get every element
+        foreach (ISellable element in elementsToBuy)
+            if (element != null && alreadyBoughtElements.Contains(element) == false)
+                alreadyBoughtElements.Add(element);
 
         //save
-        saveClass.BoughtWeapons = alreadyBoughtWeapons;
+        saveClass.BoughtElements = alreadyBoughtElements;
         if (SavesManager.instance) SavesManager.instance.Save(saveClass);
 
-        //unlock also every level to show every weapon
+
 
         //load level reached
         SaveClassLevelReached levelSaveClass = SavesManager.instance && SavesManager.instance.Load<SaveClassLevelReached>() != null ? SavesManager.instance.Load<SaveClassLevelReached>() : new SaveClassLevelReached();
@@ -218,7 +238,11 @@ public class ShopInteract : BASELobbyInteract
         levelSaveClass.LevelReached = reachedLevel;
         if (SavesManager.instance) SavesManager.instance.Save(levelSaveClass);
 
+
+
         //update UI
         UpdateUI();
     }
+
+    #endregion
 }

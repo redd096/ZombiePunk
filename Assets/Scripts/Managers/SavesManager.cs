@@ -9,7 +9,7 @@ using redd096.GameTopDown2D;
 public class SavesManager : Singleton<SavesManager>
 {
     //save and load in json
-    ISaveClass[] classesToSave = new ISaveClass[3] { new SaveClassMoney(), new SaveClassBoughtWeapons(), new SaveClassLevelReached() };
+    ISaveClass[] classesToSave = new ISaveClass[] { new SaveClassMoney(), new SaveClassBoughtElements(), new SaveClassLevelReached() };
 
     protected override void Awake()
     {
@@ -102,14 +102,33 @@ public class SaveClassMoney : ISaveClass
 }
 
 [System.Serializable]
-public class SaveClassBoughtWeapons : ISaveClass
+public class SaveClassBoughtElements : ISaveClass
 {
     public string key => "BoughtWeapons";
-    public System.Type type => typeof(SaveClassBoughtWeapons);
-    public ISaveClass GetEmptyClass() => new SaveClassBoughtWeapons();
+    public System.Type type => typeof(SaveClassBoughtElements);
+    public ISaveClass GetEmptyClass() => new SaveClassBoughtElements();
 
-    //save bought weapons
+    //save bought weapons and perks
+    public List<ISellable> BoughtElements { get { 
+            //return a list with weapons and perks together
+            List<ISellable> sellables = new List<ISellable>(); 
+            if (BoughtWeapons != null) sellables.AddRange(BoughtWeapons); 
+            if (BoughtPerks != null) sellables.AddRange(BoughtPerks); 
+            return sellables; 
+        }  set {
+            //set weapons
+            BoughtWeapons = new List<WeaponBASE>();
+            foreach (ISellable sellable in value)
+                if (sellable is WeaponBASE)
+                    BoughtWeapons.Add(sellable as WeaponBASE);
+
+            //and perks
+            BoughtPerks = new List<PerkData>();
+            foreach (ISellable sellable in value)
+                if (sellable is PerkData)
+                    BoughtPerks.Add(sellable as PerkData); } }
     public List<WeaponBASE> BoughtWeapons;
+    public List<PerkData> BoughtPerks;
 }
 
 [System.Serializable]

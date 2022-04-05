@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1679298214608976014}
   - component: {fileID: 6756547324650557166}
   - component: {fileID: 7577106351040362770}
+  - component: {fileID: 8707496574145388519}
   - component: {fileID: 3062211758472486148}
   m_Layer: 10
   m_Name: NormalState
@@ -121,6 +122,22 @@ MonoBehaviour:
   playerInput: {fileID: 1427099914}
   inputName: Switch Weapon
   canSwitchWithMouseScroll: 1
+--- !u!114 &8707496574145388519
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162182017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ad34a36646617294cb501b7f8dad232a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TaskName: '[ACTION] Use Perk'
+  perksComponent: {fileID: 6097445294312923113}
+  playerInput: {fileID: 1427099914}
+  inputName: Use Perk
 --- !u!114 &3062211758472486148
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -569,6 +586,7 @@ GameObject:
   - component: {fileID: 1499721902347103055}
   - component: {fileID: 2710214134928471105}
   - component: {fileID: 35204183535128521}
+  - component: {fileID: 6097445294312923113}
   - component: {fileID: 1427099914}
   - component: {fileID: 3264032009245514301}
   - component: {fileID: 6689069374927739247}
@@ -751,6 +769,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   money: 0
+--- !u!114 &6097445294312923113
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395402416665274895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53fc6a4865204ae4fb928959b573164f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  EquippedPerk: {fileID: 0}
 --- !u!114 &1427099914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -981,7 +1012,7 @@ MonoBehaviour:
   - {x: -0.24947326, y: -0.75090253, z: 0}
   m_ShapePathHash: -1904993288
   m_Mesh: {fileID: 0}
-  m_InstanceId: 348648
+  m_InstanceId: 412602
 --- !u!1 &1623205665777261636
 GameObject:
   m_ObjectHideFlags: 0
@@ -1285,6 +1316,7 @@ MonoBehaviour:
     - {fileID: 1679298214608976014}
     - {fileID: 6756547324650557166}
     - {fileID: 7577106351040362770}
+    - {fileID: 8707496574145388519}
     Transitions:
     - StateDestination: 1
       TransitionCheck: 1
