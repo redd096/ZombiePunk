@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PayloadCheckpoint : MonoBehaviour
+public class TurnOffObjective : MonoBehaviour
 {
-    public GameObject toTurnOn, toTurnOff;
+    public GameObject TurnOffObj;
 
     private GameObject payload;
 
@@ -19,9 +19,8 @@ public class PayloadCheckpoint : MonoBehaviour
     {
         if (gameObject.transform.position.x <= payload.transform.position.x)
         {
-            toTurnOn.SetActive(true);
-            Destroy(toTurnOff);
-            
+            TurnOffObj.SetActive(false);
+
         }
     }
 }
