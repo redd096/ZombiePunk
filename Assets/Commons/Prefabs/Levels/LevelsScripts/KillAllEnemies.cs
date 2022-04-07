@@ -38,7 +38,8 @@ using UnityEngine;
         public void RemoveEnemy()
         {
             //open -= 1;
-            StartCoroutine("ActuallyRemoveEnemy");
+            if (gameObject.activeInHierarchy)
+                StartCoroutine("ActuallyRemoveEnemy");
         }
 
         IEnumerator ActuallyRemoveEnemy()

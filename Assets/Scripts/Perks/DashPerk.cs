@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 using redd096.GameTopDown2D;
 
 [CreateAssetMenu(menuName = "Zombie Punk/Dash Perk")]
@@ -10,25 +11,37 @@ public class DashPerk : PerkData
     [SerializeField] float dashDelay = 1;
     [SerializeField] float durationInvincible = 0.2f;
 
-    float timeBeforeNextDash;
+    float cooldownTime;
+    Coroutine invincibleCoroutine;
 
-    public override void Init()
+    public override void Equip(Redd096Main owner)
     {
-        //reset time (because in scriptable object will remain saved also if not serialized)
-        timeBeforeNextDash = 0;
+        //reset vars (because in scriptable object will remain saved also if not serialized)
+        cooldownTime = 0;
+
+        //set owner
+        base.Equip(owner);
     }
 
-    public override bool UsePerk(Character owner)
+    public override void Unequip()
+    {
+        //reset vars (because in scriptable object will remain saved also if not serialized)
+        cooldownTime = 0;
+        if (invincibleCoroutine != null && owner) owner.StopCoroutine(invincibleCoroutine);
+
+        //remove owner
+        base.Unequip();
+    }
+
+    public override bool UsePerk()
     {
         if (owner == null || owner.GetSavedComponent<MovementComponent>() == null)
-        {
             return false;
-        }
 
-        //check delay between dash
-        if (Time.time > timeBeforeNextDash)
+        //check cooldown
+        if (Time.time > cooldownTime)
         {
-            timeBeforeNextDash = Time.time + dashDelay;
+            cooldownTime = Time.time + dashDelay;
         
             //add as push in Aim Direction
             if (dashToAimDirection)
@@ -45,14 +58,34 @@ public class DashPerk : PerkData
                 else if (owner.GetSavedComponent<AimComponent>())
                     owner.GetSavedComponent<MovementComponent>().PushInDirection(owner.GetSavedComponent<AimComponent>().IsLookingRight ? Vector2.right : Vector2.left, dashForce);
             }
-        
-            //set invincible
-            if (owner.GetSavedComponent<HealthComponent>())
-                owner.GetSavedComponent<HealthComponent>().SetTemporaryInvincible(durationInvincible);
+
+            //start coroutine
+            if (invincibleCoroutine != null) owner.StopCoroutine(invincibleCoroutine);
+            invincibleCoroutine = owner.StartCoroutine(InvincibleCoroutine());
 
             return true;
         }
 
         return false;
+    }
+
+    IEnumerator InvincibleCoroutine()
+    {
+        //set invincible
+        bool previousInvincible = false;
+        if (owner && owner.GetSavedComponent<HealthComponent>())
+        {
+            previousInvincible = owner.GetSavedComponent<HealthComponent>().Invincible; //save current invincibility
+            owner.GetSavedComponent<HealthComponent>().Invincible = true;
+        }
+
+        //wait
+        yield return new WaitForSeconds(durationInvincible);
+
+        //restore previous invincibility
+        if (owner && owner.GetSavedComponent<HealthComponent>())
+        {
+            owner.GetSavedComponent<HealthComponent>().Invincible = previousInvincible;
+        }
     }
 }

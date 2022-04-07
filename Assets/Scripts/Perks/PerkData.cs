@@ -9,10 +9,14 @@ public abstract class PerkData : ScriptableObject, ISellable
     public int PerkPrice = 10;
     [ShowAssetPreview] public Sprite PerkSprite = default;
 
+    //ISellable
     public string SellName => PerkName;
     public int SellPrice => PerkPrice;
     public Sprite SellSprite => PerkSprite;
 
-    public abstract void Init();
-    public abstract bool UsePerk(Character owner);
+    protected Redd096Main owner;
+
+    public virtual void Equip(Redd096Main owner) { this.owner = owner; }
+    public virtual void Unequip() { owner = null; }
+    public abstract bool UsePerk();
 }

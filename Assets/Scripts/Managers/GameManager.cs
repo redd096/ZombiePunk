@@ -68,6 +68,8 @@ public class GameManager : Singleton<GameManager>
             savedStats = new SavesBetweenScenes();
             if (player.GetSavedComponent<HealthComponent>()) savedStats.CurrentHealth = player.GetSavedComponent<HealthComponent>().CurrentHealth;
             if (player.GetSavedComponent<AdvancedWeaponComponent>()) savedStats.CurrentAmmos = new Dictionary<string, int>(player.GetSavedComponent<AdvancedWeaponComponent>().CurrentAmmos_NotSafe);
+
+            //perks
             if (player.GetSavedComponent<PerksComponent>()) savedStats.EquippedPerk = player.GetSavedComponent<PerksComponent>().EquippedPerk;
 
             //foreach weapon save prefab
@@ -98,7 +100,16 @@ public class GameManager : Singleton<GameManager>
                 //health and ammos
                 if (player.GetSavedComponent<HealthComponent>()) player.GetSavedComponent<HealthComponent>().CurrentHealth = savedStats.CurrentHealth;
                 if (player.GetSavedComponent<AdvancedWeaponComponent>()) player.GetSavedComponent<AdvancedWeaponComponent>().CurrentAmmos_NotSafe = new Dictionary<string, int>(savedStats.CurrentAmmos);
-                if (player.GetSavedComponent<PerksComponent>()) player.GetSavedComponent<PerksComponent>().EquippedPerk = savedStats.EquippedPerk;
+
+                //perks
+                if (player.GetSavedComponent<PerksComponent>())
+                {
+                    //remove previous, equip saved one, and initialize it. Do this because can't call AddPerk, because PerksComponent hasn't owner set yet
+                    player.GetSavedComponent<PerksComponent>().RemovePerk(player.GetSavedComponent<PerksComponent>().EquippedPerk);
+                    player.GetSavedComponent<PerksComponent>().ForceSetPerk(savedStats.EquippedPerk);
+                    if (player.GetSavedComponent<PerksComponent>().EquippedPerk) player.GetSavedComponent<PerksComponent>().EquippedPerk.Equip(player);
+                }
+
 
                 //weapons will be loaded automatically from WeaponComponent
             }
