@@ -9,6 +9,7 @@ using UnityEngine.Rendering;
 
 namespace redd096
 {
+    //show sorting layer and order in layer on 3D mesh (to show above or bottom sprite renderers)
     [CanEditMultipleObjects()]
     [CustomEditor(typeof(MeshRenderer))]
     public class MeshRendererSortingLayersEditor : Editor
@@ -48,6 +49,7 @@ namespace redd096
 
         string[] GetSortingLayerNames()
         {
+            //get sorting layer names
             Type internalEditorUtilityType = typeof(InternalEditorUtility);
             PropertyInfo sortingLayersProperty = internalEditorUtilityType.GetProperty("sortingLayerNames", BindingFlags.Static | BindingFlags.NonPublic);
             return (string[])sortingLayersProperty.GetValue(null, new object[0]);
@@ -55,6 +57,7 @@ namespace redd096
 
         int[] GetSortingLayerUniqueIDs()
         {
+            //get sorting layer IDs
             Type internalEditorUtilityType = typeof(InternalEditorUtility);
             PropertyInfo sortingLayerUniqueIDsProperty = internalEditorUtilityType.GetProperty("sortingLayerUniqueIDs", BindingFlags.Static | BindingFlags.NonPublic);
             return (int[])sortingLayerUniqueIDsProperty.GetValue(null, new object[0]);
