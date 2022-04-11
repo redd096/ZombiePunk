@@ -1,40 +1,41 @@
-﻿using System.Collections.Generic;
-using System.Collections;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.EventSystems;
-using redd096.GameTopDown2D;
-using redd096;
 
-namespace redd096
+public class ShopAdvice : MonoBehaviour
 {
-    [AddComponentMenu("redd096/MonoBehaviours/UI Manager")]
-
-    public class ShopAdvice : MonoBehaviour
+    public GameObject notification;
+    private WalletComponent wallet;
+    // Start is called before the first frame update
+    void Start()
     {
-        public GameObject notification;
-        private GameObject Player;
-        private WalletComponent wallet;
+        wallet = GameObject.Find("Player").GetComponent<WalletComponent>();
+        StartCoroutine("Coso");
+    }
 
-        
-        void Start()
+    // Update is called once per frame
+    void Update()
+    {
+      // wallet = GameObject.Find("Player").GetComponent<WalletComponent>();
+      //
+      // if (wallet.Money >= 40)
+      // {
+      //     notification.SetActive(true);
+      //     print("Checavolo");
+      // }
+    }
+    void PincoPallo()
+    {
+        if (wallet.Money >= 40)
         {
-            
-            
-
-           // if (currentMoney > 40)
-            {
-                print("Funziono");
-                notification.SetActive(true);
-                
-            }
-
+            notification.SetActive(true);
+            print("Checavolo");
         }
+    }
 
-        // Update is called once per frame
-        void Update()
-        {
-
-        }
+    IEnumerator Coso()
+    {
+        yield return new WaitForSeconds(0.5f);
+        PincoPallo();
     }
 }
