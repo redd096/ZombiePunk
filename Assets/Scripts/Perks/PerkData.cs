@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using redd096.Attributes;
 using redd096.GameTopDown2D;
+using redd096;
 
 public abstract class PerkData : ScriptableObject, ISellable
 {
@@ -8,6 +9,11 @@ public abstract class PerkData : ScriptableObject, ISellable
     public string PerkName = "Perk Name";
     public int PerkPrice = 10;
     [ShowAssetPreview] public Sprite PerkSprite = default;
+
+    [Header("Feedbacks on use")]
+    public FeedbackStructRedd096 Feedback = default;
+    public CameraShakeStruct CameraShake = default;
+    public GamepadVibrationStruct GamepadVibration = default;
 
     //ISellable
     public string SellName => PerkName;

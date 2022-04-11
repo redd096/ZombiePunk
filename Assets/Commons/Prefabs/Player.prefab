@@ -390,6 +390,7 @@ GameObject:
   - component: {fileID: 648923787466061354}
   - component: {fileID: 2019953577073926415}
   - component: {fileID: 7360414587550285190}
+  - component: {fileID: 4874097267343943965}
   m_Layer: 10
   m_Name: Graphics
   m_TagString: Untagged
@@ -425,7 +426,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1dee9c37f1eb3954f9950ea2f63910e2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  aimComponent: {fileID: 0}
+  aimComponent: {fileID: 1574786710114621755}
   defaultLookRight: 1
   spritesToFlip: []
 --- !u!114 &1262293034085357450
@@ -440,7 +441,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e3b8da87bc0c26f4e9665721ebd40483, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  healthComponent: {fileID: 0}
+  healthComponent: {fileID: 1499721902347103055}
   blinkOnGetDamage: 1
   spritesToUse: []
   blinkMaterial: {fileID: 2100000, guid: 3c9ef4988228c0347b6978f1904fa364, type: 2}
@@ -569,6 +570,20 @@ MonoBehaviour:
   advancedWeaponComponent: {fileID: 2710214134928471105}
   updateAmmoOnEquip: 1
   updateAmmoOnShoot: 1
+--- !u!114 &4874097267343943965
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395402416062982212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 804de046218ab5c4b9345fc05e71529d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  perksComponent: {fileID: 6097445294312923113}
+  feedbackParent: {fileID: 1395402416665274892}
 --- !u!1 &1395402416665274895
 GameObject:
   m_ObjectHideFlags: 0
@@ -781,7 +796,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 53fc6a4865204ae4fb928959b573164f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  EquippedPerk: {fileID: 0}
+  equippedPerk: {fileID: 0}
 --- !u!114 &1427099914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1012,7 +1027,7 @@ MonoBehaviour:
   - {x: -0.24947326, y: -0.75090253, z: 0}
   m_ShapePathHash: -1904993288
   m_Mesh: {fileID: 0}
-  m_InstanceId: 412602
+  m_InstanceId: 33474
 --- !u!1 &1623205665777261636
 GameObject:
   m_ObjectHideFlags: 0
