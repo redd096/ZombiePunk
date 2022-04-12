@@ -16,20 +16,14 @@ public class ShopAdvice : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-      // wallet = GameObject.Find("Player").GetComponent<WalletComponent>();
-      //
-      // if (wallet.Money >= 40)
-      // {
-      //     notification.SetActive(true);
-      //     print("Checavolo");
-      // }
+
     }
     void PincoPallo()
     {
         if (wallet.Money >= 40)
         {
             notification.SetActive(true);
-            print("Checavolo");
+            
         }
     }
 
