@@ -14,6 +14,8 @@ public class DashPerk : PerkData
     float cooldownTime;
     Coroutine invincibleCoroutine;
 
+    public override float GetPerkCooldown() => dashDelay;
+
     public override void Equip(Redd096Main owner)
     {
         //reset vars (because in scriptable object will remain saved also if not serialized)

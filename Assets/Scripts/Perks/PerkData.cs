@@ -9,6 +9,7 @@ public abstract class PerkData : ScriptableObject, ISellable
     public string PerkName = "Perk Name";
     public int PerkPrice = 10;
     [ShowAssetPreview] public Sprite PerkSprite = default;
+    [Tooltip("Used by UIManager")] [ShowAssetPreview] public Sprite PerkBackgroundSprite = default;
 
     [Header("Feedbacks on use")]
     public FeedbackStructRedd096 Feedback = default;
@@ -25,4 +26,10 @@ public abstract class PerkData : ScriptableObject, ISellable
     public virtual void Equip(Redd096Main owner) { this.owner = owner; }
     public virtual void Unequip() { owner = null; }
     public abstract bool UsePerk();
+
+    /// <summary>
+    /// Used by UIManager
+    /// </summary>
+    /// <returns></returns>
+    public abstract float GetPerkCooldown();
 }
