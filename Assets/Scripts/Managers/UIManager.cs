@@ -18,6 +18,7 @@ namespace redd096
         [SerializeField] Text ammoText = default;
         [SerializeField] Text currencyText = default;
         [SerializeField] string stringCurrency = "MONEY: ";
+        [SerializeField] Image bulletImage = default;
 
         [Header("Blood On Screen")]
         [SerializeField] Image[] bloodImages = default;
@@ -139,6 +140,16 @@ namespace redd096
         {
             if (currencyText)
                 currencyText.text = stringCurrency + currentMoney.ToString();
+        }
+
+        /// <summary>
+        /// Set bullet image
+        /// </summary>
+        /// <param name="sprite"></param>
+        public void SetBulletImage(Sprite sprite)
+        {
+            if (bulletImage)
+                bulletImage.sprite = sprite;
         }
 
         /// <summary>
