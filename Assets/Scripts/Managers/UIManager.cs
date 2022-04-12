@@ -14,10 +14,18 @@ namespace redd096
         [SerializeField] GameObject pauseMenu = default;
         [SerializeField] GameObject endMenu = default;
 
-        [Header("Game")]
+        [Header("Ammo")]
         [SerializeField] Text ammoText = default;
+        [SerializeField] Image bulletImage = default;
+
+        [Header("Currency")]
         [SerializeField] Text currencyText = default;
         [SerializeField] string stringCurrency = "MONEY: ";
+
+        [Header("Perks")]
+        [SerializeField] Image perkImage = default;
+        [SerializeField] Image perkBackgroundImage = default;
+        [SerializeField] bool fillPerkWithCooldown = true;
 
         [Header("Blood On Screen")]
         [SerializeField] Image[] bloodImages = default;
@@ -26,6 +34,8 @@ namespace redd096
         //delay input when open menu
         EventSystem eventSystem;
         Coroutine delayInputCoroutine;
+
+        Coroutine perkCooldownCoroutine;
 
         //blood on screen
         List<Image> deactiveBloods = new List<Image>();
@@ -142,6 +152,51 @@ namespace redd096
         }
 
         /// <summary>
+        /// Set bullet image
+        /// </summary>
+        /// <param name="sprite"></param>
+        public void SetBulletImage(Sprite sprite)
+        {
+            if (bulletImage)
+                bulletImage.sprite = sprite;
+        }
+
+        /// <summary>
+        /// Set perk image and background image
+        /// </summary>
+        /// <param name="perk"></param>
+        public void SetPerkImage(PerkData perk)
+        {
+            //set perk image
+            if (perkImage)
+                perkImage.sprite = perk.PerkSprite;
+
+            //set background image
+            if (perkBackgroundImage)
+            {
+                perkBackgroundImage.sprite = perk.PerkBackgroundSprite;
+
+                //if sprite is null, remove alpha
+                perkBackgroundImage.color = new Color(perkBackgroundImage.color.r, perkBackgroundImage.color.g, perkBackgroundImage.color.b, perkBackgroundImage.sprite ? 1 : 0);
+            }
+        }
+
+        /// <summary>
+        /// Set cooldown on perk image
+        /// </summary>
+        /// <param name="perk"></param>
+        public void SetPerkUsed(PerkData perk)
+        {
+            //start cooldown coroutine
+            if (perkCooldownCoroutine != null)
+                StopCoroutine(perkCooldownCoroutine);
+
+            //only if setted
+            if (fillPerkWithCooldown)
+                perkCooldownCoroutine = StartCoroutine(PerkCooldownCoroutine(perk.GetPerkCooldown()));
+        }
+
+        /// <summary>
         /// Show random blood images on screen
         /// </summary>
         public void ShowBloodOnScreen()
@@ -173,6 +228,22 @@ namespace redd096
         #endregion
 
         #region private API
+
+        IEnumerator PerkCooldownCoroutine(float cooldown)
+        {
+            if (perkImage)
+            {
+                //set fill animation
+                float delta = 0;
+                while (delta < 1)
+                {
+                    delta += Time.deltaTime / cooldown;
+                    perkImage.fillAmount = Mathf.Lerp(0, 1, delta);
+
+                    yield return null;
+                }
+            }
+        }
 
         Image GetRandomBloodFromDictionary()
         {

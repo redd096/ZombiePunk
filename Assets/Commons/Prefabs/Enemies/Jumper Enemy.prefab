@@ -359,6 +359,25 @@ MonoBehaviour:
   positionBlackboardName: Last Target Position
   prefabObjectToMove: {fileID: 3372641817508329110, guid: 0455c7db2ea21724c9b2f53d93ac4ea7,
     type: 3}
+--- !u!114 &8234275906305795589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017728265048648176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fda3cc4507d78c478c88266edf3d395, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 6757414115337315533}
+  stateMachine: {fileID: 5017728266096039248}
+  animTriggers:
+  - State: Move Out Of Screen State
+    TriggerToSet: OnJump
+  - State: Move To Target State
+    TriggerToSet: Landing
 --- !u!1 &8971848765225826952
 GameObject:
   m_ObjectHideFlags: 0
@@ -471,7 +490,7 @@ PrefabInstance:
     - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: m_InstanceId
-      value: -249660
+      value: -17456
       objectReference: {fileID: 0}
     - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
@@ -1028,6 +1047,12 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 8109891673206357625}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5017728265048648176 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3832161718985136009, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+    type: 3}
+  m_PrefabInstance: {fileID: 8109891673206357625}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5017728266285329911 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3832161719942337422, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
@@ -1040,12 +1065,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ffa5b2cefbf279d4584e6c4862ab6aee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1 &5017728265048648176 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3832161718985136009, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
-    type: 3}
-  m_PrefabInstance: {fileID: 8109891673206357625}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &5017728266285329904 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3832161719942337417, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,

@@ -25,6 +25,7 @@ namespace redd096.GameTopDown2D
         [Header("Ammo - NONE = always full")]
         [Dropdown("GetAllAmmoTypes")] public string AmmoType = "NONE";
         [Tooltip("When pick this weapon for the first time, pick also ammo")] public int AmmoOnPick = 12;
+        [ShowAssetPreview] public Sprite AmmoSprite = default;
 
         [Header("DEBUG")]
         [SerializeField] bool drawDebug = false;
