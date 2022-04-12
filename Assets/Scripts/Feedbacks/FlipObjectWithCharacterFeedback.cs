@@ -15,16 +15,16 @@ namespace redd096.GameTopDown2D
         [SerializeField] GameObject objectToFlip = default;
 
         [Header("Flip Rules")]
-        [SerializeField] bool defaultAtLeftOfCharacter = true;
-        [SerializeField] EFlipType flipType = EFlipType.BasedOnAim;
-        [SerializeField] bool flipAlsoScale = false;
+        [Tooltip("Default look right, set negative values when look left, or viceversa")] [SerializeField] bool defaultCharacterIsLookingRight = true;
+        [Tooltip("Use AimComponent or MovementComponent")] [SerializeField] EFlipType flipType = EFlipType.BasedOnAim;
+        [Tooltip("Set only position or also scale")] [SerializeField] bool flipAlsoScale = false;
 
         bool ownerIsLookingRight;
 
         void Awake()
         {
             //set default value
-            ownerIsLookingRight = defaultAtLeftOfCharacter;
+            ownerIsLookingRight = defaultCharacterIsLookingRight;
         }
 
         void OnEnable()
