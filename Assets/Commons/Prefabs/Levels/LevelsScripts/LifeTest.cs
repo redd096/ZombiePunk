@@ -27,6 +27,10 @@ public class LifeTest : MonoBehaviour
         if (image == null) image = gameObject.GetComponent<Image>();
         if (life == null) life = GameObject.Find("Player").GetComponent<HealthComponent>();
 
+        //set prediction above health bar (to render it behind)
+        if (image && predictionImage)
+            predictionImage.transform.SetSiblingIndex(image.transform.GetSiblingIndex());
+
         //add events
         if (life)
         {
