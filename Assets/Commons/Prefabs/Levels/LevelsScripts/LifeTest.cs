@@ -29,7 +29,9 @@ public class LifeTest : MonoBehaviour
 
         //set prediction above health bar (to render it behind)
         if (image && predictionImage)
-            predictionImage.transform.SetSiblingIndex(image.transform.GetSiblingIndex());
+        {
+            predictionImage.transform.SetSiblingIndex(image.transform.GetSiblingIndex() - 1);
+        }
 
         //add events
         if (life)
