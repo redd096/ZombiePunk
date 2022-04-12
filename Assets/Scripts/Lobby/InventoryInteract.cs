@@ -79,14 +79,14 @@ public class InventoryInteract : BASELobbyInteract
         //be sure is active
         buttonShop.gameObject.SetActive(true);
 
-        //set name and price text
+        //set image, name and price text
+        if (buttonShop.imageWeapon) buttonShop.imageWeapon.sprite = sellable.SellSprite;
         if (buttonShop.nameText) buttonShop.nameText.text = sellable.SellName;
         if (buttonShop.priceText) buttonShop.priceText.text = sellable.SellPrice.ToString();
 
-        //set button event and image
+        //set button event
         if (buttonShop.button)
         {
-            buttonShop.button.GetComponent<Image>().sprite = sellable.SellSprite;
             buttonShop.button.onClick.RemoveAllListeners();   //remove previous listeners
             buttonShop.button.onClick.AddListener(() => OnClickButton(sellable));
         }

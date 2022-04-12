@@ -4,6 +4,7 @@ using UnityEngine.UI;
 public class WeaponButtonShop : MonoBehaviour
 {
     public Button button;
+    public Image imageWeapon;
     public Text nameText;
     public Text priceText;
 
@@ -21,6 +22,10 @@ public class WeaponButtonShop : MonoBehaviour
             return;
 
         initialized = true;
+
+        //get reference
+        if (button == null) button = GetComponent<Button>();
+        if (imageWeapon == null) imageWeapon = GetComponent<Image>();
 
         //save text colors
         if (nameText)
