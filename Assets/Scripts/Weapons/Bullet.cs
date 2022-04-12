@@ -16,7 +16,7 @@ namespace redd096.GameTopDown2D
         [Tooltip("Layers to not hit")] [SerializeField] LayerMask layersToIgnore = default;
 
         [Header("Bullet")]
-        public Sprite BulletSprite = default;
+        [ShowAssetPreview] public Sprite BulletSprite = default;
         [Tooltip("When a character shoot, can hit also other characters of same type?")] [SerializeField] bool friendlyFire = true;
         [SerializeField] bool ignoreShield = false;
         [Tooltip("Knockback who hit")] [SerializeField] float knockBack = 1;
