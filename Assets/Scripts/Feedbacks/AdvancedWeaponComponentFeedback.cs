@@ -63,10 +63,8 @@ namespace redd096.GameTopDown2D
                 //update bullet image
                 if (GameManager.instance && GameManager.instance.uiManager)
                 {
-                    //if range weapon, with bullet sprite setted then use it, else set sprite empty
-                    GameManager.instance.uiManager.SetBulletImage(equippedRangeWeapon && equippedRangeWeapon.BulletPrefab && equippedRangeWeapon.BulletPrefab.BulletSprite ?
-                        equippedRangeWeapon.BulletPrefab.BulletSprite :
-                        spriteWhenBulletEmpty);
+                    //if range weapon, with ammo sprite setted then use it, else set sprite empty
+                    GameManager.instance.uiManager.SetBulletImage(equippedRangeWeapon && equippedRangeWeapon.AmmoSprite ? equippedRangeWeapon.AmmoSprite : spriteWhenBulletEmpty);
                 }
             }
         }
