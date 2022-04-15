@@ -100,15 +100,7 @@ public class GameManager : Singleton<GameManager>
                 //health and ammos
                 if (player.GetSavedComponent<HealthComponent>()) player.GetSavedComponent<HealthComponent>().CurrentHealth = savedStats.CurrentHealth;
                 if (player.GetSavedComponent<AdvancedWeaponComponent>()) player.GetSavedComponent<AdvancedWeaponComponent>().CurrentAmmos_NotSafe = new Dictionary<string, int>(savedStats.CurrentAmmos);
-
-                //perks
-                if (player.GetSavedComponent<PerksComponent>())
-                {
-                    //remove previous, equip saved one, and initialize it. Do this because can't call AddPerk, because PerksComponent hasn't owner set yet
-                    player.GetSavedComponent<PerksComponent>().RemovePerk(player.GetSavedComponent<PerksComponent>().EquippedPerk);
-                    player.GetSavedComponent<PerksComponent>().ForceSetPerk(savedStats.EquippedPerk);
-                    if (player.GetSavedComponent<PerksComponent>().EquippedPerk) player.GetSavedComponent<PerksComponent>().EquippedPerk.Equip(player);
-                }
+                if (player.GetSavedComponent<PerksComponent>()) player.GetSavedComponent<PerksComponent>().AddPerk(savedStats.EquippedPerk);
 
 
                 //weapons will be loaded automatically from WeaponComponent

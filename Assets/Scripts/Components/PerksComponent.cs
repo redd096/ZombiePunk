@@ -16,7 +16,7 @@ public class PerksComponent : MonoBehaviour
 
     void Awake()
     {
-        owner = GetComponent<Character>();
+        if (owner == null) owner = GetComponent<Character>();
         if (owner == null) Debug.LogWarning("Miss Character on " + name);
     }
 
@@ -50,6 +50,9 @@ public class PerksComponent : MonoBehaviour
     {
         if (perk == null)
             return;
+
+        //in case is still not setted (for example when GameManager call it)
+        if (owner == null) owner = GetComponent<Character>();
 
         //remove previous perk if there is one
         if (equippedPerk != null)
@@ -87,14 +90,5 @@ public class PerksComponent : MonoBehaviour
             if (GameManager.instance && GameManager.instance.uiManager)
                 GameManager.instance.uiManager.SetPerkImage(equippedPerk);
         }
-    }
-
-    /// <summary>
-    /// Set equipped perk. Normally is better to use AddPerk.
-    /// </summary>
-    /// <param name="perk"></param>
-    public void ForceSetPerk(PerkData perk)
-    {
-        equippedPerk = perk;
     }
 }
