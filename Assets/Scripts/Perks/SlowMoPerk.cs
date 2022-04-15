@@ -61,7 +61,9 @@ public class SlowMoPerk : PerkData
         Time.timeScale = timeScale;
 
         //wait
-        yield return new WaitForSeconds(duration);
+        float time = Time.realtimeSinceStartup + duration;      //use realtime because timeScale is lower
+        while (Time.realtimeSinceStartup < time)
+            yield return null;
 
         //restore previous timeScale
         Time.timeScale = previousTimeScale;
