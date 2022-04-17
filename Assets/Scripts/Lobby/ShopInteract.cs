@@ -21,6 +21,7 @@ public class ShopInteract : BASELobbyInteract
     [Header("Levels to Unlock")]
     [SerializeField] bool deactiveButtonsWhenLocked = false;
     [SerializeField] bool activeObjectOnButtonWhenLocked = true;
+    [SerializeField] bool setDisabledColorOnButtonWhenLocked = true;
     [SerializeField] LevelStruct[] levelsToUnlock = default;
 
     List<WeaponButtonShop> buttonsShop = new List<WeaponButtonShop>();
@@ -85,7 +86,7 @@ public class ShopInteract : BASELobbyInteract
             if (IsButtonUnlocked(buttonsShop[i].gameObject, reachedLevel) == false)
             {
                 SetButtonUnlocked(buttonsShop[i], false);
-                return;
+                continue;
             }
 
             //else be sure to unlock it
@@ -151,16 +152,26 @@ public class ShopInteract : BASELobbyInteract
 
     void SetButtonUnlocked(WeaponButtonShop buttonShop, bool isUnlocked)
     {
-        //if deactive buttons - deactive it when is locked, reactive when unlocked
+        //set not interactable when locked
+        if (buttonShop.button) 
+            buttonShop.button.interactable = isUnlocked;
+
+        //deactive buttons - deactive it when is locked, reactive when unlocked
         if (deactiveButtonsWhenLocked)
         {
             buttonShop.gameObject.SetActive(isUnlocked);
         }
-        //else if active object - active it when is locked (and set not interactable), deactive when unlocked (and set interactable)
-        else if (activeObjectOnButtonWhenLocked)
+        //active object - active it when is locked, deactive when unlocked
+        if (activeObjectOnButtonWhenLocked)
         {
             if (buttonShop.objectToActivateWhenButtonIsLocked) buttonShop.objectToActivateWhenButtonIsLocked.SetActive(!isUnlocked);
-            if (buttonShop.button) buttonShop.button.interactable = isUnlocked;
+        }
+        //set disabled color - set it when locked, reset when unlocked
+        if (setDisabledColorOnButtonWhenLocked)
+        {
+            Color disabledColor = buttonShop.button ? buttonShop.button.colors.disabledColor : Color.grey;
+            if (buttonShop.nameText) buttonShop.nameText.color = isUnlocked ? buttonShop.GetDefaultNameTextColor() : disabledColor;
+            if (buttonShop.priceText) buttonShop.priceText.color = isUnlocked ? buttonShop.GetDefaultPriceTextColor() : disabledColor;
         }
     }
 
