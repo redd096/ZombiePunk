@@ -17,6 +17,7 @@ namespace redd096
         [Header("Ammo")]
         [SerializeField] Text ammoText = default;
         [SerializeField] Image bulletImage = default;
+        [SerializeField] Sprite spriteWhenBulletIsNull = default;
 
         [Header("Currency")]
         [SerializeField] Text currencyText = default;
@@ -26,6 +27,8 @@ namespace redd096
         [SerializeField] Image perkImage = default;
         [SerializeField] Image perkBackgroundImage = default;
         [SerializeField] bool fillPerkWithCooldown = true;
+        [SerializeField] Sprite spriteWhenPerkIsNull = default;
+        [SerializeField] Sprite backgroundSpriteWhenPerkIsNull = default;
 
         [Header("Blood On Screen")]
         [SerializeField] Image[] bloodImages = default;
@@ -158,7 +161,7 @@ namespace redd096
         public void SetBulletImage(Sprite sprite)
         {
             if (bulletImage)
-                bulletImage.sprite = sprite;
+                bulletImage.sprite = sprite ? sprite : spriteWhenBulletIsNull;  //if sprite is null, use empty sprite
         }
 
         /// <summary>
@@ -169,15 +172,22 @@ namespace redd096
         {
             //set perk image
             if (perkImage)
-                perkImage.sprite = perk.PerkSprite;
+            {
+                //if perk is null, use empty sprite
+                perkImage.sprite = perk && perk.PerkSprite ? perk.PerkSprite : spriteWhenPerkIsNull;
+
+                //if sprite is null, deactive it
+                perkImage.gameObject.SetActive(perkImage.sprite != null);
+            }
 
             //set background image
             if (perkBackgroundImage)
             {
-                perkBackgroundImage.sprite = perk.PerkBackgroundSprite;
+                //if perk is null, use empty sprite
+                perkBackgroundImage.sprite = perk && perk.PerkBackgroundSprite ? perk.PerkBackgroundSprite : backgroundSpriteWhenPerkIsNull;
 
-                //if sprite is null, remove alpha
-                perkBackgroundImage.color = new Color(perkBackgroundImage.color.r, perkBackgroundImage.color.g, perkBackgroundImage.color.b, perkBackgroundImage.sprite ? 1 : 0);
+                //if sprite is null, deactive it
+                perkBackgroundImage.gameObject.SetActive(perkBackgroundImage.sprite != null);
             }
         }
 

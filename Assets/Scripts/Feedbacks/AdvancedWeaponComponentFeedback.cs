@@ -12,9 +12,8 @@ namespace redd096.GameTopDown2D
         [SerializeField] bool updateAmmoOnEquip = true;
         [SerializeField] bool updateAmmoOnShoot = true;
 
-        [Header("Bullet")]
+        [Header("Update UI")]
         [SerializeField] bool updateBulletImage = true;
-        [SerializeField] Sprite spriteWhenBulletEmpty = default;
 
         WeaponRange equippedRangeWeapon;
 
@@ -64,7 +63,7 @@ namespace redd096.GameTopDown2D
                 if (GameManager.instance && GameManager.instance.uiManager)
                 {
                     //if range weapon, with ammo sprite setted then use it, else set sprite empty
-                    GameManager.instance.uiManager.SetBulletImage(equippedRangeWeapon && equippedRangeWeapon.AmmoSprite ? equippedRangeWeapon.AmmoSprite : spriteWhenBulletEmpty);
+                    GameManager.instance.uiManager.SetBulletImage(equippedRangeWeapon && equippedRangeWeapon.AmmoSprite ? equippedRangeWeapon.AmmoSprite : null);
                 }
             }
         }

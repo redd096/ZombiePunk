@@ -33,13 +33,6 @@ public class PerksComponent : MonoBehaviour
 
         //call event
         onUsePerk?.Invoke(usedPerk);
-
-        //call UIManager when use perk
-        if (usedPerk)
-        {
-            if (GameManager.instance && GameManager.instance.uiManager)
-                GameManager.instance.uiManager.SetPerkUsed(equippedPerk);
-        }
     }
 
     /// <summary>
@@ -64,10 +57,6 @@ public class PerksComponent : MonoBehaviour
 
         //call event
         onEquipPerk?.Invoke(equippedPerk);
-
-        //set UIManager
-        if (GameManager.instance && GameManager.instance.uiManager)
-            GameManager.instance.uiManager.SetPerkImage(equippedPerk);
     }
 
     /// <summary>
@@ -85,10 +74,6 @@ public class PerksComponent : MonoBehaviour
 
             //call event
             onUnequipPerk?.Invoke(perk);
-
-            //set UIManager
-            if (GameManager.instance && GameManager.instance.uiManager)
-                GameManager.instance.uiManager.SetPerkImage(equippedPerk);
         }
     }
 }
