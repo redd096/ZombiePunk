@@ -101,6 +101,24 @@ public class LevelManager : MonoBehaviour
         SceneLoader.instance.LoadScene(exit.SceneToLoad);
     }
 
+    public void AddSpawnedExit(ExitInteractable exit)
+    {
+        //if an exit is spawned at runtime, add to the list
+        if (Exits.Contains(exit) == false)
+            Exits.Add(exit);
+    }
+
+    public void AddSpawnedSpawnManager(SpawnManager spawnManager)
+    {
+        //if a spawnManager is spawned at runtime, add to the list
+        if (SpawnManagers.Contains(spawnManager) == false)
+            SpawnManagers.Add(spawnManager);
+
+        //be sure to add it also at every exit
+        foreach (ExitInteractable exit in Exits)
+            exit.AddSpawnManager(spawnManager);
+    }
+
     #endregion
 
     #region events
