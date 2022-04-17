@@ -7,6 +7,7 @@ public class WeaponButtonShop : MonoBehaviour
     public Image imageWeapon;
     public Text nameText;
     public Text priceText;
+    [Tooltip("Used in the shop, to show a text on the button when player hasn't reached the level to unlock this")] public GameObject objectToActivateWhenButtonIsLocked;
 
     bool initialized = false;
     Color defaultNameTextColor;

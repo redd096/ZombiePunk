@@ -19,6 +19,8 @@ public class ShopInteract : BASELobbyInteract
     [SerializeField] PerkData[] perksToBuy = default;
 
     [Header("Levels to Unlock")]
+    [SerializeField] bool deactiveButtonsWhenLocked = false;
+    [SerializeField] bool activeObjectOnButtonWhenLocked = true;
     [SerializeField] LevelStruct[] levelsToUnlock = default;
 
     List<WeaponButtonShop> buttonsShop = new List<WeaponButtonShop>();
@@ -62,6 +64,10 @@ public class ShopInteract : BASELobbyInteract
         alreadyBoughtElements.Clear();
         if (saveClass != null) alreadyBoughtElements = saveClass.BoughtElements;
 
+        //load level reached
+        SaveClassLevelReached saveClassLevels = SavesManager.instance ? SavesManager.instance.Load<SaveClassLevelReached>() : null;
+        int reachedLevel = saveClassLevels != null ? saveClassLevels.LevelReached : 0;
+
         //check every button
         for (int i = 0; i < buttonsShop.Count; i++)
         {
@@ -73,7 +79,17 @@ public class ShopInteract : BASELobbyInteract
             }
 
             //else be sure is active
-            if (buttonsShop[i]) buttonsShop[i].gameObject.SetActive(true);
+            buttonsShop[i].gameObject.SetActive(true);
+
+            //if button isn't unlocked (player hasn't reached the necessary level), lock it
+            if (IsButtonUnlocked(buttonsShop[i].gameObject, reachedLevel) == false)
+            {
+                SetButtonUnlocked(buttonsShop[i], false);
+                return;
+            }
+
+            //else be sure to unlock it
+            SetButtonUnlocked(buttonsShop[i], true);
 
             //if already bought, deactive button
             if (alreadyBoughtElements.Contains(elementsToBuy[i]))
@@ -92,9 +108,6 @@ public class ShopInteract : BASELobbyInteract
                 if (buttonsShop[i].priceText) buttonsShop[i].priceText.color = canBuy ? buttonsShop[i].GetDefaultPriceTextColor() : colorWhenTooExpensive;
             }
         }
-
-        //check if reached level to unlock weapons
-        CheckLockedButtons();
     }
 
     #region private API
@@ -120,18 +133,34 @@ public class ShopInteract : BASELobbyInteract
         }
     }
 
-    void CheckLockedButtons()
+    bool IsButtonUnlocked(GameObject buttonToCheck, int reachedLevel)
     {
-        //load level reached
-        SaveClassLevelReached saveClassLevels = SavesManager.instance ? SavesManager.instance.Load<SaveClassLevelReached>() : null;
-        int reachedLevel = saveClassLevels != null ? saveClassLevels.LevelReached : 0;
+        if (buttonToCheck == null)
+            return false;
 
-        //check every button if is unlocked
+        //find button in the list
         foreach (LevelStruct level in levelsToUnlock)
         {
-            //if not unlocked, don't show button
-            if (level.ObjectToActivate && level.LevelToComplete > reachedLevel)
-                level.ObjectToActivate.SetActive(false);
+            //return if reached necessary level
+            if (buttonToCheck == level.ObjectToActivate)
+                return reachedLevel >= level.LevelToComplete;
+        }
+
+        return false;
+    }
+
+    void SetButtonUnlocked(WeaponButtonShop buttonShop, bool isUnlocked)
+    {
+        //if deactive buttons - deactive it when is locked, reactive when unlocked
+        if (deactiveButtonsWhenLocked)
+        {
+            buttonShop.gameObject.SetActive(isUnlocked);
+        }
+        //else if active object - active it when is locked (and set not interactable), deactive when unlocked (and set interactable)
+        else if (activeObjectOnButtonWhenLocked)
+        {
+            if (buttonShop.objectToActivateWhenButtonIsLocked) buttonShop.objectToActivateWhenButtonIsLocked.SetActive(!isUnlocked);
+            if (buttonShop.button) buttonShop.button.interactable = isUnlocked;
         }
     }
 
