@@ -17,12 +17,13 @@ public class ObjectiveCompleted : MonoBehaviour
     void Start()
     {
         exit = GetComponent<ExitInteractable>();
+
     }
 
     // Update is called once per frame
-    void Update()
+    private void LateUpdate()
     {
-        
+        WaitTime();
 
     }
 
@@ -32,8 +33,13 @@ public class ObjectiveCompleted : MonoBehaviour
         {
             coso.SetActive(false);
             test.SetActive(true);
-
-
         }
+ 
+    }
+
+    IEnumerator WaitTime()
+    {
+        yield return new WaitForSeconds(1f);
+        FinishedObjective();
     }
 }
