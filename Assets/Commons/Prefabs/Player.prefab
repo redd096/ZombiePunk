@@ -391,6 +391,7 @@ GameObject:
   - component: {fileID: 2019953577073926415}
   - component: {fileID: 7360414587550285190}
   - component: {fileID: 4874097267343943965}
+  - component: {fileID: 721257591885520909}
   m_Layer: 10
   m_Name: Graphics
   m_TagString: Untagged
@@ -571,7 +572,6 @@ MonoBehaviour:
   updateAmmoOnEquip: 1
   updateAmmoOnShoot: 1
   updateBulletImage: 1
-  spriteWhenBulletEmpty: {fileID: 0}
 --- !u!114 &4874097267343943965
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -586,6 +586,22 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   perksComponent: {fileID: 6097445294312923113}
   feedbackParent: {fileID: 1395402416665274892}
+  updatePerkImage: 1
+--- !u!114 &721257591885520909
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395402416062982212}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5a246bb2e14888b42924a427db83fe68, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isEnabled: 1
+  colorWhenTemporaryInvincible: {r: 0, g: 1, b: 0, a: 1}
+  spritesToColor: []
 --- !u!1 &1395402416665274895
 GameObject:
   m_ObjectHideFlags: 0
@@ -739,6 +755,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Invincible: 0
   MaxHealth: 100
+  SetTempInvincibleWhenHitted: 1
+  DurationTempInvincibilityWhenHitted: 0.5
   percentageDamageWhenHitFromFriend: 0.25
   CurrentHealth: 100
 --- !u!114 &2710214134928471105
@@ -1029,7 +1047,7 @@ MonoBehaviour:
   - {x: -0.24947326, y: -0.75090253, z: 0}
   m_ShapePathHash: -1904993288
   m_Mesh: {fileID: 0}
-  m_InstanceId: 31916
+  m_InstanceId: 60702
 --- !u!1 &1623205665777261636
 GameObject:
   m_ObjectHideFlags: 0

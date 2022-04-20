@@ -11,16 +11,16 @@ namespace redd096.GameTopDown2D
         [OnValueChanged("OnChangeMaxHealth")] public float MaxHealth = 100;
 
         [Header("Temp invincible when hitted")]
-        [SerializeField] bool setTempInvincibleWhenHitted = true;
-        [EnableIf("setTempInvincibleWhenHitted")] [SerializeField] float durationTempInvincibilityWhenHitted = 0.5f;
+        public bool SetTempInvincibleWhenHitted = true;
+        [EnableIf("SetTempInvincibleWhenHitted")] public float DurationTempInvincibilityWhenHitted = 0.5f;
 
         [Header("Friendly Fire")]
         [Range(0f, 1f)] [SerializeField] float percentageDamageWhenHitFromFriend = 0.25f;
 
         [Header("DEBUG")]
         [ProgressBar("Health", "MaxHealth", ProgressBarAttribute.EColor.SmoothGreen)] public float CurrentHealth = 100;
-        /*[ShowNonSerializedField]*/
-        public bool IsCurrentlyInvincible => Invincible || Time.time < tempInvincibleTime;
+        /*[ShowNonSerializedField]*/ public bool IsCurrentlyInvincible => Invincible || Time.time < tempInvincibleTime;
+        /*[ShowNonSerializedField]*/ public bool IsCurrentlyTemporaryInvincible => Time.time < tempInvincibleTime;
         /*[ShowNonSerializedField]*/
         [ReadOnly] bool alreadyDead = false;
 
@@ -29,6 +29,7 @@ namespace redd096.GameTopDown2D
         public System.Action<HealthComponent> onDie { get; set; }
         public System.Action onGetHealth { get; set; }
         public System.Action onChangeHealth { get; set; }
+        public System.Action onSetTemporaryInvincible { get; set; }
 
         Character ownerCharacter;
         Shield shield;
@@ -79,8 +80,8 @@ namespace redd096.GameTopDown2D
             if (damage > Mathf.Epsilon)
             {
                 //set also temporary invincible
-                if (setTempInvincibleWhenHitted)
-                    SetTemporaryInvincible(durationTempInvincibilityWhenHitted);
+                if (SetTempInvincibleWhenHitted)
+                    SetTemporaryInvincible(DurationTempInvincibilityWhenHitted);
 
                 onGetDamage?.Invoke(hitPoint);
                 onChangeHealth?.Invoke();
@@ -140,7 +141,10 @@ namespace redd096.GameTopDown2D
         {
             //set invincible only if greater than currently temporary invincibility
             if (Time.time + duration > tempInvincibleTime)
+            {
                 tempInvincibleTime = Time.time + duration;
+                onSetTemporaryInvincible?.Invoke();
+            }
         }
 
         #region private API
