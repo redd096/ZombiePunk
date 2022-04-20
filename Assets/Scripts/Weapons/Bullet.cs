@@ -15,6 +15,10 @@ namespace redd096.GameTopDown2D
         [Tooltip("Layers to hit but not destroy bullet")] [SerializeField] LayerMask layersPenetrable = default;
         [Tooltip("Layers to not hit")] [SerializeField] LayerMask layersToIgnore = default;
 
+        [Header("Bounce")]
+        [SerializeField] LayerMask layersToBounce = default;
+        [SerializeField] int maxNumberOfBounce = 2;
+
         [Header("Bullet")]
         [Tooltip("When a character shoot, can hit also other characters of same type?")] [SerializeField] bool friendlyFire = true;
         [SerializeField] bool ignoreShield = false;
@@ -45,10 +49,12 @@ namespace redd096.GameTopDown2D
         List<Redd096Main> alreadyHit = new List<Redd096Main>();
         List<Redd096Main> alreadyHitsDamageInArea = new List<Redd096Main>();
 
+        int numberOfBounce;
         Coroutine autodestructionCoroutine;
 
         //events
-        public System.Action<GameObject> onHit { get; set; }        //also when penetrate something
+        public System.Action<GameObject> onHit { get; set; }        //everytime hit something, also when penetrate or bounce
+        public System.Action<GameObject> onBounceHit { get; set; }  //when hit something and bounce
         public System.Action<GameObject> onLastHit { get; set; }    //when hit something that destroy this bullet
         public System.Action onAutodestruction { get; set; }        //when destroy by timer
         public System.Action onDie { get; set; }                    //both hit something or destroyed by timer
@@ -108,6 +114,8 @@ namespace redd096.GameTopDown2D
             //reset vars
             alreadyDead = false;
             alreadyHit.Clear();
+            numberOfBounce = 0;
+            if (autodestructionCoroutine != null) StopCoroutine(autodestructionCoroutine);
 
             this.direction = direction;
             this.damage = damage;
@@ -160,7 +168,7 @@ namespace redd096.GameTopDown2D
                 return;
 
             //be sure is not a layer to ignore
-            if (ContainsLayer(layersToIgnore, collision.gameObject.layer))
+            if (ContainsLayer(layersToIgnore, collision.transform.gameObject.layer))
                 return;
 
             GameObject hit = collision.transform.gameObject;
@@ -191,18 +199,37 @@ namespace redd096.GameTopDown2D
                 if (hitMain && hitMain.GetSavedComponent<MovementComponent>()) hitMain.GetSavedComponent<MovementComponent>().PushInDirection(direction, knockBack);
             }
 
-            //if is not a penetrable layer, destroy this object
+            //if is not a penetrable layer
             if (ContainsLayer(layersPenetrable, hit.layer) == false)
             {
-                //call event
-                onLastHit?.Invoke(hit);
+                //if can bounce and hit bounce layer, bounce
+                if (numberOfBounce < maxNumberOfBounce && ContainsLayer(layersToBounce, hit.layer))
+                {
+                    //change direction
+                    RaycastHit2D bounceHit = Physics2D.Raycast(transform.position, direction, 1000, 1 << hit.layer);                        //raycast only hits hitted layer
+                    if (bounceHit)
+                        direction = Vector2.Reflect(direction, bounceHit.normal);
+                    else
+                        direction = -direction;                                                                                             //if raycast doesn't work, just move back
 
-                //damage in area too
-                if (doAreaDamage && radiusAreaDamage > 0)
-                    DamageInArea(hitMain);
+                    //increase bounce counter, rotate bullet and call event
+                    numberOfBounce++;
+                    transform.rotation = Quaternion.LookRotation(Vector3.forward, Quaternion.AngleAxis(90, Vector3.forward) * direction);   //rotate direction to left, to use right as forward
+                    onBounceHit?.Invoke(hit);
+                }
+                //else destroy this object
+                else
+                {
+                    //call event
+                    onLastHit?.Invoke(hit);
 
-                //destroy
-                Die();
+                    //damage in area too
+                    if (doAreaDamage && radiusAreaDamage > 0)
+                        DamageInArea(hitMain);
+
+                    //destroy
+                    Die();
+                }
             }
         }
 
