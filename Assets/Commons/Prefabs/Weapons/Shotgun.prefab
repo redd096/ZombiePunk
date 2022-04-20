@@ -150,6 +150,36 @@ Transform:
   m_Father: {fileID: 9135352667363506447}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 20}
+--- !u!1 &6341943646474491899
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1005432053674352217}
+  m_Layer: 9
+  m_Name: ShellBarrel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1005432053674352217
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6341943646474491899}
+  m_LocalRotation: {x: -0, y: -0, z: 0.7933532, w: 0.6087617}
+  m_LocalPosition: {x: -0.14, y: -0.05, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 9135352667363506447}
+  m_RootOrder: 7
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 105.00001}
 --- !u!1001 &7214689125962813428
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -290,9 +320,15 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: d7aa45f79261ddb4e99967d6d7973237, type: 3}
     - target: {fileID: 4321745274758492328, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
+      propertyPath: barrelVFXNotFollowWeapon
+      value: 
+      objectReference: {fileID: 1005432053674352217}
+    - target: {fileID: 4321745274758492328, guid: c5af849b48471b14bb21dad7d6bfa48f,
+        type: 3}
       propertyPath: particlesNotFollowWeapon
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 5528955775304436081, guid: 29803ca778631194ea2578008782392f,
+        type: 3}
     - target: {fileID: 4321745274758492328, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
       propertyPath: audioOnFailShoot.audioClip
