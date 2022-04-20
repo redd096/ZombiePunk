@@ -7,7 +7,6 @@ using redd096.GameTopDown2D;
 public class TemporaryInvincibleFeedback : FeedbackRedd096<HealthComponent>
 {
     [Header("Feedback - default get sprites in children")]
-    [SerializeField] bool isEnabled = true;
     [SerializeField] Color colorWhenTemporaryInvincible = Color.green;
     [SerializeField] SpriteRenderer[] spritesToColor = default;
 
@@ -39,9 +38,6 @@ public class TemporaryInvincibleFeedback : FeedbackRedd096<HealthComponent>
 
     private void OnSetTemporaryInvincible()
     {
-        if (isEnabled == false)
-            return;
-
         //start coroutine
         if (temporaryInvincibleCoroutine != null)
             StopCoroutine(temporaryInvincibleCoroutine);
