@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using redd096.GameTopDown2D;
 
 [CreateAssetMenu(menuName = "Zombie Punk/Dash Perk")]
@@ -12,7 +11,6 @@ public class DashPerk : PerkData
     [SerializeField] float durationInvincible = 0.2f;
 
     float cooldownTime;
-    Coroutine invincibleCoroutine;
 
     public override float GetPerkCooldown() => dashDelay;
 
@@ -29,7 +27,6 @@ public class DashPerk : PerkData
     {
         //reset vars (because in scriptable object will remain saved also if not serialized)
         cooldownTime = 0;
-        if (invincibleCoroutine != null && owner) owner.StopCoroutine(invincibleCoroutine);
 
         //remove owner
         base.Unequip();
@@ -61,33 +58,16 @@ public class DashPerk : PerkData
                     owner.GetSavedComponent<MovementComponent>().PushInDirection(owner.GetSavedComponent<AimComponent>().IsLookingRight ? Vector2.right : Vector2.left, dashForce);
             }
 
-            //start coroutine
-            if (invincibleCoroutine != null) owner.StopCoroutine(invincibleCoroutine);
-            invincibleCoroutine = owner.StartCoroutine(InvincibleCoroutine());
+            //set temporary invincible
+            if (owner.GetSavedComponent<HealthComponent>())
+            {
+                owner.GetSavedComponent<HealthComponent>().SetTemporaryInvincible(durationInvincible);
+            }
+
 
             return true;
         }
 
         return false;
-    }
-
-    IEnumerator InvincibleCoroutine()
-    {
-        //set invincible
-        bool previousInvincible = false;
-        if (owner && owner.GetSavedComponent<HealthComponent>())
-        {
-            previousInvincible = owner.GetSavedComponent<HealthComponent>().Invincible; //save current invincibility
-            owner.GetSavedComponent<HealthComponent>().Invincible = true;
-        }
-
-        //wait
-        yield return new WaitForSeconds(durationInvincible);
-
-        //restore previous invincibility
-        if (owner && owner.GetSavedComponent<HealthComponent>())
-        {
-            owner.GetSavedComponent<HealthComponent>().Invincible = previousInvincible;
-        }
     }
 }
