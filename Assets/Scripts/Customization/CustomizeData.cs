@@ -57,7 +57,7 @@ public class CustomizeData : ScriptableObject
         
         //add weapon customizations
         if (SetAutomaticWeapon)
-            weaponRange.Automatic = Automatic;
+            weaponRange.FireMode = Automatic ? WeaponRange.EFireMode.Automatic : WeaponRange.EFireMode.SemiAutomatic;
         
         if(SetRateOfFire)
             weaponRange.RateOfFire += CustomizationTypeRateOfFire == ECustomizationType.Add ? RateOfFire : -RateOfFire;
