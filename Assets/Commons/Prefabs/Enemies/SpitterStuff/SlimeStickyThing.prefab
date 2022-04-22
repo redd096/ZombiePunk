@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2243647182528702536}
   - component: {fileID: 8377451346749475590}
-  - component: {fileID: 7966054590951310447}
+  - component: {fileID: -5867826940293312881}
   m_Layer: 9
   m_Name: SlimeStickyThing
   m_TagString: Untagged
@@ -54,7 +54,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 1
   m_Constraints: 7
---- !u!114 &7966054590951310447
+--- !u!114 &-5867826940293312881
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -63,17 +63,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 2877685488117199882}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 94f39429186deac448042bd95d632924, type: 3}
+  m_Script: {fileID: 11500000, guid: aaf4da12664a6ed4d96a763143129cd8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   charactersToHit: 01000000
   hitAlsoNotCharacters: 0
-  hitAlsoWhoCreatedAcid: 0
+  hitAlsoWhoCreatedThis: 0
   hitAlsoEnemiesOfSameType: 1
-  duration: 10
-  damage: 0
-  pushForce: 0
-  delayBetweenAttacks: 0
+  duration: 2
+  setMaxSpeed: 1
+  newMaxSpeed: 0.1
+  setDrag: 0
+  newDrag: 1
+  durationEffect: 0.1
 --- !u!1 &3240873467862073219
 GameObject:
   m_ObjectHideFlags: 0
@@ -196,7 +198,7 @@ CircleCollider2D:
   m_GameObject: {fileID: 3634397140274371864}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 52891fe22a1067541bce1d7809a81adc, type: 2}
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
