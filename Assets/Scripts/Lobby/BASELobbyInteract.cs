@@ -35,7 +35,7 @@ public abstract class BASELobbyInteract : MonoBehaviour, IInteractable
         StateMachineRedd096 sm = whoInteract.GetComponentInChildren<StateMachineRedd096>();
         if (sm)
         {
-            sm.SetState(2);
+            sm.SetState("LobbyMenu State");
         }
 
         //save references

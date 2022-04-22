@@ -135,6 +135,13 @@ namespace redd096.GameTopDown2D
             //only if is open
             if (isOpen)
             {
+                //if interact a state machine, set InteractingWithExit State
+                StateMachineRedd096 sm = whoInteract.GetComponentInChildren<StateMachineRedd096>();
+                if (sm)
+                {
+                    sm.SetState("InteractingWithExit State");
+                }
+
                 //save
                 SaveClassLevelReached saveClass = SavesManager.instance && SavesManager.instance.Load<SaveClassLevelReached>() != null ? SavesManager.instance.Load<SaveClassLevelReached>() : new SaveClassLevelReached();
                 if (saveClass.LevelReached < levelReach)
@@ -146,6 +153,7 @@ namespace redd096.GameTopDown2D
                 //stop this script
                 DeactiveExit();     //stop check open/close
                 isOpen = false;     //can't interact anymore
+                enabled = false;    //to be sure
 
                 //call event
                 onInteract?.Invoke(this);
