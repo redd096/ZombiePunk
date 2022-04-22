@@ -24,7 +24,6 @@ public class SlowEffect : EffectAreaBASE
     [EnableIf("setMaxSpeed")] [SerializeField] float newMaxSpeed = 1;
     [SerializeField] bool setDrag = false;
     [EnableIf("setDrag")] [SerializeField] float newDrag = 1;
-    [SerializeField] float durationEffect = 0.1f;
 
     //set at 0 to restart coroutine at every trigger stay
     protected override float delayOnTriggerStay => 0;
@@ -32,6 +31,7 @@ public class SlowEffect : EffectAreaBASE
     //dictionary
     Dictionary<Redd096Main, Coroutine> removeEffectCoroutines = new Dictionary<Redd096Main, Coroutine>();
     Dictionary<Redd096Main, DefaultValuesHitStruct> defaultValues = new Dictionary<Redd096Main, DefaultValuesHitStruct>();
+    float durationEffect = 0.1f;
 
     protected override void OnDisable()
     {
