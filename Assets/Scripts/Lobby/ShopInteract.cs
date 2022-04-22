@@ -147,7 +147,8 @@ public class ShopInteract : BASELobbyInteract
                 return reachedLevel >= level.LevelToComplete;
         }
 
-        return false;
+        //if not in the list, is unlocked by default
+        return true;
     }
 
     void SetButtonUnlocked(WeaponButtonShop buttonShop, bool isUnlocked)
