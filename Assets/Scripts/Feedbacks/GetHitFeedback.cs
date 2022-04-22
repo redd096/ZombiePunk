@@ -33,6 +33,7 @@ namespace redd096.GameTopDown2D
         [SerializeField] InstantiatedGameObjectStruct[] gameObjectsOnDie = default;
         [SerializeField] ParticleSystem[] particlesOnDie = default;
         [SerializeField] AudioClass[] audiosOnDie = default;
+        [SerializeField] AudioClass[] oneRandomAudioFromTheListOnDie = default;
 
         Character selfCharacter;
         Dictionary<SpriteRenderer, Material> savedMaterials = new Dictionary<SpriteRenderer, Material>();
@@ -142,6 +143,9 @@ namespace redd096.GameTopDown2D
 
             foreach (AudioClass audio in audiosOnDie)
                 SoundManager.instance.Play(audio, transform.position);                                          //instantiate every element in array
+
+            //instantiate one random sfx from the list
+            SoundManager.instance.Play(oneRandomAudioFromTheListOnDie, transform.position);
         }
 
         #endregion
