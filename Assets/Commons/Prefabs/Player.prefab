@@ -392,6 +392,7 @@ GameObject:
   - component: {fileID: 7360414587550285190}
   - component: {fileID: 4874097267343943965}
   - component: {fileID: 721257591885520909}
+  - component: {fileID: 1628526821603085849}
   m_Layer: 10
   m_Name: Graphics
   m_TagString: Untagged
@@ -601,6 +602,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   colorWhenTemporaryInvincible: {r: 0, g: 1, b: 0, a: 1}
   spritesToColor: []
+--- !u!114 &1628526821603085849
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395402416062982212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fda3cc4507d78c478c88266edf3d395, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 3901220146294768956}
+  stateMachine: {fileID: 4309439249035662337}
+  animTriggers:
+  - State: InteractingWithExit State
+    TriggerToSet: InteractWithExit
 --- !u!1 &1395402416665274895
 GameObject:
   m_ObjectHideFlags: 0
@@ -1049,7 +1067,7 @@ MonoBehaviour:
   - {x: -0.24947326, y: -0.75090253, z: 0}
   m_ShapePathHash: -1904993288
   m_Mesh: {fileID: 0}
-  m_InstanceId: 68068
+  m_InstanceId: 80616
 --- !u!114 &217621354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1079,7 +1097,7 @@ MonoBehaviour:
   - {x: -0.19, y: -0.53, z: 0}
   m_ShapePathHash: 981544315
   m_Mesh: {fileID: 0}
-  m_InstanceId: 68006
+  m_InstanceId: 80556
 --- !u!1 &1623205665777261636
 GameObject:
   m_ObjectHideFlags: 0
@@ -1330,6 +1348,36 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
+--- !u!1 &5303755738959565854
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3056799066640169766}
+  m_Layer: 10
+  m_Name: InteractingWithExit State
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3056799066640169766
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5303755738959565854}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 5413939879415091764}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5473106257446806726
 GameObject:
   m_ObjectHideFlags: 0
@@ -1361,6 +1409,7 @@ Transform:
   - {fileID: 1162182018}
   - {fileID: 7129474322103025472}
   - {fileID: 4390400332662950615}
+  - {fileID: 3056799066640169766}
   m_Father: {fileID: 1395402416665274892}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1406,6 +1455,9 @@ MonoBehaviour:
       TransitionCheck: 0
       Conditions:
       - {fileID: 2929777245423062059}
+  - StateName: InteractingWithExit State
+    Actions: []
+    Transitions: []
   CurrentState:
     StateName: 
     Actions: []

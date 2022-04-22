@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using redd096;
 using redd096.GameTopDown2D;
@@ -15,6 +16,9 @@ public class LevelManager : MonoBehaviour
 
     [Header("Remove saved weapons on die?")]
     [SerializeField] bool removeSavedWeaponsOnDie = true;
+
+    [Header("Time before load next scene")]
+    [SerializeField] float timeBeforeNextScene = 1;
 
     void Awake()
     {
@@ -88,17 +92,28 @@ public class LevelManager : MonoBehaviour
             character.GetSavedComponent<HealthComponent>().onDie -= OnPlayerDie;
     }
 
+    IEnumerator LoadNextSceneCoroutine(ExitInteractable exit)
+    {
+        //wait
+        yield return new WaitForSeconds(timeBeforeNextScene);
+
+        //save stats for next scene
+        if (Players != null)
+            GameManager.instance.SaveStats(Players.ToArray());
+
+        //load next scene
+        if (exit)
+            SceneLoader.instance.LoadScene(exit.SceneToLoad);
+    }
+
     #endregion
 
     #region public API
 
     public void OnInteractExit(ExitInteractable exit)
     {
-        //save stats for next scene
-        GameManager.instance.SaveStats(Players.ToArray());
-
-        //load next scene
-        SceneLoader.instance.LoadScene(exit.SceneToLoad);
+        //start coroutine to load next level
+        StartCoroutine(LoadNextSceneCoroutine(exit));
     }
 
     public void AddSpawnedExit(ExitInteractable exit)
