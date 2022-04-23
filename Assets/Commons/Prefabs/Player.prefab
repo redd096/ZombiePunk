@@ -238,7 +238,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4390400332662950615}
   - component: {fileID: 1976755843111078726}
-  - component: {fileID: 2929777245423062059}
   m_Layer: 10
   m_Name: LobbyMenu State
   m_TagString: Untagged
@@ -276,22 +275,6 @@ MonoBehaviour:
   interactComponent: {fileID: 8714289106783076041}
   playerInput: {fileID: 1427099914}
   buttonName: Resume
---- !u!114 &2929777245423062059
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 811214000932196463}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d97c322900c054b419fd13a05aec2674, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  TaskName: '[CONDITION] TimeScale > 0 da lobby'
-  compare: 1
-  value: 0
-  equalsCheckThreshold: 0.05
 --- !u!1 &1272879128757132086
 GameObject:
   m_ObjectHideFlags: 0
@@ -468,6 +451,7 @@ MonoBehaviour:
   - audioClip: {fileID: 8300000, guid: dcd81505ef7d63d4bb3e717c976bd4fa, type: 3}
     volume: 0.2
     is3D: 0
+  oneRandomAudioFromTheListOnDie: []
 --- !u!114 &3518836364102036358
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1010,7 +994,7 @@ BoxCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 1.375, y: 1.375}
+    oldSize: {x: 1.5, y: 1.375}
     newSize: {x: 1.2, y: 1.2}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
@@ -1067,7 +1051,7 @@ MonoBehaviour:
   - {x: -0.24947326, y: -0.75090253, z: 0}
   m_ShapePathHash: -1904993288
   m_Mesh: {fileID: 0}
-  m_InstanceId: 80616
+  m_InstanceId: 31278
 --- !u!114 &217621354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1097,7 +1081,7 @@ MonoBehaviour:
   - {x: -0.19, y: -0.53, z: 0}
   m_ShapePathHash: 981544315
   m_Mesh: {fileID: 0}
-  m_InstanceId: 80556
+  m_InstanceId: 31216
 --- !u!1 &1623205665777261636
 GameObject:
   m_ObjectHideFlags: 0
@@ -1450,11 +1434,7 @@ MonoBehaviour:
   - StateName: LobbyMenu State
     Actions:
     - {fileID: 1976755843111078726}
-    Transitions:
-    - StateDestination: 0
-      TransitionCheck: 0
-      Conditions:
-      - {fileID: 2929777245423062059}
+    Transitions: []
   - StateName: InteractingWithExit State
     Actions: []
     Transitions: []

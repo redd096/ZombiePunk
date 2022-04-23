@@ -14,6 +14,9 @@ namespace redd096
         [SerializeField] GameObject pauseMenu = default;
         [SerializeField] GameObject endMenu = default;
 
+        [Header("UI to disable when open Shop or others")]
+        [SerializeField] GameObject[] uiToDisableWhenInShop = default;
+
         [Header("Ammo")]
         [SerializeField] Text ammoText = default;
         [SerializeField] Image bulletImage = default;
@@ -132,7 +135,18 @@ namespace redd096
 
         #endregion
 
-        #region game
+        #region public API
+
+        /// <summary>
+        /// Disable UI when enter in shop or other menus. Or reactive it
+        /// </summary>
+        /// <param name="disable"></param>
+        public void DisableUIWhenEnterInShop(bool disable)
+        {
+            foreach (GameObject go in uiToDisableWhenInShop)
+                if (go)
+                    go.SetActive(!disable);
+        }
 
         /// <summary>
         /// Set current ammo text
