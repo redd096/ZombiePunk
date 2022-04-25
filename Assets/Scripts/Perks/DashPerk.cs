@@ -24,11 +24,13 @@ public class DashPerk : PerkData
 
     public override void Equip(Redd096Main owner)
     {
-        //reset vars (because in scriptable object will remain saved also if not serialized)
-        cooldownTime = 0;
-
         //set owner
         base.Equip(owner);
+
+        //reset vars (because in scriptable object will remain saved also if not serialized)
+        cooldownTime = 0;
+        if (untouchableCoroutine != null && owner) owner.StopCoroutine(untouchableCoroutine);
+        ResetLayers();
     }
 
     public override void Unequip()
@@ -76,6 +78,7 @@ public class DashPerk : PerkData
 
             //start untouchable coroutine
             if (untouchableCoroutine != null) owner.StopCoroutine(untouchableCoroutine);
+            ResetLayers();
             untouchableCoroutine = owner.StartCoroutine(UntouchableCoroutine());
 
 
@@ -109,7 +112,7 @@ public class DashPerk : PerkData
 
     void ResetLayers()
     {
-        if (ignoredLayers != null)
+        if (ignoredLayers != null && owner)
         {
             //cycle every ignored layer
             for (int i = 0; i < ignoredLayers.Length; i++)
