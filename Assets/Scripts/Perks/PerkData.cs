@@ -16,6 +16,10 @@ public abstract class PerkData : ScriptableObject, ISellable
     public CameraShakeStruct CameraShake = default;
     public GamepadVibrationStruct GamepadVibration = default;
 
+    [Header("Animation on use")]
+    public bool UseAnimation = false;
+    [EnableIf("UseAnimation")] public string AnimatorTrigger = "";
+
     //ISellable
     public string SellName => PerkName;
     public int SellPrice => PerkPrice;

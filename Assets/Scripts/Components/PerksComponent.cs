@@ -16,7 +16,10 @@ public class PerksComponent : MonoBehaviour
 
     void Awake()
     {
+        //get references
         if (owner == null) owner = GetComponent<Character>();
+
+        //warnings
         if (owner == null) Debug.LogWarning("Miss Character on " + name);
     }
 
