@@ -1,4 +1,6 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
+using redd096;
 using redd096.GameTopDown2D;
 
 [CreateAssetMenu(menuName = "Zombie Punk/Dash Perk")]
@@ -10,7 +12,13 @@ public class DashPerk : PerkData
     [SerializeField] float dashDelay = 1;
     [SerializeField] float durationInvincible = 0.2f;
 
+    [Header("Ignore collisions with some layers")]
+    [SerializeField] float durationUntouchable = 0;
+    [SerializeField] LayerMask layersToIgnore = default;
+
     float cooldownTime;
+    Coroutine untouchableCoroutine;
+    bool[] ignoredLayers;
 
     public override float GetPerkDeltaCooldown() => 1 - (cooldownTime - Time.time) / dashDelay;
 
@@ -27,6 +35,8 @@ public class DashPerk : PerkData
     {
         //reset vars (because in scriptable object will remain saved also if not serialized)
         cooldownTime = 0;
+        if (untouchableCoroutine != null && owner) owner.StopCoroutine(untouchableCoroutine);
+        ResetLayers();
 
         //remove owner
         base.Unequip();
@@ -64,10 +74,54 @@ public class DashPerk : PerkData
                 owner.GetSavedComponent<HealthComponent>().SetTemporaryInvincible(durationInvincible);
             }
 
+            //start untouchable coroutine
+            if (untouchableCoroutine != null) owner.StopCoroutine(untouchableCoroutine);
+            untouchableCoroutine = owner.StartCoroutine(UntouchableCoroutine());
+
 
             return true;
         }
 
         return false;
+    }
+
+    IEnumerator UntouchableCoroutine()
+    {
+        ignoredLayers = new bool[32];
+
+        for (int i = 0; i < 32; i++)
+        {
+            //if layer to ignore and is not already ignored by owner
+            if (layersToIgnore.ContainsLayer(i) && Physics2D.GetIgnoreLayerCollision(owner.gameObject.layer, i) == false)
+            {
+                //save and set ignore layer
+                ignoredLayers[i] = true;
+                Physics2D.IgnoreLayerCollision(owner.gameObject.layer, i, true);
+            }
+        }
+
+        //wait
+        yield return new WaitForSeconds(durationUntouchable);
+
+        //reset collisions
+        ResetLayers();
+    }
+
+    void ResetLayers()
+    {
+        if (ignoredLayers != null)
+        {
+            //cycle every ignored layer
+            for (int i = 0; i < ignoredLayers.Length; i++)
+            {
+                if (ignoredLayers[i])
+                {
+                    //and reset ignore collision
+                    Physics2D.IgnoreLayerCollision(owner.gameObject.layer, i, false);
+                }
+            }
+
+            ignoredLayers = null;
+        }
     }
 }
