@@ -21,6 +21,10 @@ namespace redd096.GameTopDown2D
         [Header("Necessary Components (by default get from this gameObject)")]
         [ShowIf("movementMode", EMovementModes.Rigidbody)] [SerializeField] Rigidbody2D rb = default;
 
+        [Header("CoinMagnet")]
+        [SerializeField] GameObject coinMagnet;
+
+
         [Header("DEBUG")]
         [ReadOnly] public bool IsMovingRight = true;            //check if moving right
         [ReadOnly] public Vector2 MoveDirectionInput;           //when moves, set it with only input direction (used to know last movement direction)
@@ -45,6 +49,7 @@ namespace redd096.GameTopDown2D
             //do only if update mode is Update
             if (updateMode == EUpdateModes.Update)
                 Move();
+            coinMagnet.transform.position = new Vector2(transform.position.x, transform.position.y);
         }
 
         void FixedUpdate()
@@ -52,6 +57,7 @@ namespace redd096.GameTopDown2D
             //do only if update mode is FixedUpdate
             if (updateMode == EUpdateModes.FixedUpdate)
                 Move();
+
         }
 
         void Move()

@@ -646,6 +646,7 @@ Transform:
   - {fileID: 1395402416062982213}
   - {fileID: 6165932935332721808}
   - {fileID: 7510807351850846375}
+  - {fileID: 3247477180818021808}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -681,6 +682,7 @@ MonoBehaviour:
   dragBasedOnVelocity: 1
   drag: 5
   rb: {fileID: 6689069374927739247}
+  coinMagnet: {fileID: 6003439404864541729}
   IsMovingRight: 1
   MoveDirectionInput: {x: 0, y: 0}
   LastDesiredVelocity: {x: 0, y: 0}
@@ -1051,7 +1053,7 @@ MonoBehaviour:
   - {x: -0.24947326, y: -0.75090253, z: 0}
   m_ShapePathHash: -1904993288
   m_Mesh: {fileID: 0}
-  m_InstanceId: 31278
+  m_InstanceId: -167392
 --- !u!114 &217621354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1081,7 +1083,7 @@ MonoBehaviour:
   - {x: -0.19, y: -0.53, z: 0}
   m_ShapePathHash: 981544315
   m_Mesh: {fileID: 0}
-  m_InstanceId: 31216
+  m_InstanceId: -167386
 --- !u!1 &1623205665777261636
 GameObject:
   m_ObjectHideFlags: 0
@@ -1443,6 +1445,53 @@ MonoBehaviour:
     Actions: []
     Transitions: []
   blackboardDebug: []
+--- !u!1 &6003439404864541729
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3247477180818021808}
+  - component: {fileID: 1575459010993557657}
+  m_Layer: 9
+  m_Name: CoinMagnet
+  m_TagString: Coin
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3247477180818021808
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6003439404864541729}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1395402416665274892}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!58 &1575459010993557657
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6003439404864541729}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 2
 --- !u!1 &6042065820740721229
 GameObject:
   m_ObjectHideFlags: 0
