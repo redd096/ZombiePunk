@@ -3,14 +3,6 @@ using UnityEngine;
 using redd096;
 using redd096.GameTopDown2D;
 
-public class SavesBetweenScenes
-{
-    public float CurrentHealth;
-    public Dictionary<string, int> CurrentAmmos;
-    public PerkData EquippedPerk;
-    public WeaponBASE[] WeaponsPrefabs;
-}
-
 [AddComponentMenu("redd096/Singletons/Game Manager")]
 [DefaultExecutionOrder(-100)]
 public class GameManager : Singleton<GameManager>
@@ -27,9 +19,6 @@ public class GameManager : Singleton<GameManager>
     public UIManager uiManager { get; private set; }
     public LevelManager levelManager { get; private set; }
 
-    //saves in game
-    SavesBetweenScenes savedStats;          //to move between scenes, so currently equipped
-
     protected override void SetDefaults()
     {
         //get references
@@ -38,17 +27,6 @@ public class GameManager : Singleton<GameManager>
 
         //lock 60 fps or free
         Application.targetFrameRate = lock60Fps ? 60 : -1;
-
-        //load stats to players
-        if (levelManager)
-        {
-            LoadStats();
-        }
-        //reset when move to a level without LevelManager
-        else
-        {
-            savedStats = null;
-        }
     }
 
     void OnValidate()
@@ -56,69 +34,6 @@ public class GameManager : Singleton<GameManager>
         //lock 60 fps or free
         Application.targetFrameRate = lock60Fps ? 60 : -1;
     }
-
-    #region move players between scenes
-
-    public void SaveStats(Character[] players)
-    {
-        //save stats for players
-        foreach (Character player in players)
-        {
-            //health and ammos
-            savedStats = new SavesBetweenScenes();
-            if (player.GetSavedComponent<HealthComponent>()) savedStats.CurrentHealth = player.GetSavedComponent<HealthComponent>().CurrentHealth;
-            if (player.GetSavedComponent<AdvancedWeaponComponent>()) savedStats.CurrentAmmos = new Dictionary<string, int>(player.GetSavedComponent<AdvancedWeaponComponent>().CurrentAmmos_NotSafe);
-
-            //perks
-            if (player.GetSavedComponent<PerksComponent>()) savedStats.EquippedPerk = player.GetSavedComponent<PerksComponent>().EquippedPerk;
-
-            //foreach weapon save prefab
-            if (player.GetSavedComponent<WeaponComponent>())
-            {
-                savedStats.WeaponsPrefabs = new WeaponBASE[player.GetSavedComponent<WeaponComponent>().CurrentWeapons.Length];
-                for (int i = 0; i < savedStats.WeaponsPrefabs.Length; i++)
-                {
-                    if (player.GetSavedComponent<WeaponComponent>().CurrentWeapons[i])
-                    {
-                        savedStats.WeaponsPrefabs[i] = player.GetSavedComponent<WeaponComponent>().CurrentWeapons[i].WeaponPrefab;
-                    }
-                }
-            }
-        }
-    }
-
-    void LoadStats()
-    {
-        if (savedStats == null)
-            return;
-
-        foreach (Character player in FindObjectsOfType<Character>())
-        {
-            //foreach player, load stats
-            if (player.CharacterType == Character.ECharacterType.Player)
-            {
-                //health and ammos
-                if (player.GetSavedComponent<HealthComponent>()) player.GetSavedComponent<HealthComponent>().CurrentHealth = savedStats.CurrentHealth;
-                if (player.GetSavedComponent<AdvancedWeaponComponent>()) player.GetSavedComponent<AdvancedWeaponComponent>().CurrentAmmos_NotSafe = new Dictionary<string, int>(savedStats.CurrentAmmos);
-                if (player.GetSavedComponent<PerksComponent>()) player.GetSavedComponent<PerksComponent>().AddPerk(savedStats.EquippedPerk);
-
-
-                //weapons will be loaded automatically from WeaponComponent
-            }
-        }
-    }
-
-    public SavesBetweenScenes GetSavedStats()
-    {
-        return savedStats;
-    }
-
-    public bool HasSavedStats()
-    {
-        return savedStats != null;
-    }
-
-    #endregion
 
     #region OLD customizations API
 

@@ -98,11 +98,11 @@ public class LevelManager : MonoBehaviour
         yield return new WaitForSeconds(timeBeforeNextScene);
 
         //save stats for next scene
-        if (Players != null)
-            GameManager.instance.SaveStats(Players.ToArray());
+        if (Players != null && SavesManager.instance)
+            SavesManager.instance.SaveStats(Players.ToArray());
 
         //load next scene
-        if (exit)
+        if (exit && SceneLoader.instance)
             SceneLoader.instance.LoadScene(exit.SceneToLoad);
     }
 
@@ -144,12 +144,13 @@ public class LevelManager : MonoBehaviour
         foreach (Character player in Players)
             player.GetComponentInChildren<StateMachineRedd096>().SetState(-1);
 
-        //remove customizations and weapons
-        if (GameManager.instance)
-        {
-            GameManager.instance.ClearCustomizations();
-            GameManager.instance.ClearWeapons();
-        }
+        ////OLD
+        ////remove customizations and weapons
+        //if (GameManager.instance)
+        //{
+        //    GameManager.instance.ClearCustomizations();
+        //    GameManager.instance.ClearWeapons();
+        //}
 
         //delete current weapons from saved already bought
         if (removeSavedWeaponsOnDie)

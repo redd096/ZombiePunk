@@ -151,8 +151,8 @@ public class InventoryInteract : BASELobbyInteract
             }
 
             //save stats for next scene
-            if (GameManager.instance && GameManager.instance.levelManager)
-                GameManager.instance.SaveStats(GameManager.instance.levelManager.Players.ToArray());
+            if (SavesManager.instance && GameManager.instance && GameManager.instance.levelManager)
+                SavesManager.instance.SaveStats(GameManager.instance.levelManager.Players.ToArray());
 
             //update UI
             UpdateUI();

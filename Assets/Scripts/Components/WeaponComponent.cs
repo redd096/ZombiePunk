@@ -46,7 +46,7 @@ namespace redd096.GameTopDown2D
             owner = GetComponent<Character>();
 
             //instantiate default weapons, only if this is not a Player or weapons are not saved in game manager
-            if (owner == null || owner.CharacterType != Character.ECharacterType.Player || GameManager.instance == null || GameManager.instance.HasSavedStats() == false)
+            if (owner == null || owner.CharacterType != Character.ECharacterType.Player || SavesManager.instance == null || SavesManager.instance.SaveWeapons() == false || SavesManager.instance.HasSavedStats() == false)
                 SetDefaultWeapons();
             else
                 LoadSavedWeapons();
@@ -102,7 +102,7 @@ namespace redd096.GameTopDown2D
         void LoadSavedWeapons()
         {
             //instantiate and equip saved weapons
-            SavesBetweenScenes savedStats = GameManager.instance.GetSavedStats();
+            SavesBetweenScenes savedStats = SavesManager.instance.GetSavedStats();
             if (savedStats.WeaponsPrefabs != null)
             {
                 WeaponBASE instantiatedWeapon;

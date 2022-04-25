@@ -3,19 +3,29 @@ using UnityEngine;
 using redd096;
 using redd096.GameTopDown2D;
 
-//when add new classes, just create a new class (at the end of this file) and add in the array classesToSave
+//when add new classes to save in json, just create a new class (at the end of this file) and add in the array classesToSave
+//when add new variable to load and save between scenes, just add to SavesBetweenScenes class and in functions SaveStats and LoadStats
 
 [DefaultExecutionOrder(-99)]
 public class SavesManager : Singleton<SavesManager>
 {
+    [Header("Save between scenes")]
+    [SerializeField] bool saveHealth = true;
+    [SerializeField] bool saveAmmo = true;
+    [SerializeField] bool savePerks = true;
+    [SerializeField] bool saveWeapons = true;
+
     //save and load in json
     ISaveClass[] classesToSave = new ISaveClass[] { new SaveClassMoney(), new SaveClassBoughtElements(), new SaveClassLevelReached() };
+
+    //save and load between scenes
+    SavesBetweenScenes savedStats;
 
     protected override void Awake()
     {
         base.Awake();
 
-        //when start game, load files
+        //when start game, load json files
         if (instance)
         {
             for (int i = 0; i < classesToSave.Length; i++)
@@ -24,6 +34,22 @@ public class SavesManager : Singleton<SavesManager>
                 ISaveClass obj = SaveLoadJSON.Load(classesToSave[i].key, classesToSave[i].type) as ISaveClass;
                 if (obj != null) classesToSave[i] = obj;
             }
+        }
+    }
+
+    protected override void SetDefaults()
+    {
+        base.SetDefaults();
+
+        //load stats to players
+        if (GameManager.instance && GameManager.instance.levelManager)
+        {
+            LoadStats();
+        }
+        //reset when move to a level without LevelManager
+        else
+        {
+            savedStats = null;
         }
     }
 
@@ -75,6 +101,82 @@ public class SavesManager : Singleton<SavesManager>
     }
 
     #endregion
+
+    #region save and load between scenes
+
+    public void SaveStats(Character[] players)
+    {
+        //save stats for players
+        foreach (Character player in players)
+        {
+            //health and ammos
+            savedStats = new SavesBetweenScenes();
+            if (saveHealth && player.GetSavedComponent<HealthComponent>()) savedStats.CurrentHealth = player.GetSavedComponent<HealthComponent>().CurrentHealth;
+            if (saveAmmo && player.GetSavedComponent<AdvancedWeaponComponent>()) savedStats.CurrentAmmos = new Dictionary<string, int>(player.GetSavedComponent<AdvancedWeaponComponent>().CurrentAmmos_NotSafe);
+
+            //perks
+            if (savePerks && player.GetSavedComponent<PerksComponent>()) savedStats.EquippedPerk = player.GetSavedComponent<PerksComponent>().EquippedPerk;
+
+            //foreach weapon save prefab
+            if (saveAmmo && player.GetSavedComponent<WeaponComponent>())
+            {
+                savedStats.WeaponsPrefabs = new WeaponBASE[player.GetSavedComponent<WeaponComponent>().CurrentWeapons.Length];
+                for (int i = 0; i < savedStats.WeaponsPrefabs.Length; i++)
+                {
+                    if (player.GetSavedComponent<WeaponComponent>().CurrentWeapons[i])
+                    {
+                        savedStats.WeaponsPrefabs[i] = player.GetSavedComponent<WeaponComponent>().CurrentWeapons[i].WeaponPrefab;
+                    }
+                }
+            }
+        }
+    }
+
+    void LoadStats()
+    {
+        if (savedStats == null)
+            return;
+
+        foreach (Character player in FindObjectsOfType<Character>())
+        {
+            //foreach player, load stats
+            if (player.CharacterType == Character.ECharacterType.Player)
+            {
+                //health and ammos
+                if (saveHealth && player.GetSavedComponent<HealthComponent>()) player.GetSavedComponent<HealthComponent>().CurrentHealth = savedStats.CurrentHealth;
+                if (saveAmmo && player.GetSavedComponent<AdvancedWeaponComponent>()) player.GetSavedComponent<AdvancedWeaponComponent>().CurrentAmmos_NotSafe = new Dictionary<string, int>(savedStats.CurrentAmmos);
+                if (savePerks && player.GetSavedComponent<PerksComponent>()) player.GetSavedComponent<PerksComponent>().AddPerk(savedStats.EquippedPerk);
+
+
+                //weapons will be loaded automatically from WeaponComponent
+            }
+        }
+    }
+
+    public SavesBetweenScenes GetSavedStats()
+    {
+        return savedStats;
+    }
+
+    public bool HasSavedStats()
+    {
+        return savedStats != null;
+    }
+
+    public bool SaveWeapons()
+    {
+        return saveWeapons;
+    }
+
+    #endregion
+}
+
+public class SavesBetweenScenes
+{
+    public float CurrentHealth;
+    public Dictionary<string, int> CurrentAmmos;
+    public PerkData EquippedPerk;
+    public WeaponBASE[] WeaponsPrefabs;
 }
 
 #region interface
