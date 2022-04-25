@@ -13,7 +13,7 @@ public class SlowMoPerk : PerkData
     float cooldownTime;
     Coroutine durationCoroutine;
 
-    public override float GetPerkCooldown() => delay;
+    public override float GetPerkDeltaCooldown() => 1 - (cooldownTime - Time.time) / delay;
 
     public override void Equip(Redd096Main owner)
     {

@@ -12,7 +12,7 @@ public class DashPerk : PerkData
 
     float cooldownTime;
 
-    public override float GetPerkCooldown() => dashDelay;
+    public override float GetPerkDeltaCooldown() => 1 - (cooldownTime - Time.time) / dashDelay;
 
     public override void Equip(Redd096Main owner)
     {

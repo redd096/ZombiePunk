@@ -35,5 +35,5 @@ public abstract class PerkData : ScriptableObject, ISellable
     /// Used by UIManager
     /// </summary>
     /// <returns></returns>
-    public abstract float GetPerkCooldown();
+    public abstract float GetPerkDeltaCooldown();
 }

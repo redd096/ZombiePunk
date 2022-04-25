@@ -217,7 +217,7 @@ namespace redd096
 
             //only if setted
             if (fillPerkWithCooldown)
-                perkCooldownCoroutine = StartCoroutine(PerkCooldownCoroutine(perk.GetPerkCooldown()));
+                perkCooldownCoroutine = StartCoroutine(PerkCooldownCoroutine(perk));
         }
 
         /// <summary>
@@ -253,17 +253,14 @@ namespace redd096
 
         #region private API
 
-        IEnumerator PerkCooldownCoroutine(float cooldown)
+        IEnumerator PerkCooldownCoroutine(PerkData perk)
         {
-            if (perkImage)
+            if (perkImage && perk)
             {
                 //set fill animation
-                float delta = 0;
-                while (delta < 1)
+                while (perk && perk.GetPerkDeltaCooldown() < 1)
                 {
-                    delta += Time.deltaTime / cooldown;
-                    perkImage.fillAmount = Mathf.Lerp(0, 1, delta);
-
+                    perkImage.fillAmount = Mathf.Lerp(0, 1, perk.GetPerkDeltaCooldown());
                     yield return null;
                 }
             }
