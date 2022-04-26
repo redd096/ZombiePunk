@@ -122,7 +122,7 @@ public class WeaponBarsFeedback : MonoBehaviour
                 while (delta < 1)
                 {
                     delta += Time.deltaTime / weaponRange.RateOfFire;
-                    rateOfFireImage.fillAmount = 1 - delta;
+                    rateOfFireImage.fillAmount = delta;
 
                     yield return null;
                 }
