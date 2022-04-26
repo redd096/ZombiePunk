@@ -7,7 +7,6 @@ public class CoinPickUp : PickUpBASE
     [SerializeField] int coinsToGive = 10;
 
     [Header("Magnet Speed")]
-    public float timestamp;
     public float magnetspeed;
 
     Rigidbody2D rb;
@@ -33,13 +32,13 @@ public class CoinPickUp : PickUpBASE
         rb = GetComponent<Rigidbody2D>();
     }
 
-    private void Update()
+    void FixedUpdate()
     {
         //move to player
         if (gotoplayer && player)
         {
             playerdirection = -(transform.position - player.transform.position).normalized;
-            if (rb) rb.velocity = Time.deltaTime / timestamp * magnetspeed * new Vector2(playerdirection.x, playerdirection.y);
+            if (rb) rb.velocity = magnetspeed * new Vector2(playerdirection.x, playerdirection.y);
         }
     }
 
@@ -48,7 +47,6 @@ public class CoinPickUp : PickUpBASE
         //on hit CoinMagnet, set go to player
         if (col.gameObject.name.Contains("CoinMagnet"))
         {
-            timestamp = Time.deltaTime;
             player = GameObject.Find("Player");
             gotoplayer = true;
         }
