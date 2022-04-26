@@ -21,8 +21,8 @@ namespace redd096.GameTopDown2D
         [Header("Necessary Components (by default get from this gameObject)")]
         [ShowIf("movementMode", EMovementModes.Rigidbody)] [SerializeField] Rigidbody2D rb = default;
 
-        [Header("CoinMagnet")]
-        [SerializeField] GameObject coinMagnet;
+        
+        
 
 
         [Header("DEBUG")]
@@ -49,7 +49,7 @@ namespace redd096.GameTopDown2D
             //do only if update mode is Update
             if (updateMode == EUpdateModes.Update)
                 Move();
-            coinMagnet.transform.position = new Vector2(transform.position.x, transform.position.y);
+           
         }
 
         void FixedUpdate()

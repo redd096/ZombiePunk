@@ -39,7 +39,7 @@ public class CoinPickUp : PickUpBASE
             rb.velocity = Time.deltaTime / timestamp * magnetspeed * new Vector2(playerdirection.x, playerdirection.y);
         }
     }
-    void OnTriggerEnter2D(Collider2D col)
+    protected override void OnTriggerEnter2D(Collider2D col)
     {
         if (col.gameObject.name.Equals("CoinMagnet"))
         {
@@ -47,6 +47,8 @@ public class CoinPickUp : PickUpBASE
             player = GameObject.Find("Player");
             gotoplayer = true;
         }
+
+        base.OnTriggerEnter2D(col);
     }
 
 }
