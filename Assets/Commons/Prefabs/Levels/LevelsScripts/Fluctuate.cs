@@ -1,8 +1,12 @@
 ﻿using UnityEngine;
+using redd096.Attributes;
 
 public class Fluctuate : MonoBehaviour
 {
-    [SerializeField] float height = 0.2f;
+    [Header("Use animation curve or sin")]
+    [SerializeField] bool useAnimationCurve = true;
+    [EnableIf("useAnimationCurve")] [SerializeField] AnimationCurve animationCurve = default;
+    [DisableIf("useAnimationCurve")] [SerializeField] float height = 0.2f;
 
     Vector2 startPosition;
 
@@ -14,6 +18,9 @@ public class Fluctuate : MonoBehaviour
 
     void Update()
     {
-        transform.position = startPosition + Vector2.up * Mathf.Sin(Time.time) * height;
+        if (useAnimationCurve)
+            transform.position = startPosition + Vector2.up * animationCurve.Evaluate(Time.time);
+        else
+            transform.position = startPosition + Vector2.up * Mathf.Sin(Time.time) * height;
     }
 }
