@@ -49,6 +49,10 @@ public class CoinPickUp : PickUpBASE
         {
             player = GameObject.Find("Player");
             gotoplayer = true;
+
+            //disable fluctuate script
+            if (GetComponent<Fluctuate>())
+                GetComponent<Fluctuate>().enabled = false;
         }
 
         //if hit player, pick money
