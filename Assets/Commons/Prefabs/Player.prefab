@@ -570,6 +570,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   perksComponent: {fileID: 6097445294312923113}
+  anim: {fileID: 0}
   feedbackParent: {fileID: 1395402416665274892}
   updatePerkImage: 1
 --- !u!114 &721257591885520909
@@ -621,6 +622,7 @@ GameObject:
   - component: {fileID: 2710214134928471105}
   - component: {fileID: 35204183535128521}
   - component: {fileID: 6097445294312923113}
+  - component: {fileID: 8972756039431114484}
   - component: {fileID: 1427099914}
   - component: {fileID: 3264032009245514301}
   - component: {fileID: 6689069374927739247}
@@ -820,6 +822,20 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   equippedPerk: {fileID: 0}
+--- !u!114 &8972756039431114484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395402416665274895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a562dea7124c64645bb7fcda0ee62268, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  magnetPrefab: {fileID: 9164497710118385235, guid: 232aee3bb759ae84a8abbb114f1045a7,
+    type: 3}
 --- !u!114 &1427099914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1051,7 +1067,7 @@ MonoBehaviour:
   - {x: -0.24947326, y: -0.75090253, z: 0}
   m_ShapePathHash: -1904993288
   m_Mesh: {fileID: 0}
-  m_InstanceId: 31278
+  m_InstanceId: 42940
 --- !u!114 &217621354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1081,7 +1097,7 @@ MonoBehaviour:
   - {x: -0.19, y: -0.53, z: 0}
   m_ShapePathHash: 981544315
   m_Mesh: {fileID: 0}
-  m_InstanceId: 31216
+  m_InstanceId: 42878
 --- !u!1 &1623205665777261636
 GameObject:
   m_ObjectHideFlags: 0

@@ -16,7 +16,7 @@ namespace redd096.GameTopDown2D
         protected Character whoHit;
         bool alreadyUsed;
 
-        void OnEnable()
+        protected virtual void OnEnable()
         {
             //reset vars
             alreadyUsed = false;
@@ -26,7 +26,7 @@ namespace redd096.GameTopDown2D
                 StartCoroutine(AutoDestruction());
         }
 
-        void OnTriggerEnter2D(Collider2D collision)
+        protected virtual void OnTriggerEnter2D(Collider2D collision)
         {
             if (alreadyUsed)
                 return;
