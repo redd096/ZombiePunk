@@ -16,9 +16,12 @@ public abstract class PerkData : ScriptableObject, ISellable
     public CameraShakeStruct CameraShake = default;
     public GamepadVibrationStruct GamepadVibration = default;
 
-    [Header("Animation on use")]
+    [Header("Animation on use - follow aim or movement")]
     public bool UseAnimation = false;
     [EnableIf("UseAnimation")] public string AnimatorTrigger = "";
+    [EnableIf("UseAnimation")] public bool OverrideRotationSprite = true;
+    [EnableIf("UseAnimation", "OverrideRotationSprite")] public float DurationOverride = 1;
+    [Tooltip("Follow Aim Direction, or Movement Direction?")] [EnableIf("UseAnimation", "OverrideRotationSprite")] public bool RotateToAimDirection = false;
 
     //ISellable
     public string SellName => PerkName;
