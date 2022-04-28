@@ -10,6 +10,7 @@ namespace redd096.GameTopDown2D
         public string WeaponName = "Weapon Name";
         public int WeaponPrice = 10;
         [ShowAssetPreview] public Sprite WeaponSprite = default;
+        [ShowAssetPreview] public Sprite WeaponSpriteTopUI = default;
 
         [Header("DEBUG")]
         [SerializeField] bool destroyWeaponOnDrop = false;
