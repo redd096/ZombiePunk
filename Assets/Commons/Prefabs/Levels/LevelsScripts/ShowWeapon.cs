@@ -25,7 +25,7 @@ public class ShowWeapon : MonoBehaviour
         if (gameObject.name == "WeaponMain" && weapons)
         {
             current = weapons.IndexEquippedWeapon;
-            if (weapons.CurrentWeapons[current]) image.sprite = weapons.CurrentWeapons[current].GetComponent<WeaponRange>().WeaponSprite;
+            if (weapons.CurrentWeapons[current]) image.sprite = weapons.CurrentWeapons[current].GetComponent<WeaponRange>().WeaponSpriteTopUI;
         }
 
         if(gameObject.name == "WeaponSec" && weapons && weapons.CurrentWeapons.Length >= 2)
@@ -39,11 +39,11 @@ public class ShowWeapon : MonoBehaviour
 
             if(current == 0)
             {
-                if (weapons.CurrentWeapons[1]) image.sprite = weapons.CurrentWeapons[1].GetComponent<WeaponRange>().WeaponSprite;
+                if (weapons.CurrentWeapons[1]) image.sprite = weapons.CurrentWeapons[1].GetComponent<WeaponRange>().WeaponSpriteTopUI;
             }
             else
             {
-                if (weapons.CurrentWeapons[0]) image.sprite = weapons.CurrentWeapons[0].GetComponent<WeaponRange>().WeaponSprite;
+                if (weapons.CurrentWeapons[0]) image.sprite = weapons.CurrentWeapons[0].GetComponent<WeaponRange>().WeaponSpriteTopUI;
             }
         }
     }
