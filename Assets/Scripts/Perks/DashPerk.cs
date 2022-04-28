@@ -2,6 +2,7 @@
 using UnityEngine;
 using redd096;
 using redd096.GameTopDown2D;
+using redd096.Attributes;
 
 [CreateAssetMenu(menuName = "Zombie Punk/Dash Perk")]
 public class DashPerk : PerkData
@@ -16,8 +17,14 @@ public class DashPerk : PerkData
     [SerializeField] float durationUntouchable = 0;
     [SerializeField] LayerMask layersToIgnore = default;
 
+    [Header("Stop shooting during dash")]
+    [SerializeField] bool stopShooting = true;
+    [EnableIf("stopShooting")] [SerializeField] bool hideWeapon = true;
+    [EnableIf("stopShooting")] [SerializeField] float durationStopShooting = 1;
+
     float cooldownTime;
     Coroutine untouchableCoroutine;
+    Coroutine stopShootingCoroutine;
     bool[] ignoredLayers;
 
     public override float GetPerkDeltaCooldown() => 1 - (cooldownTime - Time.time) / dashDelay;
@@ -30,6 +37,7 @@ public class DashPerk : PerkData
         //reset vars (because in scriptable object will remain saved also if not serialized)
         cooldownTime = 0;
         if (untouchableCoroutine != null && owner) owner.StopCoroutine(untouchableCoroutine);
+        if (stopShootingCoroutine != null && owner) owner.StopCoroutine(stopShootingCoroutine);
         ResetLayers();
     }
 
@@ -38,6 +46,7 @@ public class DashPerk : PerkData
         //reset vars (because in scriptable object will remain saved also if not serialized)
         cooldownTime = 0;
         if (untouchableCoroutine != null && owner) owner.StopCoroutine(untouchableCoroutine);
+        if (stopShootingCoroutine != null && owner) owner.StopCoroutine(stopShootingCoroutine);
         ResetLayers();
 
         //remove owner
@@ -77,10 +86,19 @@ public class DashPerk : PerkData
             }
 
             //start untouchable coroutine
-            if (untouchableCoroutine != null) owner.StopCoroutine(untouchableCoroutine);
-            ResetLayers();
-            untouchableCoroutine = owner.StartCoroutine(UntouchableCoroutine());
+            if (durationUntouchable > Mathf.Epsilon)
+            {
+                if (untouchableCoroutine != null) owner.StopCoroutine(untouchableCoroutine);
+                ResetLayers();
+                untouchableCoroutine = owner.StartCoroutine(UntouchableCoroutine());
+            }
 
+            //start StopShooting coroutine
+            if (stopShooting && durationStopShooting > Mathf.Epsilon)
+            {
+                if (stopShootingCoroutine != null) owner.StopCoroutine(stopShootingCoroutine);
+                stopShootingCoroutine = owner.StartCoroutine(StopShootingCoroutine());
+            }
 
             return true;
         }
@@ -95,7 +113,7 @@ public class DashPerk : PerkData
         for (int i = 0; i < 32; i++)
         {
             //if layer to ignore and is not already ignored by owner
-            if (layersToIgnore.ContainsLayer(i) && Physics2D.GetIgnoreLayerCollision(owner.gameObject.layer, i) == false)
+            if (layersToIgnore.ContainsLayer(i) && owner && Physics2D.GetIgnoreLayerCollision(owner.gameObject.layer, i) == false)
             {
                 //save and set ignore layer
                 ignoredLayers[i] = true;
@@ -108,6 +126,52 @@ public class DashPerk : PerkData
 
         //reset collisions
         ResetLayers();
+    }
+
+    IEnumerator StopShootingCoroutine()
+    {
+        WeaponBASE currentWeapon = null;
+
+        //disable Attack and SwitchWeapon Input
+        if (owner)
+        {
+            foreach (AttackByInput comp in owner.GetComponentsInChildren<AttackByInput>())
+                comp.enabled = false;
+            foreach (SwitchWeaponByInput comp in owner.GetComponentsInChildren<SwitchWeaponByInput>())
+                comp.enabled = false;
+        }
+
+        //deactive current weapon
+        if (hideWeapon)
+        {
+            if (owner.GetSavedComponent<WeaponComponent>() && owner.GetSavedComponent<WeaponComponent>().CurrentWeapon)
+            {
+                currentWeapon = owner.GetSavedComponent<WeaponComponent>().CurrentWeapon;
+                currentWeapon.gameObject.SetActive(false);
+            }
+        }
+
+        //wait
+        yield return new WaitForSeconds(durationStopShooting);
+
+        //reactive current weapon
+        if (hideWeapon)
+        {
+            if (currentWeapon)
+                currentWeapon.gameObject.SetActive(true);
+        }
+
+        //wait to update position before start shoot
+        yield return null;
+
+        //re-enable Attack and SwitchWeapon Input
+        if (owner)
+        {
+            foreach (AttackByInput comp in owner.GetComponentsInChildren<AttackByInput>())
+                comp.enabled = true;
+            foreach (SwitchWeaponByInput comp in owner.GetComponentsInChildren<SwitchWeaponByInput>())
+                comp.enabled = true;
+        }
     }
 
     void ResetLayers()

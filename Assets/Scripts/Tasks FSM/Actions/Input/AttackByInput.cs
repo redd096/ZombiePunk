@@ -33,7 +33,7 @@ public class AttackByInput : ActionTask
     {
         base.OnUpdateTask();
 
-        if (component == null || playerInput == null || playerInput.actions == null)
+        if (enabled == false || component == null || playerInput == null || playerInput.actions == null)
             return;
 
         //get input

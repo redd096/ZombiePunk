@@ -31,7 +31,7 @@ public class SwitchWeaponByInput : ActionTask
     {
         base.OnUpdateTask();
 
-        if (weaponComponent == null || playerInput == null || playerInput.actions == null)
+        if (enabled == false || weaponComponent == null || playerInput == null || playerInput.actions == null)
             return;
 
         //on input down
