@@ -45,10 +45,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34c663cfca65e3b4d8b0858ced17cf90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeBeforeDestroy: 0
+  canBePickedWithMagnet: 1
+  magnetspeed: 7
   ammoType: BASEAmmo
   quantity: 1
   canPickAlsoIfFull: 0
-  timeBeforeDestroy: 0
 --- !u!50 &-3773587809086987135
 Rigidbody2D:
   serializedVersion: 4
@@ -295,7 +297,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4468fe848b554e428b4d8aa1e3729f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickable: {fileID: 0}
+  pickable: {fileID: 4008220108725001078}
   gameObjectOnPick:
     instantiatedGameObject: {fileID: 0}
     timeAutodestruction: 0
