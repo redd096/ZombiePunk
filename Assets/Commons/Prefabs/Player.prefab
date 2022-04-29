@@ -573,6 +573,9 @@ MonoBehaviour:
   anim: {fileID: 0}
   feedbackParent: {fileID: 1395402416665274892}
   updatePerkImage: 1
+  flipSpriteFeedback: {fileID: 0}
+  aimComponent: {fileID: 0}
+  movementComponent: {fileID: 0}
 --- !u!114 &721257591885520909
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -580,13 +583,14 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1395402416062982212}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 5a246bb2e14888b42924a427db83fe68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   colorWhenTemporaryInvincible: {r: 0, g: 1, b: 0, a: 1}
-  spritesToColor: []
+  spritesToColor:
+  - {fileID: 1395402417110845482}
 --- !u!114 &1628526821603085849
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -759,7 +763,7 @@ MonoBehaviour:
   Invincible: 0
   MaxHealth: 100
   SetTempInvincibleWhenHitted: 1
-  DurationTempInvincibilityWhenHitted: 0.5
+  DurationTempInvincibilityWhenHitted: 0.75
   percentageDamageWhenHitFromFriend: 0.25
   destroyOnDie: 1
   timeBeforeDestroy: 1
@@ -1067,7 +1071,7 @@ MonoBehaviour:
   - {x: -0.24947326, y: -0.75090253, z: 0}
   m_ShapePathHash: -1904993288
   m_Mesh: {fileID: 0}
-  m_InstanceId: 42940
+  m_InstanceId: 137582
 --- !u!114 &217621354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1097,7 +1101,7 @@ MonoBehaviour:
   - {x: -0.19, y: -0.53, z: 0}
   m_ShapePathHash: 981544315
   m_Mesh: {fileID: 0}
-  m_InstanceId: 42878
+  m_InstanceId: 137520
 --- !u!1 &1623205665777261636
 GameObject:
   m_ObjectHideFlags: 0
