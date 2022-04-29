@@ -13,6 +13,7 @@ namespace redd096.GameTopDown2D
         [Header("Magnet")]
         [SerializeField] bool canBePickedWithMagnet = true;
         [EnableIf("canBePickedWithMagnet")] [SerializeField] float magnetspeed = 7;
+        [Tooltip("Move with rigidbody or transform?")] [EnableIf("canBePickedWithMagnet")] [SerializeField] bool moveWithRigidbody = true;
 
         //events
         public System.Action<PickUpBASE> onPick { get; set; }
@@ -44,7 +45,16 @@ namespace redd096.GameTopDown2D
             if (player)
             {
                 Vector2 playerdirection = (player.transform.position - transform.position).normalized;
-                if (rb) rb.velocity = magnetspeed * playerdirection;
+
+                //with rigidbody or transform
+                if (moveWithRigidbody)
+                {
+                    if (rb) rb.velocity = magnetspeed * playerdirection;
+                }
+                else
+                {
+                    transform.position += magnetspeed * (Vector3)playerdirection * Time.fixedDeltaTime;
+                }
             }
         }
 
