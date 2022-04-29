@@ -158,7 +158,10 @@ public class DashPerk : PerkData
         if (hideWeapon)
         {
             if (currentWeapon)
+            {
+                if (owner) currentWeapon.transform.position = owner.transform.position;
                 currentWeapon.gameObject.SetActive(true);
+            }
         }
 
         //wait to update position before start shoot

@@ -45,7 +45,7 @@ namespace redd096.GameTopDown2D
             //get references
             owner = GetComponent<Character>();
 
-            //instantiate default weapons, only if this is not a Player or weapons are not saved in game manager
+            //instantiate default weapons, only if this is not a Player or weapons are not saved in saves manager
             if (owner == null || owner.CharacterType != Character.ECharacterType.Player || SavesManager.CanLoadDefaultWeapons())
                 SetDefaultWeapons();
         }
