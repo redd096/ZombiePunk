@@ -150,10 +150,6 @@ public class InventoryInteract : BASELobbyInteract
                     mainInteracting.GetSavedComponent<PerksComponent>().AddPerk(sellable as PerkData);
             }
 
-            //save stats for next scene
-            if (SavesManager.instance && GameManager.instance && GameManager.instance.levelManager)
-                SavesManager.instance.SaveStats(GameManager.instance.levelManager.Players.ToArray());
-
             //update UI
             UpdateUI();
         }

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using redd096;
 using redd096.GameTopDown2D;
@@ -14,6 +15,7 @@ public class SavesManager : Singleton<SavesManager>
     [SerializeField] bool saveAmmo = true;
     [SerializeField] bool savePerks = true;
     [SerializeField] bool saveWeapons = true;
+    [SerializeField] bool saveIndexEquippedWeapon = true;
 
     //save and load in json
     ISaveClass[] classesToSave = new ISaveClass[] { new SaveClassMoney(), new SaveClassBoughtElements(), new SaveClassLevelReached() };
@@ -129,6 +131,10 @@ public class SavesManager : Singleton<SavesManager>
                     }
                 }
             }
+
+            //save index equipped weapon
+            if (saveIndexEquippedWeapon && player.GetSavedComponent<WeaponComponent>())
+                savedStats.IndexEquippedWeapon = player.GetSavedComponent<WeaponComponent>().IndexEquippedWeapon;
         }
     }
 
@@ -142,30 +148,66 @@ public class SavesManager : Singleton<SavesManager>
             //foreach player, load stats
             if (player.CharacterType == Character.ECharacterType.Player)
             {
-                //health and ammos
+                //health, ammos and perks
                 if (saveHealth && player.GetSavedComponent<HealthComponent>()) player.GetSavedComponent<HealthComponent>().CurrentHealth = savedStats.CurrentHealth;
                 if (saveAmmo && player.GetSavedComponent<AdvancedWeaponComponent>()) player.GetSavedComponent<AdvancedWeaponComponent>().CurrentAmmos_NotSafe = new Dictionary<string, int>(savedStats.CurrentAmmos);
                 if (savePerks && player.GetSavedComponent<PerksComponent>()) player.GetSavedComponent<PerksComponent>().AddPerk(savedStats.EquippedPerk);
 
-
-                //weapons will be loaded automatically from WeaponComponent
+                //weapons and index equipped weapon
+                if (player.GetSavedComponent<WeaponComponent>())
+                    StartCoroutine(LoadWeaponsCoroutine(player));
             }
         }
     }
 
-    public SavesBetweenScenes GetSavedStats()
+    IEnumerator LoadWeaponsCoroutine(Character player)
     {
-        return savedStats;
+        //wait one frame (so weapon component will set number of weapons)
+        yield return null;
+
+        if (player && player.GetSavedComponent<WeaponComponent>())
+        {
+            //instantiate and equip saved weapons
+            if (saveWeapons && savedStats.WeaponsPrefabs != null)
+            {
+                int length = player.GetSavedComponent<WeaponComponent>().CurrentWeapons.Length;
+                for (int i = 0; i < length; i++)
+                {
+                    if (i < savedStats.WeaponsPrefabs.Length)
+                    {
+                        if (savedStats.WeaponsPrefabs[i])
+                        {
+                            WeaponBASE instantiatedWeapon = Instantiate(savedStats.WeaponsPrefabs[i]);
+                            instantiatedWeapon.WeaponPrefab = savedStats.WeaponsPrefabs[i];
+
+                            //set 0 ammo on pick, because we have already its ammo (we are transporting this weapon from previous scene)
+                            if (instantiatedWeapon is WeaponRange rangeWeapon)
+                                rangeWeapon.AmmoOnPick = 0;
+
+                            player.GetSavedComponent<WeaponComponent>().PickWeapon(instantiatedWeapon);
+                        }
+                    }
+                    else
+                        break;
+                }
+            }
+
+            //load saved index weapon
+            if (saveIndexEquippedWeapon)
+                player.GetSavedComponent<WeaponComponent>().SwitchWeaponTo(savedStats.IndexEquippedWeapon);
+        }
     }
 
-    public bool HasSavedStats()
+    public static bool CanLoadDefaultWeapons()
     {
-        return savedStats != null;
+        //check if save weapons and there is a save (it's not the first level/lobby). If not, load default weapons
+        return (instance && instance.saveWeapons && instance.savedStats != null) == false;
     }
 
-    public bool SaveWeapons()
+    public static bool CanLoadDefaultAmmos()
     {
-        return saveWeapons;
+        //check if save ammo and there is a save (it's not the first level/lobby). If not, load default ammo
+        return (instance && instance.saveAmmo && instance.savedStats != null) == false;
     }
 
     #endregion
@@ -177,6 +219,7 @@ public class SavesBetweenScenes
     public Dictionary<string, int> CurrentAmmos;
     public PerkData EquippedPerk;
     public WeaponBASE[] WeaponsPrefabs;
+    public int IndexEquippedWeapon;
 }
 
 #region interface
