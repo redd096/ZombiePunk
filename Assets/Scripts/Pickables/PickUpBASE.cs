@@ -9,6 +9,10 @@ namespace redd096.GameTopDown2D
         [Header("Destroy when instantiated - 0 = no destroy")]
         [SerializeField] float timeBeforeDestroy = 0;
 
+        [Header("Magnet")]
+        [SerializeField] bool canBePickedWithMagnet = true;
+        [SerializeField] float magnetspeed = 7;
+
         //events
         public System.Action<PickUpBASE> onPick { get; set; }
         public System.Action<PickUpBASE> onFailPick { get; set; }
@@ -16,20 +20,49 @@ namespace redd096.GameTopDown2D
         protected Character whoHit;
         bool alreadyUsed;
 
+        //magnet
+        Rigidbody2D rb;
+        GameObject player;
+
         protected virtual void OnEnable()
         {
             //reset vars
             alreadyUsed = false;
+
+            //get references
+            if (rb == null) rb = GetComponent<Rigidbody2D>();
 
             //if there is, start auto destruction timer
             if (timeBeforeDestroy > 0)
                 StartCoroutine(AutoDestruction());
         }
 
+        protected virtual void FixedUpdate()
+        {
+            //move to player
+            if (player)
+            {
+                Vector2 playerdirection = (player.transform.position - transform.position).normalized;
+                if (rb) rb.velocity = magnetspeed * playerdirection;
+            }
+        }
+
         protected virtual void OnTriggerEnter2D(Collider2D collision)
         {
             if (alreadyUsed)
                 return;
+
+            //on hit CoinMagnet, move to player if necessary
+            if (canBePickedWithMagnet && collision.gameObject.name.Contains("CoinMagnet"))
+            {
+                player = GameManager.instance && GameManager.instance.levelManager && GameManager.instance.levelManager.Players != null && GameManager.instance.levelManager.Players.Count > 0 ? 
+                    GameManager.instance.levelManager.Players[0].gameObject : 
+                    GameObject.Find("Player");
+
+                //disable fluctuate script
+                if (GetComponent<Fluctuate>())
+                    GetComponent<Fluctuate>().enabled = false;
+            }
 
             //if hitted by player
             whoHit = collision.transform.GetComponentInParent<Character>();
