@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using redd096.Attributes;
 
 namespace redd096.GameTopDown2D
 {
@@ -11,7 +12,7 @@ namespace redd096.GameTopDown2D
 
         [Header("Magnet")]
         [SerializeField] bool canBePickedWithMagnet = true;
-        [SerializeField] float magnetspeed = 7;
+        [EnableIf("canBePickedWithMagnet")] [SerializeField] float magnetspeed = 7;
 
         //events
         public System.Action<PickUpBASE> onPick { get; set; }
