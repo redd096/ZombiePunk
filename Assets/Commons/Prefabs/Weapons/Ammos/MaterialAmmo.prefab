@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7659776846337629610}
   - component: {fileID: 4008220108725001078}
+  - component: {fileID: 1395015305397736362}
   - component: {fileID: 2981902560973153160}
   - component: {fileID: 6267057607065424748}
   m_Layer: 9
@@ -49,9 +50,58 @@ MonoBehaviour:
   timeBeforeDestroy: 0
   canBePickedWithMagnet: 1
   magnetspeed: 7
+  moveWithRigidbody: 1
   ammoType: MaterialAmmo
   quantity: 10
   canPickAlsoIfFull: 0
+--- !u!114 &1395015305397736362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268702294321186694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca3f15a0c6bc19a4b90739a7dac18294, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useAnimationCurve: 1
+  animationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.98405457
+      value: 0.008644104
+      inSlope: -0.20673527
+      outSlope: -0.20673527
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.7592192
+    - serializedVersion: 3
+      time: -0.27792948
+      value: 0.49390608
+      inSlope: 0.06605017
+      outSlope: 0.06605017
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.63097805
+      value: -0.0106447
+      inSlope: -0.10204795
+      outSlope: -0.10204795
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.3854596
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  height: 0.5
+  speed: 1.5
 --- !u!114 &2981902560973153160
 MonoBehaviour:
   m_ObjectHideFlags: 0

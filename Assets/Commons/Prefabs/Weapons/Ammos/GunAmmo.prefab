@@ -10,6 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 7659776846337629610}
   - component: {fileID: 4008220108725001078}
+  - component: {fileID: 532112187181102504}
   - component: {fileID: 4552773104498818861}
   - component: {fileID: 1282353182127804626}
   - component: {fileID: 1975914691039769111}
@@ -50,9 +51,58 @@ MonoBehaviour:
   timeBeforeDestroy: 0
   canBePickedWithMagnet: 1
   magnetspeed: 7
+  moveWithRigidbody: 1
   ammoType: GunAmmo
   quantity: 80
   canPickAlsoIfFull: 0
+--- !u!114 &532112187181102504
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268702294321186694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca3f15a0c6bc19a4b90739a7dac18294, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useAnimationCurve: 1
+  animationCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: -0.98405457
+      value: 0.008644104
+      inSlope: -0.20673527
+      outSlope: -0.20673527
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.7592192
+    - serializedVersion: 3
+      time: -0.27792948
+      value: 0.49390608
+      inSlope: 0.06605017
+      outSlope: 0.06605017
+      tangentMode: 34
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 0.63097805
+      value: -0.0106447
+      inSlope: -0.10204795
+      outSlope: -0.10204795
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.3854596
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  height: 0.5
+  speed: 1.5
 --- !u!114 &4552773104498818861
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -220,7 +270,7 @@ Transform:
   m_GameObject: {fileID: 2936378755723930675}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_LocalScale: {x: 1.5, y: 1.5, z: 1}
   m_Children: []
   m_Father: {fileID: 3635360939350925968}
   m_RootOrder: 0
@@ -310,7 +360,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3635360939350925968}
-  - component: {fileID: 6177558572577798042}
   m_Layer: 9
   m_Name: Graphics
   m_TagString: Untagged
@@ -334,16 +383,3 @@ Transform:
   m_Father: {fileID: 7659776846337629610}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &6177558572577798042
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6850933882625406036}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0e6eda73f29bca24e99a310746da3a8e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  speed: 0
