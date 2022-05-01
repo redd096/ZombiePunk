@@ -2,15 +2,16 @@
 
 public class MagnetComponent : MonoBehaviour
 {
-    [SerializeField] GameObject magnetPrefab = default;
+    [SerializeField] GameObject coinmagnetPrefab = default;
+    
 
     Transform magnet;
 
     void Start()
     {
         //instantiate prefab
-        if (magnetPrefab)
-            magnet = Instantiate(magnetPrefab, transform.position, Quaternion.identity).transform;
+        if (coinmagnetPrefab)
+            magnet = Instantiate(coinmagnetPrefab, transform.position, Quaternion.identity).transform;
     }
 
     void Update()
