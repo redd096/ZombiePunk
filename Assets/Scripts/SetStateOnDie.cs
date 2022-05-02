@@ -10,8 +10,8 @@ public class SetStateOnDie : MonoBehaviour
     void OnEnable()
     {
         //get references
-        healthComponent = GetComponentInParent<HealthComponent>();
-        stateMachine = GetComponentInChildren<StateMachineRedd096>();
+        if (healthComponent == null) healthComponent = GetComponentInParent<HealthComponent>();
+        if (stateMachine == null) stateMachine = GetComponentInChildren<StateMachineRedd096>();
 
         //add events
         if (healthComponent)
