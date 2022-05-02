@@ -12,7 +12,7 @@ namespace redd096.GameTopDown2D
 
         [Header("Magnet")]
         [SerializeField] bool canBePickedWithMagnet = true;
-        [SerializeField] string magnetName = "CoinMagnet";
+        [EnableIf("canBePickedWithMagnet")] [SerializeField] string magnetName = "CoinMagnet";
         [EnableIf("canBePickedWithMagnet")] [SerializeField] float magnetspeed = 7;
         [Tooltip("Move with rigidbody or transform?")] [EnableIf("canBePickedWithMagnet")] [SerializeField] bool moveWithRigidbody = true;
 
