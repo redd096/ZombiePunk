@@ -841,8 +841,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coinmagnetPrefab: {fileID: 9164497710118385235, guid: 232aee3bb759ae84a8abbb114f1045a7,
     type: 3}
-  ammomagnetPrefab: {fileID: 9164497710118385235, guid: 11bc73fc8656f994b91a3c2bfcbe42b5,
-    type: 3}
 --- !u!114 &1427099914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -924,6 +922,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1395402417110845484}
   - component: {fileID: 1395402417110845482}
+  - component: {fileID: 1947965856302970932}
   - component: {fileID: 1395402417110845485}
   - component: {fileID: 3901220146294768956}
   - component: {fileID: 2213777707406650388}
@@ -1000,6 +999,27 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!68 &1947965856302970932
+EdgeCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395402417110845487}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  m_EdgeRadius: 0.12
+  m_Points:
+  - {x: -0.19411711, y: -0.008296772}
+  - {x: -0.18579614, y: -0.3094475}
+  - {x: -0.032261964, y: -0.29852644}
+  - {x: 0.17930269, y: -0.3152768}
+  - {x: 0.17337513, y: 0}
 --- !u!61 &1395402417110845485
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -1074,7 +1094,7 @@ MonoBehaviour:
   - {x: -0.24947326, y: -0.75090253, z: 0}
   m_ShapePathHash: -1904993288
   m_Mesh: {fileID: 0}
-  m_InstanceId: 134046
+  m_InstanceId: 158338
 --- !u!114 &217621354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1104,7 +1124,7 @@ MonoBehaviour:
   - {x: -0.19, y: -0.53, z: 0}
   m_ShapePathHash: 981544315
   m_Mesh: {fileID: 0}
-  m_InstanceId: 133984
+  m_InstanceId: 158276
 --- !u!1 &1623205665777261636
 GameObject:
   m_ObjectHideFlags: 0
