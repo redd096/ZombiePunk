@@ -25,7 +25,8 @@ namespace redd096.GameTopDown2D
 
         //magnet
         Rigidbody2D rb;
-        GameObject player;
+        protected GameObject player;
+        Fluctuate fluctuate;
 
         protected virtual void OnEnable()
         {
@@ -34,6 +35,7 @@ namespace redd096.GameTopDown2D
 
             //get references
             if (rb == null) rb = GetComponent<Rigidbody2D>();
+            if (fluctuate == null) fluctuate = GetComponent<Fluctuate>();
 
             //if there is, start auto destruction timer
             if (timeBeforeDestroy > 0)
@@ -43,11 +45,14 @@ namespace redd096.GameTopDown2D
         protected virtual void FixedUpdate()
         {
             //move to player
-            if (player)
+            if (player && CanPickUp())
             {
-                Vector2 playerdirection = (player.transform.position - transform.position).normalized;
+                //disable fluctuate
+                if (fluctuate && fluctuate.enabled) fluctuate.enabled = false;
+                Debug.Log("ok");
 
                 //with rigidbody or transform
+                Vector2 playerdirection = (player.transform.position - transform.position).normalized;
                 if (moveWithRigidbody)
                 {
                     if (rb) rb.velocity = magnetspeed * playerdirection;
@@ -56,6 +61,12 @@ namespace redd096.GameTopDown2D
                 {
                     transform.position += magnetspeed * (Vector3)playerdirection * Time.fixedDeltaTime;
                 }
+            }
+            //else re-enable fluctuate
+            else if (fluctuate && fluctuate.enabled == false)
+            {
+                fluctuate.enabled = true;
+                Debug.Log("nada");
             }
         }
 
@@ -70,10 +81,6 @@ namespace redd096.GameTopDown2D
                 player = GameManager.instance && GameManager.instance.levelManager && GameManager.instance.levelManager.Players != null && GameManager.instance.levelManager.Players.Count > 0 ? 
                     GameManager.instance.levelManager.Players[0].gameObject : 
                     GameObject.Find("Player");
-
-                //disable fluctuate script
-                if (GetComponent<Fluctuate>())
-                    GetComponent<Fluctuate>().enabled = false;
             }
 
             //if hitted by player
@@ -96,6 +103,8 @@ namespace redd096.GameTopDown2D
         #region protected API
 
         public abstract void PickUp();
+
+        protected abstract bool CanPickUp();
 
         protected virtual void OnPick()
         {

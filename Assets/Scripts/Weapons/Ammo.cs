@@ -12,25 +12,42 @@ namespace redd096.GameTopDown2D
 
         public string AmmoType => ammoType;
 
+        AdvancedWeaponComponent whoHitComponent;
+
+        protected override void OnTriggerEnter2D(Collider2D collision)
+        {
+            base.OnTriggerEnter2D(collision);
+
+            //save component from magnet or hit
+            if (whoHitComponent == null)
+            {
+                if (player && whoHit == null)
+                    whoHitComponent = player.GetComponent<AdvancedWeaponComponent>();
+                else if (whoHit)
+                    whoHitComponent = whoHit.GetSavedComponent<AdvancedWeaponComponent>();
+            }
+        }
+
         public override void PickUp()
         {
-            //check if hit has component
-            AdvancedWeaponComponent whoHitComponent = whoHit.GetSavedComponent<AdvancedWeaponComponent>();
-            if (whoHitComponent)
+            //if can pick
+            if (CanPickUp())
             {
-                //if can pick when full, or is not full
-                if (canPickAlsoIfFull || whoHitComponent.IsFullOfAmmo(ammoType) == false)
-                {
-                    //pick and add quantity
-                    whoHitComponent.AddAmmo(ammoType, quantity);
-                    OnPick();
-                }
-                //else fail pick
-                else
-                {
-                    OnFailPick();
-                }
+                //pick and add quantity
+                whoHitComponent.AddAmmo(ammoType, quantity);
+                OnPick();
             }
+            //else fail pick
+            else
+            {
+                OnFailPick();
+            }
+        }
+
+        protected override bool CanPickUp()
+        {
+            //there is weapon component, and is not full of ammo or can pick anyway
+            return whoHitComponent && (whoHitComponent.IsFullOfAmmo(ammoType) == false || canPickAlsoIfFull);
         }
     }
 }

@@ -155,8 +155,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   timeBeforeDestroy: 0
+  canBePickedWithMagnet: 1
+  magnetName: CoinMagnet
+  magnetspeed: 7
+  moveWithRigidbody: 1
   coinsToGive: 10
-  magnetspeed: 0
 --- !u!50 &9085213080909160046
 Rigidbody2D:
   serializedVersion: 4
@@ -177,7 +180,7 @@ Rigidbody2D:
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
-  m_Constraints: 7
+  m_Constraints: 4
 --- !u!114 &4146187375933391595
 MonoBehaviour:
   m_ObjectHideFlags: 0
