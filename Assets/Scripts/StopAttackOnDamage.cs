@@ -59,6 +59,9 @@ public class StopAttackOnDamage : MonoBehaviour
         //set state null, when get damage
         if (stateMachine)
         {
+            if (stateMachine.CurrentState == null)
+                return;
+
             if (states.Contains(stateMachine.CurrentState.StateName.Replace(" ", "").ToUpper()))
             {
                 //if ignore in these states, and current state is in the list, return
