@@ -333,6 +333,24 @@ MonoBehaviour:
   stateMachine: {fileID: 5017728266096039248}
   attackStateName: Attack State
   triggerOnAttack: Melee Attack
+--- !u!114 &3904684597645329402
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4108297512027046750}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 36ab48ca9353d0143a18270bd535776f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  movementComponent: {fileID: 0}
+  aimComponent: {fileID: 0}
+  objectToFlip: {fileID: 0}
+  defaultCharacterIsLookingRight: 1
+  flipType: 0
+  flipAlsoScale: 0
 --- !u!114 &7213967818405318273
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -362,25 +380,7 @@ MonoBehaviour:
   - {x: -13.434052, y: 15.272361, z: 0}
   m_ShapePathHash: -1094489171
   m_Mesh: {fileID: 0}
-  m_InstanceId: 246578
---- !u!114 &3904684597645329402
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4108297512027046750}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 36ab48ca9353d0143a18270bd535776f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  movementComponent: {fileID: 0}
-  aimComponent: {fileID: 0}
-  objectToFlip: {fileID: 0}
-  defaultCharacterIsLookingRight: 1
-  flipType: 0
-  flipAlsoScale: 0
+  m_InstanceId: 30132
 --- !u!1001 &8109891673206357625
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -543,7 +543,7 @@ PrefabInstance:
     - target: {fileID: 3832161718985136011, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: oneRandomAudioFromTheListOnDie.Array.size
-      value: 2
+      value: 4
       objectReference: {fileID: 0}
     - target: {fileID: 3832161718985136011, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
@@ -553,6 +553,16 @@ PrefabInstance:
     - target: {fileID: 3832161718985136011, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: oneRandomAudioFromTheListOnDie.Array.data[1].volume
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832161718985136011, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: oneRandomAudioFromTheListOnDie.Array.data[2].volume
+      value: 0.8
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832161718985136011, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: oneRandomAudioFromTheListOnDie.Array.data[3].volume
       value: 0.8
       objectReference: {fileID: 0}
     - target: {fileID: 3832161718985136011, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
@@ -571,6 +581,16 @@ PrefabInstance:
       propertyPath: oneRandomAudioFromTheListOnDie.Array.data[1].audioClip
       value: 
       objectReference: {fileID: 8300000, guid: b07f4600e6b7ae0419481aa12b2f81b9, type: 3}
+    - target: {fileID: 3832161718985136011, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: oneRandomAudioFromTheListOnDie.Array.data[2].audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: ab9c5ed669717a040b106895aeb73594, type: 3}
+    - target: {fileID: 3832161718985136011, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: oneRandomAudioFromTheListOnDie.Array.data[3].audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: daba2d2a368ff4346ba008fedd8210a5, type: 3}
     - target: {fileID: 3832161719942337412, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: damage
@@ -911,6 +931,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SpriteTilingProperty.adaptiveTilingThreshold
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 4018947075730458605, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 4018947075730458605, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
