@@ -12,6 +12,7 @@ namespace redd096.GameTopDown2D
 
         [Header("Magnet")]
         [SerializeField] bool canBePickedWithMagnet = true;
+        [SerializeField] string magnetName = "CoinMagnet";
         [EnableIf("canBePickedWithMagnet")] [SerializeField] float magnetspeed = 7;
         [Tooltip("Move with rigidbody or transform?")] [EnableIf("canBePickedWithMagnet")] [SerializeField] bool moveWithRigidbody = true;
 
@@ -64,7 +65,7 @@ namespace redd096.GameTopDown2D
                 return;
 
             //on hit CoinMagnet, move to player if necessary
-            if (canBePickedWithMagnet && collision.gameObject.name.Contains("CoinMagnet"))
+            if (canBePickedWithMagnet && collision.gameObject.name.Contains(magnetName))
             {
                 player = GameManager.instance && GameManager.instance.levelManager && GameManager.instance.levelManager.Players != null && GameManager.instance.levelManager.Players.Count > 0 ? 
                     GameManager.instance.levelManager.Players[0].gameObject : 
