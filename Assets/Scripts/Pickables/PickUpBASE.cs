@@ -44,6 +44,13 @@ namespace redd096.GameTopDown2D
 
         protected virtual void FixedUpdate()
         {
+            if (alreadyUsed)
+                return;
+
+            //if trigger enter and can't pick up, recall to not have object compenetrate
+            if (whoHit && CanPickUp())
+                PickUp();
+
             //move to player
             if (player && CanPickUp())
             {
@@ -88,6 +95,19 @@ namespace redd096.GameTopDown2D
                 //pick up
                 PickUp();
             }
+        }
+
+        protected virtual void OnTriggerExit2D(Collider2D collision)
+        {
+            //when exit from magnet, if can't pick up then remove player
+            if (CanPickUp() == false)
+            {
+                player = null;
+            }
+
+            //remove who hit on trigger exit
+            if (whoHit && collision.transform.GetComponentInParent<Character>() == whoHit)
+                whoHit = null;
         }
 
         IEnumerator AutoDestruction()
