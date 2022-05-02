@@ -49,7 +49,6 @@ namespace redd096.GameTopDown2D
             {
                 //disable fluctuate
                 if (fluctuate && fluctuate.enabled) fluctuate.enabled = false;
-                Debug.Log("ok");
 
                 //with rigidbody or transform
                 Vector2 playerdirection = (player.transform.position - transform.position).normalized;
@@ -66,7 +65,6 @@ namespace redd096.GameTopDown2D
             else if (fluctuate && fluctuate.enabled == false)
             {
                 fluctuate.enabled = true;
-                Debug.Log("nada");
             }
         }
 
