@@ -4,6 +4,10 @@ using redd096.GameTopDown2D;
 
 public class InventoryInteract : BASELobbyInteract
 {
+    [Header("Slots of which weapon is selecting")]
+    [SerializeField] WeaponButtonShop slot1 = default;
+    [SerializeField] WeaponButtonShop slot2 = default;
+
     [Header("UI Weapons")]
     [SerializeField] WeaponButtonShop[] weaponButtons = default;
     [Tooltip("Weapons to show always, without saves")] [SerializeField] WeaponBASE[] defaultWeapons = default;
@@ -14,6 +18,8 @@ public class InventoryInteract : BASELobbyInteract
 
     List<WeaponButtonShop> buttonsShop = new List<WeaponButtonShop>();
     List<ISellable> alreadyBoughtElements = new List<ISellable>();
+
+    bool isSelectingSlot1;
 
     protected override void Start()
     {
@@ -27,6 +33,29 @@ public class InventoryInteract : BASELobbyInteract
         foreach (WeaponButtonShop buttonShop in buttonsShop)
             if (buttonShop)
                 buttonShop.Init();
+
+        //set button event on slots
+        if (slot1 && slot1.button) slot1.button.onClick.AddListener(() => OnClickSlot(true));
+        if (slot2 && slot2.button) slot2.button.onClick.AddListener(() => OnClickSlot(false));
+    }
+
+    public override void Interact(InteractComponent whoInteract)
+    {
+        base.Interact(whoInteract);
+
+        //set player is selecting weapon for slot 1
+        OnClickSlot(true);
+
+        //set slots sprites
+        if (mainInteracting && mainInteracting.GetSavedComponent<WeaponComponent>())
+        {
+            WeaponBASE[] weapons = mainInteracting.GetSavedComponent<WeaponComponent>().CurrentWeapons;
+            if (weapons != null)
+            {
+                if (weapons.Length > 0 && weapons[0]) SetSlot(weapons[0].WeaponPrefab, true);
+                if (weapons.Length > 1 && weapons[1]) SetSlot(weapons[1].WeaponPrefab, false);
+            }
+        }
     }
 
     protected override void UpdateUI()
@@ -125,8 +154,25 @@ public class InventoryInteract : BASELobbyInteract
         if (buttonShop.priceText) buttonShop.priceText.color = equipped ? disabledColor : buttonShop.GetDefaultPriceTextColor();
     }
 
+    void SetSlot(ISellable sellable, bool isSlot1)
+    {
+        //get slot
+        WeaponButtonShop buttonShop = isSlot1 ? slot1 : slot2;
+        if (buttonShop == null || sellable == null)
+            return;
+
+        //set image, name and price text
+        if (buttonShop.imageWeapon) buttonShop.imageWeapon.sprite = sellable.SellSprite;
+        if (buttonShop.nameText) buttonShop.nameText.text = sellable.SellName;
+        if (buttonShop.priceText) buttonShop.priceText.text = sellable.SellPrice.ToString();
+    }
+
     #region on click button
 
+    /// <summary>
+    /// When click button in the inventory, get weapon or perk
+    /// </summary>
+    /// <param name="sellable"></param>
     public void OnClickButton(ISellable sellable)
     {
         if (sellable != null && mainInteracting)
@@ -136,11 +182,18 @@ public class InventoryInteract : BASELobbyInteract
             {
                 if (mainInteracting.GetSavedComponent<WeaponComponent>())
                 {
-                    //if current weapons are full, destroy current equipped (to not drop it)
-                    if (mainInteracting.GetSavedComponent<WeaponComponent>().IsFull())
-                        Destroy(mainInteracting.GetSavedComponent<WeaponComponent>().CurrentWeapon.gameObject);
+                    WeaponComponent weaponComponent = mainInteracting.GetSavedComponent<WeaponComponent>();
+                    int slot = isSelectingSlot1 ? 0 : 1;
 
-                    mainInteracting.GetSavedComponent<WeaponComponent>().PickWeaponPrefab(sellable as WeaponBASE);
+                    //destroy weapon in the selected slot (to not drop it)
+                    WeaponBASE weaponToDestroy = weaponComponent.CurrentWeapons.Length > slot && weaponComponent.CurrentWeapons[slot] ? weaponComponent.CurrentWeapons[slot] : null;
+                    if (weaponToDestroy) Destroy(weaponToDestroy.gameObject);
+
+                    //pick weapon in selected slot
+                    mainInteracting.GetSavedComponent<WeaponComponent>().PickWeaponPrefab(sellable as WeaponBASE, true, isSelectingSlot1 ? 0 : 1);
+
+                    //show in inventory slot too
+                    SetSlot(sellable, isSelectingSlot1);
                 }
             }
             //or perk
@@ -153,6 +206,20 @@ public class InventoryInteract : BASELobbyInteract
             //update UI
             UpdateUI();
         }
+    }
+
+    /// <summary>
+    /// When click slot button, set which slot is selecting
+    /// </summary>
+    /// <param name="isSlot1"></param>
+    public void OnClickSlot(bool isSlot1)
+    {
+        //set which slot player is selecting
+        isSelectingSlot1 = isSlot1;
+
+        //active or deactive highlight
+        if (slot1 && slot1.objectToActivateWhenSelectSlot) slot1.objectToActivateWhenSelectSlot.SetActive(isSelectingSlot1);
+        if (slot2 && slot2.objectToActivateWhenSelectSlot) slot2.objectToActivateWhenSelectSlot.SetActive(isSelectingSlot1 == false);
     }
 
     #endregion
