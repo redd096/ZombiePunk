@@ -63,7 +63,7 @@ namespace redd096.GameTopDown2D
         /// <summary>
         /// Call when equip weapon
         /// </summary>
-        public void EquipWeapon()
+        public virtual void EquipWeapon()
         {
             onEquipWeapon?.Invoke();
         }
@@ -71,7 +71,7 @@ namespace redd096.GameTopDown2D
         /// <summary>
         /// Call when unequip weapon
         /// </summary>
-        public void UnequipWeapon()
+        public virtual void UnequipWeapon()
         {
             onUnequipWeapon?.Invoke();
         }
