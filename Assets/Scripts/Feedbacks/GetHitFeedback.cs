@@ -36,9 +36,7 @@ namespace redd096.GameTopDown2D
         [SerializeField] AudioClass[] oneRandomAudioFromTheListOnDie = default;
 
         [Header("On Get Health")]
-        [SerializeField] InstantiatedGameObjectStruct gameObjectOnGetHealth = default;
-        [SerializeField] ParticleSystem particlesOnGetHealth = default;
-        [SerializeField] AudioClass audioOnGetHealth = default;
+        [SerializeField] FeedbackStructRedd096 feedbackOnGetHealth = default;
 
         Character selfCharacter;
         Dictionary<SpriteRenderer, Material> savedMaterials = new Dictionary<SpriteRenderer, Material>();
@@ -159,9 +157,7 @@ namespace redd096.GameTopDown2D
         void OnGetHealth()
         {
             //instantiate vfx and sfx
-            InstantiateGameObjectManager.instance.Play(gameObjectOnGetHealth, transform.position, transform.rotation);
-            ParticlesManager.instance.Play(particlesOnGetHealth, transform.position, transform.rotation);
-            SoundManager.instance.Play(audioOnGetHealth, transform.position);
+            feedbackOnGetHealth.InstantiateFeedback(transform);
 
             //update UI
             if (selfCharacter && selfCharacter.CharacterType == Character.ECharacterType.Player)
