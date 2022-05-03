@@ -47,16 +47,18 @@ public class TemporaryInvincibleFeedback : FeedbackRedd096<HealthComponent>
 
     IEnumerator TemporaryInvincibleCoroutine()
     {
-        //change colors
-        foreach (SpriteRenderer sprite in defaultColors.Keys)
-            sprite.color = colorWhenTemporaryInvincible;
+        //change colors only if not permanent invincible
+        if (owner == null || owner.Invincible == false)
+            foreach (SpriteRenderer sprite in defaultColors.Keys)
+                sprite.color = colorWhenTemporaryInvincible;
 
         //wait to finish invincibility
         while (owner && owner.IsCurrentlyTemporaryInvincible)
             yield return null;
 
-        //reset color
-        foreach (SpriteRenderer sprite in defaultColors.Keys)
-            sprite.color = defaultColors[sprite];
+        //reset color only if not permanent invincible
+        if (owner == null || owner.Invincible == false)
+            foreach (SpriteRenderer sprite in defaultColors.Keys)
+                sprite.color = defaultColors[sprite];
     }
 }
