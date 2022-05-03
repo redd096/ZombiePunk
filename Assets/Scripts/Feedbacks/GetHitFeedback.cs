@@ -35,6 +35,11 @@ namespace redd096.GameTopDown2D
         [SerializeField] AudioClass[] audiosOnDie = default;
         [SerializeField] AudioClass[] oneRandomAudioFromTheListOnDie = default;
 
+        [Header("On Get Health")]
+        [SerializeField] InstantiatedGameObjectStruct gameObjectOnGetHealth = default;
+        [SerializeField] ParticleSystem particlesOnGetHealth = default;
+        [SerializeField] AudioClass audioOnGetHealth = default;
+
         Character selfCharacter;
         Dictionary<SpriteRenderer, Material> savedMaterials = new Dictionary<SpriteRenderer, Material>();
         Coroutine blinkCoroutine;
@@ -59,6 +64,7 @@ namespace redd096.GameTopDown2D
             {
                 healthComponent.onGetDamage += OnGetDamage;
                 healthComponent.onDie += OnDie;
+                healthComponent.onGetHealth += OnGetHealth;
             }
         }
 
@@ -69,6 +75,7 @@ namespace redd096.GameTopDown2D
             {
                 healthComponent.onGetDamage -= OnGetDamage;
                 healthComponent.onDie -= OnDie;
+                healthComponent.onGetHealth -= OnGetHealth;
             }
         }
 
@@ -77,7 +84,6 @@ namespace redd096.GameTopDown2D
         void OnGetDamage(Vector2 hitPoint)
         {
             //rotation
-            //Vector2 direction = (hitPoint - (Vector2)transform.position).normalized;
             Vector2 direction = ((Vector2)transform.position - hitPoint).normalized;
             Quaternion rotation = Quaternion.LookRotation(Vector3.forward, Quaternion.AngleAxis(90, Vector3.forward) * direction);   //Forward keep to Z axis. Up use X instead of Y (AngleAxis 90) and rotate to direction
 
@@ -86,7 +92,6 @@ namespace redd096.GameTopDown2D
             {
                 rotation *= Quaternion.AngleAxis(180, Vector3.right);
             }
-
 
             //instantiate vfx and sfx
             InstantiateGameObjectManager.instance.Play(gameObjectOnGetDamage, transform.position, transform.rotation);
@@ -114,7 +119,10 @@ namespace redd096.GameTopDown2D
             if(selfCharacter && selfCharacter.CharacterType == Character.ECharacterType.Player)
             {
                 if (GameManager.instance && GameManager.instance.uiManager)
+                {
                     GameManager.instance.uiManager.ShowBloodOnScreen();
+                    GameManager.instance.uiManager.OnGetDamage(healthComponent);
+                }
             }
         }
 
@@ -146,6 +154,23 @@ namespace redd096.GameTopDown2D
 
             //instantiate one random sfx from the list
             SoundManager.instance.Play(oneRandomAudioFromTheListOnDie, transform.position);
+        }
+
+        void OnGetHealth()
+        {
+            //instantiate vfx and sfx
+            InstantiateGameObjectManager.instance.Play(gameObjectOnGetHealth, transform.position, transform.rotation);
+            ParticlesManager.instance.Play(particlesOnGetHealth, transform.position, transform.rotation);
+            SoundManager.instance.Play(audioOnGetHealth, transform.position);
+
+            //update UI
+            if (selfCharacter && selfCharacter.CharacterType == Character.ECharacterType.Player)
+            {
+                if (GameManager.instance && GameManager.instance.uiManager)
+                {
+                    GameManager.instance.uiManager.OnGetHealth(healthComponent);
+                }
+            }
         }
 
         #endregion

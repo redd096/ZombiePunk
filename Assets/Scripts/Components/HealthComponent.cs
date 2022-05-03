@@ -25,8 +25,7 @@ namespace redd096.GameTopDown2D
         [ProgressBar("Health", "MaxHealth", ProgressBarAttribute.EColor.SmoothGreen)] public float CurrentHealth = 100;
         /*[ShowNonSerializedField]*/ public bool IsCurrentlyInvincible => Invincible || Time.time < tempInvincibleTime;
         /*[ShowNonSerializedField]*/ public bool IsCurrentlyTemporaryInvincible => Time.time < tempInvincibleTime;
-        /*[ShowNonSerializedField]*/
-        [ReadOnly] bool alreadyDead = false;
+        /*[ShowNonSerializedField]*/ [ReadOnly] bool alreadyDead = false;
 
         //events
         public System.Action<Vector2> onGetDamage { get; set; }
