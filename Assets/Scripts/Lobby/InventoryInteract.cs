@@ -7,6 +7,7 @@ public class InventoryInteract : BASELobbyInteract
     [Header("Slots of which weapon is selecting")]
     [SerializeField] WeaponButtonShop slot1 = default;
     [SerializeField] WeaponButtonShop slot2 = default;
+    [SerializeField] Sprite spriteToShowWhenWeaponIsNull = default;
 
     [Header("UI Weapons")]
     [SerializeField] WeaponButtonShop[] weaponButtons = default;
@@ -52,8 +53,8 @@ public class InventoryInteract : BASELobbyInteract
             WeaponBASE[] weapons = mainInteracting.GetSavedComponent<WeaponComponent>().CurrentWeapons;
             if (weapons != null)
             {
-                if (weapons.Length > 0 && weapons[0]) SetSlot(weapons[0].WeaponPrefab, true);
-                if (weapons.Length > 1 && weapons[1]) SetSlot(weapons[1].WeaponPrefab, false);
+                if (weapons.Length > 0) SetSlot(weapons[0], true);
+                if (weapons.Length > 1) SetSlot(weapons[1], false);
             }
         }
     }
@@ -158,13 +159,13 @@ public class InventoryInteract : BASELobbyInteract
     {
         //get slot
         WeaponButtonShop buttonShop = isSlot1 ? slot1 : slot2;
-        if (buttonShop == null || sellable == null)
+        if (buttonShop == null)
             return;
 
         //set image, name and price text
-        if (buttonShop.imageWeapon) buttonShop.imageWeapon.sprite = sellable.SellSprite;
-        if (buttonShop.nameText) buttonShop.nameText.text = sellable.SellName;
-        if (buttonShop.priceText) buttonShop.priceText.text = sellable.SellPrice.ToString();
+        if (buttonShop.imageWeapon) buttonShop.imageWeapon.sprite = sellable != null ? sellable.SellSprite : spriteToShowWhenWeaponIsNull;
+        if (buttonShop.nameText) buttonShop.nameText.text = sellable != null ? sellable.SellName : string.Empty;
+        if (buttonShop.priceText) buttonShop.priceText.text = sellable != null ? sellable.SellPrice.ToString() : string.Empty;
     }
 
     #region on click button
