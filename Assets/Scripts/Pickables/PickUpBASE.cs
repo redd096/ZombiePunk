@@ -89,9 +89,11 @@ namespace redd096.GameTopDown2D
             }
 
             //if hitted by player
-            whoHit = collision.transform.GetComponentInParent<Character>();
-            if (whoHit && whoHit.CharacterType == Character.ECharacterType.Player)
+            Character ch = collision.transform.GetComponentInParent<Character>();
+            if (ch && ch.CharacterType == Character.ECharacterType.Player)
             {
+                whoHit = ch;
+
                 //pick up
                 PickUp();
             }
