@@ -42,11 +42,19 @@ namespace redd096
         [SerializeField] Image redScreenImage = default;
         [Range(0.0f, 1.0f)] [SerializeField] float percentageToStartShowRedScreen = 0.4f;
 
+        [Header("Flash On Get Damage or Health")]
+        [SerializeField] Image imageToFlash = default;
+        [SerializeField] Color colorOnGetDamage = Color.red;
+        [SerializeField] Color colorOnGetHealth = Color.green;
+        [SerializeField] float timeBeforeHideOnGetDamage = 0.1f;
+        [SerializeField] float timeBeforeHideOnGetHealth = 0.1f;
+
         //delay input when open menu
         EventSystem eventSystem;
         Coroutine delayInputCoroutine;
 
         Coroutine perkCooldownCoroutine;
+        Coroutine flashImageCoroutine;
 
         //blood on screen
         List<Image> deactiveBloods = new List<Image>();
@@ -57,7 +65,10 @@ namespace redd096
             //by default, deactive menus
             PauseMenu(false);
             EndMenu(false);
+
+            //deactive images
             UpdateRedScreenImage(0, 0);
+            if (imageToFlash) imageToFlash.gameObject.SetActive(false);
 
             //by default deactive blood images and add to list
             foreach (Image image in bloodImages)
@@ -260,7 +271,14 @@ namespace redd096
         /// </summary>
         public void OnGetDamage(HealthComponent healthComponent)
         {
+            //update red screen
             UpdateRedScreenImage(healthComponent.CurrentHealth, healthComponent.MaxHealth);
+
+            //flash image
+            if (flashImageCoroutine != null)
+                StopCoroutine(flashImageCoroutine);
+
+            flashImageCoroutine = StartCoroutine(FlashImageCoroutine(true));
         }
 
         /// <summary>
@@ -268,7 +286,14 @@ namespace redd096
         /// </summary>
         public void OnGetHealth(HealthComponent healthComponent)
         {
+            //update red screen
             UpdateRedScreenImage(healthComponent.CurrentHealth, healthComponent.MaxHealth);
+
+            //flash image
+            if (flashImageCoroutine != null)
+                StopCoroutine(flashImageCoroutine);
+
+            flashImageCoroutine = StartCoroutine(FlashImageCoroutine(false));
         }
 
         #endregion
@@ -336,6 +361,23 @@ namespace redd096
 
             //set alpha
             redScreenImage.color = new Color(redScreenImage.color.r, redScreenImage.color.g, redScreenImage.color.b, 1 - percentageHealth);
+        }
+
+        IEnumerator FlashImageCoroutine(bool getDamage)
+        {
+            //set color and show image
+            if (imageToFlash)
+            {
+                imageToFlash.color = getDamage ? colorOnGetDamage : colorOnGetHealth;
+                imageToFlash.gameObject.SetActive(true);
+            }
+
+            //wait
+            yield return new WaitForSeconds(getDamage ? timeBeforeHideOnGetDamage : timeBeforeHideOnGetHealth);
+
+            //and hide
+            if (imageToFlash)
+                imageToFlash.gameObject.SetActive(false);
         }
 
         #endregion
