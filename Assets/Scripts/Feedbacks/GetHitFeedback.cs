@@ -38,9 +38,16 @@ namespace redd096.GameTopDown2D
         [Header("On Get Health")]
         [SerializeField] FeedbackStructRedd096 feedbackOnGetHealth = default;
 
+        [Header("Stop Time On Get Damage")]
+        [SerializeField] bool stopTimeOnGetDamage = false;
+        [EnableIf("stopTimeOnGetDamage")] [SerializeField] float timeScaleToSet = 0.0f;
+        [EnableIf("stopTimeOnGetDamage")] [SerializeField] float timeBeforeResetTime = 0.1f;
+
         Character selfCharacter;
         Dictionary<SpriteRenderer, Material> savedMaterials = new Dictionary<SpriteRenderer, Material>();
         Coroutine blinkCoroutine;
+
+        Coroutine stopTimeCoroutine;
 
         void Awake()
         {
@@ -122,6 +129,15 @@ namespace redd096.GameTopDown2D
                     GameManager.instance.uiManager.OnGetDamage(healthComponent);
                 }
             }
+
+            //stop time on get damage
+            if (stopTimeOnGetDamage && selfCharacter && selfCharacter.CharacterType == Character.ECharacterType.Player)
+            {
+                if (stopTimeCoroutine != null)
+                    StopCoroutine(stopTimeCoroutine);
+
+                stopTimeCoroutine = StartCoroutine(StopTimeCoroutine());
+            }
         }
 
         IEnumerator BlinkCoroutine()
@@ -167,6 +183,20 @@ namespace redd096.GameTopDown2D
                     GameManager.instance.uiManager.OnGetHealth(healthComponent);
                 }
             }
+        }
+
+        IEnumerator StopTimeCoroutine()
+        {
+            //set time scale
+            Time.timeScale = timeScaleToSet;
+
+            //wait
+            float time = Time.realtimeSinceStartup + timeBeforeResetTime;
+            while (time > Time.realtimeSinceStartup)
+                yield return null;
+
+            //reset time
+            Time.timeScale = 1;
         }
 
         #endregion

@@ -44,6 +44,7 @@ namespace redd096
 
         [Header("Flash On Get Damage or Health")]
         [SerializeField] Image imageToFlash = default;
+        [SerializeField] bool useRealtimeTime = true;
         [SerializeField] Color colorOnGetDamage = Color.red;
         [SerializeField] Color colorOnGetHealth = Color.green;
         [SerializeField] float timeBeforeHideOnGetDamage = 0.1f;
@@ -372,8 +373,18 @@ namespace redd096
                 imageToFlash.gameObject.SetActive(true);
             }
 
-            //wait
-            yield return new WaitForSeconds(getDamage ? timeBeforeHideOnGetDamage : timeBeforeHideOnGetHealth);
+            //wait realtime Time
+            if (useRealtimeTime)
+            {
+                float time = Time.realtimeSinceStartup + (getDamage ? timeBeforeHideOnGetDamage : timeBeforeHideOnGetHealth);
+                while (time > Time.realtimeSinceStartup)
+                    yield return null;
+            }
+            //or Time.time
+            else
+            {
+                yield return new WaitForSeconds(getDamage ? timeBeforeHideOnGetDamage : timeBeforeHideOnGetHealth);
+            }
 
             //and hide
             if (imageToFlash)
