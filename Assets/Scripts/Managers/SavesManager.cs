@@ -120,7 +120,7 @@ public class SavesManager : Singleton<SavesManager>
             if (savePerks && player.GetSavedComponent<PerksComponent>()) savedStats.EquippedPerk = player.GetSavedComponent<PerksComponent>().EquippedPerk;
 
             //foreach weapon save prefab
-            if (saveAmmo && player.GetSavedComponent<WeaponComponent>())
+            if (saveWeapons && player.GetSavedComponent<WeaponComponent>())
             {
                 savedStats.WeaponsPrefabs = new WeaponBASE[player.GetSavedComponent<WeaponComponent>().CurrentWeapons.Length];
                 for (int i = 0; i < savedStats.WeaponsPrefabs.Length; i++)

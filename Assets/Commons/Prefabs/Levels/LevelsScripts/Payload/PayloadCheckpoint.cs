@@ -17,11 +17,14 @@ public class PayloadCheckpoint : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //do only if there is still a payload in scene
+        if (payload == null)
+            return;
+
         if (gameObject.transform.position.x <= payload.transform.position.x)
         {
-            toTurnOn.SetActive(true);
-            Destroy(toTurnOff);
-            
+            if (toTurnOn) toTurnOn.SetActive(true);
+            if (toTurnOff) Destroy(toTurnOff);            
         }
     }
 }

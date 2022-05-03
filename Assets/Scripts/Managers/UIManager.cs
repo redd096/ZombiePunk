@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.EventSystems;
+using redd096.GameTopDown2D;
 
 namespace redd096
 {
@@ -37,6 +38,10 @@ namespace redd096
         [SerializeField] Image[] bloodImages = default;
         [Tooltip("Value is alpha of the image")] [SerializeField] AnimationCurve curveDeactivationBlood = default;
 
+        [Header("Red Screen")]
+        [SerializeField] Image redScreenImage = default;
+        [Range(0.0f, 1.0f)] [SerializeField] float percentageToStartShowRedScreen = 0.4f;
+
         //delay input when open menu
         EventSystem eventSystem;
         Coroutine delayInputCoroutine;
@@ -52,6 +57,7 @@ namespace redd096
             //by default, deactive menus
             PauseMenu(false);
             EndMenu(false);
+            UpdateRedScreenImage(0, 0);
 
             //by default deactive blood images and add to list
             foreach (Image image in bloodImages)
@@ -249,6 +255,22 @@ namespace redd096
             activeBloods.Add(randomBlood, StartCoroutine(DeactiveBloodOnScreen(randomBlood)));
         }
 
+        /// <summary>
+        /// Show ui feedback on get damage
+        /// </summary>
+        public void OnGetDamage(HealthComponent healthComponent)
+        {
+            UpdateRedScreenImage(healthComponent.CurrentHealth, healthComponent.MaxHealth);
+        }
+
+        /// <summary>
+        /// Show ui feedback on get health
+        /// </summary>
+        public void OnGetHealth(HealthComponent healthComponent)
+        {
+            UpdateRedScreenImage(healthComponent.CurrentHealth, healthComponent.MaxHealth);
+        }
+
         #endregion
 
         #region private API
@@ -299,6 +321,21 @@ namespace redd096
             bloodOnScreen.gameObject.SetActive(false);
             activeBloods.Remove(bloodOnScreen);
             deactiveBloods.Add(bloodOnScreen);
+        }
+
+        private void UpdateRedScreenImage(float currentHealth, float maxHealth)
+        {
+            if (redScreenImage == null)
+                return;
+
+            //find percentage health
+            float percentageHealth = currentHealth / maxHealth;
+
+            //active only under percentage
+            redScreenImage.gameObject.SetActive(percentageHealth <= percentageToStartShowRedScreen);
+
+            //set alpha
+            redScreenImage.color = new Color(redScreenImage.color.r, redScreenImage.color.g, redScreenImage.color.b, 1 - percentageHealth);
         }
 
         #endregion

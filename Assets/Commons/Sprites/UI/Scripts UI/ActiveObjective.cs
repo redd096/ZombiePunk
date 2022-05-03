@@ -17,10 +17,13 @@ public class ActiveObjective : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        //do only if there a payload in scene
+        if (payload == null)
+            return;
+
         if (gameObject.transform.position.x <= payload.transform.position.x)
         {
-            ActivateObjective.SetActive(true);
-
+            if (ActivateObjective) ActivateObjective.SetActive(true);
         }
     }
 }
