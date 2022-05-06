@@ -135,8 +135,17 @@ public class SavesManager : Singleton<SavesManager>
 
     #region save and load between scenes
 
+    public void SaveStats()
+    {
+        //find every player in scene and save
+        SaveStats(FindObjectsOfType<Character>().Where(x => x.CharacterType == Character.ECharacterType.Player).ToArray());
+    }
+
     public void SaveStats(Character[] players)
     {
+        if (players == null)
+            return;
+
         //save stats for players
         foreach (Character player in players)
         {
