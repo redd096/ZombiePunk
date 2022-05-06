@@ -188,10 +188,10 @@ namespace redd096.GameTopDown2D
             Vector2 center = (Vector2)boxCollider.transform.position + boxCollider.offset * boxCollider.transform.lossyScale;
             Vector2 halfSize = boxCollider.size * boxCollider.transform.lossyScale * 0.5f;
 
-            //set confiner
+            //set confiner (keep Z already setted)
             isConfined = true;
-            minConfiner = new Vector3(center.x - halfSize.x, center.y - halfSize.y, 0);
-            maxConfiner = new Vector3(center.x + halfSize.x, center.y + halfSize.y, 0);
+            minConfiner = new Vector3(center.x - halfSize.x, center.y - halfSize.y, minConfiner.z);
+            maxConfiner = new Vector3(center.x + halfSize.x, center.y + halfSize.y, maxConfiner.z);
         }
 
         /// <summary>
