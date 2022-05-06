@@ -24,7 +24,13 @@ public class PayloadCheckpoint : MonoBehaviour
         if (gameObject.transform.position.x <= payload.transform.position.x)
         {
             if (toTurnOn) toTurnOn.SetActive(true);
-            if (toTurnOff) Destroy(toTurnOff);            
+            if (toTurnOff) Destroy(toTurnOff);
+
+            if (GetComponent<ActivateDeactivateObjects>())
+                GetComponent<ActivateDeactivateObjects>().Activate();
+
+            //deactive so doesn't call this again
+            enabled = false;
         }
     }
 }
