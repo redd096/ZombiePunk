@@ -3,6 +3,8 @@ using System.Collections;
 using UnityEngine;
 using redd096;
 using redd096.GameTopDown2D;
+using redd096.Attributes;
+using System.Linq;
 
 //when add new classes to save in json, just create a new class (at the end of this file) and add in the array classesToSave
 //when add new variable to load and save between scenes, just add to SavesBetweenScenes class and in functions SaveStats and LoadStats
@@ -10,18 +12,33 @@ using redd096.GameTopDown2D;
 [DefaultExecutionOrder(-99)]
 public class SavesManager : Singleton<SavesManager>
 {
+    enum EClearSaveCondition { ClearWhenEnterInLobby, ClearWhenEnterInMainMenu, ClearWhenEnterInBoth, Never }
+
     [Header("Save between scenes")]
     [SerializeField] bool saveHealth = true;
     [SerializeField] bool saveAmmo = true;
     [SerializeField] bool savePerks = true;
     [SerializeField] bool saveWeapons = true;
     [SerializeField] bool saveIndexEquippedWeapon = true;
+    [Space]
+    [SerializeField] EClearSaveCondition clearStatsOnExit = EClearSaveCondition.ClearWhenEnterInMainMenu;
+
+    [Header("Save Checkpoint (only greater than zero)")]
+    [ReadOnly] [SerializeField] int currentCheckpoint = 0;
+    [SerializeField] EClearSaveCondition clearCheckpointOnExit = EClearSaveCondition.ClearWhenEnterInBoth;
+    [Space]
+    [SerializeField] int overwriteCheckpoint = 10;
+    [Button] void OverwriteCheckpoint() => SaveCheckpoint(overwriteCheckpoint);
+    [Button] void ForceLoadCheckpoint() => LoadCheckpoint();
 
     //save and load in json
     ISaveClass[] classesToSave = new ISaveClass[] { new SaveClassMoney(), new SaveClassBoughtElements(), new SaveClassLevelReached() };
 
     //save and load between scenes
     SavesBetweenScenes savedStats;
+
+    //save and load checkpoint
+    SavesCheckpoint reachedCheckpoint;
 
     protected override void Awake()
     {
@@ -43,15 +60,27 @@ public class SavesManager : Singleton<SavesManager>
     {
         base.SetDefaults();
 
-        //load stats to players
-        if (GameManager.instance && GameManager.instance.levelManager)
+        //when move to a level without level manager (MAIN MENU)
+        if (GameManager.instance == false || GameManager.instance.levelManager == false)
         {
-            LoadStats();
+            //clear saves between scenes
+            if (clearStatsOnExit == EClearSaveCondition.ClearWhenEnterInMainMenu || clearStatsOnExit == EClearSaveCondition.ClearWhenEnterInBoth)
+                ClearStats();
+
+            //clear checkpoint
+            if (clearCheckpointOnExit == EClearSaveCondition.ClearWhenEnterInMainMenu || clearCheckpointOnExit == EClearSaveCondition.ClearWhenEnterInBoth)
+                ClearCheckpoint();
         }
-        //reset when move to a level without LevelManager
-        else
+        //when move to lobby scene
+        else if (FindObjectOfType<MapInteract>() != null)
         {
-            savedStats = null;
+            //clear saves between scenes
+            if (clearStatsOnExit == EClearSaveCondition.ClearWhenEnterInLobby || clearStatsOnExit == EClearSaveCondition.ClearWhenEnterInBoth)
+                ClearStats();
+
+            //clear checkpoint
+            if (clearCheckpointOnExit == EClearSaveCondition.ClearWhenEnterInLobby || clearCheckpointOnExit == EClearSaveCondition.ClearWhenEnterInBoth)
+                ClearCheckpoint();
         }
     }
 
@@ -106,8 +135,17 @@ public class SavesManager : Singleton<SavesManager>
 
     #region save and load between scenes
 
+    public void SaveStats()
+    {
+        //find every player in scene and save
+        SaveStats(FindObjectsOfType<Character>().Where(x => x.CharacterType == Character.ECharacterType.Player).ToArray());
+    }
+
     public void SaveStats(Character[] players)
     {
+        if (players == null)
+            return;
+
         //save stats for players
         foreach (Character player in players)
         {
@@ -138,7 +176,7 @@ public class SavesManager : Singleton<SavesManager>
         }
     }
 
-    void LoadStats()
+    public void LoadStats()
     {
         if (savedStats == null)
             return;
@@ -158,6 +196,12 @@ public class SavesManager : Singleton<SavesManager>
                     StartCoroutine(LoadWeaponsCoroutine(player));
             }
         }
+    }
+
+    public void ClearStats()
+    {
+        //clear stats
+        savedStats = null;
     }
 
     IEnumerator LoadWeaponsCoroutine(Character player)
@@ -211,8 +255,83 @@ public class SavesManager : Singleton<SavesManager>
     }
 
     #endregion
+
+    #region save and load checkpoint
+
+    public void SaveCheckpoint(ReachedCheckpoint checkpoint)
+    {
+        if (checkpoint == null)
+            return;
+
+        //save debug
+        currentCheckpoint = checkpoint.CheckpointNumber;
+
+        //get player in level manager
+        Character player = GameManager.instance && GameManager.instance.levelManager && GameManager.instance.levelManager.Players != null && GameManager.instance.levelManager.Players.Count > 0 ?
+            GameManager.instance.levelManager.Players[0] : null;
+
+        //save reached checkpoint
+        reachedCheckpoint = new SavesCheckpoint();
+        reachedCheckpoint.CheckpointNumber = checkpoint.CheckpointNumber;
+        reachedCheckpoint.CurrentHealth = checkpoint.SaveHealth && player && player.GetSavedComponent<HealthComponent>() ? player.GetSavedComponent<HealthComponent>().CurrentHealth : -1;
+        reachedCheckpoint.CurrentAmmos = checkpoint.SaveAmmo && player && player.GetSavedComponent<AdvancedWeaponComponent>() ? new Dictionary<string, int>(player.GetSavedComponent<AdvancedWeaponComponent>().CurrentAmmos_NotSafe) : null;
+    }
+
+    public void SaveCheckpoint(int checkpointNumber)
+    {
+        //find checkpoint with that number, and save
+        SaveCheckpoint(FindObjectsOfType<ReachedCheckpoint>().Where(x => x.CheckpointNumber == checkpointNumber).FirstOrDefault());
+    }
+
+    public void LoadCheckpoint()
+    {
+        //do only if checkpoint is saved
+        if (reachedCheckpoint == null)
+            return;
+
+        //find checkpoint with reached level
+        foreach (ReachedCheckpoint checkpoint in FindObjectsOfType<ReachedCheckpoint>())
+        {
+            if (checkpoint.CheckpointNumber == reachedCheckpoint.CheckpointNumber)
+            {
+                //load it
+                checkpoint.LoadCheckpoint();
+
+                //find player
+                Character player = FindObjectsOfType<Character>().Where(x => x.CharacterType == Character.ECharacterType.Player).FirstOrDefault();
+
+                //load also health
+                if (reachedCheckpoint.CurrentHealth > 0)
+                {
+                    if (player.GetSavedComponent<HealthComponent>()) player.GetSavedComponent<HealthComponent>().CurrentHealth = reachedCheckpoint.CurrentHealth;
+                }
+                // and ammo
+                if (reachedCheckpoint.CurrentAmmos != null)
+                {
+                    if (player.GetSavedComponent<AdvancedWeaponComponent>()) player.GetSavedComponent<AdvancedWeaponComponent>().CurrentAmmos_NotSafe = new Dictionary<string, int>(reachedCheckpoint.CurrentAmmos);
+                }
+
+                break;
+            }
+        }
+    }
+
+    public void ClearCheckpoint()
+    {
+        //clear checkpoint
+        reachedCheckpoint = null;
+    }
+
+    public static bool CanLoadDefaultAmmos_Checkpoint()
+    {
+        //check if saved checkpoint and saved also ammo. If not, load default ammo
+        return (instance && instance.reachedCheckpoint != null && instance.reachedCheckpoint.CurrentAmmos != null) == false;
+    }
+
+    #endregion
 }
 
+[System.Serializable]
 public class SavesBetweenScenes
 {
     public float CurrentHealth;
@@ -220,6 +339,14 @@ public class SavesBetweenScenes
     public PerkData EquippedPerk;
     public WeaponBASE[] WeaponsPrefabs;
     public int IndexEquippedWeapon;
+}
+
+[System.Serializable]
+public class SavesCheckpoint
+{
+    public int CheckpointNumber;
+    public float CurrentHealth;
+    public Dictionary<string, int> CurrentAmmos;
 }
 
 #region interface
