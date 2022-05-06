@@ -11,6 +11,8 @@ using redd096.Attributes;
 [DefaultExecutionOrder(-99)]
 public class SavesManager : Singleton<SavesManager>
 {
+    enum EClearSaveCondition { ClearWhenEnterInLobby, ClearWhenEnterInMainMenu, ClearWhenEnterInBoth, Never }
+
     [Header("Save between scenes")]
     [SerializeField] bool saveHealth = true;
     [SerializeField] bool saveAmmo = true;
@@ -18,11 +20,11 @@ public class SavesManager : Singleton<SavesManager>
     [SerializeField] bool saveWeapons = true;
     [SerializeField] bool saveIndexEquippedWeapon = true;
     [Space]
-    [SerializeField] bool clearStatsOnExit = true;
+    [SerializeField] EClearSaveCondition clearStatsOnExit = EClearSaveCondition.ClearWhenEnterInMainMenu;
 
     [Header("Save Checkpoint (only greater than zero)")]
     [ReadOnly] [SerializeField] int reachedCheckpoint = 0;
-    [SerializeField] bool clearCheckpointOnExit = true;
+    [SerializeField] EClearSaveCondition clearCheckpointOnExit = EClearSaveCondition.ClearWhenEnterInBoth;
     [Space]
     [SerializeField] int overwriteCheckpoint = 10;
     [Button] void OverwriteCheckpoint() => SaveCheckpoint(overwriteCheckpoint);
@@ -54,15 +56,26 @@ public class SavesManager : Singleton<SavesManager>
     {
         base.SetDefaults();
 
-        //when move to a level without level manager
+        //when move to a level without level manager (MAIN MENU)
         if (GameManager.instance == false || GameManager.instance.levelManager == false)
         {
             //clear saves between scenes
-            if (clearStatsOnExit)
+            if (clearStatsOnExit == EClearSaveCondition.ClearWhenEnterInMainMenu || clearStatsOnExit == EClearSaveCondition.ClearWhenEnterInBoth)
                 ClearStats();
 
             //clear checkpoint
-            if (clearCheckpointOnExit)
+            if (clearCheckpointOnExit == EClearSaveCondition.ClearWhenEnterInMainMenu || clearCheckpointOnExit == EClearSaveCondition.ClearWhenEnterInBoth)
+                ClearCheckpoint();
+        }
+        //when move to lobby scene
+        else if (FindObjectOfType<MapInteract>() != null)
+        {
+            //clear saves between scenes
+            if (clearStatsOnExit == EClearSaveCondition.ClearWhenEnterInLobby || clearStatsOnExit == EClearSaveCondition.ClearWhenEnterInBoth)
+                ClearStats();
+
+            //clear checkpoint
+            if (clearCheckpointOnExit == EClearSaveCondition.ClearWhenEnterInLobby || clearCheckpointOnExit == EClearSaveCondition.ClearWhenEnterInBoth)
                 ClearCheckpoint();
         }
     }
