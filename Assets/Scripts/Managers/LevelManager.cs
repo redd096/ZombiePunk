@@ -25,6 +25,14 @@ public class LevelManager : MonoBehaviour
         //by default call resume game, to lock mouse
         if (SceneLoader.instance)
             SceneLoader.instance.ResumeGame();
+
+        //if there is a save between scenes, load it
+        if (SavesManager.instance)
+            SavesManager.instance.LoadStats();
+
+        //if there is saved a checkpoint, load it
+        if (SavesManager.instance)
+            SavesManager.instance.LoadCheckpoint();
     }
 
     void OnEnable()

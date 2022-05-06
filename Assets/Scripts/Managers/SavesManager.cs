@@ -3,6 +3,7 @@ using System.Collections;
 using UnityEngine;
 using redd096;
 using redd096.GameTopDown2D;
+using redd096.Attributes;
 
 //when add new classes to save in json, just create a new class (at the end of this file) and add in the array classesToSave
 //when add new variable to load and save between scenes, just add to SavesBetweenScenes class and in functions SaveStats and LoadStats
@@ -16,6 +17,16 @@ public class SavesManager : Singleton<SavesManager>
     [SerializeField] bool savePerks = true;
     [SerializeField] bool saveWeapons = true;
     [SerializeField] bool saveIndexEquippedWeapon = true;
+    [Space]
+    [SerializeField] bool clearStatsOnExit = true;
+
+    [Header("Save Checkpoint (only greater than zero)")]
+    [ReadOnly] [SerializeField] int reachedCheckpoint = 0;
+    [SerializeField] bool clearCheckpointOnExit = true;
+    [Space]
+    [SerializeField] int overwriteCheckpoint = 10;
+    [Button] void OverwriteCheckpoint() => SaveCheckpoint(overwriteCheckpoint);
+    [Button] void ForceLoadCheckpoint() => LoadCheckpoint();
 
     //save and load in json
     ISaveClass[] classesToSave = new ISaveClass[] { new SaveClassMoney(), new SaveClassBoughtElements(), new SaveClassLevelReached() };
@@ -43,15 +54,16 @@ public class SavesManager : Singleton<SavesManager>
     {
         base.SetDefaults();
 
-        //load stats to players
-        if (GameManager.instance && GameManager.instance.levelManager)
+        //when move to a level without level manager
+        if (GameManager.instance == false || GameManager.instance.levelManager == false)
         {
-            LoadStats();
-        }
-        //reset when move to a level without LevelManager
-        else
-        {
-            savedStats = null;
+            //clear saves between scenes
+            if (clearStatsOnExit)
+                ClearStats();
+
+            //clear checkpoint
+            if (clearCheckpointOnExit)
+                ClearCheckpoint();
         }
     }
 
@@ -138,7 +150,7 @@ public class SavesManager : Singleton<SavesManager>
         }
     }
 
-    void LoadStats()
+    public void LoadStats()
     {
         if (savedStats == null)
             return;
@@ -158,6 +170,12 @@ public class SavesManager : Singleton<SavesManager>
                     StartCoroutine(LoadWeaponsCoroutine(player));
             }
         }
+    }
+
+    public void ClearStats()
+    {
+        //clear stats
+        savedStats = null;
     }
 
     IEnumerator LoadWeaponsCoroutine(Character player)
@@ -208,6 +226,40 @@ public class SavesManager : Singleton<SavesManager>
     {
         //check if save ammo and there is a save (it's not the first level/lobby). If not, load default ammo
         return (instance && instance.saveAmmo && instance.savedStats != null) == false;
+    }
+
+    #endregion
+
+    #region save and load checkpoint
+
+    public void SaveCheckpoint(int checkpoint)
+    {
+        //save reached checkpoint
+        reachedCheckpoint = checkpoint;
+    }
+
+    public void LoadCheckpoint()
+    {
+        //do only if checkpoint is saved
+        if (reachedCheckpoint <= 0)
+            return;
+
+        //find checkpoint with reached level
+        foreach (ReachedCheckpoint checkpoint in FindObjectsOfType<ReachedCheckpoint>())
+        {
+            if (checkpoint.CheckpointNumber == reachedCheckpoint)
+            {
+                //load it
+                checkpoint.LoadCheckpoint();
+                break;
+            }
+        }
+    }
+
+    public void ClearCheckpoint()
+    {
+        //clear checkpoint
+        reachedCheckpoint = 0;
     }
 
     #endregion
