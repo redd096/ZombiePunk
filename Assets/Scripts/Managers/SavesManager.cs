@@ -271,7 +271,7 @@ public class SavesManager : Singleton<SavesManager>
     public void SaveCheckpoint(int checkpointNumber)
     {
         //find checkpoint with that number, and save
-        SaveCheckpoint(FindObjectsOfType<ReachedCheckpoint>().Where(x => x.CheckpointNumber == overwriteCheckpoint).FirstOrDefault());
+        SaveCheckpoint(FindObjectsOfType<ReachedCheckpoint>().Where(x => x.CheckpointNumber == checkpointNumber).FirstOrDefault());
     }
 
     public void LoadCheckpoint()
