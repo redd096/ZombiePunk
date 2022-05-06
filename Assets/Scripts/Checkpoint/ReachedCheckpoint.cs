@@ -5,6 +5,8 @@ public class ReachedCheckpoint : MonoBehaviour
 {
     [Header("Checkpoint")]
     [Min(1)] public int CheckpointNumber = 1;
+    public bool SaveHealth = true;
+    public bool SaveAmmo = true;
 
     [Header("Rules")]
     [SerializeField] bool saveOnTriggerEnter = true;
@@ -40,7 +42,7 @@ public class ReachedCheckpoint : MonoBehaviour
             //save checkpoint
             if (SavesManager.instance)
             {
-                SavesManager.instance.SaveCheckpoint(CheckpointNumber);
+                SavesManager.instance.SaveCheckpoint(this);
 
                 //load if necessary
                 if (loadOnSave)

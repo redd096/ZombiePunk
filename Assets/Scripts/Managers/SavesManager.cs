@@ -4,6 +4,7 @@ using UnityEngine;
 using redd096;
 using redd096.GameTopDown2D;
 using redd096.Attributes;
+using System.Linq;
 
 //when add new classes to save in json, just create a new class (at the end of this file) and add in the array classesToSave
 //when add new variable to load and save between scenes, just add to SavesBetweenScenes class and in functions SaveStats and LoadStats
@@ -23,7 +24,7 @@ public class SavesManager : Singleton<SavesManager>
     [SerializeField] EClearSaveCondition clearStatsOnExit = EClearSaveCondition.ClearWhenEnterInMainMenu;
 
     [Header("Save Checkpoint (only greater than zero)")]
-    [ReadOnly] [SerializeField] int reachedCheckpoint = 0;
+    [ReadOnly] [SerializeField] int currentCheckpoint = 0;
     [SerializeField] EClearSaveCondition clearCheckpointOnExit = EClearSaveCondition.ClearWhenEnterInBoth;
     [Space]
     [SerializeField] int overwriteCheckpoint = 10;
@@ -35,6 +36,9 @@ public class SavesManager : Singleton<SavesManager>
 
     //save and load between scenes
     SavesBetweenScenes savedStats;
+
+    //save and load checkpoint
+    SavesCheckpoint reachedCheckpoint;
 
     protected override void Awake()
     {
@@ -245,25 +249,59 @@ public class SavesManager : Singleton<SavesManager>
 
     #region save and load checkpoint
 
-    public void SaveCheckpoint(int checkpoint)
+    public void SaveCheckpoint(ReachedCheckpoint checkpoint)
     {
+        if (checkpoint == null)
+            return;
+
+        //save debug
+        currentCheckpoint = checkpoint.CheckpointNumber;
+
+        //get player in level manager
+        Character player = GameManager.instance && GameManager.instance.levelManager && GameManager.instance.levelManager.Players != null && GameManager.instance.levelManager.Players.Count > 0 ?
+            GameManager.instance.levelManager.Players[0] : null;
+
         //save reached checkpoint
-        reachedCheckpoint = checkpoint;
+        reachedCheckpoint = new SavesCheckpoint();
+        reachedCheckpoint.CheckpointNumber = checkpoint.CheckpointNumber;
+        reachedCheckpoint.CurrentHealth = checkpoint.SaveHealth && player && player.GetSavedComponent<HealthComponent>() ? player.GetSavedComponent<HealthComponent>().CurrentHealth : -1;
+        reachedCheckpoint.CurrentAmmos = checkpoint.SaveAmmo && player && player.GetSavedComponent<AdvancedWeaponComponent>() ? new Dictionary<string, int>(player.GetSavedComponent<AdvancedWeaponComponent>().CurrentAmmos_NotSafe) : null;
+    }
+
+    public void SaveCheckpoint(int checkpointNumber)
+    {
+        //find checkpoint with that number, and save
+        SaveCheckpoint(FindObjectsOfType<ReachedCheckpoint>().Where(x => x.CheckpointNumber == overwriteCheckpoint).FirstOrDefault());
     }
 
     public void LoadCheckpoint()
     {
         //do only if checkpoint is saved
-        if (reachedCheckpoint <= 0)
+        if (reachedCheckpoint == null)
             return;
 
         //find checkpoint with reached level
         foreach (ReachedCheckpoint checkpoint in FindObjectsOfType<ReachedCheckpoint>())
         {
-            if (checkpoint.CheckpointNumber == reachedCheckpoint)
+            if (checkpoint.CheckpointNumber == reachedCheckpoint.CheckpointNumber)
             {
                 //load it
                 checkpoint.LoadCheckpoint();
+
+                //find player
+                Character player = FindObjectsOfType<Character>().Where(x => x.CharacterType == Character.ECharacterType.Player).FirstOrDefault();
+
+                //load also health
+                if (reachedCheckpoint.CurrentHealth > 0)
+                {
+                    if (player.GetSavedComponent<HealthComponent>()) player.GetSavedComponent<HealthComponent>().CurrentHealth = reachedCheckpoint.CurrentHealth;
+                }
+                // and ammo
+                if (reachedCheckpoint.CurrentAmmos != null)
+                {
+                    if (player.GetSavedComponent<AdvancedWeaponComponent>()) player.GetSavedComponent<AdvancedWeaponComponent>().CurrentAmmos_NotSafe = new Dictionary<string, int>(reachedCheckpoint.CurrentAmmos);
+                }
+
                 break;
             }
         }
@@ -272,12 +310,19 @@ public class SavesManager : Singleton<SavesManager>
     public void ClearCheckpoint()
     {
         //clear checkpoint
-        reachedCheckpoint = 0;
+        reachedCheckpoint = null;
+    }
+
+    public static bool CanLoadDefaultAmmos_Checkpoint()
+    {
+        //check if saved checkpoint and saved also ammo. If not, load default ammo
+        return (instance && instance.reachedCheckpoint != null && instance.reachedCheckpoint.CurrentAmmos != null) == false;
     }
 
     #endregion
 }
 
+[System.Serializable]
 public class SavesBetweenScenes
 {
     public float CurrentHealth;
@@ -285,6 +330,14 @@ public class SavesBetweenScenes
     public PerkData EquippedPerk;
     public WeaponBASE[] WeaponsPrefabs;
     public int IndexEquippedWeapon;
+}
+
+[System.Serializable]
+public class SavesCheckpoint
+{
+    public int CheckpointNumber;
+    public float CurrentHealth;
+    public Dictionary<string, int> CurrentAmmos;
 }
 
 #region interface
