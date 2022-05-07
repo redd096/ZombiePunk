@@ -21,13 +21,13 @@ public class FroggerRoom2Objective : MonoBehaviour
     {
         counting();
     }
-    void counting()
+   // void counting()
     {
-        if (counter.number <= 4)
-        {
-            upnum++;
-            billboardsnumber.text = upnum.ToString();
-        }
+       // if (counter.number <= 4)
+      //  {
+        //    upnum++;
+          //  billboardsnumber.text = upnum.ToString();
+        //}
     }
 
 }
