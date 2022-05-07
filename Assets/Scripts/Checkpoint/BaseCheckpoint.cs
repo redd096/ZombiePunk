@@ -1,7 +1,13 @@
 ﻿using UnityEngine;
+using redd096.GameTopDown2D;
+using redd096.Attributes;
 
 public class BaseCheckpoint : MonoBehaviour
 {
+    [Header("Load character to this checkpoint position, or set custom position?")]
+    [SerializeField] bool setCustomPosition = false;
+    [EnableIf("setCustomPosition")] [SerializeField] Vector2 customPosition = Vector2.zero;
+
     [Header("Objects to active and deactivate")]
     [SerializeField] GameObject[] objectsToActivate = default;
     [Space] 
@@ -13,6 +19,11 @@ public class BaseCheckpoint : MonoBehaviour
 
     public void LoadCheckpoint()
     {
+        //set player position (using custom or this checkpoint position)
+        foreach (Character character in FindObjectsOfType<Character>())
+            if (character.CharacterType == Character.ECharacterType.Player)
+                character.transform.position = setCustomPosition ? customPosition : (Vector2)transform.position;
+
         //active objects
         foreach (GameObject go in objectsToActivate)
             if (go)
