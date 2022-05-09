@@ -25,6 +25,8 @@ public class ComboComponent : MonoBehaviour
     public float TimerLocked => comboState == EComboState.Locked ? timer : 0;
     public float TimerWeapon => comboState == EComboState.Active ? timer : 0;
     public EComboState ComboState => comboState;
+    public WeaponBASE[] SavedWeapons => savedWeapons;
+    public int SavedIndexWeapon => savedIndexWeapon;
 
     //events
     public System.Action onAddPoint { get; set; }
@@ -36,7 +38,7 @@ public class ComboComponent : MonoBehaviour
     //save weapons before set the special one
     WeaponComponent weaponComponent;
     WeaponBASE[] savedWeapons = default;
-    int indexWeapon = 0;
+    int savedIndexWeapon = 0;
 
     void Awake()
     {
@@ -109,7 +111,7 @@ public class ComboComponent : MonoBehaviour
         {
             //save weapons
             savedWeapons = weaponComponent.CurrentWeapons.Clone() as WeaponBASE[];
-            indexWeapon = weaponComponent.IndexEquippedWeapon;
+            savedIndexWeapon = weaponComponent.IndexEquippedWeapon;
 
             //drop every weapon
             for (int i = 0; i < savedWeapons.Length; i++)
@@ -157,11 +159,11 @@ public class ComboComponent : MonoBehaviour
                     weaponComponent.PickWeapon(savedWeapons[i], i);
 
             //and switch to previous equipped weapon
-            weaponComponent.SwitchWeaponTo(indexWeapon);
+            weaponComponent.SwitchWeaponTo(savedIndexWeapon);
 
             //reset vars
             savedWeapons = null;
-            indexWeapon = 0;
+            savedIndexWeapon = 0;
         }
 
         //call events
