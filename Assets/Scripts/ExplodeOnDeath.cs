@@ -64,7 +64,7 @@ public class ExplodeOnDeath : MonoBehaviour
         }
     }
 
-    void OnDie(HealthComponent whoDied)
+    void OnDie(HealthComponent whoDied, Character whoHit)
     {
         //do area damage if setted
         if(doAreaDamage && radiusAreaDamage > 0)

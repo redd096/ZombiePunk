@@ -94,6 +94,15 @@ MonoBehaviour:
     volume: 0.2
     is3D: 0
   oneRandomAudioFromTheListOnDie: []
+  feedbackOnGetHealth:
+    InstantiateOneRandom: 0
+    SetParent: 0
+    GameObjectsFeedback: []
+    ParticlesFeedback: []
+    AudiosFeedback: []
+  stopTimeOnGetDamage: 0
+  timeScaleToSet: 0
+  timeBeforeResetTime: 0.1
 --- !u!114 &8545621178297549515
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -164,6 +173,7 @@ GameObject:
   - component: {fileID: 5900990457680263312}
   - component: {fileID: 8770160300763963770}
   - component: {fileID: 7795872236703593632}
+  - component: {fileID: 1292251800332396815}
   m_Layer: 11
   m_Name: BASEEnemy
   m_TagString: Untagged
@@ -389,6 +399,20 @@ MonoBehaviour:
   dropOnDeactivate: 0
   totalPercentage: 0
   drops: []
+--- !u!114 &1292251800332396815
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3832161719942337421}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 08c56721c86827a448924092a5134f48, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  healthComponent: {fileID: 0}
+  pointsToGive: 10
 --- !u!1 &3832161720030964527
 GameObject:
   m_ObjectHideFlags: 0
@@ -594,7 +618,7 @@ MonoBehaviour:
   - {x: -0.3, y: -0.5, z: 0}
   m_ShapePathHash: 1800385341
   m_Mesh: {fileID: 0}
-  m_InstanceId: 30940
+  m_InstanceId: 58458
 --- !u!1 &4458819902260791889
 GameObject:
   m_ObjectHideFlags: 0

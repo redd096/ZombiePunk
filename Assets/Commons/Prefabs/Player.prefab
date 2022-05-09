@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1679298214608976014}
   - component: {fileID: 6756547324650557166}
   - component: {fileID: 7577106351040362770}
+  - component: {fileID: 949161638995021913}
   - component: {fileID: 8707496574145388519}
   - component: {fileID: 3062211758472486148}
   m_Layer: 10
@@ -122,6 +123,23 @@ MonoBehaviour:
   playerInput: {fileID: 1427099914}
   inputName: Switch Weapon
   canSwitchWithMouseScroll: 1
+--- !u!114 &949161638995021913
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1162182017}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ce1248ac6c740e4c88651ce7a714ab2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TaskName: '[ACTION] Active Super Weapon'
+  comboComponent: {fileID: 5578671934777911572}
+  playerInput: {fileID: 1427099914}
+  inputName: Active Super Weapon
+  secondInputName: Second Active Super Weapon
 --- !u!114 &8707496574145388519
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -376,6 +394,7 @@ GameObject:
   - component: {fileID: 4874097267343943965}
   - component: {fileID: 721257591885520909}
   - component: {fileID: 1628526821603085849}
+  - component: {fileID: 985768767355472006}
   m_Layer: 10
   m_Name: Graphics
   m_TagString: Untagged
@@ -618,6 +637,48 @@ MonoBehaviour:
   animTriggers:
   - State: InteractingWithExit State
     TriggerToSet: InteractWithExit
+--- !u!114 &985768767355472006
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395402416062982212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2d6abaea1364fa74b89e9cb92397c600, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  feedbackOnAddPoint:
+    InstantiateOneRandom: 0
+    SetParent: 0
+    GameObjectsFeedback: []
+    ParticlesFeedback: []
+    AudiosFeedback: []
+  feedbackOnReachLimit:
+    InstantiateOneRandom: 0
+    SetParent: 0
+    GameObjectsFeedback: []
+    ParticlesFeedback: []
+    AudiosFeedback: []
+  feedbackOnUnlockLimit:
+    InstantiateOneRandom: 0
+    SetParent: 0
+    GameObjectsFeedback: []
+    ParticlesFeedback: []
+    AudiosFeedback: []
+  feedbackOnActive:
+    InstantiateOneRandom: 0
+    SetParent: 0
+    GameObjectsFeedback: []
+    ParticlesFeedback: []
+    AudiosFeedback: []
+  feedbackOnDeactive:
+    InstantiateOneRandom: 0
+    SetParent: 0
+    GameObjectsFeedback: []
+    ParticlesFeedback: []
+    AudiosFeedback: []
 --- !u!1 &1395402416665274895
 GameObject:
   m_ObjectHideFlags: 0
@@ -637,6 +698,7 @@ GameObject:
   - component: {fileID: 35204183535128521}
   - component: {fileID: 6097445294312923113}
   - component: {fileID: 8972756039431114484}
+  - component: {fileID: 5578671934777911572}
   - component: {fileID: 1427099914}
   - component: {fileID: 3264032009245514301}
   - component: {fileID: 6689069374927739247}
@@ -854,6 +916,28 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   coinmagnetPrefab: {fileID: 9164497710118385235, guid: 232aee3bb759ae84a8abbb114f1045a7,
     type: 3}
+--- !u!114 &5578671934777911572
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1395402416665274895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 53aa0fff488581d43abb8914dd2e1c13, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  ComboToReach: 100
+  DecreaseEverySecond: 1
+  WhenReachLimitIsLockedForever: 1
+  LockedForThisTime: 10
+  WeaponToSet: {fileID: 4065152303579216181, guid: 7c97905066079f74fbc536b862eb977c,
+    type: 3}
+  DurationWeapon: 10
+  currentCombo: 0
+  timer: 0
+  comboState: 0
 --- !u!114 &1427099914
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1107,7 +1191,7 @@ MonoBehaviour:
   - {x: -0.24947326, y: -0.75090253, z: 0}
   m_ShapePathHash: -1904993288
   m_Mesh: {fileID: 0}
-  m_InstanceId: 42644
+  m_InstanceId: 65752
 --- !u!114 &217621354
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1137,7 +1221,7 @@ MonoBehaviour:
   - {x: -0.19, y: -0.53, z: 0}
   m_ShapePathHash: 981544315
   m_Mesh: {fileID: 0}
-  m_InstanceId: 42580
+  m_InstanceId: 65684
 --- !u!1 &1623205665777261636
 GameObject:
   m_ObjectHideFlags: 0
@@ -1474,6 +1558,7 @@ MonoBehaviour:
     - {fileID: 6756547324650557166}
     - {fileID: 7577106351040362770}
     - {fileID: 8707496574145388519}
+    - {fileID: 949161638995021913}
     Transitions:
     - StateDestination: 1
       TransitionCheck: 1

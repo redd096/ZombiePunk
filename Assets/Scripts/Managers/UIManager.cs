@@ -50,6 +50,11 @@ namespace redd096
         [SerializeField] float timeBeforeHideOnGetDamage = 0.1f;
         [SerializeField] float timeBeforeHideOnGetHealth = 0.1f;
 
+        [Header("Combo Bars")]
+        [SerializeField] Slider comboSlider = default;
+        [SerializeField] bool hideDurationWhenNotActive = true;
+        [SerializeField] Slider durationSuperWeaponSlider = default;
+
         //delay input when open menu
         EventSystem eventSystem;
         Coroutine delayInputCoroutine;
@@ -70,6 +75,7 @@ namespace redd096
             //deactive images
             UpdateRedScreenImage(0, 0);
             if (imageToFlash) imageToFlash.gameObject.SetActive(false);
+            SetSuperWeaponIsActive(false);
 
             //by default deactive blood images and add to list
             foreach (Image image in bloodImages)
@@ -295,6 +301,37 @@ namespace redd096
                 StopCoroutine(flashImageCoroutine);
 
             flashImageCoroutine = StartCoroutine(FlashImageCoroutine(false));
+        }
+
+        /// <summary>
+        /// Set combo slider
+        /// </summary>
+        /// <param name="delta"></param>
+        public void UpdateComboSlider(float delta)
+        {
+            if (comboSlider)
+                comboSlider.value = delta;
+        }
+
+        /// <summary>
+        /// Set super weapon slider
+        /// </summary>
+        /// <param name="delta"></param>
+        public void UpdateSuperWeaponSlider(float delta)
+        {
+            if (durationSuperWeaponSlider)
+                durationSuperWeaponSlider.value = delta;
+        }
+
+        /// <summary>
+        /// Call this function to show/hide super weapon
+        /// </summary>
+        /// <param name="isActive"></param>
+        public void SetSuperWeaponIsActive(bool isActive)
+        {
+            //if hide when not active, active/deactive slider
+            if (hideDurationWhenNotActive && durationSuperWeaponSlider)
+                durationSuperWeaponSlider.gameObject.SetActive(isActive);
         }
 
         #endregion
