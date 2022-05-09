@@ -285,6 +285,12 @@ public class SavesManager : Singleton<SavesManager>
         return (instance && instance.saveAmmo && instance.savedStats != null) == false;
     }
 
+    public static bool CanLoadDefaultPerks()
+    {
+        //check if save perks and there is a save (it's not the first level/lobby). If not, load default perk
+        return (instance && instance.savePerks && instance.savedStats != null) == false;
+    }
+
     #endregion
 
     #region save and load checkpoint

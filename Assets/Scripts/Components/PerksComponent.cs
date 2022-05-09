@@ -3,6 +3,9 @@ using redd096.GameTopDown2D;
 
 public class PerksComponent : MonoBehaviour
 {
+    [Header("Default Perk")]
+    [SerializeField] PerkData defaultPerk = default;
+
     [Header("DEBUG")]
     [SerializeField] PerkData equippedPerk = default;
     public PerkData EquippedPerk => equippedPerk;
@@ -21,6 +24,10 @@ public class PerksComponent : MonoBehaviour
 
         //warnings
         if (owner == null) Debug.LogWarning("Miss Character on " + name);
+
+        //set perk from inspector, only if this is not a Player or perks are not saved in saves manager
+        if (owner == null || owner.CharacterType != Character.ECharacterType.Player || SavesManager.CanLoadDefaultPerks())
+            AddPerk(defaultPerk);
     }
 
     /// <summary>
