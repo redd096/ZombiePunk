@@ -97,7 +97,7 @@ namespace redd096.GameTopDown2D
             //}
         }
 
-        void OnDie(HealthComponent whoDied)
+        void OnDie(HealthComponent whoDied, Character whoHit)
         {
             //clone weapons to destroy also if dropped
             WeaponBASE[] tempWeapons = CurrentWeapons.Clone() as WeaponBASE[];
@@ -300,8 +300,13 @@ namespace redd096.GameTopDown2D
         /// Set max number of weapons, and update array
         /// </summary>
         /// <param name="maxWeapons">Min number is 1</param>
-        public void SetMaxWeapons(int maxWeapons)
+        /// <param name="updateIndexWeapon"></param>
+        public void SetMaxWeapons(int maxWeapons, bool updateIndexWeapon = true)
         {
+            //min number is 1
+            if (maxWeapons < 1)
+                return;
+
             //set max weapons
             this.maxWeapons = maxWeapons;
 
@@ -320,7 +325,7 @@ namespace redd096.GameTopDown2D
             CurrentWeapons = weapons;
 
             //set index equipped weapon
-            if (UpdateIndexEquippedWeapon())
+            if (updateIndexWeapon && UpdateIndexEquippedWeapon())
             {
                 //if changed weapon, call event
                 onChangeWeapon?.Invoke();
@@ -372,7 +377,7 @@ namespace redd096.GameTopDown2D
                 if (IndexEquippedWeapon < CurrentWeapons.Length && CurrentWeapons[IndexEquippedWeapon])
                 {
                     CurrentWeapons[IndexEquippedWeapon].gameObject.SetActive(false);
-                    CurrentWeapons[IndexEquippedWeapon].UnequipWeapon();
+                    if (CurrentWeapons[IndexEquippedWeapon].IsEquipped) CurrentWeapons[IndexEquippedWeapon].UnequipWeapon();
                 }
 
                 //and active new one

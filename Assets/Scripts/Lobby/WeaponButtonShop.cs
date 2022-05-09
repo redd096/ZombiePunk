@@ -29,10 +29,6 @@ public class WeaponButtonShop : MonoBehaviour
 
         initialized = true;
 
-        //get reference
-        if (button == null) button = GetComponent<Button>();
-        if (imageWeapon == null) imageWeapon = GetComponent<Image>();
-
         //save text colors
         if (nameText)
             defaultNameTextColor = nameText.color;

@@ -29,7 +29,7 @@ public class SetStateOnDie : MonoBehaviour
         }
     }
 
-    private void OnDie(HealthComponent whoDied)
+    private void OnDie(HealthComponent whoDied, Character whoHit)
     {
         //set state null, when die
         if (stateMachine)

@@ -158,21 +158,52 @@ public class SavesManager : Singleton<SavesManager>
             if (savePerks && player.GetSavedComponent<PerksComponent>()) savedStats.EquippedPerk = player.GetSavedComponent<PerksComponent>().EquippedPerk;
 
             //foreach weapon save prefab
-            if (saveWeapons && player.GetSavedComponent<WeaponComponent>())
+            if (saveWeapons)
             {
-                savedStats.WeaponsPrefabs = new WeaponBASE[player.GetSavedComponent<WeaponComponent>().CurrentWeapons.Length];
-                for (int i = 0; i < savedStats.WeaponsPrefabs.Length; i++)
+                WeaponBASE[] weaponsToSave = null;
+
+                //check if save prefabs in weapon component
+                if (player.GetSavedComponent<ComboComponent>() == null || player.GetSavedComponent<ComboComponent>().ComboState != ComboComponent.EComboState.Active)
                 {
-                    if (player.GetSavedComponent<WeaponComponent>().CurrentWeapons[i])
+                    if (player.GetSavedComponent<WeaponComponent>())
                     {
-                        savedStats.WeaponsPrefabs[i] = player.GetSavedComponent<WeaponComponent>().CurrentWeapons[i].WeaponPrefab;
+                        weaponsToSave = player.GetSavedComponent<WeaponComponent>().CurrentWeapons;
+                    }
+                }
+                //or in combo component (because when active, overwrite weapons in weapon component)
+                else
+                {
+                    weaponsToSave = player.GetSavedComponent<ComboComponent>().SavedWeapons;
+                }
+
+                //and save
+                if (weaponsToSave != null)
+                {
+                    savedStats.WeaponsPrefabs = new WeaponBASE[weaponsToSave.Length];
+                    for (int i = 0; i < savedStats.WeaponsPrefabs.Length; i++)
+                    {
+                        if (weaponsToSave[i])
+                        {
+                            savedStats.WeaponsPrefabs[i] = weaponsToSave[i].WeaponPrefab;
+                        }
                     }
                 }
             }
 
             //save index equipped weapon
-            if (saveIndexEquippedWeapon && player.GetSavedComponent<WeaponComponent>())
-                savedStats.IndexEquippedWeapon = player.GetSavedComponent<WeaponComponent>().IndexEquippedWeapon;
+            if (saveIndexEquippedWeapon)
+            {
+                //check if save index in weapon component
+                if (player.GetSavedComponent<ComboComponent>() == null || player.GetSavedComponent<ComboComponent>().ComboState != ComboComponent.EComboState.Active)
+                {
+                    savedStats.IndexEquippedWeapon = player.GetSavedComponent<WeaponComponent>() ? player.GetSavedComponent<WeaponComponent>().IndexEquippedWeapon : 0;
+                }
+                //or in combo component (because when active, overwrite weapons in weapon component)
+                else
+                {
+                    savedStats.IndexEquippedWeapon = player.GetSavedComponent<ComboComponent>().SavedIndexWeapon;
+                }
+            }
         }
     }
 
@@ -252,6 +283,12 @@ public class SavesManager : Singleton<SavesManager>
     {
         //check if save ammo and there is a save (it's not the first level/lobby). If not, load default ammo
         return (instance && instance.saveAmmo && instance.savedStats != null) == false;
+    }
+
+    public static bool CanLoadDefaultPerks()
+    {
+        //check if save perks and there is a save (it's not the first level/lobby). If not, load default perk
+        return (instance && instance.savePerks && instance.savedStats != null) == false;
     }
 
     #endregion
