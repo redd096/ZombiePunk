@@ -12,9 +12,6 @@ public class ReachedCheckpoint : MonoBehaviour
     [SerializeField] bool saveOnTriggerEnter = true;
     [SerializeField] bool saveOnTriggerExit = false;
 
-    [Header("When save checkpoint, call load to activate/deactivate things?")]
-    [SerializeField] bool loadOnSave = false;
-
     void OnTriggerEnter2D(Collider2D collision)
     {
         if (saveOnTriggerEnter == false)
@@ -43,10 +40,6 @@ public class ReachedCheckpoint : MonoBehaviour
             if (SavesManager.instance)
             {
                 SavesManager.instance.SaveCheckpoint(this);
-
-                //load if necessary
-                if (loadOnSave)
-                    LoadCheckpoint();
             }
         }
     }
