@@ -47,8 +47,8 @@ namespace redd096
         [SerializeField] bool useRealtimeTime = true;
         [SerializeField] Color colorOnGetDamage = Color.red;
         [SerializeField] Color colorOnGetHealth = Color.green;
-        [SerializeField] float timeBeforeHideOnGetDamage = 0.1f;
-        [SerializeField] float timeBeforeHideOnGetHealth = 0.1f;
+        [SerializeField] AnimationCurve curveAlphaOnGetDamage = default;
+        [SerializeField] AnimationCurve curveAlphaOnGetHealth = default;
 
         [Header("Combo Bars")]
         [SerializeField] Slider comboSlider = default;
@@ -74,7 +74,7 @@ namespace redd096
 
             //deactive images
             UpdateRedScreenImage(0, 0);
-            if (imageToFlash) imageToFlash.gameObject.SetActive(false);
+            if (imageToFlash) { imageToFlash.gameObject.SetActive(true); imageToFlash.color = new Color(imageToFlash.color.r, imageToFlash.color.g, imageToFlash.color.b, 0); }
             SetSuperWeaponIsActive(false);
 
             //by default deactive blood images and add to list
@@ -403,29 +403,47 @@ namespace redd096
 
         IEnumerator FlashImageCoroutine(bool getDamage)
         {
-            //set color and show image
+            //set color and curve to use
+            AnimationCurve curveToUse = getDamage ? curveAlphaOnGetDamage : curveAlphaOnGetHealth;
             if (imageToFlash)
             {
                 imageToFlash.color = getDamage ? colorOnGetDamage : colorOnGetHealth;
-                imageToFlash.gameObject.SetActive(true);
             }
 
-            //wait realtime Time
-            if (useRealtimeTime)
+            //animation
+            float time = 0;
+            while (time < curveToUse.keys[curveToUse.keys.Length - 1].time)
             {
-                float time = Time.realtimeSinceStartup + (getDamage ? timeBeforeHideOnGetDamage : timeBeforeHideOnGetHealth);
-                while (time > Time.realtimeSinceStartup)
-                    yield return null;
-            }
-            //or Time.time
-            else
-            {
-                yield return new WaitForSeconds(getDamage ? timeBeforeHideOnGetDamage : timeBeforeHideOnGetHealth);
+                time += (useRealtimeTime ? Time.unscaledDeltaTime : Time.deltaTime);    //use realtime or scaled time
+
+                imageToFlash.color = new Color(imageToFlash.color.r, imageToFlash.color.g, imageToFlash.color.b, curveToUse.Evaluate(time));
+
+                yield return null;
             }
 
-            //and hide
-            if (imageToFlash)
-                imageToFlash.gameObject.SetActive(false);
+            ////set color and show image
+            //if (imageToFlash)
+            //{
+            //    imageToFlash.color = getDamage ? colorOnGetDamage : colorOnGetHealth;
+            //    imageToFlash.gameObject.SetActive(true);
+            //}
+            //
+            ////wait realtime Time
+            //if (useRealtimeTime)
+            //{
+            //    float time = Time.realtimeSinceStartup + (getDamage ? timeBeforeHideOnGetDamage : timeBeforeHideOnGetHealth);
+            //    while (time > Time.realtimeSinceStartup)
+            //        yield return null;
+            //}
+            ////or Time.time
+            //else
+            //{
+            //    yield return new WaitForSeconds(getDamage ? timeBeforeHideOnGetDamage : timeBeforeHideOnGetHealth);
+            //}
+            //
+            ////and hide
+            //if (imageToFlash)
+            //    imageToFlash.gameObject.SetActive(false);
         }
 
         #endregion
