@@ -19,10 +19,15 @@ namespace redd096.GameTopDown2D
         [SerializeField] InstantiatedGameObjectStruct gameObjectOnShoot = default;
         [SerializeField] ParticleSystem particlesOnShoot = default;
         [SerializeField] AudioClass audioOnShoot = default;
-        [Space]
+
+        [Header("On Shoot - Not Follow Weapon")]
         [SerializeField] Transform barrelVFXNotFollowWeapon = default;
         [SerializeField] InstantiatedGameObjectStruct gameObjectNotFollowWeapon = default;
         [SerializeField] ParticleSystem particlesNotFollowWeapon = default;
+        [Space]
+        [SerializeField] Transform secondBarrelVFXNotFollowWeapon = default;
+        [SerializeField] InstantiatedGameObjectStruct secondGameObjectNotFollowWeapon = default;
+        [SerializeField] ParticleSystem secondParticlesNotFollowWeapon = default;
 
         [Header("On Shoot Camera Shake")]
         [SerializeField] bool cameraShake = true;
@@ -60,6 +65,7 @@ namespace redd096.GameTopDown2D
             if (weaponRange == null) weaponRange = GetComponentInParent<WeaponRange>();
             if (mainBarrel == null) mainBarrel = transform;
             if (barrelVFXNotFollowWeapon == null) barrelVFXNotFollowWeapon = transform;
+            if (secondBarrelVFXNotFollowWeapon == null) secondBarrelVFXNotFollowWeapon = transform;
             if (barrelOnPress == null) barrelOnPress = transform;
             if (mainBarrelFailShoot == null) mainBarrelFailShoot = transform;
 
@@ -119,6 +125,8 @@ namespace redd096.GameTopDown2D
             //instantiate vfx not follow weapon
             InstantiateGameObjectManager.instance.Play(gameObjectNotFollowWeapon, barrelVFXNotFollowWeapon.position, barrelVFXNotFollowWeapon.rotation);
             ParticlesManager.instance.Play(particlesNotFollowWeapon, barrelVFXNotFollowWeapon.position, barrelVFXNotFollowWeapon.rotation);
+            InstantiateGameObjectManager.instance.Play(secondGameObjectNotFollowWeapon, secondBarrelVFXNotFollowWeapon.position, secondBarrelVFXNotFollowWeapon.rotation);
+            ParticlesManager.instance.Play(secondParticlesNotFollowWeapon, secondBarrelVFXNotFollowWeapon.position, secondBarrelVFXNotFollowWeapon.rotation);
 
             //camera shake
             if (cameraShake && CameraShake.instance)
