@@ -38,7 +38,7 @@ namespace redd096.GameTopDown2D
             }
         }
 
-        void OnGetDamage(Vector2 hitPoint)
+        void OnGetDamage(Character whoHit, Vector2 hitPoint)
         {
             //set trigger on get damage
             if (anim && setTriggerOnGetDamage)

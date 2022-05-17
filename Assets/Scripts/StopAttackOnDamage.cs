@@ -11,9 +11,11 @@ public class StopAttackOnDamage : MonoBehaviour
     [SerializeField] float timeBeforeResetState = 0.2f;
 
     [Header("Ignore when in these states, or check only in these states")]
+    [SerializeField] bool ignoreFriendlyFire = true;
     [SerializeField] ETypeOfCheck typeOfCheck = ETypeOfCheck.IgnoreInTheseStates;
     [SerializeField] List<string> states = default;
 
+    Character ownerCharacter;
     HealthComponent healthComponent;
     StateMachineRedd096 stateMachine;
     Coroutine resetStateCoroutine;
@@ -28,6 +30,7 @@ public class StopAttackOnDamage : MonoBehaviour
     void OnEnable()
     {
         //get references
+        if (ownerCharacter == null) ownerCharacter = GetComponentInParent<Character>();
         if (healthComponent == null) healthComponent = GetComponentInParent<HealthComponent>();
         if (stateMachine == null) stateMachine = GetComponentInChildren<StateMachineRedd096>();
 
@@ -54,8 +57,12 @@ public class StopAttackOnDamage : MonoBehaviour
         }
     }
 
-    void OnGetDamage(Vector2 hitPoint)
+    void OnGetDamage(Character whoHit, Vector2 hitPoint)
     {
+        //if ignore friendly fire, return if is friendly fire
+        if (ignoreFriendlyFire && HittedFromSameCharacterType(whoHit))
+            return;
+
         //set state null, when get damage
         if (stateMachine)
         {
@@ -83,6 +90,18 @@ public class StopAttackOnDamage : MonoBehaviour
 
             resetStateCoroutine = StartCoroutine(ResetStateCoroutine());
         }
+    }
+
+    bool HittedFromSameCharacterType(Character whoHit)
+    {
+        //check if both are character
+        if (ownerCharacter && whoHit)
+        {
+            //check if they are same type of character
+            return ownerCharacter.CharacterType == whoHit.CharacterType;
+        }
+
+        return false;
     }
 
     IEnumerator ResetStateCoroutine()
