@@ -35,9 +35,9 @@ public class DamageOnHit : ActionTask
         //add events
         if (collisionEventToChilds)
         {
-            collisionEventToChilds.onCollisionEnter2D += OnOwnerCollisionEnter2D;
-            collisionEventToChilds.onCollisionStay2D += OnOwnerCollisionStay2D;
-            collisionEventToChilds.onCollisionExit2D += OnOwnerCollisionExit2D;
+            collisionEventToChilds.onTriggerEnter2D += OnOwnerCollisionEnter2D;
+            collisionEventToChilds.onTriggerStay2D += OnOwnerCollisionStay2D;
+            collisionEventToChilds.onTriggerExit2D += OnOwnerCollisionExit2D;
         }
     }
 
@@ -46,9 +46,9 @@ public class DamageOnHit : ActionTask
         //remove events
         if (collisionEventToChilds)
         {
-            collisionEventToChilds.onCollisionEnter2D -= OnOwnerCollisionEnter2D;
-            collisionEventToChilds.onCollisionStay2D -= OnOwnerCollisionStay2D;
-            collisionEventToChilds.onCollisionExit2D -= OnOwnerCollisionExit2D;
+            collisionEventToChilds.onTriggerEnter2D -= OnOwnerCollisionEnter2D;
+            collisionEventToChilds.onTriggerStay2D -= OnOwnerCollisionStay2D;
+            collisionEventToChilds.onTriggerExit2D -= OnOwnerCollisionExit2D;
         }
     }
 
@@ -90,7 +90,7 @@ public class DamageOnHit : ActionTask
         }
     }
 
-    void OnOwnerCollisionEnter2D(Collision2D collision)
+    void OnOwnerCollisionEnter2D(Collider2D collision)
     {
         //check if hit and is not already in the list
         hitMain = collision.transform.GetComponentInParent<Redd096Main>();
@@ -112,7 +112,7 @@ public class DamageOnHit : ActionTask
         }
     }
 
-    void OnOwnerCollisionStay2D(Collision2D collision)
+    void OnOwnerCollisionStay2D(Collider2D collision)
     {
         //check if hit and is in the list
         hitMain = collision.transform.GetComponentInParent<Redd096Main>();
@@ -127,7 +127,7 @@ public class DamageOnHit : ActionTask
         }
     }
 
-    void OnOwnerCollisionExit2D(Collision2D collision)
+    void OnOwnerCollisionExit2D(Collider2D collision)
     {
         //check if exit hit and is in the list
         hitMain = collision.transform.GetComponentInParent<Redd096Main>();
@@ -138,7 +138,7 @@ public class DamageOnHit : ActionTask
         }
     }
 
-    void OnHit(Collision2D collision, Redd096Main hit)
+    void OnHit(Collider2D collision, Redd096Main hit)
     {
         if (isActive == false)
             return;
@@ -155,9 +155,9 @@ public class DamageOnHit : ActionTask
 
         //do damage and push back
         if (hit.GetSavedComponent<HealthComponent>())
-            hit.GetSavedComponent<HealthComponent>().GetDamage(damage, selfCharacter, collision.GetContact(0).point);
+            hit.GetSavedComponent<HealthComponent>().GetDamage(damage, selfCharacter, collision.ClosestPoint(transform.position));
 
         if (hit && hit.GetSavedComponent<MovementComponent>())
-            hit.GetSavedComponent<MovementComponent>().PushInDirection(((Vector2)hit.transform.position - collision.GetContact(0).point).normalized, pushForce);
+            hit.GetSavedComponent<MovementComponent>().PushInDirection(((Vector2)hit.transform.position - collision.ClosestPoint(transform.position)).normalized, pushForce);
     }
 }
