@@ -10,6 +10,8 @@ GameObject:
   m_Component:
   - component: {fileID: 7659776846337629610}
   - component: {fileID: 4008220108725001078}
+  - component: {fileID: 4630109759457218079}
+  - component: {fileID: 8911476824393105701}
   - component: {fileID: 3333992372710059383}
   - component: {fileID: 8588136756805287178}
   - component: {fileID: -3687508300544605194}
@@ -53,7 +55,47 @@ MonoBehaviour:
   magnetspeed: 7
   moveWithRigidbody: 1
   ammoType: PowerAmmo
-  quantity: 15
+  quantity: 5
+  canPickAlsoIfFull: 0
+--- !u!114 &4630109759457218079
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268702294321186694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34c663cfca65e3b4d8b0858ced17cf90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeBeforeDestroy: 0
+  canBePickedWithMagnet: 1
+  magnetName: CoinMagnet
+  magnetspeed: 7
+  moveWithRigidbody: 1
+  ammoType: GunAmmo
+  quantity: 40
+  canPickAlsoIfFull: 0
+--- !u!114 &8911476824393105701
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 268702294321186694}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 34c663cfca65e3b4d8b0858ced17cf90, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  timeBeforeDestroy: 0
+  canBePickedWithMagnet: 1
+  magnetName: CoinMagnet
+  magnetspeed: 7
+  moveWithRigidbody: 1
+  ammoType: MaterialAmmo
+  quantity: 5
   canPickAlsoIfFull: 0
 --- !u!114 &3333992372710059383
 MonoBehaviour:
@@ -115,6 +157,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e6eda73f29bca24e99a310746da3a8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotationAxis: 2
   speed: 60
 --- !u!50 &-3687508300544605194
 Rigidbody2D:

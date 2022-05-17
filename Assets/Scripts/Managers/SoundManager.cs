@@ -45,7 +45,7 @@ namespace redd096
 
         //sound parent (instantiate if null)
         private Transform soundsParent;
-        Transform SoundsParent
+        public Transform SoundsParent
         {
             get
             {

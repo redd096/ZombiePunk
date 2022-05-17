@@ -139,5 +139,8 @@ public class MoveToPosition : ActionTask
         if (setVisibleOnReachDestination)
             foreach (SpriteRenderer sprite in spritesToChangeVisiblity)
                 sprite.enabled = valueToSetVisibleOnReachDestination;
+
+        //call complete task event
+        CompleteTask();
     }
 }

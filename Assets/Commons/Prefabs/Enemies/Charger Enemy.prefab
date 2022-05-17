@@ -118,7 +118,7 @@ MonoBehaviour:
   aimComponent: {fileID: 5017728266285329904}
   seeker: {fileID: 0}
   targetBlackboardName: Target
-  speedChase: 5
+  speedChase: 7
   drawDebug: 0
   approxReachNode: 0.05
   delayRecalculatePath: 0.5
@@ -138,7 +138,7 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 1024
-  awarnessDistance: 20
+  awarnessDistance: 100
   checkViewClear: 1
   layerWalls:
     serializedVersion: 2
@@ -194,7 +194,7 @@ MonoBehaviour:
   aimComponent: {fileID: 5017728266285329904}
   seeker: {fileID: 0}
   radiusPatrol: 6
-  speedPatrol: 1
+  speedPatrol: 2
   timeToWaitWhenReach: 0
   drawDebug: 0
   approxReachNode: 0.15
@@ -272,7 +272,7 @@ MonoBehaviour:
   component: {fileID: 5017728266285329905}
   aimComponent: {fileID: 5017728266285329904}
   targetBlackboardName: Target
-  speedMovement: 10
+  speedMovement: 20
   rotationSpeed: 0.2
   drawDebug: 0
 --- !u!114 &1450085658283314429
@@ -407,7 +407,7 @@ MonoBehaviour:
   targetLayer:
     serializedVersion: 2
     m_Bits: 1024
-  awarnessDistance: 10
+  awarnessDistance: 25
   checkViewClear: 1
   layerWalls:
     serializedVersion: 2
@@ -427,9 +427,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   component: {fileID: 5017728266285329904}
-  offset: {x: 0.4, y: -0.15}
-  size: {x: 0.2, y: 0.9}
-  percentageDamage: 0.5
+  offset: {x: 0.15, y: -0.1}
+  size: {x: 0.2, y: 1.3}
+  percentageDamage: 0
   drawDebug: 1
 --- !u!114 &2633037597437572543
 MonoBehaviour:
@@ -485,7 +485,7 @@ PrefabInstance:
     - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: m_InstanceId
-      value: -8704
+      value: -85496
       objectReference: {fileID: 0}
     - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
@@ -1039,6 +1039,21 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3832161720222177754, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
+      propertyPath: m_Size.x
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832161720222177754, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_Size.y
+      value: 1.3
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832161720222177754, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_Offset.y
+      value: -0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 3832161720222177754, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
       propertyPath: m_SpriteTilingProperty.pivot.x
       value: 0.5
       objectReference: {fileID: 0}
@@ -1071,6 +1086,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SpriteTilingProperty.adaptiveTilingThreshold
       value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 5900990457680263312, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5900990457680263312, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}

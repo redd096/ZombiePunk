@@ -86,7 +86,7 @@ namespace redd096.GameTopDown2D
 
         #region private API
 
-        void OnGetDamage(Vector2 hitPoint)
+        void OnGetDamage(Character whoHit, Vector2 hitPoint)
         {
             //rotation
             Vector2 direction = ((Vector2)transform.position - hitPoint).normalized;
