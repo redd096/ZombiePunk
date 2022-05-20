@@ -3701,15 +3701,10 @@ ParticleSystem:
     enabled: 1
     subEmitters:
     - serializedVersion: 3
-      emitter: {fileID: 198119409567215138}
+      emitter: {fileID: 8592400157542643572}
       type: 2
       properties: 0
       emitProbability: 1
-    - serializedVersion: 3
-      emitter: {fileID: 7858517465720039547}
-      type: 2
-      properties: 2
-      emitProbability: 0.4
   LightsModule:
     enabled: 0
     ratio: 0
@@ -8491,7 +8486,7 @@ ParticleSystem:
     enabled: 1
     subEmitters:
     - serializedVersion: 3
-      emitter: {fileID: 8592400157542643572}
+      emitter: {fileID: 7858517465720039547}
       type: 0
       properties: 0
       emitProbability: 1
@@ -9772,8 +9767,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.5
-      minScalar: 0.2
+      scalar: 0.01
+      minScalar: 0.05
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -12132,12 +12127,12 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
   NoiseModule:
-    enabled: 0
+    enabled: 1
     strength:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.08
-      minScalar: 0.01
+      scalar: 0.2
+      minScalar: 0.1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -12293,7 +12288,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     separateAxes: 0
-    frequency: 5
+    frequency: 1
     damping: 1
     octaves: 1
     octaveMultiplier: 0.5
@@ -12302,7 +12297,7 @@ ParticleSystem:
     scrollSpeed:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0
+      scalar: 1
       minScalar: 0
       maxCurve:
         serializedVersion: 2
@@ -12515,7 +12510,7 @@ ParticleSystem:
     positionAmount:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.0001
+      scalar: 1
       minScalar: 1
       maxCurve:
         serializedVersion: 2
@@ -13264,7 +13259,7 @@ ParticleSystem:
     radiusScale: 1
   SubModule:
     serializedVersion: 2
-    enabled: 1
+    enabled: 0
     subEmitters:
     - serializedVersion: 3
       emitter: {fileID: 0}
@@ -16953,7 +16948,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
   NoiseModule:
-    enabled: 0
+    enabled: 1
     strength:
       serializedVersion: 2
       minMaxState: 3
@@ -17115,7 +17110,7 @@ ParticleSystem:
         m_RotationOrder: 4
     separateAxes: 0
     frequency: 0.44
-    damping: 0
+    damping: 1
     octaves: 1
     octaveMultiplier: 0.5
     octaveScale: 2
@@ -18085,10 +18080,10 @@ ParticleSystem:
     radiusScale: 1
   SubModule:
     serializedVersion: 2
-    enabled: 0
+    enabled: 1
     subEmitters:
     - serializedVersion: 3
-      emitter: {fileID: 0}
+      emitter: {fileID: 198119409567215138}
       type: 0
       properties: 0
       emitProbability: 1
