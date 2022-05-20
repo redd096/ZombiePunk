@@ -19,6 +19,10 @@ namespace redd096
             if (GameManager.instance && GameManager.instance.uiManager)
                 GameManager.instance.uiManager.PauseMenu(false);
 
+            //set level state
+            if (GameManager.instance && GameManager.instance.levelManager)
+                GameManager.instance.levelManager.LevelState = LevelManager.ELevelState.Normal;
+
             //set timeScale to 1
             Time.timeScale = 1;
 
@@ -34,6 +38,10 @@ namespace redd096
             //show pause menu
             if (GameManager.instance && GameManager.instance.uiManager)
                 GameManager.instance.uiManager.PauseMenu(true);
+
+            //set level state
+            if (GameManager.instance && GameManager.instance.levelManager)
+                GameManager.instance.levelManager.LevelState = LevelManager.ELevelState.Pause;
 
             //stop time
             Time.timeScale = 0;

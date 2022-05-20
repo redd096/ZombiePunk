@@ -8,6 +8,8 @@ using redd096.Attributes;
 [DefaultExecutionOrder(-5)]
 public class LevelManager : MonoBehaviour
 {
+    public enum ELevelState { Normal, Pause }
+
     [Header("Elements in scene by default")]
     [ReadOnly] public List<Character> Players = new List<Character>();
     [ReadOnly] public List<Character> Enemies = new List<Character>();
@@ -19,6 +21,9 @@ public class LevelManager : MonoBehaviour
 
     [Header("Time before load next scene")]
     [SerializeField] float timeBeforeNextScene = 1;
+
+    [Header("DEBUG")]
+    [ReadOnly] public ELevelState LevelState = ELevelState.Normal;
 
     void Awake()
     {
