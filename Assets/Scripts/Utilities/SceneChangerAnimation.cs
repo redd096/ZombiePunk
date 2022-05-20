@@ -32,7 +32,7 @@ namespace redd096
 
         //screen size (width or height + offset), else use fixed size
         Vector2 sizeFadeOut => Vector2.zero;
-        Vector2 sizeFadeIn => Vector2.one * (useBlackScreenSize ? (blackScreen ? blackScreen.transform.localScale.x : 0) + offsetBlackScreen : fixedSize);
+        Vector2 sizeFadeIn => Vector2.one * (useBlackScreenSize ? (blackScreen ? Mathf.Max(blackScreen.transform.localScale.x, blackScreen.transform.localScale.y) : 0) + offsetBlackScreen : fixedSize);
 
         EventSystem eventSystem;
         Coroutine fadeCoroutine;
