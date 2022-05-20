@@ -14,6 +14,7 @@ namespace redd096
         [Min(0)] [SerializeField] float delayInputWhenOpenMenu = 0.3f;
         [SerializeField] GameObject pauseMenu = default;
         [SerializeField] GameObject endMenu = default;
+        [SerializeField] bool disableUIPlayerWhenOpenMenu = true;
 
         [Header("UI to disable when open Shop or others")]
         [SerializeField] GameObject[] uiToDisableWhenInShop = default;
@@ -140,6 +141,10 @@ namespace redd096
         {
             //active or deactive pause menu
             OpenMenu(pauseMenu, active);
+
+            //disable gameplay UI when show this menu (and re-enable when hide)
+            if (disableUIPlayerWhenOpenMenu)
+                DisableUIWhenEnterInShop(active);
         }
 
         public void EndMenu(bool active)
@@ -155,6 +160,10 @@ namespace redd096
 
             //active or deactive end menu
             OpenMenu(endMenu, active);
+
+            //disable gameplay UI when show this menu (and re-enable when hide)
+            if (disableUIPlayerWhenOpenMenu)
+                DisableUIWhenEnterInShop(active);
         }
 
         #endregion
