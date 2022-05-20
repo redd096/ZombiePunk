@@ -179,7 +179,7 @@ namespace redd096
             foreach (GameObject go in uiToDisableWhenInShop)
                 if (go)
                     go.SetActive(!disable);
-        }
+        }        
 
         /// <summary>
         /// Set current ammo text
