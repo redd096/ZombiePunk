@@ -193,7 +193,16 @@ namespace redd096.GameTopDown2D
             //wait
             float time = Time.realtimeSinceStartup + timeBeforeResetTime;
             while (time > Time.realtimeSinceStartup)
+            {
                 yield return null;
+
+                if (GameManager.instance && GameManager.instance.levelManager)
+                {
+                    //if set pause, stop this coroutine
+                    if (GameManager.instance.levelManager.LevelState == LevelManager.ELevelState.Pause)
+                        yield break;
+                }
+            }
 
             //reset time
             Time.timeScale = 1;
