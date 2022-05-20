@@ -43,6 +43,11 @@ namespace redd096.GameTopDown2D
         [EnableIf("stopTimeOnGetDamage")] [SerializeField] float timeScaleToSet = 0.0f;
         [EnableIf("stopTimeOnGetDamage")] [SerializeField] float timeBeforeResetTime = 0.1f;
 
+        [Header("Popup On Get Damage")]
+        [SerializeField] PopupText popupPrefab = default;
+        Pooling<PopupText> poolPopup = new Pooling<PopupText>();
+
+        Camera cam;
         Character selfCharacter;
         Dictionary<SpriteRenderer, Material> savedMaterials = new Dictionary<SpriteRenderer, Material>();
         Coroutine blinkCoroutine;
@@ -51,6 +56,10 @@ namespace redd096.GameTopDown2D
 
         void Awake()
         {
+            //get camera reference
+            if (popupPrefab)
+                cam = Camera.main;
+
             //save materials
             if (spritesToUse == null || spritesToUse.Length <= 0) spritesToUse = GetComponentsInChildren<SpriteRenderer>();
             foreach (SpriteRenderer sprite in spritesToUse)
@@ -138,6 +147,17 @@ namespace redd096.GameTopDown2D
 
                 stopTimeCoroutine = StartCoroutine(StopTimeCoroutine());
             }
+
+            //popup on get damage
+            if (popupPrefab && cam)
+            {
+                PopupText popup = poolPopup.Instantiate(popupPrefab);
+                popup.GetComponentInChildren<Canvas>().worldCamera = cam;
+                if (popup.UseTextMeshPro && popup.TextMesh) popup.TextMesh.transform.position = transform.position;// cam.WorldToScreenPoint(transform.position);
+                else if (popup.UseTextMeshPro == false && popup.TextUI) popup.TextUI.transform.position = transform.position;//cam.WorldToScreenPoint(transform.position);
+
+                popup.Init();
+            }
         }
 
         IEnumerator BlinkCoroutine()
@@ -193,7 +213,16 @@ namespace redd096.GameTopDown2D
             //wait
             float time = Time.realtimeSinceStartup + timeBeforeResetTime;
             while (time > Time.realtimeSinceStartup)
+            {
                 yield return null;
+
+                if (GameManager.instance && GameManager.instance.levelManager)
+                {
+                    //if set pause, stop this coroutine
+                    if (GameManager.instance.levelManager.LevelState == LevelManager.ELevelState.Pause)
+                        yield break;
+                }
+            }
 
             //reset time
             Time.timeScale = 1;
