@@ -4,7 +4,7 @@ using UnityEngine;
 
     public class KillAllEnemies : MonoBehaviour
     {
-        public GameObject play, exit;
+        public GameObject[] play, exit;
 
         private int open;
 
@@ -20,14 +20,29 @@ using UnityEngine;
 
             if(open > 0)
             {
-                if (play != null) play.SetActive(true);
-                if (exit != null) exit.SetActive(false);
+
+            foreach (GameObject play in play)
+            {
+                play.SetActive(true);
+            }
+
+            foreach (GameObject exit in exit)
+            {
+                exit.SetActive(false);
+            }
             }
             else
             {
-                if (play != null) play.SetActive(false);
-                if (exit != null) exit.SetActive(true);
+            foreach (GameObject play in play)
+            {
+                play.SetActive(false);
             }
+
+            foreach (GameObject exit in exit)
+            {
+                exit.SetActive(true);
+            }
+        }
         }
 
         public void AddEnemy()
@@ -44,7 +59,7 @@ using UnityEngine;
 
         IEnumerator ActuallyRemoveEnemy()
         {
-             yield return new WaitForSeconds(2.2f);
+             yield return new WaitForSeconds(1.2f);
              open -= 1; 
         }
     }

@@ -24,7 +24,7 @@ public class TriggerOff : MonoBehaviour
         {
             foreach (GameObject turnOff in turnOff)
             {
-                turnOff.SetActive(true);
+                turnOff.SetActive(false);
             }
         }
     }
