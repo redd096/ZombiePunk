@@ -22,10 +22,10 @@ public class ChangeObjective : MonoBehaviour
     
     void Refresh()
     {
-        if (room1.exit == true)
-        {
-            print("sdfg");
-        }
+        //if (room1.exit == true)
+        //{
+        //   print("sdfg");
+        //}
         
     }
 }
