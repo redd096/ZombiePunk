@@ -28,6 +28,27 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 6917846483228957532, guid: 073d1167aff6b254cb33bb6342fe8bb6,
         type: 3}
+      propertyPath: cameraShakeOnHit
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 6917846483228957532, guid: 073d1167aff6b254cb33bb6342fe8bb6,
+        type: 3}
+      propertyPath: particlesOnAutodestruction
+      value: 
+      objectReference: {fileID: 737921949093287255, guid: ccddf708b09b9cc41bc152d349abe005,
+        type: 3}
+    - target: {fileID: 6917846483228957532, guid: 073d1167aff6b254cb33bb6342fe8bb6,
+        type: 3}
+      propertyPath: cameraShakeOnAutoDestruction
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 6917846483228957532, guid: 073d1167aff6b254cb33bb6342fe8bb6,
+        type: 3}
+      propertyPath: audioOnAutodestruction.audioClip
+      value: 
+      objectReference: {fileID: 8300000, guid: 9917932ce456de64a887851adb06013f, type: 3}
+    - target: {fileID: 6917846483228957532, guid: 073d1167aff6b254cb33bb6342fe8bb6,
+        type: 3}
       propertyPath: gameObjectOnLastHit.instantiatedGameObject
       value: 
       objectReference: {fileID: 4481258434379315, guid: 1102a9f81fbeab548b606e7ad8b2c04d,
@@ -116,7 +137,7 @@ PrefabInstance:
     - target: {fileID: 9155807054505577212, guid: 073d1167aff6b254cb33bb6342fe8bb6,
         type: 3}
       propertyPath: radiusAreaDamage
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9155807054505577212, guid: 073d1167aff6b254cb33bb6342fe8bb6,
         type: 3}
@@ -131,12 +152,12 @@ PrefabInstance:
     - target: {fileID: 9155807054505577212, guid: 073d1167aff6b254cb33bb6342fe8bb6,
         type: 3}
       propertyPath: delayAutodestruction
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9155807054505577212, guid: 073d1167aff6b254cb33bb6342fe8bb6,
         type: 3}
       propertyPath: layersToBounce.m_Bits
-      value: 256
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 9155807054505577212, guid: 073d1167aff6b254cb33bb6342fe8bb6,
         type: 3}
@@ -151,7 +172,7 @@ PrefabInstance:
     - target: {fileID: 9155807054505577212, guid: 073d1167aff6b254cb33bb6342fe8bb6,
         type: 3}
       propertyPath: doAreaDamageAlsoOnAutoDestruction
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 9155807054505577215, guid: 073d1167aff6b254cb33bb6342fe8bb6,
         type: 3}
