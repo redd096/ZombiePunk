@@ -590,7 +590,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &8000749774590765903
 Transform:
   m_ObjectHideFlags: 0
@@ -622,7 +622,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   play:
-  - {fileID: 6614289015384278364}
+  - {fileID: 386392256378269108}
   exit:
   - {fileID: 4575063889747288275}
 --- !u!1 &1412185013232814370
@@ -1024,7 +1024,7 @@ GameObject:
   - component: {fileID: 6378541069280512254}
   - component: {fileID: 7755466238684980367}
   m_Layer: 8
-  m_Name: CollisionsArea1Play
+  m_Name: CollisionsArea0Play
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -2865,7 +2865,8 @@ GameObject:
   - component: {fileID: 6533162272807946059}
   - component: {fileID: 6818292052519436863}
   - component: {fileID: 4344550132328276046}
-  - component: {fileID: 1726042973269442955}
+  - component: {fileID: 5986460469237790592}
+  - component: {fileID: 576141527316064821}
   m_Layer: 12
   m_Name: Trigger (1)
   m_TagString: Untagged
@@ -2934,7 +2935,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 7
---- !u!114 &1726042973269442955
+--- !u!114 &5986460469237790592
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -2943,16 +2944,25 @@ MonoBehaviour:
   m_GameObject: {fileID: 3823325149059753748}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 459eff025376df745bc16bbab9c06c55, type: 3}
+  m_Script: {fileID: 11500000, guid: e71c9d783c58c9343812eb023b90a30d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  levelEnter: {fileID: 0}
-  levelPlay: {fileID: 0}
-  game: {fileID: 1167146713131653896}
-  exit: {fileID: 0}
-  Spawn: {fileID: 0}
-  objectiveon: {fileID: 0}
-  objectiveoff: {fileID: 0}
+  turnOn:
+  - {fileID: 6614289015384278364}
+  - {fileID: 1973533936763271770}
+  - {fileID: 386392256378269108}
+--- !u!114 &576141527316064821
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3823325149059753748}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: adf9e15ad002d6c4aa852b5fcbc3396b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &3833716794800832801
 GameObject:
   m_ObjectHideFlags: 0
@@ -29723,7 +29733,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1623896811153844721
 Transform:
   m_ObjectHideFlags: 0
@@ -30996,7 +31006,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &1684735588685822807
 Transform:
   m_ObjectHideFlags: 0
