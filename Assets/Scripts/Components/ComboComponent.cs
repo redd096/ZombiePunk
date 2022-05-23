@@ -105,6 +105,7 @@ public class ComboComponent : MonoBehaviour
         //when press button, set active state
         comboState = EComboState.Active;
         timer = DurationWeapon;
+        currentCombo = 0;
 
         //set super weapon
         if (weaponComponent)
