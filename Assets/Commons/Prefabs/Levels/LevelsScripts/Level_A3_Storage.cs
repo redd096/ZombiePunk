@@ -2,10 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DoorController : MonoBehaviour
+public class Level_A3_Storage : MonoBehaviour
 {
-    public int objectsNumber;
-    public GameObject turnOn, turnOff;
+    public GameObject killAll, play, exit, gatesOfHellOn, gatesOfHellOff, hell, level1, level3;
 
     // Start is called before the first frame update
     void Start()
@@ -16,10 +15,6 @@ public class DoorController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (objectsNumber <= 0)
-        {
-            turnOn.SetActive(true);
-            turnOff.SetActive(false);
-        }
+        
     }
 }
