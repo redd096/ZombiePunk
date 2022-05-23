@@ -56,12 +56,20 @@ public class ComboComponentFeedback : FeedbackRedd096<ComboComponent>
     {
         //instantiate feedback
         InstantiateFeedback(feedbackOnReachLimit);
+
+        //set combo full when reach limit
+        if (GameManager.instance && GameManager.instance.uiManager)
+            GameManager.instance.uiManager.SetComboIsFull(true);
     }
 
     private void OnUnlockLimit()
     {
         //instantiate feedback
         InstantiateFeedback(feedbackOnUnlockLimit);
+
+        //set combo NOT full, when come back to charge state
+        if (GameManager.instance && GameManager.instance.uiManager)
+            GameManager.instance.uiManager.SetComboIsFull(false);
     }
 
     private void OnActive()
@@ -72,6 +80,10 @@ public class ComboComponentFeedback : FeedbackRedd096<ComboComponent>
         //show super weapon bar if necessary
         if (GameManager.instance && GameManager.instance.uiManager)
             GameManager.instance.uiManager.SetSuperWeaponIsActive(true);
+
+        //set combo NOT full, when active super weapon
+        if (GameManager.instance && GameManager.instance.uiManager)
+            GameManager.instance.uiManager.SetComboIsFull(false);
     }
 
     private void OnDeactive()
