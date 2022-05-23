@@ -55,6 +55,8 @@ namespace redd096
         [SerializeField] Slider comboSlider = default;
         [SerializeField] bool hideDurationWhenNotActive = true;
         [SerializeField] Slider durationSuperWeaponSlider = default;
+        [SerializeField] GameObject[] objectsToActivateWhenComboFull = default;
+        [SerializeField] GameObject[] objectsToActivateWhenActiveSuperWeapon = default;
 
         //delay input when open menu
         EventSystem eventSystem;
@@ -76,6 +78,7 @@ namespace redd096
             //deactive images
             UpdateRedScreenImage(0, 0);
             if (imageToFlash) { imageToFlash.gameObject.SetActive(true); imageToFlash.color = new Color(imageToFlash.color.r, imageToFlash.color.g, imageToFlash.color.b, 0); }
+            SetComboIsFull(false);
             SetSuperWeaponIsActive(false);
 
             //by default deactive blood images and add to list
@@ -333,6 +336,21 @@ namespace redd096
         }
 
         /// <summary>
+        /// Call this function to show/hide bar full
+        /// </summary>
+        /// <param name="isFull"></param>
+        public void SetComboIsFull(bool isFull)
+        {
+            //active/deactive every object when bar is full
+            if (objectsToActivateWhenComboFull != null)
+            {
+                foreach (GameObject go in objectsToActivateWhenComboFull)
+                    if (go)
+                        go.SetActive(isFull);
+            }
+        }
+
+        /// <summary>
         /// Call this function to show/hide super weapon
         /// </summary>
         /// <param name="isActive"></param>
@@ -341,6 +359,14 @@ namespace redd096
             //if hide when not active, active/deactive slider
             if (hideDurationWhenNotActive && durationSuperWeaponSlider)
                 durationSuperWeaponSlider.gameObject.SetActive(isActive);
+
+            //active/deactive every object when weapon is active
+            if (objectsToActivateWhenActiveSuperWeapon != null)
+            {
+                foreach (GameObject go in objectsToActivateWhenActiveSuperWeapon)
+                    if (go)
+                        go.SetActive(isActive);
+            }
         }
 
         #endregion
