@@ -57,6 +57,8 @@ namespace redd096
         [SerializeField] Slider durationSuperWeaponSlider = default;
         [SerializeField] GameObject[] objectsToActivateWhenComboFull = default;
         [SerializeField] GameObject[] objectsToActivateWhenActiveSuperWeapon = default;
+        [SerializeField] GameObject[] objectToActivateWhenGetPoints = default;
+        [SerializeField] float timerBeforeDeactivateWhenGetPoints = 0.5f;
 
         //delay input when open menu
         EventSystem eventSystem;
@@ -64,6 +66,7 @@ namespace redd096
 
         Coroutine perkCooldownCoroutine;
         Coroutine flashImageCoroutine;
+        Coroutine deactivateGetPointsCoroutine;
 
         //blood on screen
         List<Image> deactiveBloods = new List<Image>();
@@ -369,6 +372,26 @@ namespace redd096
             }
         }
 
+        /// <summary>
+        /// Call this function when get combo points. Used to activate objects and deactivate after few seconds
+        /// </summary>
+        public void GetComboPoints()
+        {
+            //activate objects when get points
+            if (objectToActivateWhenGetPoints != null)
+            {
+                foreach (GameObject go in objectToActivateWhenGetPoints)
+                    if (go)
+                        go.SetActive(true);
+            }
+
+            //start coroutine to deactivate
+            if (deactivateGetPointsCoroutine != null)
+                StopCoroutine(deactivateGetPointsCoroutine);
+
+            deactivateGetPointsCoroutine = StartCoroutine(DeactivateGetPointsCoroutine());
+        }
+
         #endregion
 
         #region private API
@@ -479,6 +502,20 @@ namespace redd096
             ////and hide
             //if (imageToFlash)
             //    imageToFlash.gameObject.SetActive(false);
+        }
+
+        IEnumerator DeactivateGetPointsCoroutine()
+        {
+            //wait
+            yield return new WaitForSeconds(timerBeforeDeactivateWhenGetPoints);
+
+            //deactivate objects get points
+            if (objectToActivateWhenGetPoints != null)
+            {
+                foreach (GameObject go in objectToActivateWhenGetPoints)
+                    if (go)
+                        go.SetActive(false);
+            }
         }
 
         #endregion
