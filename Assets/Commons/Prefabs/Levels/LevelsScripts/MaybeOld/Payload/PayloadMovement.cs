@@ -19,7 +19,7 @@ public class PayloadMovement : MonoBehaviour
     void Update()
     {
         if (player)
-            gameObject.transform.Translate(Vector3.left * speed * Time.deltaTime);
+            gameObject.transform.Translate(Vector2.right * speed * Time.deltaTime);
     }
 
     private void OnTriggerEnter2D(Collider2D collision)

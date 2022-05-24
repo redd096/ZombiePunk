@@ -9,11 +9,10 @@ public class CheckSelectedAttack : ConditionTask
     [Header("Necessary Components - default get in parent")]
     [SerializeField] SelectRandomAttack selectRandomAttack = default;
 
-    [Header("Check if selected this attack - check by name or index in array")]
-    [SerializeField] bool checkByName = false;
+    [Header("Check if selected this attack")]
     [Dropdown("GetAttackNames")] [SerializeField] string attackName = "";
-    [SerializeField] int attackIndex = 0;
 
+    #region editor
 #if UNITY_EDITOR
 
     string[] GetAttackNames()
@@ -32,6 +31,7 @@ public class CheckSelectedAttack : ConditionTask
     }
 
 #endif
+    #endregion
 
     protected override void OnInitTask()
     {
@@ -44,7 +44,7 @@ public class CheckSelectedAttack : ConditionTask
     public override bool OnCheckTask()
     {
         //return if selected this attack
-        return (checkByName && SelectAttackByName()) || (checkByName == false && SelectAttackByIndex());
+        return SelectAttackByName();
     }
 
     bool SelectAttackByName()
@@ -58,15 +58,6 @@ public class CheckSelectedAttack : ConditionTask
                 return selectRandomAttack.RandomAttacks[selectRandomAttack.SelectedAttack].AttackName == attackName;
             }
         }
-
-        return false;
-    }
-
-    bool SelectAttackByIndex()
-    {
-        //check if index is correct
-        if (selectRandomAttack)
-            return selectRandomAttack.SelectedAttack == attackIndex;
 
         return false;
     }
