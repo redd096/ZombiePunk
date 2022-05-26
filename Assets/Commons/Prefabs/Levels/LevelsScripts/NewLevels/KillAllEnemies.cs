@@ -59,7 +59,7 @@ using UnityEngine;
 
         IEnumerator ActuallyRemoveEnemy()
         {
-             yield return new WaitForSeconds(1.2f);
+             yield return new WaitForSeconds(1.5f);
              open -= 1; 
         }
     }

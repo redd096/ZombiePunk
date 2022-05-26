@@ -12,12 +12,12 @@ public class Level_A4_RUN : MonoBehaviour
     {
         storage = GameObject.Find("Storage").GetComponent<Level_A3_Storage>();
 
-        storage.killAll.SetActive(false);
-        storage.play.SetActive(false);
-        storage.exit.SetActive(true);
-        storage.gatesOfHellOff.SetActive(true);
-        storage.gatesOfHellOn.SetActive(false);
-        storage.hell.SetActive(true);
+        //storage.killAll.SetActive(false);
+        //storage.play.SetActive(false);
+        //storage.exit.SetActive(true);
+        //storage.gatesOfHellOff.SetActive(true);
+        //storage.gatesOfHellOn.SetActive(false);
+        //storage.hell.SetActive(true);
         storage.level1.SetActive(false);
         storage.level3.SetActive(true);
 
