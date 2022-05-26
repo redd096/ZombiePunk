@@ -21,7 +21,6 @@ public class ToDestroyS : MonoBehaviour
 
     private void OnDisable()
     {
-        print("BruttaMerda");
         door.objectsNumber -= 1;
     }
 }
