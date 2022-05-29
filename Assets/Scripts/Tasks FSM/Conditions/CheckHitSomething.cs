@@ -13,10 +13,13 @@ public class CheckHitSomething : ConditionTask
     [Header("Check only in movement direction")]
     [SerializeField] bool checkMovementDirection = true;
 
+    [Header("Calculate hit only with this layers")]
+    [SerializeField] LayerMask layersToCheck = -1;
+
     [Header("DEBUG")]
     [SerializeField] float timeBeforeStartCheck = 0.2f;
 
-    List<Collision2D> hits = new List<Collision2D>();
+    Dictionary<GameObject, Vector2> hits = new Dictionary<GameObject, Vector2>();
     float timerBeforeCheck;
 
     void OnEnable()
@@ -74,15 +77,15 @@ public class CheckHitSomething : ConditionTask
     void OnOwnerCollisionEnter2D(Collision2D collision)
     {
         //add to hits
-        if (hits.Contains(collision) == false)
-            hits.Add(collision);
+        if (hits.ContainsKey(collision.gameObject) == false)
+            hits.Add(collision.gameObject, collision.GetContact(0).point);
     }
 
     void OnOwnerCollisionExit2D(Collision2D collision)
     {
         //remove from hits
-        if (hits.Contains(collision))
-            hits.Remove(collision);
+        if (hits.ContainsKey(collision.gameObject))
+            hits.Remove(collision.gameObject);
     }
 
     #endregion
@@ -92,7 +95,15 @@ public class CheckHitSomething : ConditionTask
     bool CheckEveryHit()
     {
         //check if hit in some direction
-        return hits.Count > 0;
+        foreach (GameObject hit in hits.Keys)
+        {
+            //check layer
+            if (layersToCheck.ContainsLayer(hit.layer))
+                return true;
+        }
+
+        //if there aren't hits or there aren't collision with correct layer, return false
+        return false;
     }
 
     bool CheckOnlyMovementDirection()
@@ -104,15 +115,15 @@ public class CheckHitSomething : ConditionTask
                 //check hit right
                 if (movementComponent.MoveDirectionInput.x > 0)
                 {
-                    foreach (Collision2D col in hits)
-                        if ((col.GetContact(0).point - (Vector2)transform.position).normalized.x > 0)
+                    foreach (GameObject hit in hits.Keys)
+                        if ((hits[hit] - (Vector2)transform.position).normalized.x > 0 && layersToCheck.ContainsLayer(hit.layer))  //check also layer
                             return true;
                 }
                 //check hits left
                 else
                 {
-                    foreach (Collision2D col in hits)
-                        if ((col.GetContact(0).point - (Vector2)transform.position).normalized.x < 0)
+                    foreach (GameObject hit in hits.Keys)
+                        if ((hits[hit] - (Vector2)transform.position).normalized.x < 0 && layersToCheck.ContainsLayer(hit.layer))  //check also layer
                             return true;
                 }
             }
@@ -121,15 +132,15 @@ public class CheckHitSomething : ConditionTask
                 //check hit up
                 if (movementComponent.MoveDirectionInput.y > 0)
                 {
-                    foreach (Collision2D col in hits)
-                        if ((col.GetContact(0).point - (Vector2)transform.position).normalized.y > 0)
+                    foreach (GameObject hit in hits.Keys)
+                        if ((hits[hit] - (Vector2)transform.position).normalized.y > 0 && layersToCheck.ContainsLayer(hit.layer))  //check also layer
                             return true;
                 }
                 //check hit down
                 else
                 {
-                    foreach (Collision2D col in hits)
-                        if ((col.GetContact(0).point - (Vector2)transform.position).normalized.y < 0)
+                    foreach (GameObject hit in hits.Keys)
+                        if ((hits[hit] - (Vector2)transform.position).normalized.y < 0 && layersToCheck.ContainsLayer(hit.layer))  //check also layer
                             return true;
                 }
             }

@@ -19,6 +19,10 @@ public class AimAtTarget : ActionTask
 
     Transform target;
 
+    //events
+    public System.Action onStartAimAtTarget { get; set; }
+    public System.Action onEndAimAtTarget { get; set; }
+
     void OnDrawGizmos()
     {
         //draw line to reach position and to target
@@ -46,6 +50,17 @@ public class AimAtTarget : ActionTask
 
         //get target from blackboard
         target = stateMachine.GetBlackboardElement<Transform>(targetBlackboardName);
+
+        //call event
+        onStartAimAtTarget?.Invoke();
+    }
+
+    public override void OnExitTask()
+    {
+        base.OnExitTask();
+
+        //call event
+        onEndAimAtTarget?.Invoke();
     }
 
     public override void OnUpdateTask()
