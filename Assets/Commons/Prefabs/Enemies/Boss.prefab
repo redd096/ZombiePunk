@@ -244,7 +244,7 @@ MonoBehaviour:
   checkHitSomething: {fileID: 4769164148912198902}
   speedMovement: 10
   centerArena: {x: 0, y: 0}
-  sizeArena: {x: 3, y: 3}
+  sizeArena: {x: 10, y: 10}
   numberOfPointsToReach: 5
   drawDebug: 0
   minDistance: 2
@@ -712,74 +712,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TaskName: '[CONDITION] Wait Stun (Attack 1)'
   timer: 3
---- !u!114 &5330769701725350284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5017728265048648176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fda3cc4507d78c478c88266edf3d395, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 6757414115337315533}
-  stateMachine: {fileID: 5017728266096039248}
-  animTriggers: []
---- !u!114 &7056212038512986989
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5017728265048648176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 7ff7c08c8a1e42a4dabdf1f75e6c1478, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 6757414115337315533}
-  movementComponent: {fileID: 5017728266285329905}
-  stateMachine: {fileID: 5017728266096039248}
-  valueToRun: 0.1
-  intName: State
-  idleIndex: 0
-  patrolIndex: 1
-  chargeIndex: 2
-  stunIndex: 3
-  delayIndex: 4
---- !u!114 &8434297774005727409
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5017728265048648176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 28acd11f6ef53a544b75c1f082465028, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  aimComponent: {fileID: 5017728266285329904}
-  aimAtTargetTasks:
-  - {fileID: 3290283759587346465}
-  - {fileID: 642158547489711129}
-  linePrefab: {fileID: 3866923183162247159, guid: a74cfe13239e89e4b94fc13418cfac63,
-    type: 3}
-  distanceLine: 4
---- !u!114 &2633037597437572543
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5017728266285329908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ba5f0266cd435fd4693bd1e6394d3cab, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5274062330201803853
 GameObject:
   m_ObjectHideFlags: 0
@@ -996,6 +928,74 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TaskName: '[CONDITION] Wait Looking at Target (Attack 3)'
   timer: 1.5
+--- !u!114 &2633037597437572543
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017728266285329908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ba5f0266cd435fd4693bd1e6394d3cab, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &5330769701725350284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017728265048648176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fda3cc4507d78c478c88266edf3d395, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 6757414115337315533}
+  stateMachine: {fileID: 5017728266096039248}
+  animTriggers: []
+--- !u!114 &7056212038512986989
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017728265048648176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7ff7c08c8a1e42a4dabdf1f75e6c1478, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 6757414115337315533}
+  movementComponent: {fileID: 5017728266285329905}
+  stateMachine: {fileID: 5017728266096039248}
+  valueToRun: 0.1
+  intName: State
+  idleIndex: 0
+  patrolIndex: 1
+  chargeIndex: 2
+  stunIndex: 3
+  delayIndex: 4
+--- !u!114 &8434297774005727409
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017728265048648176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 28acd11f6ef53a544b75c1f082465028, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  aimComponent: {fileID: 5017728266285329904}
+  aimAtTargetTasks:
+  - {fileID: 3290283759587346465}
+  - {fileID: 642158547489711129}
+  linePrefab: {fileID: 3866923183162247159, guid: a74cfe13239e89e4b94fc13418cfac63,
+    type: 3}
+  distanceLine: 4
 --- !u!1 &8847962211659526661
 GameObject:
   m_ObjectHideFlags: 0
@@ -1081,7 +1081,7 @@ PrefabInstance:
     - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: m_InstanceId
-      value: -336014
+      value: -575260
       objectReference: {fileID: 0}
     - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
