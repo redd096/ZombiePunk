@@ -116,14 +116,14 @@ public class CheckHitSomething : ConditionTask
                 if (movementComponent.MoveDirectionInput.x > 0)
                 {
                     foreach (GameObject hit in hits.Keys)
-                        if ((hits[hit] - (Vector2)transform.position).normalized.x > 0 && layersToCheck.ContainsLayer(hit.layer))  //check also layer
+                        if (hit && (hits[hit] - (Vector2)transform.position).normalized.x > 0 && layersToCheck.ContainsLayer(hit.layer))  //check also layer
                             return true;
                 }
                 //check hits left
                 else
                 {
                     foreach (GameObject hit in hits.Keys)
-                        if ((hits[hit] - (Vector2)transform.position).normalized.x < 0 && layersToCheck.ContainsLayer(hit.layer))  //check also layer
+                        if (hit && (hits[hit] - (Vector2)transform.position).normalized.x < 0 && layersToCheck.ContainsLayer(hit.layer))  //check also layer
                             return true;
                 }
             }
@@ -133,14 +133,14 @@ public class CheckHitSomething : ConditionTask
                 if (movementComponent.MoveDirectionInput.y > 0)
                 {
                     foreach (GameObject hit in hits.Keys)
-                        if ((hits[hit] - (Vector2)transform.position).normalized.y > 0 && layersToCheck.ContainsLayer(hit.layer))  //check also layer
+                        if (hit && (hits[hit] - (Vector2)transform.position).normalized.y > 0 && layersToCheck.ContainsLayer(hit.layer))  //check also layer
                             return true;
                 }
                 //check hit down
                 else
                 {
                     foreach (GameObject hit in hits.Keys)
-                        if ((hits[hit] - (Vector2)transform.position).normalized.y < 0 && layersToCheck.ContainsLayer(hit.layer))  //check also layer
+                        if (hit && (hits[hit] - (Vector2)transform.position).normalized.y < 0 && layersToCheck.ContainsLayer(hit.layer))  //check also layer
                             return true;
                 }
             }
