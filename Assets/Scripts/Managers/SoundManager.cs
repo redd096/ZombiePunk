@@ -76,17 +76,6 @@ namespace redd096
         {
             base.Awake();
 
-            //stop background music if playing
-            if (stopBackgroundMusicThisScene)
-            {
-                instance.StopBackgroundMusic(true);
-            }
-            //else, on the instance, play new background music
-            else if (musicThisScene != null)
-            {
-                instance.PlayBackgroundMusic(musicThisScene.audioClip, true, musicThisScene.volume, loopMusicThisScene);
-            }
-
             //if this is the instance, if miss some prefab, create it
             if (instance == this)
             {
@@ -114,6 +103,17 @@ namespace redd096
                     fadeInMusic.keys = new Keyframe[2] { new Keyframe(0, 0), new Keyframe(1, 1) };
                 if (fadeOutMusic.keys.Length <= 0)
                     fadeOutMusic.keys = new Keyframe[2] { new Keyframe(0, 1), new Keyframe(1, 0) };
+            }
+
+            //stop background music if playing
+            if (stopBackgroundMusicThisScene)
+            {
+                instance.StopBackgroundMusic(true);
+            }
+            //else, on the instance, play new background music
+            else if (musicThisScene != null)
+            {
+                instance.PlayBackgroundMusic(musicThisScene.audioClip, true, musicThisScene.volume, loopMusicThisScene);
             }
         }
 
@@ -458,6 +458,21 @@ namespace redd096
                 if (audioSource && audioSource != musicBackgroundAudioSource)
                     audioSource.volume = savedVolumes[audioSource] * volumeSFX;
             }
+        }
+
+        /// <summary>
+        /// Get volumeMusic or volumeSFX based on audioSource
+        /// </summary>
+        /// <param name="audioSource"></param>
+        /// <returns></returns>
+        public float GetVolumeSettingsForThisAudioSource(AudioSource audioSource)
+        {
+            if (audioSource == musicBackgroundAudioSource)
+                return volumeMusic;
+            else //if (savedVolumes.ContainsKey(audioSource))
+                return volumeSFX;
+            //else 
+            //    return 1;
         }
 
         void SaveVolumeSettings(AudioSource audioSource, float volume)

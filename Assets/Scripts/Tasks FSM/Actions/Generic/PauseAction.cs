@@ -44,10 +44,12 @@ public class PauseAction : ActionTask
         if (playerInput == null || playerInput.actions == null)
             return;
 
-        //if press input, resume
+        //if press input, resume or close options menu
         if (playerInput.actions.FindAction(buttonName).triggered)
         {
-            if (SceneLoader.instance)
+            if (GameManager.instance && GameManager.instance.uiManager && GameManager.instance.uiManager.IsOptionsMenuActive()) //if options menu is active, close
+                GameManager.instance.uiManager.OptionsMenu(false);
+            else if (SceneLoader.instance)                                                                                      //else resume
                 SceneLoader.instance.ResumeGame();
         }
     }

@@ -32,7 +32,7 @@ public class SavesManager : Singleton<SavesManager>
     [Button] void ForceLoadCheckpoint() => LoadCheckpoint();
 
     //save and load in json
-    ISaveClass[] classesToSave = new ISaveClass[] { new SaveClassMoney(), new SaveClassBoughtElements(), new SaveClassLevelReached() };
+    ISaveClass[] classesToSave = new ISaveClass[] { new SaveClassMoney(), new SaveClassBoughtElements(), new SaveClassLevelReached(), new SaveClassOptions() };
 
     //save and load between scenes
     SavesBetweenScenes savedStats;
@@ -449,4 +449,22 @@ public class SaveClassLevelReached : ISaveClass
 
     //save level reached
     public int LevelReached;
+}
+
+[System.Serializable]
+public class SaveClassOptions : ISaveClass
+{
+    public string key => "Options";
+    public System.Type type => typeof(SaveClassOptions);
+    public ISaveClass GetEmptyClass() => new SaveClassOptions();
+
+    public bool WasSaved;
+
+    //save options
+    public float VolumeMaster;
+    public float VolumeSFX;
+    public float VolumeMusic;
+    public bool FullScreen;
+    public bool PostProcessEnabled;
+    public bool DashToAimDirection;
 }
