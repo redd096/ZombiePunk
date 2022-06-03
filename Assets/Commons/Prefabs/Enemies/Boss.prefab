@@ -50,7 +50,7 @@ MonoBehaviour:
   aimComponent: {fileID: 5017728266285329904}
   seeker: {fileID: 8380095539087911482}
   targetBlackboardName: Target
-  speedChase: 15
+  speedChase: 17
   drawDebug: 0
   approxReachNode: 0.05
   delayRecalculatePath: 0.5
@@ -631,17 +631,20 @@ MonoBehaviour:
   timeToWaitAfterFinishedToSpawn: 1
   centerSpawnArea: {x: 0, y: 0}
   sizeSpawnArea: {x: 3, y: 3}
-  totalPercentage: 135
+  totalPercentage: 196
   enemiesToSpawn:
   - EnemyPrefab: {fileID: 5017728266285329908, guid: 6307245d6b140674ebb00d298bd3d5b4,
       type: 3}
     PercentageSpawn: 90
   - EnemyPrefab: {fileID: 5017728266285329908, guid: dab1134e4e255ee4ba07cdd3c1c98c95,
       type: 3}
-    PercentageSpawn: 40
+    PercentageSpawn: 20
   - EnemyPrefab: {fileID: 5017728266285329908, guid: 72c2e98c50230664ea5681e8e6c37161,
       type: 3}
     PercentageSpawn: 5
+  - EnemyPrefab: {fileID: 1287676850431733401, guid: a5bf8f17fa52f1f47b9b5cedeb630539,
+      type: 3}
+    PercentageSpawn: 81
   drawDebug: 1
 --- !u!114 &6642606736492426137
 MonoBehaviour:
@@ -895,7 +898,7 @@ MonoBehaviour:
   component: {fileID: 5017728266285329905}
   aimComponent: {fileID: 5017728266285329904}
   targetBlackboardName: Target
-  speedMovement: 18
+  speedMovement: 19
   rotationSpeed: 0.2
   drawDebug: 0
 --- !u!114 &4707773068582141120
@@ -2077,7 +2080,7 @@ PrefabInstance:
     - target: {fileID: 7795872236703593632, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: totalPercentage
-      value: 0
+      value: 1000
       objectReference: {fileID: 0}
     - target: {fileID: 7795872236703593632, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
@@ -2147,7 +2150,52 @@ PrefabInstance:
     - target: {fileID: 7795872236703593632, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: drops.Array.data[0].PercentageDrop
-      value: 0
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7795872236703593632, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: drops.Array.data[1].PercentageDrop
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7795872236703593632, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: drops.Array.data[2].PercentageDrop
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7795872236703593632, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: drops.Array.data[3].PercentageDrop
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7795872236703593632, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: drops.Array.data[4].PercentageDrop
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7795872236703593632, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: drops.Array.data[5].PercentageDrop
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7795872236703593632, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: drops.Array.data[6].PercentageDrop
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7795872236703593632, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: drops.Array.data[7].PercentageDrop
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7795872236703593632, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: drops.Array.data[8].PercentageDrop
+      value: 100
+      objectReference: {fileID: 0}
+    - target: {fileID: 7795872236703593632, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+        type: 3}
+      propertyPath: drops.Array.data[9].PercentageDrop
+      value: 100
       objectReference: {fileID: 0}
     - target: {fileID: 8545621178297549515, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
