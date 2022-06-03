@@ -431,7 +431,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TaskName: '[CONDITION] Wait Looking at Target (Attack 1)'
-  timer: 1.5
+  timer: 1
 --- !u!1 &4822859814762986907
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,7 +556,7 @@ MonoBehaviour:
   hitAlsoNotCharacters: 1
   damage: 70
   pushForce: 15
-  delayBetweenAttacks: 5
+  delayBetweenAttacks: 3
   disableBaseDamageCharacterOnHit: 1
 --- !u!114 &1179393818734631335
 MonoBehaviour:
@@ -626,25 +626,28 @@ MonoBehaviour:
   TaskName: '[ACTION] Spawn Enemies in Area'
   minEnemiesToSpawn: 5
   maxEnemiesToSpawn: 15
-  minTimeBetweenSpawns: 0.5
+  minTimeBetweenSpawns: 0.3
   maxTimeBetweenSpawns: 0.5
   timeToWaitAfterFinishedToSpawn: 1
   centerSpawnArea: {x: 0, y: 0}
   sizeSpawnArea: {x: 3, y: 3}
-  totalPercentage: 196
+  totalPercentage: 100
   enemiesToSpawn:
   - EnemyPrefab: {fileID: 5017728266285329908, guid: 6307245d6b140674ebb00d298bd3d5b4,
       type: 3}
-    PercentageSpawn: 90
+    PercentageSpawn: 75
   - EnemyPrefab: {fileID: 5017728266285329908, guid: dab1134e4e255ee4ba07cdd3c1c98c95,
       type: 3}
-    PercentageSpawn: 20
+    PercentageSpawn: 10
   - EnemyPrefab: {fileID: 5017728266285329908, guid: 72c2e98c50230664ea5681e8e6c37161,
       type: 3}
-    PercentageSpawn: 5
+    PercentageSpawn: 1
+  - EnemyPrefab: {fileID: 5017728266285329908, guid: 94004aec55821c446b23eb0a8fcb603a,
+      type: 3}
+    PercentageSpawn: 3
   - EnemyPrefab: {fileID: 1287676850431733401, guid: a5bf8f17fa52f1f47b9b5cedeb630539,
       type: 3}
-    PercentageSpawn: 81
+    PercentageSpawn: 11
   drawDebug: 1
 --- !u!114 &6642606736492426137
 MonoBehaviour:
@@ -834,7 +837,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TaskName: '[CONDITION] Wait Stun (Attack 3)'
-  timer: 1.5
+  timer: 1
 --- !u!114 &8869018690372628903
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -919,7 +922,7 @@ MonoBehaviour:
   hitAlsoNotCharacters: 1
   damage: 70
   pushForce: 15
-  delayBetweenAttacks: 5
+  delayBetweenAttacks: 3
   disableBaseDamageCharacterOnHit: 1
 --- !u!114 &1468974487499880906
 MonoBehaviour:
@@ -1004,7 +1007,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   TaskName: '[CONDITION] Wait Looking at Target (Attack 3)'
-  timer: 1.5
+  timer: 1
 --- !u!1 &8847962211659526661
 GameObject:
   m_ObjectHideFlags: 0
@@ -1090,7 +1093,7 @@ PrefabInstance:
     - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: m_InstanceId
-      value: 170330
+      value: -442632
       objectReference: {fileID: 0}
     - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
