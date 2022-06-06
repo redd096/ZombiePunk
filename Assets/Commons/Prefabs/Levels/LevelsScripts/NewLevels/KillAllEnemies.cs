@@ -5,6 +5,7 @@ using UnityEngine;
     public class KillAllEnemies : MonoBehaviour
     {
         public GameObject[] play, exit;
+        public float time;
 
         private int open;
 
@@ -59,7 +60,7 @@ using UnityEngine;
 
         IEnumerator ActuallyRemoveEnemy()
         {
-             yield return new WaitForSeconds(1.5f);
+             yield return new WaitForSeconds(time);
              open -= 1; 
         }
     }
