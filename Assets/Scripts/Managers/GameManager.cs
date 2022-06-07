@@ -2,6 +2,7 @@
 using redd096;
 using redd096.GameTopDown2D;
 using redd096.Attributes;
+using UnityEngine.Rendering;
 
 [AddComponentMenu("redd096/Singletons/Game Manager")]
 [DefaultExecutionOrder(-100)]
@@ -11,6 +12,8 @@ public class GameManager : Singleton<GameManager>
     [SerializeField] bool lock60Fps = true;
 
     [Header("Settings")]
+    [SerializeField] VolumeProfile volumePostProcessEnabled = default;
+    [SerializeField] VolumeProfile volumePostProcessDisabled = default;
     [ReadOnly] public bool PostProcessEnabled = true;
     [ReadOnly] public bool DashToAim = false;
 
@@ -25,6 +28,9 @@ public class GameManager : Singleton<GameManager>
 
         //lock 60 fps or free
         Application.targetFrameRate = lock60Fps ? 60 : -1;
+
+        //update post process in scene
+        Camera.main.GetComponentInChildren<Volume>().profile = PostProcessEnabled ? volumePostProcessEnabled : volumePostProcessDisabled;
     }
 
     void OnValidate()
@@ -42,6 +48,9 @@ public class GameManager : Singleton<GameManager>
     public void SetPostProcessEnabled(bool isEnabled)
     {
         PostProcessEnabled = isEnabled;
+
+        //update post process in scene
+        Camera.main.GetComponentInChildren<Volume>().profile = isEnabled ? volumePostProcessEnabled : volumePostProcessDisabled;
     }
 
     /// <summary>
