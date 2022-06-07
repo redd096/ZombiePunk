@@ -7,8 +7,11 @@ public class OptionsManager : MonoBehaviour
 {
     [Header("UI")]
     [SerializeField] Slider volumeMasterSlider = default;
+    [SerializeField] Text volumeMasterText = default;
     [SerializeField] Slider volumeMusicSlider = default;
+    [SerializeField] Text volumeMusicText = default;
     [SerializeField] Slider volumeSFXSlider = default;
+    [SerializeField] Text volumeSFXText = default;
     [SerializeField] Toggle fullScreenToggle = default;
     [SerializeField] Toggle postProcessToggle = default;
     [SerializeField] Toggle dashToAimToggle = default;
@@ -55,15 +58,7 @@ public class OptionsManager : MonoBehaviour
         }
 
         //update UI
-        if (saveClassOptions != null)
-        {
-            if (volumeMasterSlider) volumeMasterSlider.value = saveClassOptions.VolumeMaster;
-            if (volumeMusicSlider) volumeMusicSlider.value = saveClassOptions.VolumeMusic;
-            if (volumeSFXSlider) volumeSFXSlider.value = saveClassOptions.VolumeSFX;
-            if (fullScreenToggle) fullScreenToggle.isOn = saveClassOptions.FullScreen;
-            if (postProcessToggle) postProcessToggle.isOn = saveClassOptions.PostProcessEnabled;
-            if (dashToAimToggle) dashToAimToggle.isOn = saveClassOptions.DashToAimDirection;
-        }
+        UpdateUI();
 
         //set in game
         SetInGame();
@@ -91,6 +86,8 @@ public class OptionsManager : MonoBehaviour
         if (dashToAimToggle) dashToAimToggle.onValueChanged.RemoveListener(OnSetDashToAim);
     }
 
+    #region private API
+
     void SetInGame()
     {
         if (saveClassOptions != null)
@@ -101,6 +98,28 @@ public class OptionsManager : MonoBehaviour
             Screen.fullScreen = saveClassOptions.FullScreen;                                                    //set full screen
         }
     }
+
+    void UpdateUI()
+    {
+        //update UI
+        if (saveClassOptions != null)
+        {
+            //audio slider and text
+            if (volumeMasterSlider) volumeMasterSlider.SetValueWithoutNotify(saveClassOptions.VolumeMaster);
+            if (volumeMasterText) volumeMasterText.text = (saveClassOptions.VolumeMaster * 100).ToString("F0") + "%";
+            if (volumeMusicSlider) volumeMusicSlider.SetValueWithoutNotify(saveClassOptions.VolumeMusic);
+            if (volumeMusicText) volumeMusicText.text = (saveClassOptions.VolumeMusic * 100).ToString("F0") + "%";
+            if (volumeSFXSlider) volumeSFXSlider.SetValueWithoutNotify(saveClassOptions.VolumeSFX);
+            if (volumeSFXText) volumeSFXText.text = (saveClassOptions.VolumeSFX * 100).ToString("F0") + "%";
+
+            //toggle
+            if (fullScreenToggle) fullScreenToggle.SetIsOnWithoutNotify(saveClassOptions.FullScreen);
+            if (postProcessToggle) postProcessToggle.SetIsOnWithoutNotify(saveClassOptions.PostProcessEnabled);
+            if (dashToAimToggle) dashToAimToggle.SetIsOnWithoutNotify(saveClassOptions.DashToAimDirection);
+        }
+    }
+
+    #endregion
 
     #region UI events
 
@@ -113,7 +132,8 @@ public class OptionsManager : MonoBehaviour
             if (SavesManager.instance) SavesManager.instance.Save(saveClassOptions);
         }
 
-        //set in game
+        //update UI and set in game
+        UpdateUI();
         SetInGame();
     }
 
@@ -126,7 +146,8 @@ public class OptionsManager : MonoBehaviour
             if (SavesManager.instance) SavesManager.instance.Save(saveClassOptions);
         }
 
-        //set in game
+        //update UI and set in game
+        UpdateUI();
         SetInGame();
     }
 
@@ -139,7 +160,8 @@ public class OptionsManager : MonoBehaviour
             if (SavesManager.instance) SavesManager.instance.Save(saveClassOptions);
         }
 
-        //set in game
+        //update UI and set in game
+        UpdateUI();
         SetInGame();
     }
 
@@ -152,7 +174,8 @@ public class OptionsManager : MonoBehaviour
             if (SavesManager.instance) SavesManager.instance.Save(saveClassOptions);
         }
 
-        //set in game
+        //update UI and set in game
+        UpdateUI();
         SetInGame();
     }
 
@@ -165,7 +188,8 @@ public class OptionsManager : MonoBehaviour
             if (SavesManager.instance) SavesManager.instance.Save(saveClassOptions);
         }
 
-        //set in game
+        //update UI and set in game
+        UpdateUI();
         SetInGame();
     }
 
@@ -178,7 +202,8 @@ public class OptionsManager : MonoBehaviour
             if (SavesManager.instance) SavesManager.instance.Save(saveClassOptions);
         }
 
-        //set in game
+        //update UI and set in game
+        UpdateUI();
         SetInGame();
     }
 
