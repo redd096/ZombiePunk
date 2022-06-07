@@ -29,6 +29,9 @@ public class DashPerk : PerkData
 
     public override float GetPerkDeltaCooldown() => 1 - (cooldownTime - Time.time) / dashDelay;
 
+    //dash to aim, get from game manager if possible
+    bool DashToAimDirection => GameManager.instance ? GameManager.instance.DashToAim : dashToAimDirection;
+
     public override void Equip(Redd096Main owner)
     {
         //set owner
@@ -64,7 +67,7 @@ public class DashPerk : PerkData
             cooldownTime = Time.time + dashDelay;
         
             //add as push in Aim Direction
-            if (dashToAimDirection)
+            if (DashToAimDirection)
             {
                 if (owner.GetSavedComponent<AimComponent>())
                     owner.GetSavedComponent<MovementComponent>().PushInDirection(owner.GetSavedComponent<AimComponent>().AimDirectionInput, dashForce);
