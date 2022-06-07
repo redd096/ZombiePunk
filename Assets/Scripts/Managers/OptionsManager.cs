@@ -29,12 +29,6 @@ public class OptionsManager : MonoBehaviour
 
     void Start()
     {
-        //TODO
-        //set in game post process e dash
-        //
-        //nel sound manager, quando si fa play with fade gli si passa un volume fisso.
-        //Invece nella coroutine dovrebbe continuare a settare volume passato * volumeMusic o volumeSFX (ho creato una funzione che già riporta il settings in base all'audio source)
-
         //load options
         SaveClassOptions saveClass = SavesManager.instance ? SavesManager.instance.Load<SaveClassOptions>() : null;
         if (saveClass != null && saveClass.WasSaved)
@@ -57,10 +51,8 @@ public class OptionsManager : MonoBehaviour
             if (SavesManager.instance) SavesManager.instance.Save(saveClassOptions);
         }
 
-        //update UI
+        //update UI and set in game
         UpdateUI();
-
-        //set in game
         SetInGame();
     }
 
@@ -92,10 +84,12 @@ public class OptionsManager : MonoBehaviour
     {
         if (saveClassOptions != null)
         {
-            AudioListener.volume = saveClassOptions.VolumeMaster;                                               //set volume master
-            if (SoundManager.instance) SoundManager.instance.SetVolumeMusic(saveClassOptions.VolumeMusic);      //set volume music
-            if (SoundManager.instance) SoundManager.instance.SetVolumeSFX(saveClassOptions.VolumeSFX);          //set volume sfx
-            Screen.fullScreen = saveClassOptions.FullScreen;                                                    //set full screen
+            AudioListener.volume = saveClassOptions.VolumeMaster;                                                       //set volume master
+            if (SoundManager.instance) SoundManager.instance.SetVolumeMusic(saveClassOptions.VolumeMusic);              //set volume music
+            if (SoundManager.instance) SoundManager.instance.SetVolumeSFX(saveClassOptions.VolumeSFX);                  //set volume sfx
+            Screen.fullScreen = saveClassOptions.FullScreen;                                                            //set full screen
+            if (GameManager.instance) GameManager.instance.SetPostProcessEnabled(saveClassOptions.PostProcessEnabled);  //set post process enabled
+            if (GameManager.instance) GameManager.instance.SetDashToAim(saveClassOptions.DashToAimDirection);           //set dash to aim
         }
     }
 

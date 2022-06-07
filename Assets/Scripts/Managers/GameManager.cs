@@ -1,7 +1,7 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using redd096;
 using redd096.GameTopDown2D;
+using redd096.Attributes;
 
 [AddComponentMenu("redd096/Singletons/Game Manager")]
 [DefaultExecutionOrder(-100)]
@@ -10,11 +10,9 @@ public class GameManager : Singleton<GameManager>
     [Header("Lock 60 FPS")]
     [SerializeField] bool lock60Fps = true;
 
-    //se si vuole fare multiplayer, si salva un array per ogni ID
-    //nel menu customizzazione si aggiunge uno script ai prefab per passare il PointerEventData al click, per sapere l'ID di chi ha cliccato
-    //OLD
-    CustomizeData[] currentCustomizations = default;
-    WeaponBASE[] currentWeaponsPrefabs = default;
+    [Header("Settings")]
+    [ReadOnly] public bool PostProcessEnabled = true;
+    [ReadOnly] public bool DashToAim = false;
 
     public UIManager uiManager { get; private set; }
     public LevelManager levelManager { get; private set; }
@@ -34,6 +32,36 @@ public class GameManager : Singleton<GameManager>
         //lock 60 fps or free
         Application.targetFrameRate = lock60Fps ? 60 : -1;
     }
+
+    #region public API
+
+    /// <summary>
+    /// Set post process enabled, and update in scene
+    /// </summary>
+    /// <param name="isEnabled"></param>
+    public void SetPostProcessEnabled(bool isEnabled)
+    {
+        PostProcessEnabled = isEnabled;
+    }
+
+    /// <summary>
+    /// Set dash to aim, and update in scene
+    /// </summary>
+    /// <param name="isEnabled"></param>
+    public void SetDashToAim(bool isEnabled)
+    {
+        DashToAim = isEnabled;
+    }
+
+    #endregion
+
+    #region OLD
+
+    //se si vuole fare multiplayer, si salva un array per ogni ID
+    //nel menu customizzazione si aggiunge uno script ai prefab per passare il PointerEventData al click, per sapere l'ID di chi ha cliccato
+    //OLD
+    CustomizeData[] currentCustomizations = default;
+    WeaponBASE[] currentWeaponsPrefabs = default;
 
     #region OLD customizations API
 
@@ -125,6 +153,8 @@ public class GameManager : Singleton<GameManager>
     {
         currentWeaponsPrefabs = null;
     }
+
+    #endregion
 
     #endregion
 }
