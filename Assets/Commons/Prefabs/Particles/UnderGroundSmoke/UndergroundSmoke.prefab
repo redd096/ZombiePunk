@@ -990,6 +990,15 @@ ParticleSystem:
           inWeight: 0
           outWeight: 0
         - serializedVersion: 3
+          time: 0.5900722
+          value: 0.34818527
+          inSlope: 1.1801445
+          outSlope: 1.1801445
+          tangentMode: 0
+          weightedMode: 0
+          inWeight: 0.33333334
+          outWeight: 0.33333334
+        - serializedVersion: 3
           time: 1
           value: 1
           inSlope: 2
@@ -1314,10 +1323,10 @@ ParticleSystem:
         serializedVersion: 2
         key0: {r: 0.4716981, g: 0.4716981, b: 0.4716981, a: 0.27450982}
         key1: {r: 1, g: 1, b: 1, a: 1}
-        key2: {r: 1, g: 1, b: 1, a: 0.39215687}
-        key3: {r: 0, g: 0, b: 0, a: 0}
-        key4: {r: 0, g: 0, b: 0, a: 0}
-        key5: {r: 0, g: 0, b: 0, a: 0}
+        key2: {r: 1, g: 1, b: 1, a: 0.78039217}
+        key3: {r: 0, g: 0, b: 0, a: 0.9843137}
+        key4: {r: 0, g: 0, b: 0, a: 0.75686276}
+        key5: {r: 0, g: 0, b: 0, a: 0.80784315}
         key6: {r: 0, g: 0, b: 0, a: 0}
         key7: {r: 0, g: 0, b: 0, a: 0}
         ctime0: 38743
@@ -1330,15 +1339,15 @@ ParticleSystem:
         ctime7: 0
         atime0: 0
         atime1: 10601
-        atime2: 58982
-        atime3: 65535
-        atime4: 0
-        atime5: 0
-        atime6: 0
+        atime2: 25829
+        atime3: 38550
+        atime4: 47995
+        atime5: 58982
+        atime6: 65535
         atime7: 0
         m_Mode: 0
         m_NumColorKeys: 2
-        m_NumAlphaKeys: 4
+        m_NumAlphaKeys: 7
       minGradient:
         serializedVersion: 2
         key0: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 0.50980395}
@@ -2644,8 +2653,8 @@ ParticleSystem:
     strength:
       serializedVersion: 2
       minMaxState: 3
-      scalar: 0.35
-      minScalar: 0.05
+      scalar: 0.2
+      minScalar: 0.1
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -2801,7 +2810,7 @@ ParticleSystem:
         m_PostInfinity: 2
         m_RotationOrder: 4
     separateAxes: 0
-    frequency: 0.81
+    frequency: 0.75
     damping: 0
     octaves: 2
     octaveMultiplier: 1
@@ -2809,7 +2818,7 @@ ParticleSystem:
     quality: 1
     scrollSpeed:
       serializedVersion: 2
-      minMaxState: 0
+      minMaxState: 1
       scalar: 0.71
       minScalar: 0
       maxCurve:
@@ -2817,22 +2826,22 @@ ParticleSystem:
         m_Curve:
         - serializedVersion: 3
           time: 0
-          value: 0
+          value: 1
           inSlope: 0
           outSlope: 0
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
+          inWeight: 0
+          outWeight: 0
         - serializedVersion: 3
           time: 1
           value: 0
-          inSlope: 0
-          outSlope: 0
+          inSlope: -2
+          outSlope: -2
           tangentMode: 0
           weightedMode: 0
-          inWeight: 0.33333334
-          outWeight: 0.33333334
+          inWeight: 0
+          outWeight: 0
         m_PreInfinity: 2
         m_PostInfinity: 2
         m_RotationOrder: 4
@@ -4746,9 +4755,9 @@ ParticleSystemRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 51
+  m_SortingLayerID: 395351693
+  m_SortingLayer: 1
+  m_SortingOrder: 1
   m_RenderMode: 0
   m_SortMode: 1
   m_MinParticleSize: 0
@@ -4756,7 +4765,7 @@ ParticleSystemRenderer:
   m_CameraVelocityScale: 0
   m_VelocityScale: 0
   m_LengthScale: 2
-  m_SortingFudge: 0
+  m_SortingFudge: 0.21
   m_NormalDirection: 1
   m_ShadowBias: 0
   m_RenderAlignment: 0
