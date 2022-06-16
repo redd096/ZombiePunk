@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 using redd096.GameTopDown2D;
+using redd096.Attributes;
 
 [DefaultExecutionOrder(-1)]
 public class SpawnManager : MonoBehaviour
@@ -9,6 +10,7 @@ public class SpawnManager : MonoBehaviour
     [System.Serializable] struct SpawnStruct { public Spawn[] Spawns; }
 
     [SerializeField] bool restartWhenFinish = false;
+    [DisableIf("restartWhenFinish")] [Tooltip("Remember it can't be used from exits, if restart when finish is enabled")] [SerializeField] bool exitMustCheckThisSpawnManager = true;
     [SerializeField] SpawnStruct[] spawnsList = default;
 
     [Header("DEBUG")]
@@ -16,6 +18,7 @@ public class SpawnManager : MonoBehaviour
     /*[ShowNonSerializedField]*/ int index = 0;
 
     public bool RestartWhenFinish => restartWhenFinish;
+    public bool ExitMustCheckThisSpawnManager => exitMustCheckThisSpawnManager;
 
     //events
     public System.Action<Spawn[]> onActiveList { get; set; }                //called when active a list of spawns
@@ -30,13 +33,8 @@ public class SpawnManager : MonoBehaviour
         //add to level manager if not already in the list (if spawned at runtime)
         if (GameManager.instance && GameManager.instance.levelManager)
         {
-            if (GameManager.instance.levelManager.SpawnManagers.Contains(this) == false)
-                GameManager.instance.levelManager.SpawnManagers.Add(this);
+            GameManager.instance.levelManager.AddSpawnedSpawnManager(this);
         }
-
-        //if this game manager is not active in editor, but will be activated during gameplay, be sure to add to the list to check
-        foreach (ExitInteractable exit in GameManager.instance.levelManager.Exits)
-            exit.AddSpawnManager(this);
     }
 
     void Start()

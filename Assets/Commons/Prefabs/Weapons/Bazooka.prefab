@@ -1,5 +1,65 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8384673523786875030
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6054568807778290685}
+  m_Layer: 9
+  m_Name: MuzzleBarrel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6054568807778290685
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8384673523786875030}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.551, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 9135352667363506447}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &8676357474774929057
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 7089915659009912425}
+  m_Layer: 9
+  m_Name: SmokeBarrel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &7089915659009912425
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8676357474774929057}
+  m_LocalRotation: {x: -0, y: -0, z: 0.86602545, w: 0.49999994}
+  m_LocalPosition: {x: -1.75, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 9135352667363506447}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 120}
 --- !u!1001 &7214689125962813428
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -92,7 +152,7 @@ PrefabInstance:
         type: 3}
       propertyPath: mainBarrel
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 6054568807778290685}
     - target: {fileID: 4321745274758492328, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
       propertyPath: audioOnReload.volume
@@ -105,9 +165,31 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: d7aa45f79261ddb4e99967d6d7973237, type: 3}
     - target: {fileID: 4321745274758492328, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
+      propertyPath: barrelVFXNotFollowWeapon
+      value: 
+      objectReference: {fileID: 6054568807778290685}
+    - target: {fileID: 4321745274758492328, guid: c5af849b48471b14bb21dad7d6bfa48f,
+        type: 3}
+      propertyPath: particlesNotFollowWeapon
+      value: 
+      objectReference: {fileID: 4361541114574268083, guid: 70e487b9c57dc6f489a888f146f698d1,
+        type: 3}
+    - target: {fileID: 4321745274758492328, guid: c5af849b48471b14bb21dad7d6bfa48f,
+        type: 3}
       propertyPath: audioOnFailShoot.audioClip
       value: 
       objectReference: {fileID: 8300000, guid: 14fec53e0d449ab48a6279bf61418f40, type: 3}
+    - target: {fileID: 4321745274758492328, guid: c5af849b48471b14bb21dad7d6bfa48f,
+        type: 3}
+      propertyPath: secondBarrelVFXNotFollowWeapon
+      value: 
+      objectReference: {fileID: 7089915659009912425}
+    - target: {fileID: 4321745274758492328, guid: c5af849b48471b14bb21dad7d6bfa48f,
+        type: 3}
+      propertyPath: secondParticlesNotFollowWeapon
+      value: 
+      objectReference: {fileID: 4361541114574268083, guid: 770a9271e02b2864eb36d0bbba158894,
+        type: 3}
     - target: {fileID: 4321745274758492328, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
       propertyPath: audioOnInstantiateBullet.volume
@@ -120,25 +202,20 @@ PrefabInstance:
       objectReference: {fileID: 8300000, guid: aa5bb25ba46fb994c87ccd24d5b3c384, type: 3}
     - target: {fileID: 4321745274758492328, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
-      propertyPath: gameObjectOnShoot.timeAutodestruction
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4321745274758492328, guid: c5af849b48471b14bb21dad7d6bfa48f,
-        type: 3}
       propertyPath: gameObjectOnShoot.instantiatedGameObject
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 3681886766371026488, guid: e62111684e31a8246abba687a26f8c29,
+        type: 3}
     - target: {fileID: 4321745274758492328, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
       propertyPath: gameObjectOnInstantiateBullet.timeAutodestruction
-      value: 0.3
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4321745274758492328, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
       propertyPath: gameObjectOnInstantiateBullet.instantiatedGameObject
       value: 
-      objectReference: {fileID: 3681886766371026488, guid: a19f0535664cfe84fb9289faabbe9e00,
-        type: 3}
+      objectReference: {fileID: 0}
     - target: {fileID: 5397089067082224666, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
       propertyPath: m_Name
@@ -172,7 +249,7 @@ PrefabInstance:
     - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
       propertyPath: Recoil
-      value: 12
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
@@ -187,7 +264,7 @@ PrefabInstance:
     - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
       propertyPath: AmmoType
-      value: PowerAmmo
+      value: NONE
       objectReference: {fileID: 0}
     - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
@@ -197,7 +274,7 @@ PrefabInstance:
     - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
       propertyPath: AmmoOnPick
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
@@ -207,7 +284,7 @@ PrefabInstance:
     - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
       propertyPath: WeaponName
-      value: bazooka
+      value: Bazooka
       objectReference: {fileID: 0}
     - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
@@ -239,13 +316,19 @@ PrefabInstance:
         type: 3}
       propertyPath: WeaponSprite
       value: 
-      objectReference: {fileID: 21300000, guid: f4b2cdcafda2dd647a23c2d1aab830b9,
+      objectReference: {fileID: 21300000, guid: 8a95694fb3085df4e85192b86b0136f9,
         type: 3}
     - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
       propertyPath: NoiseAccuracy
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
+        type: 3}
+      propertyPath: WeaponSpriteTopUI
+      value: 
+      objectReference: {fileID: 21300000, guid: 4226919c4b601ad4d8077e0f3f79ec63,
+        type: 3}
     - target: {fileID: 8829865587629724734, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -253,3 +336,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5af849b48471b14bb21dad7d6bfa48f, type: 3}
+--- !u!4 &9135352667363506447 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1934563571220182779, guid: c5af849b48471b14bb21dad7d6bfa48f,
+    type: 3}
+  m_PrefabInstance: {fileID: 7214689125962813428}
+  m_PrefabAsset: {fileID: 0}

@@ -4,17 +4,24 @@ using redd096.Attributes;
 namespace redd096.GameTopDown2D
 {
     [AddComponentMenu("redd096/.GameTopDown2D/Weapons/Weapon BASE")]
-    public abstract class WeaponBASE : MonoBehaviour, IInteractable
+    public abstract class WeaponBASE : MonoBehaviour, IInteractable, ISellable
     {
         [Header("Weapon BASE")]
         public string WeaponName = "Weapon Name";
         public int WeaponPrice = 10;
         [ShowAssetPreview] public Sprite WeaponSprite = default;
+        [ShowAssetPreview] public Sprite WeaponSpriteTopUI = default;
 
         [Header("DEBUG")]
         [SerializeField] bool destroyWeaponOnDrop = false;
         [ReadOnly] public Character Owner;
+        [ReadOnly] public bool IsEquipped = false;
         [HideInInspector] public WeaponBASE WeaponPrefab = default;
+
+        //ISellable
+        public string SellName => WeaponName;
+        public int SellPrice => WeaponPrice;
+        public Sprite SellSprite => WeaponSprite;
 
         //events
         public System.Action onPickWeapon { get; set; }
@@ -57,16 +64,18 @@ namespace redd096.GameTopDown2D
         /// <summary>
         /// Call when equip weapon
         /// </summary>
-        public void EquipWeapon()
+        public virtual void EquipWeapon()
         {
+            IsEquipped = true;
             onEquipWeapon?.Invoke();
         }
 
         /// <summary>
         /// Call when unequip weapon
         /// </summary>
-        public void UnequipWeapon()
+        public virtual void UnequipWeapon()
         {
+            IsEquipped = false;
             onUnequipWeapon?.Invoke();
         }
 

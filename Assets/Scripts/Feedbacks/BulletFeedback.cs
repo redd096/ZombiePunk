@@ -74,7 +74,7 @@ namespace redd096.GameTopDown2D
             SoundManager.instance.Play(audioOnHit, transform.position);
 
             //camera shake
-            if (cameraShakeOnHit)
+            if (cameraShakeOnHit && CameraShake.instance)
             {
                 //custom or default
                 if (customShake)
@@ -92,7 +92,7 @@ namespace redd096.GameTopDown2D
             SoundManager.instance.Play(audioOnLastHit, transform.position);
 
             //camera shake
-            if (cameraShakeOnHitSomethingThatDestroyBullet)
+            if (cameraShakeOnHitSomethingThatDestroyBullet && CameraShake.instance)
             {
                 //custom or default
                 if (customShake)
@@ -110,7 +110,7 @@ namespace redd096.GameTopDown2D
             SoundManager.instance.Play(audioOnAutodestruction, transform.position);
 
             //camera shake
-            if (cameraShakeOnAutoDestruction)
+            if (cameraShakeOnAutoDestruction && CameraShake.instance)
             {
                 //custom or default
                 if (customShake)
@@ -128,7 +128,7 @@ namespace redd096.GameTopDown2D
             SoundManager.instance.Play(audioOnDestroy, transform.position);
 
             //camera shake
-            if (cameraShakeOnDestroy)
+            if (cameraShakeOnDestroy && CameraShake.instance)
             {
                 //custom or default
                 if (customShake)

@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using redd096.GameTopDown2D;
+using UnityEngine;
 
 [System.Serializable]
 public struct LevelStruct
@@ -11,6 +12,15 @@ public class MapInteract : BASELobbyInteract
 {
     [Header("Levels to Unlock")]
     [SerializeField] LevelStruct[] levelsToUnlock = default;
+
+    public override void Interact(InteractComponent whoInteract)
+    {
+        base.Interact(whoInteract);
+
+        //save stats (to be sure everything is saved when leave lobby)
+        if (SavesManager.instance && GameManager.instance && GameManager.instance.levelManager && GameManager.instance.levelManager.Players != null)
+            SavesManager.instance.SaveStats(GameManager.instance.levelManager.Players.ToArray());
+    }
 
     protected override void UpdateUI()
     {

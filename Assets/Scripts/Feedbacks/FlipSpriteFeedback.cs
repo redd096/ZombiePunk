@@ -20,7 +20,7 @@ namespace redd096.GameTopDown2D
         void OnEnable()
         {
             //TEMP
-            selfCharacter = GetComponentInParent<Character>();
+            if (selfCharacter == null) selfCharacter = GetComponentInParent<Character>();
 
             //get references
             if (aimComponent == null) aimComponent = GetComponentInParent<AimComponent>();
@@ -41,7 +41,7 @@ namespace redd096.GameTopDown2D
                 aimComponent.onChangeAimDirection -= OnChangeAimDirection;
         }
 
-        void OnChangeAimDirection(bool isLookingRight)
+        public void OnChangeAimDirection(bool isLookingRight)
         {
             //TEMP for enemies use a coroutine
             if (selfCharacter && selfCharacter.CharacterType == Character.ECharacterType.AI)

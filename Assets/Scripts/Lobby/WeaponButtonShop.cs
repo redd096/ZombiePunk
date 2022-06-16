@@ -4,8 +4,15 @@ using UnityEngine.UI;
 public class WeaponButtonShop : MonoBehaviour
 {
     public Button button;
+    public Image imageWeapon;
     public Text nameText;
     public Text priceText;
+
+    [Header("Used in the shop, to show a text on the button when player hasn't reached the level to unlock this")]
+    public GameObject objectToActivateWhenButtonIsLocked;
+
+    [Header("Used in the inventory, to show which weapon's slot player has selected")]
+    public GameObject objectToActivateWhenSelectSlot;
 
     bool initialized = false;
     Color defaultNameTextColor;

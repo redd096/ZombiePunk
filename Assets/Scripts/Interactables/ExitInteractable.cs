@@ -40,8 +40,7 @@ namespace redd096.GameTopDown2D
             //add to level manager if not already in the list (if spawned at runtime)
             if (GameManager.instance && GameManager.instance.levelManager)
             {
-                if (GameManager.instance.levelManager.Exits.Contains(this) == false)
-                    GameManager.instance.levelManager.Exits.Add(this);
+                GameManager.instance.levelManager.AddSpawnedExit(this);
             }
 
             ActiveExit();
@@ -81,24 +80,10 @@ namespace redd096.GameTopDown2D
                 }
             }
 
-            //register to every spawn manager finish spawn (only if not restart when finish)
+            //register to every spawn manager finish spawn
             foreach (SpawnManager spawnManager in GameManager.instance.levelManager.SpawnManagers)
             {
-                if (spawnManager && spawnManagers.Contains(spawnManager) == false)
-                {
-                    if (spawnManager.RestartWhenFinish == false)
-                    {
-                        //add also a check if spawn manager is destroyed
-                        spawnableObject = spawnManager.gameObject.AddComponent<SpawnableObject>();
-                        spawnableObject.onDeactiveObject += OnSpawnManagerDestroyed;
-
-                        spawnManager.onFinishToSpawn += OnFinishToSpawn;
-                        spawnManagers.Add(spawnManager);    //and add to the list
-
-                        //add also every enemy spawned
-                        spawnManager.onEverySpawn += OnEverySpawn;
-                    }
-                }
+                AddSpawnManager(spawnManager);
             }
 
             //do checks
@@ -150,6 +135,13 @@ namespace redd096.GameTopDown2D
             //only if is open
             if (isOpen)
             {
+                //if interact a state machine, set InteractingWithExit State
+                StateMachineRedd096 sm = whoInteract.GetComponentInChildren<StateMachineRedd096>();
+                if (sm)
+                {
+                    sm.SetState("InteractingWithExit State");
+                }
+
                 //save
                 SaveClassLevelReached saveClass = SavesManager.instance && SavesManager.instance.Load<SaveClassLevelReached>() != null ? SavesManager.instance.Load<SaveClassLevelReached>() : new SaveClassLevelReached();
                 if (saveClass.LevelReached < levelReach)
@@ -161,6 +153,7 @@ namespace redd096.GameTopDown2D
                 //stop this script
                 DeactiveExit();     //stop check open/close
                 isOpen = false;     //can't interact anymore
+                enabled = false;    //to be sure
 
                 //call event
                 onInteract?.Invoke(this);
@@ -180,7 +173,8 @@ namespace redd096.GameTopDown2D
             //if not already in the list
             if (spawnManager && spawnManagers.Contains(spawnManager) == false)
             {
-                if (spawnManager.RestartWhenFinish == false)
+                //only if not restart when finish and is enabled to be checked by exits
+                if (spawnManager.RestartWhenFinish == false && spawnManager.ExitMustCheckThisSpawnManager)
                 {
                     //add also a check if spawn manager is destroyed
                     SpawnableObject spawnableObject = spawnManager.gameObject.AddComponent<SpawnableObject>();
@@ -221,13 +215,10 @@ namespace redd096.GameTopDown2D
             //when a spawn manager is destroyed
             if (spawnableObject)
             {
+                //remove spawn manager from the list
                 SpawnManager spawnManager = spawnableObject.GetComponent<SpawnManager>();
-                if (spawnManager)
-                {
-                    //remove spawn manager from the list
-                    if (spawnManagers.Contains(spawnManager))
-                        spawnManagers.Remove(spawnManager);
-                }
+                if (spawnManagers.Contains(spawnManager))
+                    spawnManagers.Remove(spawnManager);
             }
 
             //do checks

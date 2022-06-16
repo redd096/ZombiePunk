@@ -48,10 +48,12 @@ MonoBehaviour:
   destroyWeaponOnDrop: 0
   Owner: {fileID: 0}
   WeaponPrefab: {fileID: 0}
-  Automatic: 1
+  FireMode: 0
   RateOfFire: 0.2
   Recoil: 0.1
   NoiseAccuracy: 2.5
+  NumberOfShots: 3
+  DelayBetweenShots: 0.1
   Barrels:
   - {fileID: 5727192707231015915}
   BarrelSimultaneously: 0
@@ -61,6 +63,7 @@ MonoBehaviour:
   BulletSpeed: 15
   AmmoType: GunAmmo
   AmmoOnPick: 50
+  AmmoSprite: {fileID: 0}
   drawDebug: 0
 --- !u!114 &60239732911824001
 MonoBehaviour:
@@ -109,7 +112,7 @@ MonoBehaviour:
   gameObjectOnInstantiateBullet:
     instantiatedGameObject: {fileID: 3681886766371026488, guid: a19f0535664cfe84fb9289faabbe9e00,
       type: 3}
-    timeAutodestruction: 0.02
+    timeAutodestruction: 0.1
   particlesOnInstantiateBullet: {fileID: 0}
   audioOnInstantiateBullet:
     audioClip: {fileID: 8300000, guid: c7938ee830714324696fea206aba1405, type: 3}
@@ -118,12 +121,13 @@ MonoBehaviour:
   mainBarrel: {fileID: 0}
   gameObjectOnShoot:
     instantiatedGameObject: {fileID: 0}
-    timeAutodestruction: 0
+    timeAutodestruction: 0.1
   particlesOnShoot: {fileID: 0}
   audioOnShoot:
     audioClip: {fileID: 0}
     volume: 1
     is3D: 0
+  barrelVFXNotFollowWeapon: {fileID: 0}
   gameObjectNotFollowWeapon:
     instantiatedGameObject: {fileID: 0}
     timeAutodestruction: 0
@@ -180,7 +184,7 @@ PrefabInstance:
     - target: {fileID: 221831145993828279, guid: 1a39af266be7e774aa6fa19eb3935adb,
         type: 3}
       propertyPath: m_Name
-      value: M16
+      value: BASERangeWeapon
       objectReference: {fileID: 0}
     - target: {fileID: 1521585890205697767, guid: 1a39af266be7e774aa6fa19eb3935adb,
         type: 3}
@@ -205,12 +209,12 @@ PrefabInstance:
     - target: {fileID: 1521585890205697767, guid: 1a39af266be7e774aa6fa19eb3935adb,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 1.875
+      value: 1.75
       objectReference: {fileID: 0}
     - target: {fileID: 1521585890205697767, guid: 1a39af266be7e774aa6fa19eb3935adb,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 0.625
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 1521585890205697767, guid: 1a39af266be7e774aa6fa19eb3935adb,
         type: 3}

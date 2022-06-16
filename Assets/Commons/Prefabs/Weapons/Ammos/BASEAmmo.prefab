@@ -45,10 +45,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 34c663cfca65e3b4d8b0858ced17cf90, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeBeforeDestroy: 0
+  canBePickedWithMagnet: 1
+  magnetName: AmmoMagnet
+  magnetspeed: 7
+  moveWithRigidbody: 1
   ammoType: BASEAmmo
   quantity: 1
   canPickAlsoIfFull: 0
-  timeBeforeDestroy: 0
 --- !u!50 &-3773587809086987135
 Rigidbody2D:
   serializedVersion: 4
@@ -260,6 +264,8 @@ GameObject:
   m_Component:
   - component: {fileID: 3635360939350925968}
   - component: {fileID: 3797696612432529105}
+  - component: {fileID: 8570200908821003020}
+  - component: {fileID: 1396036705353722902}
   m_Layer: 9
   m_Name: Graphics
   m_TagString: Untagged
@@ -295,7 +301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d4468fe848b554e428b4d8aa1e3729f9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  pickable: {fileID: 0}
+  pickable: {fileID: 4008220108725001078}
   gameObjectOnPick:
     instantiatedGameObject: {fileID: 0}
     timeAutodestruction: 0
@@ -317,3 +323,37 @@ MonoBehaviour:
   customShake: 0
   shakeDuration: 1
   shakeAmount: 0.7
+--- !u!114 &8570200908821003020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6850933882625406036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e6eda73f29bca24e99a310746da3a8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  speed: 0
+--- !u!114 &1396036705353722902
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6850933882625406036}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ca3f15a0c6bc19a4b90739a7dac18294, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  useAnimationCurve: 1
+  animationCurve:
+    serializedVersion: 2
+    m_Curve: []
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  height: 0.5
+  speed: 1.5

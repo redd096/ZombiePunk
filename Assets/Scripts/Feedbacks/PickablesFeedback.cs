@@ -48,7 +48,7 @@ public class PickablesFeedback : MonoBehaviour
         }
     }
 
-    void OnFailPick(PickUpBASE obj)
+    void OnPick(PickUpBASE obj)
     {
         //instantiate vfx and sfx
         InstantiateGameObjectManager.instance.Play(gameObjectOnPick, transform.position, transform.rotation);
@@ -56,7 +56,7 @@ public class PickablesFeedback : MonoBehaviour
         SoundManager.instance.Play(audioOnPick, transform.position);
 
         //camera shake
-        if (cameraShakeOnPick)
+        if (cameraShakeOnPick && CameraShake.instance)
         {
             //custom or default
             if (customShake)
@@ -66,7 +66,7 @@ public class PickablesFeedback : MonoBehaviour
         }
     }
 
-    void OnPick(PickUpBASE obj)
+    void OnFailPick(PickUpBASE obj)
     {
         //instantiate vfx and sfx
         InstantiateGameObjectManager.instance.Play(gameObjectOnFailPick, transform.position, transform.rotation);
@@ -74,7 +74,7 @@ public class PickablesFeedback : MonoBehaviour
         SoundManager.instance.Play(audioOnFailPick, transform.position);
 
         //camera shake
-        if (cameraShakeOnFailPick)
+        if (cameraShakeOnFailPick && CameraShake.instance)
         {
             //custom or default
             if (customShake)

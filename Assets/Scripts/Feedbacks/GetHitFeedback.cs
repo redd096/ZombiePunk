@@ -33,13 +33,33 @@ namespace redd096.GameTopDown2D
         [SerializeField] InstantiatedGameObjectStruct[] gameObjectsOnDie = default;
         [SerializeField] ParticleSystem[] particlesOnDie = default;
         [SerializeField] AudioClass[] audiosOnDie = default;
+        [SerializeField] AudioClass[] oneRandomAudioFromTheListOnDie = default;
 
+        [Header("On Get Health")]
+        [SerializeField] FeedbackStructRedd096 feedbackOnGetHealth = default;
+
+        [Header("Stop Time On Get Damage")]
+        [SerializeField] bool stopTimeOnGetDamage = false;
+        [EnableIf("stopTimeOnGetDamage")] [SerializeField] float timeScaleToSet = 0.0f;
+        [EnableIf("stopTimeOnGetDamage")] [SerializeField] float timeBeforeResetTime = 0.1f;
+
+        [Header("Popup On Get Damage")]
+        [SerializeField] PopupText popupPrefab = default;
+        Pooling<PopupText> poolPopup = new Pooling<PopupText>();
+
+        Camera cam;
         Character selfCharacter;
         Dictionary<SpriteRenderer, Material> savedMaterials = new Dictionary<SpriteRenderer, Material>();
         Coroutine blinkCoroutine;
 
+        Coroutine stopTimeCoroutine;
+
         void Awake()
         {
+            //get camera reference
+            if (popupPrefab)
+                cam = Camera.main;
+
             //save materials
             if (spritesToUse == null || spritesToUse.Length <= 0) spritesToUse = GetComponentsInChildren<SpriteRenderer>();
             foreach (SpriteRenderer sprite in spritesToUse)
@@ -58,6 +78,7 @@ namespace redd096.GameTopDown2D
             {
                 healthComponent.onGetDamage += OnGetDamage;
                 healthComponent.onDie += OnDie;
+                healthComponent.onGetHealth += OnGetHealth;
             }
         }
 
@@ -68,15 +89,15 @@ namespace redd096.GameTopDown2D
             {
                 healthComponent.onGetDamage -= OnGetDamage;
                 healthComponent.onDie -= OnDie;
+                healthComponent.onGetHealth -= OnGetHealth;
             }
         }
 
         #region private API
 
-        void OnGetDamage(Vector2 hitPoint)
+        void OnGetDamage(Character whoHit, Vector2 hitPoint)
         {
             //rotation
-            //Vector2 direction = (hitPoint - (Vector2)transform.position).normalized;
             Vector2 direction = ((Vector2)transform.position - hitPoint).normalized;
             Quaternion rotation = Quaternion.LookRotation(Vector3.forward, Quaternion.AngleAxis(90, Vector3.forward) * direction);   //Forward keep to Z axis. Up use X instead of Y (AngleAxis 90) and rotate to direction
 
@@ -85,7 +106,6 @@ namespace redd096.GameTopDown2D
             {
                 rotation *= Quaternion.AngleAxis(180, Vector3.right);
             }
-
 
             //instantiate vfx and sfx
             InstantiateGameObjectManager.instance.Play(gameObjectOnGetDamage, transform.position, transform.rotation);
@@ -113,7 +133,30 @@ namespace redd096.GameTopDown2D
             if(selfCharacter && selfCharacter.CharacterType == Character.ECharacterType.Player)
             {
                 if (GameManager.instance && GameManager.instance.uiManager)
+                {
                     GameManager.instance.uiManager.ShowBloodOnScreen();
+                    GameManager.instance.uiManager.OnGetDamage(healthComponent);
+                }
+            }
+
+            //stop time on get damage
+            if (stopTimeOnGetDamage && selfCharacter && selfCharacter.CharacterType == Character.ECharacterType.Player)
+            {
+                if (stopTimeCoroutine != null)
+                    StopCoroutine(stopTimeCoroutine);
+
+                stopTimeCoroutine = StartCoroutine(StopTimeCoroutine());
+            }
+
+            //popup on get damage
+            if (popupPrefab && cam)
+            {
+                PopupText popup = poolPopup.Instantiate(popupPrefab);
+                popup.GetComponentInChildren<Canvas>().worldCamera = cam;
+                if (popup.UseTextMeshPro && popup.TextMesh) popup.TextMesh.transform.position = transform.position;// cam.WorldToScreenPoint(transform.position);
+                else if (popup.UseTextMeshPro == false && popup.TextUI) popup.TextUI.transform.position = transform.position;//cam.WorldToScreenPoint(transform.position);
+
+                popup.Init();
             }
         }
 
@@ -131,7 +174,7 @@ namespace redd096.GameTopDown2D
             blinkCoroutine = null;
         }
 
-        void OnDie(HealthComponent whoDied)
+        void OnDie(HealthComponent whoDied, Character whoHit)
         {
             //instantiate vfx and sfx
             foreach (InstantiatedGameObjectStruct go in gameObjectsOnDie)
@@ -142,6 +185,47 @@ namespace redd096.GameTopDown2D
 
             foreach (AudioClass audio in audiosOnDie)
                 SoundManager.instance.Play(audio, transform.position);                                          //instantiate every element in array
+
+            //instantiate one random sfx from the list
+            SoundManager.instance.Play(oneRandomAudioFromTheListOnDie, transform.position);
+        }
+
+        void OnGetHealth()
+        {
+            //instantiate vfx and sfx
+            feedbackOnGetHealth.InstantiateFeedback(transform);
+
+            //update UI
+            if (selfCharacter && selfCharacter.CharacterType == Character.ECharacterType.Player)
+            {
+                if (GameManager.instance && GameManager.instance.uiManager)
+                {
+                    GameManager.instance.uiManager.OnGetHealth(healthComponent);
+                }
+            }
+        }
+
+        IEnumerator StopTimeCoroutine()
+        {
+            //set time scale
+            Time.timeScale = timeScaleToSet;
+
+            //wait
+            float time = Time.realtimeSinceStartup + timeBeforeResetTime;
+            while (time > Time.realtimeSinceStartup)
+            {
+                yield return null;
+
+                if (GameManager.instance && GameManager.instance.levelManager)
+                {
+                    //if set pause, stop this coroutine
+                    if (GameManager.instance.levelManager.LevelState == LevelManager.ELevelState.Pause)
+                        yield break;
+                }
+            }
+
+            //reset time
+            Time.timeScale = 1;
         }
 
         #endregion

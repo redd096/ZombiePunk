@@ -60,6 +60,7 @@ public class WeaponBarsFeedback : MonoBehaviour
             weaponRange = weaponComponent.CurrentWeapon as WeaponRange;
 
             weaponRange.onShoot += OnShoot;
+            weaponRange.onLastShotBurst += OnLastShotBurst;
         }
     }
 
@@ -69,6 +70,7 @@ public class WeaponBarsFeedback : MonoBehaviour
         if (weaponRange)
         {
             weaponRange.onShoot -= OnShoot;
+            weaponRange.onLastShotBurst -= OnLastShotBurst;
         }
 
         //be sure to stop coroutines
@@ -80,11 +82,28 @@ public class WeaponBarsFeedback : MonoBehaviour
 
     void OnShoot()
     {
-        //start rate of fire coroutine
-        if (rateOfFireCoroutine != null)
-            StopCoroutine(rateOfFireCoroutine);
+        //only if fire mode is not Burst
+        if (weaponRange && weaponRange.FireMode != WeaponRange.EFireMode.Burst)
+        {
+            //start rate of fire coroutine
+            if (rateOfFireCoroutine != null)
+                StopCoroutine(rateOfFireCoroutine);
 
-        rateOfFireCoroutine = StartCoroutine(RateOfFireCoroutine());
+            rateOfFireCoroutine = StartCoroutine(RateOfFireCoroutine());
+        }
+    }
+
+    void OnLastShotBurst()
+    {
+        //only in Burst mode
+        if (weaponRange && weaponRange.FireMode == WeaponRange.EFireMode.Burst)
+        {
+            //start rate of fire coroutine
+            if (rateOfFireCoroutine != null)
+                StopCoroutine(rateOfFireCoroutine);
+
+            rateOfFireCoroutine = StartCoroutine(RateOfFireCoroutine());
+        }
     }
 
     IEnumerator RateOfFireCoroutine()
@@ -92,7 +111,7 @@ public class WeaponBarsFeedback : MonoBehaviour
         if(weaponRange && rateOfFireImage)
         {
             //only if show also on automatic, or if is not automatic
-            if (showRateOfFireAlsoOnAutomatic || weaponRange.Automatic == false)
+            if (showRateOfFireAlsoOnAutomatic || weaponRange.FireMode != WeaponRange.EFireMode.Automatic)
             {
                 //enable bar
                 rateOfFireImage.fillAmount = 1;
@@ -103,7 +122,7 @@ public class WeaponBarsFeedback : MonoBehaviour
                 while (delta < 1)
                 {
                     delta += Time.deltaTime / weaponRange.RateOfFire;
-                    rateOfFireImage.fillAmount = 1 - delta;
+                    rateOfFireImage.fillAmount = delta;
 
                     yield return null;
                 }

@@ -1,5 +1,35 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &8331142931916538501
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 6842899109808518806}
+  m_Layer: 9
+  m_Name: Shell drop barrel
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &6842899109808518806
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8331142931916538501}
+  m_LocalRotation: {x: 0, y: 0, z: 0.7933534, w: 0.6087614}
+  m_LocalPosition: {x: -0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 9135352667363506447}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 105}
 --- !u!1001 &7214689125962813428
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -107,6 +137,11 @@ PrefabInstance:
         type: 3}
       propertyPath: mainBarrel
       value: 
+      objectReference: {fileID: 6842899109808518806}
+    - target: {fileID: 4321745274758492328, guid: c5af849b48471b14bb21dad7d6bfa48f,
+        type: 3}
+      propertyPath: customShake
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 4321745274758492328, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
@@ -118,6 +153,17 @@ PrefabInstance:
       propertyPath: audioOnReload.audioClip
       value: 
       objectReference: {fileID: 8300000, guid: d7aa45f79261ddb4e99967d6d7973237, type: 3}
+    - target: {fileID: 4321745274758492328, guid: c5af849b48471b14bb21dad7d6bfa48f,
+        type: 3}
+      propertyPath: barrelVFXNotFollowWeapon
+      value: 
+      objectReference: {fileID: 6842899109808518806}
+    - target: {fileID: 4321745274758492328, guid: c5af849b48471b14bb21dad7d6bfa48f,
+        type: 3}
+      propertyPath: particlesNotFollowWeapon
+      value: 
+      objectReference: {fileID: 5528955775304436081, guid: 80f70a5fd5d5a3b4eb1ba3d7a2faaf67,
+        type: 3}
     - target: {fileID: 4321745274758492328, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
       propertyPath: audioOnFailShoot.audioClip
@@ -133,11 +179,6 @@ PrefabInstance:
       propertyPath: audioOnInstantiateBullet.audioClip
       value: 
       objectReference: {fileID: 8300000, guid: c7938ee830714324696fea206aba1405, type: 3}
-    - target: {fileID: 4321745274758492328, guid: c5af849b48471b14bb21dad7d6bfa48f,
-        type: 3}
-      propertyPath: gameObjectOnShoot.timeAutodestruction
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4321745274758492328, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
       propertyPath: gameObjectOnShoot.instantiatedGameObject
@@ -177,7 +218,7 @@ PrefabInstance:
     - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
       propertyPath: Damage
-      value: 24
+      value: 14
       objectReference: {fileID: 0}
     - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
@@ -196,14 +237,30 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
+      propertyPath: AmmoType
+      value: NONE
+      objectReference: {fileID: 0}
+    - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
+        type: 3}
+      propertyPath: FireMode
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
+        type: 3}
       propertyPath: Automatic
       value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
       propertyPath: AmmoOnPick
-      value: 250
+      value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
+        type: 3}
+      propertyPath: AmmoSprite
+      value: 
+      objectReference: {fileID: 21300000, guid: 5d07966e5d4600e408645aa2c5bfd6cf,
+        type: 3}
     - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
       propertyPath: RateOfFire
@@ -244,13 +301,19 @@ PrefabInstance:
         type: 3}
       propertyPath: WeaponSprite
       value: 
-      objectReference: {fileID: 21300000, guid: 04278aa227d93b74491dccffcfc5de42,
+      objectReference: {fileID: 21300000, guid: 96928e186f3ef3042a3db01ad3b2e37d,
         type: 3}
     - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
       propertyPath: NoiseAccuracy
       value: 20
       objectReference: {fileID: 0}
+    - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
+        type: 3}
+      propertyPath: WeaponSpriteTopUI
+      value: 
+      objectReference: {fileID: 21300000, guid: 266684dae71c82643b653da0745f4938,
+        type: 3}
     - target: {fileID: 7737347699123493500, guid: c5af849b48471b14bb21dad7d6bfa48f,
         type: 3}
       propertyPath: Barrels.Array.size
@@ -288,3 +351,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: c5af849b48471b14bb21dad7d6bfa48f, type: 3}
+--- !u!4 &9135352667363506447 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 1934563571220182779, guid: c5af849b48471b14bb21dad7d6bfa48f,
+    type: 3}
+  m_PrefabInstance: {fileID: 7214689125962813428}
+  m_PrefabAsset: {fileID: 0}

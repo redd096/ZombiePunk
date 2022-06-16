@@ -50,6 +50,12 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   lock60Fps: 1
+  volumePostProcessEnabled: {fileID: 11400000, guid: d89439ca4bdcc5e4b83ef9fe4990d4af,
+    type: 2}
+  volumePostProcessDisabled: {fileID: 11400000, guid: b04a0a599dbd6aa4ba74ac0ad42c0be6,
+    type: 2}
+  PostProcessEnabled: 1
+  DashToAim: 0
 --- !u!114 &7509590392313314039
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -146,6 +152,8 @@ MonoBehaviour:
   sound3DPrefab: {fileID: 6268396531015464464, guid: 8260c7ae6d27d8943a3d0318149e3cfa,
     type: 3}
   soundsOnClick: []
+  volumeMusic: 1
+  volumeSFX: 1
 --- !u!114 &4462056293276858423
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,6 +181,15 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a3dcc67345e843846a712c5519ce5bed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  saveHealth: 0
+  saveAmmo: 1
+  savePerks: 1
+  saveWeapons: 1
+  saveIndexEquippedWeapon: 1
+  clearStatsOnExit: 1
+  currentCheckpoint: 0
+  clearCheckpointOnExit: 2
+  overwriteCheckpoint: 10
 --- !u!114 &7509590392313314042
 MonoBehaviour:
   m_ObjectHideFlags: 0

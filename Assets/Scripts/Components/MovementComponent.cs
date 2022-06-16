@@ -28,6 +28,8 @@ namespace redd096.GameTopDown2D
         [ReadOnly] public Vector2 DesiredPushForce;             //used to push this object (push by recoil, knockback, dash, etc...), will be decreased by drag in every frame
         [ReadOnly] public Vector2 CurrentVelocity;              //velocity calculate for this frame
         [ReadOnly] public float CurrentSpeed;                   //CurrentVelocity.magnitude or rigidbody.velocity.magnitude
+        public float MaxSpeed => maxSpeed;
+        public float Drag => drag;
 
         //events
         public System.Action<bool> onChangeMovementDirection { get; set; }
@@ -196,6 +198,24 @@ namespace redd096.GameTopDown2D
                 DesiredPushForce = pushDirection.normalized * pushForce;
             else
                 DesiredPushForce += pushDirection.normalized * pushForce;
+        }
+
+        /// <summary>
+        /// Set MaxSpeed at runtime
+        /// </summary>
+        /// <param name="inMaxSpeed"></param>
+        public void SetMaxSpeed(float inMaxSpeed)
+        {
+            maxSpeed = inMaxSpeed;
+        }
+
+        /// <summary>
+        /// Set Drag at runtime
+        /// </summary>
+        /// <param name="inDrag"></param>
+        public void SetDrag(float inDrag)
+        {
+            drag = inDrag;
         }
 
         #endregion
