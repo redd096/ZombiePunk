@@ -14,7 +14,28 @@ public class ChargerFeedback : MonoBehaviour
     [SerializeField] List<string> statesWhenActivate = new List<string>() { "DelayState" };
     [SerializeField] GameObject[] objectsToActivate = default;
 
+    [Header("Change color after X seconds")]
+    [SerializeField] float secondsBeforeChangeColor = 1;
+    [SerializeField] Color colorToUse = Color.red;
+
     Coroutine aimCoroutine;
+    Dictionary<SpriteRenderer, Color> defaultColors = new Dictionary<SpriteRenderer, Color>();
+
+    void Awake()
+    {
+        //save default colors and deactivate objects by default
+        foreach (GameObject go in objectsToActivate)
+        {
+            if (go)
+            {
+                foreach (SpriteRenderer sprite in go.GetComponentsInChildren<SpriteRenderer>())
+                    if (defaultColors.ContainsKey(sprite) == false)
+                        defaultColors.Add(sprite, sprite.color);
+
+                go.SetActive(false);
+            }
+        }
+    }
 
     void OnEnable()
     {
@@ -25,11 +46,6 @@ public class ChargerFeedback : MonoBehaviour
             Redd096Main main = GetComponentInParent<Redd096Main>();
             if (main) stateMachine = main.GetComponentInChildren<StateMachineRedd096>();
         }
-
-        //deactivate objects by default
-        foreach (GameObject go in objectsToActivate)
-            if (go)
-                go.SetActive(false);
 
         //add events
         if (stateMachine)
@@ -76,6 +92,11 @@ public class ChargerFeedback : MonoBehaviour
 
     IEnumerator AimCoroutine()
     {
+        //set default colors
+        foreach (SpriteRenderer sprite in defaultColors.Keys)
+            if (sprite)
+                sprite.color = defaultColors[sprite];
+
         //set rotation and activate object
         Quaternion rotation = GetRotation();
         foreach (GameObject go in objectsToActivate)
@@ -87,6 +108,7 @@ public class ChargerFeedback : MonoBehaviour
             }
         }
 
+        float timerChangeColor = Time.time + secondsBeforeChangeColor;
         while (true)
         {
             //continue rotate until stop coroutine
@@ -97,6 +119,17 @@ public class ChargerFeedback : MonoBehaviour
                 {
                     go.transform.rotation = rotation;
                 }
+            }
+
+            //after few seconds, change color
+            if (Time.time > timerChangeColor && timerChangeColor > 0)
+            {
+                foreach (SpriteRenderer sprite in defaultColors.Keys)
+                    if (sprite)
+                        sprite.color = colorToUse;
+
+                //set -1 to not change again color
+                timerChangeColor = -1;  
             }
 
             yield return null;
