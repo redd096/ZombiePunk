@@ -26,10 +26,16 @@ public class ChargerFeedback : MonoBehaviour
             if (main) stateMachine = main.GetComponentInChildren<StateMachineRedd096>();
         }
 
+        //deactivate objects by default
+        foreach (GameObject go in objectsToActivate)
+            if (go)
+                go.SetActive(false);
+
         //add events
         if (stateMachine)
         {
             stateMachine.onSetState += OnSetState;
+            OnSetState(stateMachine.CurrentState.StateName);    //set default
         }
     }
 
