@@ -14,8 +14,9 @@ public class ReplaceGameObjectMouseOrGamepad : MonoBehaviour
     void Start()
     {
         //get references
-        if (GameManager.instance && GameManager.instance.levelManager && GameManager.instance.levelManager.Players.Count > 0)
-            playerInput = GameManager.instance.levelManager.Players[0].GetSavedComponent<PlayerInput>();
+        PlayerInput player = FindObjectOfType<PlayerInput>();
+        if (player)
+            playerInput = player;
 
         //set gameObject
         ReplaceGameObjects();
