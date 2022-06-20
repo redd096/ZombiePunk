@@ -374,12 +374,19 @@ MonoBehaviour:
   positionBlackboardName: Last Target Position
   prefabObjectToMove: {fileID: 3372641817508329110, guid: 0455c7db2ea21724c9b2f53d93ac4ea7,
     type: 3}
+  verticalOffset: -1
   prefabObjectToResize: {fileID: 3372641817508329110, guid: 0455c7db2ea21724c9b2f53d93ac4ea7,
     type: 3}
   durationResize: 1
   fromSize: 0
   useObjectToMoveSize: 0
   toSize: 1
+  statesWithChangeOfColor:
+  - Move To Target State
+  - Attack State
+  colorTouse: {r: 1, g: 0, b: 1, a: 1}
+  changeColorToObjectToMove: 1
+  changeColorToObjectToResize: 1
 --- !u!114 &8234275906305795589
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -511,7 +518,7 @@ PrefabInstance:
     - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: m_InstanceId
-      value: -233000
+      value: -263552
       objectReference: {fileID: 0}
     - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
@@ -617,7 +624,7 @@ PrefabInstance:
     - target: {fileID: 3832161718985136011, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: gameObjectsOnDie.Array.size
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3832161718985136011, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
