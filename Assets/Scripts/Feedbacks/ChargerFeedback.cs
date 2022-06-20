@@ -12,6 +12,7 @@ public class ChargerFeedback : MonoBehaviour
 
     [Header("Objects to activate when aim (already in scene)")]
     [SerializeField] List<string> statesWhenActivate = new List<string>() { "DelayState" };
+    [SerializeField] float distanceFromCharger = 1;
     [SerializeField] GameObject[] objectsToActivate = default;
 
     [Header("Change color after X seconds aiming")]
@@ -98,25 +99,31 @@ public class ChargerFeedback : MonoBehaviour
                 sprite.color = defaultColors[sprite];
 
         //set rotation and activate object
+        Vector2 position = GetPosition();
         Quaternion rotation = GetRotation();
         foreach (GameObject go in objectsToActivate)
         {
             if (go)
             {
+                go.transform.position = position;
                 go.transform.rotation = rotation;
                 go.SetActive(true);
             }
         }
 
+
+        //animation
         float timerChangeColor = Time.time + secondsBeforeChangeColor;
         while (true)
         {
             //continue rotate until stop coroutine
+            position = GetPosition();
             rotation = GetRotation();
             foreach (GameObject go in objectsToActivate)
             {
                 if (go)
                 {
+                    go.transform.position = position;
                     go.transform.rotation = rotation;
                 }
             }
@@ -134,6 +141,11 @@ public class ChargerFeedback : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    Vector2 GetPosition()
+    {
+        return (Vector2)transform.position + (aimComponent ? aimComponent.AimDirectionInput * distanceFromCharger : Vector2.zero);
     }
 
     Quaternion GetRotation()
