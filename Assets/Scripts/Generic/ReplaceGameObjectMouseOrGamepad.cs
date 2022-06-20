@@ -14,9 +14,7 @@ public class ReplaceGameObjectMouseOrGamepad : MonoBehaviour
     void Start()
     {
         //get references
-        PlayerInput player = FindObjectOfType<PlayerInput>();
-        if (player)
-            playerInput = player;
+        playerInput = FindObjectOfType<PlayerInput>();
 
         //set gameObject
         ReplaceGameObjects();
@@ -40,10 +38,7 @@ public class ReplaceGameObjectMouseOrGamepad : MonoBehaviour
     void ReplaceGameObjects()
     {
         //set if using mouse or gamepad
-        if (GameManager.instance.levelManager.Players.Count > 0)
-        {
-            usingMouse = IsUsingMouse();
-        }
+        usingMouse = IsUsingMouse();
 
         //active or deactive objects
         if (objectMouse)
