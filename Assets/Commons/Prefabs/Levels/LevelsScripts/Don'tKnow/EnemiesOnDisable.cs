@@ -20,6 +20,7 @@ public class EnemiesOnDisable : MonoBehaviour
 
     public void OnDisable()
     {
-        toActivate.SetActive(true);
+        if (toActivate)
+            toActivate.SetActive(true);
     }
 }

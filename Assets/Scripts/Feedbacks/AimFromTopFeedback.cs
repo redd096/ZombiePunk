@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System.Collections.Generic;
+using System.Collections;
 using UnityEngine;
 using redd096.GameTopDown2D;
 using redd096;
@@ -10,11 +11,12 @@ public class AimFromTopFeedback : MonoBehaviour
     [SerializeField] StateMachineRedd096 stateMachine = default;
 
     [Header("StateMachine - Show during these states")]
-    [SerializeField] System.Collections.Generic.List<string> statesWhenShow = new System.Collections.Generic.List<string>() { "Aim From Top State", "Move To Target State", "Attack State" };
+    [SerializeField] List<string> statesWhenShow = new List<string>() { "Aim From Top State", "Move To Target State", "Attack State" };
     [SerializeField] string positionBlackboardName = "Last Target Position";
 
     [Header("Object to move")]
     [SerializeField] GameObject prefabObjectToMove = default;
+    [SerializeField] float verticalOffset = -1;
 
     [Header("Object to resize")]
     [SerializeField] GameObject prefabObjectToResize = default;
@@ -23,10 +25,17 @@ public class AimFromTopFeedback : MonoBehaviour
     [SerializeField] bool useObjectToMoveSize = true;
     [HideIf("useObjectToMoveSize")] [SerializeField] float toSize = 1;
 
+    [Header("Change Color")]
+    [SerializeField] List<string> statesWithChangeOfColor = new List<string>() { "Move To Target State", "Attack State" };
+    [SerializeField] Color colorTouse = Color.magenta;
+    [SerializeField] bool changeColorToObjectToMove = true;
+    [SerializeField] bool changeColorToObjectToResize = true;
+
     GameObject objectToMove;
     GameObject objectToResize;
     Vector2 positionFromBlackboard;
     Coroutine moveObjectCoroutine;
+    Dictionary<SpriteRenderer, Color> defaultColors = new Dictionary<SpriteRenderer, Color>();
 
     void OnEnable()
     {
@@ -49,6 +58,15 @@ public class AimFromTopFeedback : MonoBehaviour
             objectToResize = Instantiate(prefabObjectToResize);
             objectToResize.SetActive(false);
         }
+
+        //save default colors
+        if (objectToMove)
+            foreach (SpriteRenderer sprite in objectToMove.GetComponentsInChildren<SpriteRenderer>())
+                defaultColors.Add(sprite, sprite.color);
+
+        if (objectToResize)
+            foreach (SpriteRenderer sprite in objectToResize.GetComponentsInChildren<SpriteRenderer>())
+                defaultColors.Add(sprite, sprite.color);
 
         //add events
         if (stateMachine)
@@ -84,12 +102,15 @@ public class AimFromTopFeedback : MonoBehaviour
             if(objectToMove) objectToMove.SetActive(false);
             if (objectToResize) objectToResize.SetActive(false);
         }
+
+        //change colors
+        ChangeColors(stateName);
     }
 
     IEnumerator MoveObjectCoroutine()
     {
         //update position and size before activate objects
-        positionFromBlackboard = stateMachine.GetBlackboardElement<Vector2>(positionBlackboardName);
+        positionFromBlackboard = stateMachine.GetBlackboardElement<Vector2>(positionBlackboardName) + (Vector2.up * verticalOffset);
         if (objectToMove)
         {
             objectToMove.transform.position = positionFromBlackboard;
@@ -109,7 +130,7 @@ public class AimFromTopFeedback : MonoBehaviour
         while (true)
         {
             //get position and move objects
-            positionFromBlackboard = stateMachine.GetBlackboardElement<Vector2>(positionBlackboardName);
+            positionFromBlackboard = stateMachine.GetBlackboardElement<Vector2>(positionBlackboardName) + (Vector2.up * verticalOffset);
             if (objectToMove)
             {
                 objectToMove.transform.position = positionFromBlackboard;
@@ -132,5 +153,21 @@ public class AimFromTopFeedback : MonoBehaviour
 
             yield return null;
         }
+    }
+
+    void ChangeColors(string stateName)
+    {
+        //use default color or new color
+        bool useDefaultColor = statesWithChangeOfColor.Contains(stateName) == false;
+
+        //object to move
+        if (changeColorToObjectToMove && objectToMove)
+            foreach (SpriteRenderer sprite in objectToMove.GetComponentsInChildren<SpriteRenderer>())
+                sprite.color = useDefaultColor && defaultColors.ContainsKey(sprite) ? defaultColors[sprite] : colorTouse;
+
+        //object to resize
+        if (changeColorToObjectToResize && objectToResize)
+            foreach (SpriteRenderer sprite in objectToResize.GetComponentsInChildren<SpriteRenderer>())
+                sprite.color = useDefaultColor && defaultColors.ContainsKey(sprite) ? defaultColors[sprite] : colorTouse;
     }
 }

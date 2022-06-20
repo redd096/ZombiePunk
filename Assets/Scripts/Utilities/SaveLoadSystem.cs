@@ -22,6 +22,7 @@ namespace redd096
             EditorGUILayout.BeginVertical();
             EditorGUILayout.Space(5);
 
+            //header
             EditorGUILayout.LabelField("Path Directory:");
 
             EditorGUILayout.Space(-15);
@@ -29,7 +30,35 @@ namespace redd096
             //show path directory
             EditorGUILayout.SelectableLabel(saveLoad.PathDirectory);
 
+            EditorGUILayout.Space(10);
+
+            //button
+            if (GUILayout.Button("Delete Saves"))
+            {
+                DeleteAll();
+            }
+
             EditorGUILayout.EndVertical();
+        }
+
+        void DeleteAll()
+        {
+            //use this SaveLoadSystem, cause instance is not setted
+            SaveLoadSystem saveLoadSystem = target as SaveLoadSystem;
+            if (saveLoadSystem == null)
+                return;
+
+            //check there is a directory
+            if (Directory.Exists(saveLoadSystem.PathDirectory) == false)
+            {
+                if (saveLoadSystem.ShowDebug)
+                    Debug.Log("Directory not found: " + saveLoadSystem.PathDirectory);
+
+                return;
+            }
+
+            //delete directory
+            Directory.Delete(saveLoadSystem.PathDirectory, true);
         }
     }
 
