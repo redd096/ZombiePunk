@@ -34,7 +34,7 @@ public class AcidBulletModifier : MonoBehaviour
         }
     }
 
-    void OnDie()
+    void OnDie(Bullet bullet)
     {
         //spawn acid at position
         if (acid)

@@ -57,7 +57,7 @@ namespace redd096.GameTopDown2D
         public System.Action<GameObject> onBounceHit { get; set; }  //when hit something and bounce
         public System.Action<GameObject> onLastHit { get; set; }    //when hit something that destroy this bullet
         public System.Action onAutodestruction { get; set; }        //when destroy by timer
-        public System.Action onDie { get; set; }                    //both hit something or destroyed by timer
+        public System.Action<Bullet> onDie { get; set; }            //both hit something or destroyed by timer
 
         private void Awake()
         {
@@ -309,7 +309,7 @@ namespace redd096.GameTopDown2D
                 StopCoroutine(autodestructionCoroutine);
 
             //call event
-            onDie?.Invoke();
+            onDie?.Invoke(this);
 
             //destroy bullet
             Pooling.Destroy(gameObject);

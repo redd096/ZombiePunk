@@ -26,6 +26,9 @@ public class ShootSpitterBullet : ActionTask
     [Header("DEBUG")]
     [SerializeField] bool drawDebug = false;
 
+    //events
+    public System.Action<Vector2, Bullet> onShoot { get; set; }
+
     Character selfCharacter;
     Transform target;
     float timerBeforeAttack;    //time between attacks
@@ -106,5 +109,8 @@ public class ShootSpitterBullet : ActionTask
 
         //and set it (with delay autodestruction when reach target position)
         bullet.Init(selfCharacter, direction, damage, bulletSpeed, Vector2.Distance(barrel.position, target.position) / bulletSpeed );
+
+        //call event
+        onShoot?.Invoke(target.position, bullet);
     }
 }
