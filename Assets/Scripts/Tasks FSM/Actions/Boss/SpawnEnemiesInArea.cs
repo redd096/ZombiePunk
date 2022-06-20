@@ -2,6 +2,7 @@
 using UnityEngine;
 using redd096;
 using redd096.Attributes;
+using redd096.GameTopDown2D;
 
 [System.Serializable]
 public struct SpawnEnemiesStruct
@@ -31,6 +32,10 @@ public class SpawnEnemiesInArea : ActionTask
     [Header("DEBUG")]
     [SerializeField] bool drawDebug = false;
 
+    //events
+    public System.Action<GameObject> onSpawn { get; set; }
+
+    SpawnFeedbackBoss spawnFeedback;
     Coroutine spawnEnemiesCoroutine;
 
     void OnValidate()
@@ -58,6 +63,13 @@ public class SpawnEnemiesInArea : ActionTask
     public override void OnEnterTask()
     {
         base.OnEnterTask();
+
+        //get references
+        if (spawnFeedback == null)
+        {
+            Redd096Main main = GetComponentInParent<Redd096Main>();
+            if (main) spawnFeedback = main.GetComponentInChildren<SpawnFeedbackBoss>();
+        }
 
         //start spawn coroutine
         if (spawnEnemiesCoroutine != null)
@@ -115,7 +127,16 @@ public class SpawnEnemiesInArea : ActionTask
             {
                 if (enemiesToSpawn[i].EnemyPrefab)
                 {
-                    Instantiate(enemiesToSpawn[i].EnemyPrefab, (Vector2)transformTask.position + new Vector2(x, y), Quaternion.identity);
+                    GameObject instantiatedObject = Instantiate(enemiesToSpawn[i].EnemyPrefab, (Vector2)transformTask.position + new Vector2(x, y), Quaternion.identity);
+
+                    //if there is spawn feedback, deactive because will be activated from SpawnFeedback
+                    if (spawnFeedback)
+                    {
+                        instantiatedObject.SetActive(false);
+                    }
+
+                    //call event
+                    onSpawn?.Invoke(instantiatedObject);
                 }
 
                 break;
