@@ -17,6 +17,9 @@ public class InventoryInteract : BASELobbyInteract
     [SerializeField] WeaponButtonShop[] perkButtons = default;
     [Tooltip("Perks to show always, without saves")] [SerializeField] PerkData[] defaultPerks = default;
 
+    //events
+    public System.Action<List<ISellable>, Redd096Main>  onUpdateInventory { get; set; }
+
     List<WeaponButtonShop> buttonsShop = new List<WeaponButtonShop>();
     List<ISellable> alreadyBoughtElements = new List<ISellable>();
 
@@ -38,6 +41,16 @@ public class InventoryInteract : BASELobbyInteract
         //set button event on slots
         if (slot1 && slot1.button) slot1.button.onClick.AddListener(() => OnClickSlot(true));
         if (slot2 && slot2.button) slot2.button.onClick.AddListener(() => OnClickSlot(false));
+
+        //set default UI
+        mainInteracting = GameManager.instance && GameManager.instance.levelManager && GameManager.instance.levelManager.Players != null && GameManager.instance.levelManager.Players.Count > 0 ?
+            GameManager.instance.levelManager.Players[0] : 
+            null;
+        if (mainInteracting)
+        {
+            whoIsInteracting = mainInteracting.GetSavedComponent<InteractComponent>();
+            UpdateUI();
+        }
     }
 
     public override void Interact(InteractComponent whoInteract)
@@ -101,6 +114,9 @@ public class InventoryInteract : BASELobbyInteract
             //else set button
             SetButton(buttonsShop[i], alreadyBoughtElements[i]);
         }
+
+        //call event
+        onUpdateInventory?.Invoke(alreadyBoughtElements, mainInteracting);
     }
 
     void SetButton(WeaponButtonShop buttonShop, ISellable sellable)
@@ -124,13 +140,14 @@ public class InventoryInteract : BASELobbyInteract
         bool equipped = false;
         if (sellable is WeaponBASE)
         {
+            WeaponBASE sellableWeapon = sellable as WeaponBASE;
             if (mainInteracting && mainInteracting.GetSavedComponent<WeaponComponent>())
             {
                 //if inside list of current weapons, set is equipped
                 foreach (WeaponBASE weapon in mainInteracting.GetSavedComponent<WeaponComponent>().CurrentWeapons)
                 {
                     //check if is same prefab
-                    if (weapon && weapon.WeaponPrefab == sellable as WeaponBASE)
+                    if (weapon && weapon.WeaponPrefab == sellableWeapon)
                     {
                         equipped = true;
                         break;
