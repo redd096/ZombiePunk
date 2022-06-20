@@ -120,7 +120,7 @@ namespace redd096.GameTopDown2D
             }
         }
 
-        void OnDie()
+        void OnDie(Bullet bullet)
         {
             //instantiate vfx and sfx
             InstantiateGameObjectManager.instance.Play(gameObjectOnDestroy, transform.position, transform.rotation);
