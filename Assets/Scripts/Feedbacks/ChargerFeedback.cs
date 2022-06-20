@@ -11,8 +11,8 @@ public class ChargerFeedback : MonoBehaviour
     [SerializeField] StateMachineRedd096 stateMachine = default;
 
     [Header("Objects to activate when aim (already in scene)")]
+    [SerializeField] float offset = 1;
     [SerializeField] List<string> statesWhenActivate = new List<string>() { "DelayState" };
-    [SerializeField] float distanceFromCharger = 1;
     [SerializeField] GameObject[] objectsToActivate = default;
 
     [Header("Change color after X seconds aiming")]
@@ -145,7 +145,7 @@ public class ChargerFeedback : MonoBehaviour
 
     Vector2 GetPosition()
     {
-        return (Vector2)transform.position + (aimComponent ? aimComponent.AimDirectionInput * distanceFromCharger : Vector2.zero);
+        return (Vector2)transform.position + (aimComponent ? aimComponent.AimDirectionInput * offset : Vector2.zero);
     }
 
     Quaternion GetRotation()
