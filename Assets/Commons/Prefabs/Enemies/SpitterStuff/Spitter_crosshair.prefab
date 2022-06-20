@@ -334,6 +334,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4342448748342945978}
   - component: {fileID: 6165032615302257019}
+  - component: {fileID: 7675786877296272951}
   m_Layer: 0
   m_Name: Spitter_crosshair
   m_TagString: Untagged
@@ -350,7 +351,7 @@ Transform:
   m_GameObject: {fileID: 8855887114677876251}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: -2, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 0.5, z: 1}
+  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
   m_Children:
   - {fileID: 8974253762217638100}
   - {fileID: 1884904089455641636}
@@ -369,7 +370,7 @@ Animator:
   m_GameObject: {fileID: 8855887114677876251}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 07f4fa8477ecacd40ab93abd4497218b, type: 2}
+  m_Controller: {fileID: 0}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0
@@ -378,3 +379,17 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &7675786877296272951
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8855887114677876251}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0e6eda73f29bca24e99a310746da3a8e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  rotationAxis: 2
+  speed: 60
