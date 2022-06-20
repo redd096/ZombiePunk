@@ -51,22 +51,21 @@ public class AimFromTopFeedback : MonoBehaviour
         {
             objectToMove = Instantiate(prefabObjectToMove);
             objectToMove.SetActive(false);
+
+            //save default colors
+            foreach (SpriteRenderer sprite in objectToMove.GetComponentsInChildren<SpriteRenderer>())
+                defaultColors.Add(sprite, sprite.color);
         }
         //and object to resize
         if (objectToResize == null && prefabObjectToResize)
         {
             objectToResize = Instantiate(prefabObjectToResize);
             objectToResize.SetActive(false);
-        }
 
-        //save default colors
-        if (objectToMove)
-            foreach (SpriteRenderer sprite in objectToMove.GetComponentsInChildren<SpriteRenderer>())
-                defaultColors.Add(sprite, sprite.color);
-
-        if (objectToResize)
+            //save default colors
             foreach (SpriteRenderer sprite in objectToResize.GetComponentsInChildren<SpriteRenderer>())
                 defaultColors.Add(sprite, sprite.color);
+        }
 
         //add events
         if (stateMachine)
