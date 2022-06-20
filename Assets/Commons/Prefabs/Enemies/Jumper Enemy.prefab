@@ -252,86 +252,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TaskName: '[CONDITION] Wait to move out of screen'
   timer: 1.5
---- !u!114 &4260081970339191854
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5017728265048648176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5d420a2a14f74345899897d27a272c2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 6757414115337315533}
-  stateMachine: {fileID: 5017728266096039248}
-  attackStateName: Attack State
-  triggerOnAttack: Melee Attack
---- !u!114 &6802511301253934126
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5017728265048648176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4667f7c04c138a24a82fcc6d6490fa0c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  stateMachine: {fileID: 5017728266096039248}
-  statesWhenShow:
-  - Aim From Top State
-  - Move To Target State
-  - Attack State
-  positionBlackboardName: Last Target Position
-  prefabObjectToMove: {fileID: 3372641817508329110, guid: ca790a81a1b2fde429868a8a07d6b657,
-    type: 3}
-  verticalOffset: -1
-  prefabObjectToResize: {fileID: 3372641817508329110, guid: 0455c7db2ea21724c9b2f53d93ac4ea7,
-    type: 3}
-  durationResize: 1
-  fromSize: 0
-  useObjectToMoveSize: 0
-  toSize: 1
-  statesWithChangeOfColor:
-  - Move To Target State
-  - Attack State
-  colorTouse: {r: 0.8301887, g: 0.066187836, b: 0.05090782, a: 1}
-  changeColorToObjectToMove: 1
-  changeColorToObjectToResize: 1
---- !u!114 &8234275906305795589
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5017728265048648176}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 0fda3cc4507d78c478c88266edf3d395, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  anim: {fileID: 6757414115337315533}
-  stateMachine: {fileID: 5017728266096039248}
-  animTriggers:
-  - State: Move Out Of Screen State
-    TriggerToSet: OnJump
-  - State: Move To Target State
-    TriggerToSet: Landing
---- !u!114 &-3354134217576186541
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5017728266285329908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: aa390d94ac6496748b5dcfdc31c74018, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &7367816136740611222
 GameObject:
   m_ObjectHideFlags: 0
@@ -406,6 +326,86 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   TaskName: '[CONDITION] Wait Timer attack'
   timer: 0.9
+--- !u!114 &-3354134217576186541
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017728266285329908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: aa390d94ac6496748b5dcfdc31c74018, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4260081970339191854
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017728265048648176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a5d420a2a14f74345899897d27a272c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 6757414115337315533}
+  stateMachine: {fileID: 5017728266096039248}
+  attackStateName: Attack State
+  triggerOnAttack: Melee Attack
+--- !u!114 &6802511301253934126
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017728265048648176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4667f7c04c138a24a82fcc6d6490fa0c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  stateMachine: {fileID: 5017728266096039248}
+  statesWhenShow:
+  - Aim From Top State
+  - Move To Target State
+  - Attack State
+  positionBlackboardName: Last Target Position
+  prefabObjectToMove: {fileID: 3372641817508329110, guid: ca790a81a1b2fde429868a8a07d6b657,
+    type: 3}
+  verticalOffset: -1
+  prefabObjectToResize: {fileID: 3372641817508329110, guid: 0455c7db2ea21724c9b2f53d93ac4ea7,
+    type: 3}
+  durationResize: 1
+  fromSize: 0
+  useObjectToMoveSize: 0
+  toSize: 1
+  statesWithChangeOfColor:
+  - Move To Target State
+  - Attack State
+  colorTouse: {r: 0.8301887, g: 0.066187836, b: 0.05090782, a: 1}
+  changeColorToObjectToMove: 1
+  changeColorToObjectToResize: 1
+--- !u!114 &8234275906305795589
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017728265048648176}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0fda3cc4507d78c478c88266edf3d395, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  anim: {fileID: 6757414115337315533}
+  stateMachine: {fileID: 5017728266096039248}
+  animTriggers:
+  - State: Move Out Of Screen State
+    TriggerToSet: OnJump
+  - State: Move To Target State
+    TriggerToSet: Landing
 --- !u!1 &8971848765225826952
 GameObject:
   m_ObjectHideFlags: 0
@@ -518,7 +518,7 @@ PrefabInstance:
     - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: m_InstanceId
-      value: -16126
+      value: -1844748
       objectReference: {fileID: 0}
     - target: {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
@@ -1065,7 +1065,8 @@ PrefabInstance:
         type: 3}
       propertyPath: drops.Array.data[1].DropPrefab
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2549756086835974668, guid: b707050b03d16124489337bf62cfdc52,
+        type: 3}
     - target: {fileID: 7795872236703593632, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: drops.Array.data[0].PercentageDrop
