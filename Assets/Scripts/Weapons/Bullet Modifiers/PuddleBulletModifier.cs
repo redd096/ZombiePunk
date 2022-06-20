@@ -34,7 +34,7 @@ public class PuddleBulletModifier : MonoBehaviour
         }
     }
 
-    void OnDie()
+    void OnDie(Bullet bullet)
     {
         //spawn puddle at position
         if (puddle)

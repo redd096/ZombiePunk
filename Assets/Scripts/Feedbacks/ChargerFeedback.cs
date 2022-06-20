@@ -14,7 +14,7 @@ public class ChargerFeedback : MonoBehaviour
     [SerializeField] List<string> statesWhenActivate = new List<string>() { "DelayState" };
     [SerializeField] GameObject[] objectsToActivate = default;
 
-    [Header("Change color after X seconds")]
+    [Header("Change color after X seconds aiming")]
     [SerializeField] float secondsBeforeChangeColor = 1;
     [SerializeField] Color colorToUse = Color.red;
 
