@@ -19,8 +19,9 @@ public class LevelManager : MonoBehaviour
     [Header("Remove saved weapons on die?")]
     [SerializeField] bool removeSavedWeaponsOnDie = true;
 
-    [Header("Time before load next scene")]
+    [Header("Time before load next scene - or open end menu when die")]
     [SerializeField] float timeBeforeNextScene = 1;
+    [SerializeField] float timeBeforeOpenEndMenu = 1;
 
     [Header("DEBUG")]
     [ReadOnly] public ELevelState LevelState = ELevelState.Normal;
@@ -119,6 +120,16 @@ public class LevelManager : MonoBehaviour
             SceneLoader.instance.LoadScene(exit.SceneToLoad);
     }
 
+    IEnumerator OpenEndMenuCoroutine()
+    {
+        //wait
+        yield return new WaitForSeconds(timeBeforeOpenEndMenu);
+
+        //show end menu (and show cursor)
+        if (GameManager.instance) GameManager.instance.uiManager.EndMenu(true);
+        if (SceneLoader.instance) SceneLoader.instance.LockMouse(CursorLockMode.None);
+    }
+
     #endregion
 
     #region public API
@@ -192,9 +203,8 @@ public class LevelManager : MonoBehaviour
             }
         }
 
-        //show end menu (and show cursor)
-        if (GameManager.instance) GameManager.instance.uiManager.EndMenu(true);
-        if (SceneLoader.instance) SceneLoader.instance.LockMouse(CursorLockMode.None);
+        //open end menu after few seconds
+        StartCoroutine(OpenEndMenuCoroutine());
     }
 
     #endregion
