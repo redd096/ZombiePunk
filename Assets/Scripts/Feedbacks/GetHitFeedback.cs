@@ -153,10 +153,7 @@ namespace redd096.GameTopDown2D
             {
                 PopupText popup = poolPopup.Instantiate(popupPrefab);
                 popup.GetComponentInChildren<Canvas>().worldCamera = cam;
-                if (popup.UseTextMeshPro && popup.TextMesh) popup.TextMesh.transform.position = transform.position;// cam.WorldToScreenPoint(transform.position);
-                else if (popup.UseTextMeshPro == false && popup.TextUI) popup.TextUI.transform.position = transform.position;//cam.WorldToScreenPoint(transform.position);
-
-                popup.Init();
+                popup.Init(transform.position);//cam.WorldToScreenPoint(transform.position);
             }
         }
 

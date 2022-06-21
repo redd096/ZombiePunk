@@ -125,9 +125,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e959f312f0e24049be27abdf6c6c566, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UseTextMeshPro: 0
-  TextUI: {fileID: 0}
-  TextMesh: {fileID: 0}
+  useTextMeshPro: 0
+  textUI: {fileID: 0}
+  textMesh: {fileID: 0}
   possibleTexts:
   - Welcome to the resistance, Kid
   - Success isn't always about greatness. It's about consistency. Consistent hard
@@ -139,10 +139,14 @@ MonoBehaviour:
   - I Am The Cavalry
   - What can I say except You're Welcome
   - IT'S ABOUT DRIVE, IT'S ABOUT POWER, WE STAY HUNGRY, WE DEVOUR
+  minMovement: {x: 0, y: 2}
+  maxMovement: {x: 0, y: 2}
+  timeBeforeFadeMin: 0.1
+  timeBeforeFadeMax: 0.1
+  fadeDurationMin: 1.5
+  fadeDurationMax: 1.5
   usePooling: 1
-  movement: {x: 0, y: 2}
-  timeBeforeFade: 0.1
-  fadeDuration: 1.5
+  autoInitializeOnEnable: 0
 --- !u!1 &8816079044878719902
 GameObject:
   m_ObjectHideFlags: 0
