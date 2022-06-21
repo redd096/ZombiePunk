@@ -24,6 +24,29 @@ public class InventoryInteract : BASELobbyInteract
     List<ISellable> alreadyBoughtElements = new List<ISellable>();
 
     bool isSelectingSlot1;
+    ShopInteract shopInteract;
+
+    private void OnEnable()
+    {
+        //get references
+        if (shopInteract == null) 
+            shopInteract = FindObjectOfType<ShopInteract>();
+
+        //add events
+        if (shopInteract)
+        {
+            shopInteract.onUpdateShop += OnShopUpdate;
+        }
+    }
+
+    private void OnDisable()
+    {
+        //remove events
+        if (shopInteract)
+        {
+            shopInteract.onUpdateShop -= OnShopUpdate;
+        }
+    }
 
     protected override void Start()
     {
@@ -41,16 +64,12 @@ public class InventoryInteract : BASELobbyInteract
         //set button event on slots
         if (slot1 && slot1.button) slot1.button.onClick.AddListener(() => OnClickSlot(true));
         if (slot2 && slot2.button) slot2.button.onClick.AddListener(() => OnClickSlot(false));
+        
 
         //set default UI
-        mainInteracting = GameManager.instance && GameManager.instance.levelManager && GameManager.instance.levelManager.Players != null && GameManager.instance.levelManager.Players.Count > 0 ?
-            GameManager.instance.levelManager.Players[0] : 
-            null;
-        if (mainInteracting)
-        {
-            whoIsInteracting = mainInteracting.GetSavedComponent<InteractComponent>();
-            UpdateUI();
-        }
+        OnShopUpdate(GameManager.instance && GameManager.instance.levelManager && GameManager.instance.levelManager.Players != null && GameManager.instance.levelManager.Players.Count > 0 ?
+            GameManager.instance.levelManager.Players[0] :
+            null);
     }
 
     public override void Interact(InteractComponent whoInteract)
@@ -119,6 +138,8 @@ public class InventoryInteract : BASELobbyInteract
         onUpdateInventory?.Invoke(alreadyBoughtElements, mainInteracting);
     }
 
+    #region private API
+
     void SetButton(WeaponButtonShop buttonShop, ISellable sellable)
     {
         //be sure is active
@@ -184,6 +205,27 @@ public class InventoryInteract : BASELobbyInteract
         if (buttonShop.nameText) buttonShop.nameText.text = sellable != null ? sellable.SellName : string.Empty;
         if (buttonShop.priceText) buttonShop.priceText.text = sellable != null ? sellable.SellPrice.ToString() : string.Empty;
     }
+
+    #endregion
+
+    #region events
+
+    void OnShopUpdate(Redd096Main main)
+    {
+        //set vars and update UI
+        mainInteracting = main;
+        if (mainInteracting)
+        {
+            whoIsInteracting = mainInteracting.GetSavedComponent<InteractComponent>();
+            UpdateUI();
+
+            //remove temp refs
+            whoIsInteracting = null;
+            mainInteracting = null;
+        }
+    }
+
+    #endregion
 
     #region on click button
 
