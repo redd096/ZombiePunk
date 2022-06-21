@@ -24,6 +24,9 @@ public class ShopInteract : BASELobbyInteract
     [SerializeField] bool setDisabledColorOnButtonWhenLocked = true;
     [SerializeField] LevelStruct[] levelsToUnlock = default;
 
+    //events
+    public System.Action<Redd096Main> onUpdateShop { get; set; }
+
     List<WeaponButtonShop> buttonsShop = new List<WeaponButtonShop>();
     List<ISellable> elementsToBuy = new List<ISellable>();
     List<ISellable> alreadyBoughtElements = new List<ISellable>();
@@ -109,6 +112,9 @@ public class ShopInteract : BASELobbyInteract
                 if (buttonsShop[i].priceText) buttonsShop[i].priceText.color = canBuy ? buttonsShop[i].GetDefaultPriceTextColor() : colorWhenTooExpensive;
             }
         }
+
+        //call event
+        onUpdateShop?.Invoke(mainInteracting);
     }
 
     #region private API
