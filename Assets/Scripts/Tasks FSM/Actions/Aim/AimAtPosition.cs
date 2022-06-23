@@ -7,12 +7,12 @@ using redd096.GameTopDown2D;
 public class AimAtPosition : ActionTask
 {
     [Header("Necessary Components - default get in parent")]
-    [SerializeField] AimComponent component;
+    [SerializeField] AimComponent component = default;
+    [SerializeField] MovementComponent movementComponent = default;
 
     [Header("Aim")]
-    [SerializeField] bool getPositionFromTask = true;
-    [EnableIf("getPositionFromTask")] [SerializeField] SimpleMoveToPosition taskWithPosition = default;
-    [DisableIf("getPositionFromTask")] [SerializeField] Vector2 positionToAim = Vector2.zero;
+    [SerializeField] bool aimToMovementDirection = true;
+    [DisableIf("aimToMovementDirection")] [SerializeField] Vector2 positionToAim = Vector2.zero;
     [Tooltip("Rotate immediatly or use a rotation speed")] [SerializeField] bool rotateUsingSpeed = false;
     [EnableIf("rotateUsingSpeed")] [SerializeField] float rotationSpeed = 50;
 
@@ -33,7 +33,7 @@ public class AimAtPosition : ActionTask
             Gizmos.color = Color.red;
             Gizmos.DrawLine(transformTask.position, Application.isPlaying && component ? (Vector2)transformTask.position + component.AimDirectionInput * 2 : (Vector2)transformTask.position + Vector2.right * 2);
             Gizmos.color = Color.cyan;
-            Gizmos.DrawLine(transformTask.position, getPositionFromTask && taskWithPosition ? taskWithPosition.PositionToReach : positionToAim);
+            Gizmos.DrawLine(transformTask.position, aimToMovementDirection && movementComponent ? movementComponent.CurrentVelocity.normalized : positionToAim);
             Gizmos.color = Color.white;
         }
     }
@@ -44,14 +44,14 @@ public class AimAtPosition : ActionTask
 
         //get references
         if (component == null) component = GetStateMachineComponent<AimComponent>();
-        if (taskWithPosition == null) taskWithPosition = GetComponent<SimpleMoveToPosition>();
+        if (movementComponent == null) movementComponent = GetComponent<MovementComponent>();
     }
 
     public override void OnEnterTask()
     {
         base.OnEnterTask();
 
-        position = getPositionFromTask && taskWithPosition ? taskWithPosition.PositionToReach : positionToAim;
+        position = aimToMovementDirection && movementComponent ? movementComponent.CurrentVelocity.normalized : positionToAim;
 
         //call event
         onStartAimAtTarget?.Invoke();
