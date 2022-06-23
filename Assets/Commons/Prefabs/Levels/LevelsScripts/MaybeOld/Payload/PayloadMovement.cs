@@ -8,18 +8,27 @@ public class PayloadMovement : MonoBehaviour
 
     //private Rigidbody2D rb;
     private Collider2D player;
+    public Rigidbody2D rb;
 
     // Start is called before the first frame update
     void Start()
     {
-        //rb = gameObject.GetComponent<Rigidbody2D>();
+
     }
 
-    // Update is called once per frame
+     //Update is called once per frame
     void Update()
     {
+
+    }
+
+    private void FixedUpdate()
+    {
         if (player)
-            gameObject.transform.Translate(Vector2.right * speed * Time.deltaTime);
+        {
+            //rb.velocity = transform.right * speed;
+            rb.velocity = new Vector2(speed, 0);
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -27,14 +36,17 @@ public class PayloadMovement : MonoBehaviour
         if (collision.CompareTag("Player"))
         {
             player = collision;
+            rb.velocity = new Vector2(speed, 0);
         }
     }
-
+    
     private void OnTriggerExit2D(Collider2D collision)
     {
         if (collision.CompareTag("Player"))
         {
             player = null;
+            //rb.velocity = transform.right * 0;
+            rb.velocity = new Vector2(0, 0);
         }
     }
 }
