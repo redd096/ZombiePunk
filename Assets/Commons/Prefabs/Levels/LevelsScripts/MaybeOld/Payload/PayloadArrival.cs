@@ -19,9 +19,8 @@ public class PayloadArrival : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if(gameObject.transform.position.x <= payload.transform.position.x)
+        if(payload.transform.position.x >= gameObject.transform.position.x)
         {
-            Destroy(script);
             Destroy(door);
         }
     }
