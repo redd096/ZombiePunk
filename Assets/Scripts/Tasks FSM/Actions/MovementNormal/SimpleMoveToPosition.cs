@@ -17,6 +17,8 @@ public class SimpleMoveToPosition : ActionTask
     [SerializeField] bool drawDebug = false;
     [Range(0f, 0.5f)] [SerializeField] float approxReachNode = 0.05f;
 
+    public Vector2 PositionToReach => positionToReach;
+
     bool reachedPosition;
     Vector2 direction;
 

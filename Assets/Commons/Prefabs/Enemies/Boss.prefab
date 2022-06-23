@@ -313,6 +313,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1803455640781313189}
   - component: {fileID: 9015002330446447183}
+  - component: {fileID: 3078995283478130466}
   - component: {fileID: 8296266417672135853}
   m_Layer: 11
   m_Name: Attack1-Init (MoveToCenterArena)
@@ -354,6 +355,26 @@ MonoBehaviour:
   ignoreCollisions: 1
   drawDebug: 0
   approxReachNode: 0.05
+--- !u!114 &3078995283478130466
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3226455016099371423}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9557daae08ecc5047932a9ead2d5661b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TaskName: '[ACTION] Aim at Center Arena (Attack 1)'
+  component: {fileID: 5017728266285329904}
+  getPositionFromTask: 1
+  taskWithPosition: {fileID: 9015002330446447183}
+  positionToAim: {x: 0, y: 0}
+  rotateUsingSpeed: 0
+  rotationSpeed: 50
+  drawDebug: 0
 --- !u!114 &8296266417672135853
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1160,7 +1181,7 @@ MonoBehaviour:
   - {x: -22.081005, y: 0.11870063, z: 0}
   m_ShapePathHash: -138146133
   m_Mesh: {fileID: 0}
-  m_InstanceId: 36616
+  m_InstanceId: 36548
 --- !u!1 &8847962211659526661
 GameObject:
   m_ObjectHideFlags: 0
@@ -1171,6 +1192,7 @@ GameObject:
   m_Component:
   - component: {fileID: 771579280361566068}
   - component: {fileID: 5212353083819628861}
+  - component: {fileID: 3590314859107637307}
   - component: {fileID: 2706450137271673873}
   m_Layer: 11
   m_Name: Attack3-Init (MoveToCenterArena)
@@ -1212,6 +1234,26 @@ MonoBehaviour:
   ignoreCollisions: 1
   drawDebug: 0
   approxReachNode: 0.05
+--- !u!114 &3590314859107637307
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8847962211659526661}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 9557daae08ecc5047932a9ead2d5661b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  TaskName: '[ACTION] Aim at Center Arena (Attack 3)'
+  component: {fileID: 5017728266285329904}
+  getPositionFromTask: 1
+  taskWithPosition: {fileID: 5212353083819628861}
+  positionToAim: {x: 0, y: 0}
+  rotateUsingSpeed: 0
+  rotationSpeed: 50
+  drawDebug: 0
 --- !u!114 &2706450137271673873
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1590,7 +1632,7 @@ PrefabInstance:
     - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: States.Array.data[2].Actions.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
@@ -1615,7 +1657,7 @@ PrefabInstance:
     - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: States.Array.data[7].Actions.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
@@ -1666,7 +1708,7 @@ PrefabInstance:
         type: 3}
       propertyPath: States.Array.data[2].Actions.Array.data[1]
       value: 
-      objectReference: {fileID: 1450085658283314429}
+      objectReference: {fileID: 3078995283478130466}
     - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: States.Array.data[3].Actions.Array.data[0]
@@ -1711,7 +1753,7 @@ PrefabInstance:
         type: 3}
       propertyPath: States.Array.data[7].Actions.Array.data[1]
       value: 
-      objectReference: {fileID: 6673552316081156193}
+      objectReference: {fileID: 3590314859107637307}
     - target: {fileID: 3832161720030964521, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
         type: 3}
       propertyPath: States.Array.data[8].Actions.Array.data[0]
@@ -2447,12 +2489,30 @@ PrefabInstance:
     - {fileID: 8545621178297549515, guid: 8b031062a6fbcbd4e8dadc539f1dfa61, type: 3}
     - {fileID: 3145419338813748900, guid: 8b031062a6fbcbd4e8dadc539f1dfa61, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 8b031062a6fbcbd4e8dadc539f1dfa61, type: 3}
---- !u!1 &5017728266285329908 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3832161719942337421, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+--- !u!114 &5017728266285329905 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3832161719942337416, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
     type: 3}
   m_PrefabInstance: {fileID: 8109891673206357625}
   m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017728266285329908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 491aceafddb93ed41a37e01f8abb4285, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &8380095539087911482 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 342286748697973827, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+    type: 3}
+  m_PrefabInstance: {fileID: 8109891673206357625}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5017728266285329908}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5017728266285329911 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3832161719942337422, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
@@ -2477,27 +2537,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5b1ff3f8559b35648bb34b56a1796ce1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &8380095539087911482 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 342286748697973827, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
-    type: 3}
-  m_PrefabInstance: {fileID: 8109891673206357625}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5017728266285329908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 373b52eb9bf8c40f785bb6947a1aee66, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!4 &5017728266096039255 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3832161720030964526, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
-    type: 3}
-  m_PrefabInstance: {fileID: 8109891673206357625}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &5017728265048648176 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 3832161718985136009, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
     type: 3}
   m_PrefabInstance: {fileID: 8109891673206357625}
   m_PrefabAsset: {fileID: 0}
@@ -2513,18 +2555,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 050edf7ae47c88345a3a8311c17cd85f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &5017728266285329905 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3832161719942337416, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+--- !u!1 &5017728265048648176 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3832161718985136009, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
     type: 3}
   m_PrefabInstance: {fileID: 8109891673206357625}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 5017728266285329908}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 491aceafddb93ed41a37e01f8abb4285, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
+--- !u!1 &5017728266285329908 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3832161719942337421, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
+    type: 3}
+  m_PrefabInstance: {fileID: 8109891673206357625}
+  m_PrefabAsset: {fileID: 0}
 --- !u!95 &6757414115337315533 stripped
 Animator:
   m_CorrespondingSourceObject: {fileID: 3263763755086437044, guid: 8b031062a6fbcbd4e8dadc539f1dfa61,
