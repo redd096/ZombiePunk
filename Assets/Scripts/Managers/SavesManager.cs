@@ -22,6 +22,9 @@ public class SavesManager : Singleton<SavesManager>
     [SerializeField] bool saveIndexEquippedWeapon = true;
     [Space]
     [SerializeField] EClearSaveCondition clearStatsOnExit = EClearSaveCondition.ClearWhenEnterInMainMenu;
+    [Space]
+    [SerializeField] WeaponBASE[] weaponsToSave = default;
+    [SerializeField] PerkData[] perksToSave = default;
 
     [Header("Save Checkpoint (only greater than zero)")]
     [ReadOnly] [SerializeField] int currentCheckpoint = 0;
@@ -30,6 +33,9 @@ public class SavesManager : Singleton<SavesManager>
     [SerializeField] int overwriteCheckpoint = 10;
     [Button] void OverwriteCheckpoint() => SaveCheckpoint(overwriteCheckpoint);
     [Button] void ForceLoadCheckpoint() => LoadCheckpoint();
+
+    public WeaponBASE[] WeaponsToSave => weaponsToSave;
+    public PerkData[] PerksToSave => perksToSave;
 
     //save and load in json
     ISaveClass[] classesToSave = new ISaveClass[] { new SaveClassMoney(), new SaveClassBoughtElements(), new SaveClassLevelReached(), new SaveClassOptions() };
@@ -45,7 +51,7 @@ public class SavesManager : Singleton<SavesManager>
         base.Awake();
 
         //when start game, load json files
-        if (instance)
+        if (this ==  instance)
         {
             for (int i = 0; i < classesToSave.Length; i++)
             {
@@ -417,27 +423,54 @@ public class SaveClassBoughtElements : ISaveClass
     public System.Type type => typeof(SaveClassBoughtElements);
     public ISaveClass GetEmptyClass() => new SaveClassBoughtElements();
 
-    //save bought weapons and perks
-    public List<ISellable> BoughtElements { get { 
-            //return a list with weapons and perks together
-            List<ISellable> sellables = new List<ISellable>(); 
-            if (BoughtWeapons != null) sellables.AddRange(BoughtWeapons); 
-            if (BoughtPerks != null) sellables.AddRange(BoughtPerks); 
-            return sellables; 
-        }  set {
-            //set weapons
-            BoughtWeapons = new List<WeaponBASE>();
-            foreach (ISellable sellable in value)
-                if (sellable is WeaponBASE)
-                    BoughtWeapons.Add(sellable as WeaponBASE);
+    //save weapons name
+    public string[] NameBoughtElements;
 
-            //and perks
-            BoughtPerks = new List<PerkData>();
-            foreach (ISellable sellable in value)
-                if (sellable is PerkData)
-                    BoughtPerks.Add(sellable as PerkData); } }
-    public List<WeaponBASE> BoughtWeapons;
-    public List<PerkData> BoughtPerks;
+    public List<ISellable> BoughtElements { get
+        {
+            List<ISellable> sellables = new List<ISellable>();
+            if (SavesManager.instance)
+            {
+                List<ISellable> prefabs = new List<ISellable>(SavesManager.instance.WeaponsToSave);
+                prefabs.AddRange(SavesManager.instance.PerksToSave);
+                foreach (ISellable sellable in prefabs)
+                    if (sellable != null && NameBoughtElements != null)
+                        if (NameBoughtElements.Contains(sellable.SellName))
+                            sellables.Add(sellable);
+            }
+
+            return sellables;
+        }}
+    public List<WeaponBASE> BoughtWeapons { get 
+        {
+            List<WeaponBASE> weapons = new List<WeaponBASE>();
+            if (SavesManager.instance && SavesManager.instance.WeaponsToSave != null)
+            {
+                foreach (WeaponBASE weapon in SavesManager.instance.WeaponsToSave)
+                    if (weapon && NameBoughtElements != null)
+                        if (NameBoughtElements.Contains(weapon.WeaponName))
+                            weapons.Add(weapon);
+            }
+
+            return weapons;
+        }
+    }
+    public List<PerkData> BoughtPerks
+    {
+        get
+        {
+            List<PerkData> perks = new List<PerkData>();
+            if (SavesManager.instance && SavesManager.instance.PerksToSave != null)
+            {
+                foreach (PerkData perk in SavesManager.instance.PerksToSave)
+                    if (perk && NameBoughtElements != null)
+                        if (NameBoughtElements.Contains(perk.PerkName))
+                            perks.Add(perk);
+            }
+
+            return perks;
+        }
+    }
 }
 
 [System.Serializable]

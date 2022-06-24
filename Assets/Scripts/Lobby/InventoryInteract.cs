@@ -95,8 +95,6 @@ public class InventoryInteract : BASELobbyInteract
     {
         //load already bought weapons
         SaveClassBoughtElements saveClass = SavesManager.instance && SavesManager.instance.Load<SaveClassBoughtElements>()  != null ? SavesManager.instance.Load<SaveClassBoughtElements>() : new SaveClassBoughtElements();
-        if (saveClass.BoughtWeapons == null) saveClass.BoughtWeapons = new List<WeaponBASE>();
-        if (saveClass.BoughtPerks == null) saveClass.BoughtPerks = new List<PerkData>();
         alreadyBoughtElements.Clear();
 
         //add default weapons, then bought weapons, then null until reach weaponButtons length

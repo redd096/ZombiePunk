@@ -200,7 +200,8 @@ public class ShopInteract : BASELobbyInteract
 
                 //save
                 SaveClassBoughtElements saveClass = SavesManager.instance && SavesManager.instance.Load<SaveClassBoughtElements>() != null ? SavesManager.instance.Load<SaveClassBoughtElements>() : new SaveClassBoughtElements();
-                saveClass.BoughtElements = alreadyBoughtElements;
+                saveClass.NameBoughtElements = new string[alreadyBoughtElements.Count];
+                for (int i = 0; i < alreadyBoughtElements.Count; i++) saveClass.NameBoughtElements[i] = alreadyBoughtElements[i].SellName;
                 if (SavesManager.instance) SavesManager.instance.Save(saveClass);
 
                 //remove money
@@ -261,7 +262,8 @@ public class ShopInteract : BASELobbyInteract
                 alreadyBoughtElements.Add(element);
 
         //save
-        saveClass.BoughtElements = alreadyBoughtElements;
+        saveClass.NameBoughtElements = new string[alreadyBoughtElements.Count];
+        for (int i = 0; i < alreadyBoughtElements.Count; i++) saveClass.NameBoughtElements[i] = alreadyBoughtElements[i].SellName;
         if (SavesManager.instance) SavesManager.instance.Save(saveClass);
 
 
