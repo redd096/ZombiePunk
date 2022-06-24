@@ -197,7 +197,8 @@ public class LevelManager : MonoBehaviour
                     }
 
                     //save
-                    saveClass.BoughtElements = alreadyBoughtElements;
+                    saveClass.NameBoughtElements = new string[alreadyBoughtElements.Count];
+                    for (int i = 0; i < alreadyBoughtElements.Count; i++) saveClass.NameBoughtElements[i] = alreadyBoughtElements[i].SellName;
                     if (SavesManager.instance) SavesManager.instance.Save(saveClass);
                 }
             }
