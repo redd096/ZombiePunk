@@ -53,6 +53,7 @@ namespace redd096.GameTopDown2D
         Coroutine autodestructionCoroutine;
 
         //events
+        public System.Action onInit { get; set; }
         public System.Action<GameObject> onHit { get; set; }        //everytime hit something, also when penetrate or bounce
         public System.Action<GameObject> onBounceHit { get; set; }  //when hit something and bounce
         public System.Action<GameObject> onLastHit { get; set; }    //when hit something that destroy this bullet
@@ -149,6 +150,9 @@ namespace redd096.GameTopDown2D
             {
                 autodestructionCoroutine = StartCoroutine(AutoDestructionCoroutine());
             }
+
+            //call event
+            onInit?.Invoke();
         }
 
         void OnTriggerEnter2D(Collider2D collision)

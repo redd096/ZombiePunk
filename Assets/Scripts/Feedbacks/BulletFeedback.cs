@@ -38,15 +38,21 @@ namespace redd096.GameTopDown2D
         [EnableIf(EnableIfAttribute.EConditionOperator.OR, "cameraShakeOnHit", "cameraShakeOnHitSomethingThatDestroyBullet", "cameraShakeOnAutoDestruction", "cameraShakeOnDestroy")] [SerializeField] float shakeDuration = 1;
         [EnableIf(EnableIfAttribute.EConditionOperator.OR, "cameraShakeOnHit", "cameraShakeOnHitSomethingThatDestroyBullet", "cameraShakeOnAutoDestruction", "cameraShakeOnDestroy")] [SerializeField] float shakeAmount = 0.7f;
 
+        TrailRenderer trail;
+
         void OnEnable()
         {
             //get references
             if (bullet == null)
                 bullet = GetComponentInParent<Bullet>();
 
+            if (trail == null)
+                trail = GetComponentInChildren<TrailRenderer>();
+
             //add events
             if (bullet)
             {
+                bullet.onInit += OnInit;
                 bullet.onHit += OnHit;
                 bullet.onLastHit += OnLastHit;
                 bullet.onAutodestruction += OnAutodestruction;
@@ -59,11 +65,19 @@ namespace redd096.GameTopDown2D
             //remove events
             if (bullet)
             {
+                bullet.onInit -= OnInit;
                 bullet.onHit -= OnHit;
                 bullet.onLastHit -= OnLastHit;
                 bullet.onAutodestruction -= OnAutodestruction;
                 bullet.onDie -= OnDie;
             }
+        }
+
+        private void OnInit()
+        {
+            //reset trail
+            if (trail)
+                trail.Clear();
         }
 
         void OnHit(GameObject hit)
