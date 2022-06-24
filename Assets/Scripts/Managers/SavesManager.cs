@@ -482,6 +482,7 @@ public class SaveClassLevelReached : ISaveClass
 
     //save level reached
     public int LevelReached;
+    public bool IsTutorialEnded;
 }
 
 [System.Serializable]
