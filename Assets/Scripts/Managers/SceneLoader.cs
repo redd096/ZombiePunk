@@ -108,12 +108,14 @@ namespace redd096
 
             //load
             SaveClassLevelReached saveClass = SavesManager.instance ? SavesManager.instance.Load<SaveClassLevelReached>() : null;
-            int levelReached = saveClass != null ? saveClass.LevelReached : 0;
+            bool tutorialEnded = saveClass != null ? saveClass.IsTutorialEnded : false;
 
-            if (levelReached >= 0)
+            //go to scene
+            if (tutorialEnded)
             {
                 SceneManager.LoadScene(scene);
             }
+            //or tutorial
             else
             {
                 SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);

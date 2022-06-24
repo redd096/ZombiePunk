@@ -15,6 +15,7 @@ namespace redd096.GameTopDown2D
         [Header("On Interact")]
         [SerializeField] [Scene] string sceneToLoad = default;
         [SerializeField] int levelReach;
+        [SerializeField] bool useThisExitToFinishTutorial = false;
 
         [Header("DEBUG")]
         /*[ShowNonSerializedField]*/
@@ -147,6 +148,11 @@ namespace redd096.GameTopDown2D
                 if (saveClass.LevelReached < levelReach)
                 {
                     saveClass.LevelReached = levelReach;
+                    if (SavesManager.instance) SavesManager.instance.Save(saveClass);
+                }
+                if (saveClass.IsTutorialEnded == false && useThisExitToFinishTutorial)
+                {
+                    saveClass.IsTutorialEnded = true;
                     if (SavesManager.instance) SavesManager.instance.Save(saveClass);
                 }
 
