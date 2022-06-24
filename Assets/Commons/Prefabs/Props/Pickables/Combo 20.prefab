@@ -1,5 +1,77 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3129255726326079332
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 8920220805457398201}
+  - component: {fileID: 7689513777436145863}
+  m_Layer: 9
+  m_Name: Point Light 2D
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &8920220805457398201
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3129255726326079332}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 9149737532949447781}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &7689513777436145863
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3129255726326079332}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 073797afb82c5a1438f328866b10b3f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_LightType: 3
+  m_BlendStyleIndex: 0
+  m_FalloffIntensity: 0.5
+  m_Color: {r: 0.7122642, g: 0.9417006, b: 1, a: 1}
+  m_Intensity: 1
+  m_LightVolumeOpacity: 0
+  m_ApplyToSortingLayers: 000000008d969017
+  m_LightCookieSprite: {fileID: 0}
+  m_UseNormalMap: 0
+  m_LightOrder: 0
+  m_AlphaBlendOnOverlap: 0
+  m_ShadowIntensity: 0
+  m_ShadowVolumeIntensity: 0
+  m_PointLightInnerAngle: 360
+  m_PointLightOuterAngle: 360
+  m_PointLightInnerRadius: 0
+  m_PointLightOuterRadius: 1
+  m_PointLightDistance: 3
+  m_PointLightQuality: 1
+  m_ShapeLightParametricSides: 5
+  m_ShapeLightParametricAngleOffset: 0
+  m_ShapeLightParametricRadius: 1
+  m_ShapeLightFalloffSize: 0.5
+  m_ShapeLightFalloffOffset: {x: 0, y: 0}
+  m_ShapePath:
+  - {x: -0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: -0.5, z: 0}
+  - {x: 0.5, y: 0.5, z: 0}
+  - {x: -0.5, y: 0.5, z: 0}
 --- !u!114 &427748122770803144
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -102,12 +174,12 @@ PrefabInstance:
     - target: {fileID: 2156552804076419280, guid: 1cd8f4dd52c87c74fbea3d860f086280,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 2.5625
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2156552804076419280, guid: 1cd8f4dd52c87c74fbea3d860f086280,
         type: 3}
       propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 0.8125
+      value: 0.5
       objectReference: {fileID: 0}
     - target: {fileID: 2156552804076419280, guid: 1cd8f4dd52c87c74fbea3d860f086280,
         type: 3}
@@ -172,12 +244,12 @@ PrefabInstance:
     - target: {fileID: 3866580409978387592, guid: 1cd8f4dd52c87c74fbea3d860f086280,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3866580409978387592, guid: 1cd8f4dd52c87c74fbea3d860f086280,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.5
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 4953269027790457090, guid: 1cd8f4dd52c87c74fbea3d860f086280,
         type: 3}
@@ -193,13 +265,18 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 1ba7ef558dcc32a41bf339a1ef87fd7c,
+      objectReference: {fileID: 21300000, guid: 6a2a34e359616ac4285ab9e9f27c9f5a,
         type: 3}
     - target: {fileID: 4953269027790457090, guid: 1cd8f4dd52c87c74fbea3d860f086280,
         type: 3}
       propertyPath: m_WasSpriteAssigned
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 4953269027790457090, guid: 1cd8f4dd52c87c74fbea3d860f086280,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
     - target: {fileID: 6636149753212757448, guid: 1cd8f4dd52c87c74fbea3d860f086280,
         type: 3}
       propertyPath: magnetName
@@ -220,6 +297,12 @@ PrefabInstance:
 --- !u!1 &2549756086835974668 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 7507555607222921953, guid: 1cd8f4dd52c87c74fbea3d860f086280,
+    type: 3}
+  m_PrefabInstance: {fileID: 5427611240345909485}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &9149737532949447781 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 3866580409978387592, guid: 1cd8f4dd52c87c74fbea3d860f086280,
     type: 3}
   m_PrefabInstance: {fileID: 5427611240345909485}
   m_PrefabAsset: {fileID: 0}
