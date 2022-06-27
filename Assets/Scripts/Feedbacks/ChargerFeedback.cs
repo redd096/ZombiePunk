@@ -11,6 +11,7 @@ public class ChargerFeedback : MonoBehaviour
     [SerializeField] StateMachineRedd096 stateMachine = default;
 
     [Header("Objects to activate when aim (already in scene)")]
+    [SerializeField] Transform pivot = default;
     [SerializeField] float offset = 1;
     [SerializeField] List<string> statesWhenActivate = new List<string>() { "DelayState" };
     [SerializeField] GameObject[] objectsToActivate = default;
@@ -47,6 +48,7 @@ public class ChargerFeedback : MonoBehaviour
             Redd096Main main = GetComponentInParent<Redd096Main>();
             if (main) stateMachine = main.GetComponentInChildren<StateMachineRedd096>();
         }
+        if (pivot == null) pivot = transform;
 
         //add events
         if (stateMachine)
@@ -145,7 +147,7 @@ public class ChargerFeedback : MonoBehaviour
 
     Vector2 GetPosition()
     {
-        return (Vector2)transform.position + (aimComponent ? aimComponent.AimDirectionInput * offset : Vector2.zero);
+        return (Vector2)pivot.position + (aimComponent ? aimComponent.AimDirectionInput * offset : Vector2.zero);
     }
 
     Quaternion GetRotation()
