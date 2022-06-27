@@ -159,6 +159,8 @@ MonoBehaviour:
   magnetName: CoinMagnet
   magnetspeed: 7
   moveWithRigidbody: 1
+  onPickMoveToTargetBeforeDestroy: 1
+  targetByName: coin
   coinsToGive: 10
 --- !u!50 &9085213080909160046
 Rigidbody2D:
@@ -193,6 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e6eda73f29bca24e99a310746da3a8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  rotationAxis: 2
   speed: 60
 --- !u!1 &9080829605809242297
 GameObject:

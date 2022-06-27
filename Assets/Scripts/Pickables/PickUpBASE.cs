@@ -16,6 +16,10 @@ namespace redd096.GameTopDown2D
         [EnableIf("canBePickedWithMagnet")] [SerializeField] float magnetspeed = 7;
         [Tooltip("Move with rigidbody or transform?")] [EnableIf("canBePickedWithMagnet")] [SerializeField] bool moveWithRigidbody = true;
 
+        [Header("On Pick move to UI target")]
+        [SerializeField] bool onPickMoveToTargetBeforeDestroy = true;
+        [EnableIf("onPickMoveToTargetBeforeDestroy")] [SerializeField] string targetByName = "";
+
         //events
         public System.Action<PickUpBASE> onPick { get; set; }
         public System.Action<PickUpBASE> onFailPick { get; set; }
@@ -133,7 +137,12 @@ namespace redd096.GameTopDown2D
 
             //destroy this gameObject
             alreadyUsed = true;
-            Destroy(gameObject);
+
+            //move to target or destroy instant
+            if (onPickMoveToTargetBeforeDestroy && GameManager.instance && GameManager.instance.uiManager)
+                GameManager.instance.uiManager.MovePickableToTarget(gameObject, targetByName);
+            else                
+                Destroy(gameObject);
         }
 
         protected virtual void OnFailPick()

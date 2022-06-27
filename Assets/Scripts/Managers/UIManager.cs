@@ -61,6 +61,10 @@ namespace redd096
         [SerializeField] GameObject[] objectToActivateWhenGetPoints = default;
         [SerializeField] float timerBeforeDeactivateWhenGetPoints = 0.5f;
 
+        [Header("Target Pickables")]
+        [SerializeField] float durationMovement = 1f;
+        [SerializeField] Transform[] pickableTargets = default;
+
         //delay input when open menu
         EventSystem eventSystem;
         Coroutine delayInputCoroutine;
@@ -72,6 +76,8 @@ namespace redd096
         //blood on screen
         List<Image> deactiveBloods = new List<Image>();
         Dictionary<Image, Coroutine> activeBloods = new Dictionary<Image, Coroutine>();
+
+        Camera cam;
 
         void Start()
         {
@@ -95,6 +101,9 @@ namespace redd096
                     deactiveBloods.Add(image);
                 }
             }
+
+            //find camera
+            cam = Camera.main;
         }
 
         #region open menu with input delay
@@ -409,6 +418,26 @@ namespace redd096
             deactivateGetPointsCoroutine = StartCoroutine(DeactivateGetPointsCoroutine());
         }
 
+        public void MovePickableToTarget(GameObject pickable, string targetName)
+        {
+            if (pickable == null)
+                return;
+
+            foreach (Transform target in pickableTargets)
+            {
+                //find target by name
+                if (target.name.ToUpper().Trim().Contains(targetName.ToUpper().Trim()))
+                {
+                    StartCoroutine(MovePickableToTargetCoroutine(pickable, target));
+                    return;
+                }
+            }
+
+            //if not found, destroy instant
+            if (pickable)
+                Destroy(pickable);
+        }
+
         #endregion
 
         #region private API
@@ -533,6 +562,27 @@ namespace redd096
                     if (go)
                         go.SetActive(false);
             }
+        }
+
+        IEnumerator MovePickableToTargetCoroutine(GameObject pickable, Transform target)
+        {
+            float delta = 0;
+            Vector2 startPosition = pickable ? (Vector2)pickable.transform.position : Vector2.zero;
+
+            //move to target
+            while (delta < 1)
+            {
+                if (pickable == null || target == null || cam == null)
+                    break;
+
+                delta += Time.deltaTime / durationMovement;
+                pickable.transform.position = Vector2.Lerp(startPosition, cam.ScreenToWorldPoint(target.position), delta);
+                yield return null;
+            }
+
+            //destroy when reach position
+            if (pickable)
+                Destroy(pickable);
         }
 
         #endregion
