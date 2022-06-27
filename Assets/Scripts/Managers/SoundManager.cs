@@ -221,7 +221,6 @@ namespace redd096
             //change only if different (so we can have same music in different scenes without stop) - or if set forceReplay or audioSource is not playing
             if (forceReplay || audioSource.isPlaying == false || audioSource.clip != clip || instance.CheckIsEqualToSavedVolume(audioSource, volume) == false || audioSource.loop != loop)
             {
-                Debug.Log($"force: {forceReplay} - isplaying: {audioSource.isPlaying} - clip {audioSource.clip != clip} - volume {instance.CheckIsEqualToSavedVolume(audioSource, volume)} - loop {audioSource.loop != loop}");
                 //if already running fade coroutine for this audiosource, stop it
                 if (instance.coroutines.ContainsKey(audioSource))
                 {
