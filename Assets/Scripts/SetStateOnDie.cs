@@ -1,9 +1,14 @@
 ﻿using UnityEngine;
 using redd096.GameTopDown2D;
 using redd096;
+using redd096.Attributes;
 
 public class SetStateOnDie : MonoBehaviour
 {
+    [SerializeField] bool setStateByIndex = true;
+    [EnableIf("setStateByIndex")] [SerializeField] int stateIndex = -1;
+    [DisableIf("setStateByIndex")] [SerializeField] string stateName = "StateName";
+
     HealthComponent healthComponent;
     StateMachineRedd096 stateMachine;
 
@@ -31,8 +36,13 @@ public class SetStateOnDie : MonoBehaviour
 
     private void OnDie(HealthComponent whoDied, Character whoHit)
     {
-        //set state null, when die
+        //set state, when die
         if (stateMachine)
-            stateMachine.SetState(-1);
+        {
+            if (setStateByIndex)
+                stateMachine.SetState(stateIndex);
+            else
+                stateMachine.SetState(stateName);
+        }
     }
 }
