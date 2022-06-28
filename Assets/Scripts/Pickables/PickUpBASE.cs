@@ -78,16 +78,19 @@ namespace redd096.GameTopDown2D
             //else re-enable fluctuate
             else
             {
+                //in combo surf, move to the left instead of fluctuate
+                if (isComboSurf)
+                {
+                    if (fluctuate && fluctuate.enabled)
+                        fluctuate.enabled = false;
+
+                    transform.position += Vector3.left * 10 * Time.deltaTime;
+                    return;
+                }
+
                 if (fluctuate && fluctuate.enabled == false)
                 {
                     fluctuate.enabled = true;
-                }
-
-                //combo surf, when can't pick, fluctuate and move to the left
-                if (isComboSurf)
-                {
-                    transform.Translate(Vector2.left * 10 * Time.deltaTime);
-                    Debug.Log("ok");
                 }
             }
         }
