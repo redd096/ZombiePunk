@@ -7,6 +7,9 @@ namespace redd096.GameTopDown2D
     [AddComponentMenu("redd096/.GameTopDown2D/Pickables/Pick Up BASE")]
     public abstract class PickUpBASE : MonoBehaviour, IPickable
     {
+        [Header("Only combo surf")]
+        [SerializeField] bool isComboSurf = false;
+
         [Header("Destroy when instantiated - 0 = no destroy")]
         [SerializeField] float timeBeforeDestroy = 0;
 
@@ -73,9 +76,19 @@ namespace redd096.GameTopDown2D
                 }
             }
             //else re-enable fluctuate
-            else if (fluctuate && fluctuate.enabled == false)
+            else
             {
-                fluctuate.enabled = true;
+                if (fluctuate && fluctuate.enabled == false)
+                {
+                    fluctuate.enabled = true;
+                }
+
+                //combo surf, when can't pick, fluctuate and move to the left
+                if (isComboSurf)
+                {
+                    transform.Translate(Vector2.left * 10 * Time.deltaTime);
+                    Debug.Log("ok");
+                }
             }
         }
 
