@@ -3,7 +3,7 @@ using UnityEngine.InputSystem;
 
 public class ReplaceGameObjectMouseOrGamepad : MonoBehaviour
 {
-    [Header("change object if use mouse or gamepad")]
+    [Header("Change object if use mouse or gamepad")]
     [SerializeField] string mouseSchemeName = "KeyboardAndMouse";
     [SerializeField] GameObject objectMouse = default;
     [SerializeField] GameObject objectGamepad = default;
