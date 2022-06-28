@@ -21,14 +21,18 @@ public class BossActiveDeactiveObjects : ActionTask
     {
         base.OnEnterTask();
 
-        Character self = GetStateMachineComponent<Character>();
-
-        foreach (Character character in FindObjectsOfType<Character>())
+        //kill every summoned zombie
+        if (killSummonedZombies)
         {
-            //find every AI in scene, not self, and kill it
-            if (character.CharacterType == Character.ECharacterType.AI && character != self)
+            Character self = GetStateMachineComponent<Character>();
+
+            foreach (Character character in FindObjectsOfType<Character>())
             {
-                character.GetSavedComponent<HealthComponent>().Die(self);
+                //find every AI in scene, not self, and kill it
+                if (character.CharacterType == Character.ECharacterType.AI && character != self)
+                {
+                    character.GetSavedComponent<HealthComponent>().Die(self);
+                }
             }
         }
 
