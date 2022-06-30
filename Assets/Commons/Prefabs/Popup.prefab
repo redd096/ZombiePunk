@@ -125,13 +125,24 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9e959f312f0e24049be27abdf6c6c566, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  UseTextMeshPro: 0
-  TextUI: {fileID: 0}
-  TextMesh: {fileID: 0}
+  useTextMeshPro: 0
+  textUI: {fileID: 0}
+  textMesh: {fileID: 0}
   possibleTexts:
-  - Ouch
-  - Ahia
-  - Ow
+  - 150
+  - 12
+  - 1000000
+  - Nice Shot
+  - ???
+  - XXXX
+  - Briliant
+  - 300
+  - 22
+  - 54
+  - 78
+  - 25
+  - 99
+  - 35
   - 
   - 
   - 
@@ -144,10 +155,18 @@ MonoBehaviour:
   - 
   - 
   - 
+  - 
+  - 
+  - 
+  - 
+  minMovement: {x: 0, y: 2}
+  maxMovement: {x: 0, y: 2}
+  timeBeforeFadeMin: 0.1
+  timeBeforeFadeMax: 0.1
+  fadeDurationMin: 1.5
+  fadeDurationMax: 1.5
   usePooling: 1
-  movement: {x: 0, y: 2}
-  timeBeforeFade: 0.1
-  fadeDuration: 1.5
+  autoInitializeOnEnable: 0
 --- !u!1 &8816079044878719902
 GameObject:
   m_ObjectHideFlags: 0
@@ -206,7 +225,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 0, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
